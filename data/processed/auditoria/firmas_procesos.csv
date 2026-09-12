@@ -1,0 +1,872 @@
+firma,cuadros,paginas,n_paginas,pagina_referencia,n_columnas,columna,encabezado_pdf,titulo_pagina
+20d3125560,5.1.1.1,121-131,11,121,8,1,CAUSAS / READECUADAS A / LA LEY N° 439,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+20d3125560,5.1.1.1,121-131,11,121,8,2,RECIBIDAS POR / EXCUSA O / RECUSACION,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+20d3125560,5.1.1.1,121-131,11,121,8,3,FORMA DE INGRESO / PROCESOS / PRELIMINARES / FORMALIZADAS EN FORMALIZADAS EN / DEMANDA,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+20d3125560,5.1.1.1,121-131,11,121,8,4,PROCESOS / CAUTELARES / FORMALIZADAS EN FORMALIZADAS EN / DEMANDA,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+20d3125560,5.1.1.1,121-131,11,121,8,5,NUEVAS / INGRESADAS EN LA / GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+20d3125560,5.1.1.1,121-131,11,121,8,6,TOTAL DE CAUSAS / ATENDIDAS EN LA / GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+20d3125560,5.1.1.1,121-131,11,121,8,7,CAUSAS / RESUELTAS EN LA / GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+20d3125560,5.1.1.1,121-131,11,121,8,8,PENDIENTES PARA / LA PRÓXIMA / GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,1,FORMAS DE / RESOLUCIÓN DE / CAUSAS CON / SENTENCIA,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,2,DESISTIMIENTO,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,3,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / DE LA / RETIRO DEMANDA,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,4,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / EXTINCIÓN POR INACTIVIDAD,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,5,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / ACUERDO TRANSACCIONAL,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,6,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / CONCILIACIÓN INTRAPROCESAL,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,7,POR PRESENTADO / NO,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,8,EXCUSA,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,9,FORMAS DE FINALIZACIÓN DE COMPETENCIA / RECUSA,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,10,FORMAS DE FINALIZACIÓN DE COMPETENCIA / RECHAZADAS/IMPRO PONIBLES,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,11,FORMAS DE FINALIZACIÓN DE COMPETENCIA / ACUMULACIÓN,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,12,FORMAS DE FINALIZACIÓN DE COMPETENCIA / OTROS (ACC CONST. ETC),Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+fe9adb27f1,5.1.1.2,132-142,11,132,13,13,TOTALES,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,1,RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO / NUEVOS / INTERPUESTOS / AL JUZGADO,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,2,INADMISIBLE,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,3,"RECURSOS DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / CONFIRMATORIO",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,4,"RECURSOS DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS TOTALMENTE",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,5,"RECURSOS DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS PARCIALMENTE",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,6,"RECURSOS DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / ANULATORIO",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,7,REPOSITORIO,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,8,TOTAL / DEVUELTAS,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+b0448f42a9,5.1.1.3,143-153,11,143,9,9,PENDIENTES,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,1,RECURSOS DE / APELACIÓN EN / EFECTO / DEVOLUTIVO / NUEVOS / INTERPUESTOS AL / JUZGADO,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,2,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / INADMISIBLE",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,3,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / CONFIRMATORIO",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,4,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS TOTALMENTE",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,5,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS PARCIALMENTE",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,6,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / ANULATORIO",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,7,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REPOSITORIO",Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,8,TOTAL DEVUELTAS,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+d410470e91,5.1.1,154-164,11,154,9,9,PENDIENTES,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+2e504f9e99,5.1.1.5,165-175,11,165,5,1,MOVIMIENTO REGISTRADO / CAUSAS EN / EJECUCION DE / SENTENCIA / READECUADAS A LA / LEY N° 439,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+2e504f9e99,5.1.1.5,165-175,11,165,5,2,MOVIMIENTO REGISTRADO / CAUSAS INGRESADAS / A EJECUCION DE / SENTENCIA 2016,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+2e504f9e99,5.1.1.5,165-175,11,165,5,3,MOVIMIENTO REGISTRADO / TOTAL CAUSAS EN / EJECUCION DE / SENTENCIA,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+2e504f9e99,5.1.1.5,165-175,11,165,5,4,CUASAS EN / EJECUCIÓN DE / SENTENCIA / CONCLUIDAS,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+2e504f9e99,5.1.1.5,165-175,11,165,5,5,PENDIENTES PARA LA / PROXIMA GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto
+e0dc4154d7,"5.1.2.1,5.2.1.1,6.1.2.1",177-458,27,177,6,1,PENDIENTES DE LA / GESTIÓN ANTERIOR,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+e0dc4154d7,"5.1.2.1,5.2.1.1,6.1.2.1",177-458,27,177,6,2,FORMA DE INGRESO / RECIBIDAS POR / EXCUSA O / RECUSACIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+e0dc4154d7,"5.1.2.1,5.2.1.1,6.1.2.1",177-458,27,177,6,3,NUEVAS INGRESADAS / EN LA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+e0dc4154d7,"5.1.2.1,5.2.1.1,6.1.2.1",177-458,27,177,6,4,TOTAL DE CAUSAS / ATENDIDAS EN LA / GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+e0dc4154d7,"5.1.2.1,5.2.1.1,6.1.2.1",177-458,27,177,6,5,CAUSAS RESUELTAS PENDIENTES PARA LA / EN LA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+e0dc4154d7,"5.1.2.1,5.2.1.1,6.1.2.1",177-458,27,177,6,6,CAUSAS RESUELTAS PENDIENTES PARA LA / PRÓXIMA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,1,FORMAS / DE / RESOLUCI / ÓN DE / CAUSAS / POR / SENTENCI / A,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,2,CONCILIACIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,3,DESISTIMIENTO,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,4,DE LA / RETIRO DEMANDA,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,5,EXTINCIÓN POR INACTIVIDAD,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,6,RECHAZADAS,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,7,POR PRESENTADAS / NO,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,8,FORMAS DE FINALIZACIÓN DE / EXCUSA,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,9,FORMAS DE FINALIZACIÓN DE / COMPETENCIA / RECUSA,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,10,FORMAS DE FINALIZACIÓN DE / COMPETENCIA / DECLINATORIA,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,11,FORMAS DE FINALIZACIÓN DE / OTROS,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+84445ab21b,5.1.2.2,188-198,11,188,12,12,TOTAL CAUSAS / RESUELTAS,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,1,RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO / GENERADOS EN / JUZGADO,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,2,RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO / REMITIDOS A / SALA,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,3,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A / CONFIRMA DAS TOTALMEN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A / CONFIRMA DAS PARCIALM ENTE,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,5,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A / TOTALMEN / S,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,6,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A / PARCIALM ENTE / S,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,7,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A / ANULATORI / O,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,8,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A / REPOSITOR / IO,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,9,TOTAL DE / CAUSAS / APELADAS / DEVUELTAS EN / LA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+1057c39b54,5.1.2.3,199-209,11,199,10,10,PENDIENTES,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,1,RECURSOS DE / APELACIÓN EN / EFECTO / DEVOLUTIVO / NUEVOS / GENERADOS EN / JUZGADO,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,2,RECURSOS DE / APELACIÓN EN / EFECTO / DEVOLUTIVO / REMITIDOS A / SALAS,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,3,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS DE SALAS A JUZGADOS / CONFIRMADAS TOTALMENTE,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,4,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS DE SALAS A JUZGADOS / CONFIRMADAS PARCIALMENTE,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,5,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS DE SALAS A JUZGADOS / REVOCADAS TOTALMENTE,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,6,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS DE SALAS A JUZGADOS / REVOCADAS PARCIALMENTE,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,7,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS DE SALAS A JUZGADOS / ANULATORIO,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,8,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS DE SALAS A JUZGADOS / REPOSITORIO,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,9,TOTAL DE / CAUSAS / APELADAS / DEVUELTAS EN / LA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+a43f9ae7cd,"5.1.2.4,6.1.2.4",210-488,21,210,10,10,TOTAL DE CAUSAS / APELADAS / PENDIENTES,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+49b0b86040,"5.1.2.5,6.1.2.5",221-498,21,221,5,1,PENDIENTES AL INICIO / DE GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+49b0b86040,"5.1.2.5,6.1.2.5",221-498,21,221,5,2,INGRESADAS EN LA / GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+49b0b86040,"5.1.2.5,6.1.2.5",221-498,21,221,5,3,CAUSAS EN EJECUCIÓN DE SENTENCIA / TOTAL CAUSAS,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+49b0b86040,"5.1.2.5,6.1.2.5",221-498,21,221,5,4,TERMINADAS EN LA / GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+49b0b86040,"5.1.2.5,6.1.2.5",221-498,21,221,5,5,PENDIENTES PARA LA / PRÓXIMA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+bf4c27924f,5.1.2.6,232-234,3,232,5,1,INCIDENTES PENDIENTES AL / INICIAR LA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+bf4c27924f,5.1.2.6,232-234,3,232,5,2,INCIDENTES NUEVOS / DEMANDADOS,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+bf4c27924f,5.1.2.6,232-234,3,232,5,3,MOVIMIENTO REGISTRADO / TOTAL DE INCIDENTES,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+bf4c27924f,5.1.2.6,232-234,3,232,5,4,INCIDENTES RESUELTOS,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+bf4c27924f,5.1.2.6,232-234,3,232,5,5,INCIDENTES PENDIENTES / PARA LA PROXIMA GESTIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+3712a33d43,5.1.2.7,235-238,4,235,2,1,AUDIENCIAS DE CONCILIACIÓN,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+3712a33d43,5.1.2.7,235-238,4,235,2,2,CONCILIACIONES QUE DIERON FIN A LA DEMANDA,Juzgados Públicos en Materia de Familia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,1,NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,2,TOTAL DE / PERMISOS DE / VIAJES AL / EXTERIOR / TRAMITADOS EN / EL JUZGADO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,3,PERMISOS AUTORIZADOS SEGÚN LOS MOTIVOS DEL VIAJE / ESTUDIOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,4,PERMISOS AUTORIZADOS SEGÚN LOS MOTIVOS DEL VIAJE / VACACIONES,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,5,PERMISOS AUTORIZADOS SEGÚN LOS MOTIVOS DEL VIAJE / DEPORTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,6,PERMISOS AUTORIZADOS SEGÚN LOS MOTIVOS DEL VIAJE / RESIDENCIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,7,PERMISOS AUTORIZADOS SEGÚN LOS MOTIVOS DEL VIAJE / SALUD,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,8,PERMISOS AUTORIZADOS SEGÚN LOS MOTIVOS DEL VIAJE / VISITA FAMILIAR,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,9,PERMISOS AUTORIZADOS SEGÚN LOS MOTIVOS DEL VIAJE / OTROS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,10,PERMISOS AUTORIZADOS SEGÚN LAS PERSONAS / CON LAS QUE EL MENOR REALIZA EL VIAJE / SOLO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,11,PERMISOS AUTORIZADOS SEGÚN LAS PERSONAS / CON LAS QUE EL MENOR REALIZA EL VIAJE / CON PADRE / EL,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,12,PERMISOS AUTORIZADOS SEGÚN LAS PERSONAS / CON LAS QUE EL MENOR REALIZA EL VIAJE / CON MADRE / LA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,13,PERMISOS AUTORIZADOS SEGÚN LAS PERSONAS / CON LAS QUE EL MENOR REALIZA EL VIAJE / CON MADRE SOLTERA / LA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,14,PERMISOS AUTORIZADOS SEGÚN LAS PERSONAS / CON LAS QUE EL MENOR REALIZA EL VIAJE / OTROS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+d7b03fa397,5.1.3.1,239-239,1,239,15,15,TOTAL PERMISOS AUTORIZADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+f3cd0599a4,5.1.3.2,240-250,11,240,6,1,FORMA DE INGRESO / PENDIENTES AL / INICIAR LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+f3cd0599a4,5.1.3.2,240-250,11,240,6,2,FORMA DE INGRESO / RECIBIDAS POR / EXCUSA O / RECUSACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+f3cd0599a4,5.1.3.2,240-250,11,240,6,3,FORMA DE INGRESO / NUEVAS / INGRESADAS EN / LA GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+f3cd0599a4,5.1.3.2,240-250,11,240,6,4,TOTAL DE CAUSAS / ATENDIDAS EN LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+f3cd0599a4,5.1.3.2,240-250,11,240,6,5,CAUSAS / RESUELTAS / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+f3cd0599a4,5.1.3.2,240-250,11,240,6,6,CAUSAS QUE / QUEDARON / PENDIENTES PARA / LA PROXIMA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,1,SENTENCIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,2,EXCUSA RECUSACIÓN / O,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,3,FORMAS DE FINALIZACIÓN DE COMPETENCIA / CONCILIACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,4,FORMAS DE FINALIZACIÓN DE COMPETENCIA / DESISTIMIENTO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,5,FORMAS DE FINALIZACIÓN DE COMPETENCIA / DE LA / RETIRO DEMANDA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,6,FORMAS DE FINALIZACIÓN DE COMPETENCIA / DE / PERENCIÓN INSTANCIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,7,FORMAS DE FINALIZACIÓN DE COMPETENCIA / ACUMULACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,8,RECHAZADAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,9,ACUERDO TRANSACCIONAL,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,10,OTROS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+b1f83a93ef,5.1.3.3,251-261,11,251,11,11,TOTAL / RESUELTAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,1,RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO / NUEVOS / INTERPUESTOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,2,SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / CONFIRMADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,3,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / CONFIRMADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / REVOCADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,5,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / REVOCADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,6,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / ANULADAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,7,SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / REPUESTAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,8,TOTAL DE / APELACIONES / DEVUELTAS EN LA / PRESENTE / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+fb895ae316,5.1.3.4,262-272,9,262,9,9,PENDIENTES DE / DEVOLUCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,1,RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO / NUEVOS / INTERPUESTOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,2,SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / CONFIRMADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,3,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / CONFIRMADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / REVOCADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,5,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / REVOCADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,6,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / ANULADAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,7,SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / REPUESTAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,8,TOTAL DE / APELACIONES / DEVUELTAS EN LA / PRESENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a389719c5f,5.1.3.4,265-268,2,265,9,9,PENDIENTES DE / DEVOLUCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,1,TOTAL DE / APELACIONES / REMITIDOS EN / LA PRESENTE / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,2,CONFIRMADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,3,CONFIRMADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,4,FORMAS DE RESOLUCIÓN / REVOCADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,5,FORMAS DE RESOLUCIÓN / REVOCADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,6,ANULADAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,7,REPUESTAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,8,TOTAL DE / APELACIONES / DEVUELTAS / EN LA / PRESENTE / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+97f6b3d26e,5.1.3.5,273-283,11,273,9,9,PENDIENTES DE / DEVOLUCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,1,NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,2,RECURSOS DE / APELACIÓN NUEVOS / INTERPUESTOS AL / JUZGADO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,3,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA / EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / IMPROCEDENTE",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,4,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA / EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / INFUNDADO",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,5,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA / EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / ANULADO",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,6,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA / EN QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / CONFIRMANDO LA / SENTENCIA",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,7,TOTAL DEVUELTAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+70422ee20f,5.1.3.6,284-284,1,284,8,8,PENDIENTES,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a21838848a,5.1.3.7,285-295,11,285,5,1,PENDIENTES AL / INICIO DE GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a21838848a,5.1.3.7,285-295,11,285,5,2,NUEVAS EN / EJECUCIÓN DE / SENTENCIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a21838848a,5.1.3.7,285-295,11,285,5,3,MOVIMIENTO REGISTRADO / TOTAL CAUSAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a21838848a,5.1.3.7,285-295,11,285,5,4,TERMINADAS EN LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+a21838848a,5.1.3.7,285-295,11,285,5,5,PENDIENTES PARA / LA PRÓXIMA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,1,NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,2,CAUSAS / PENDIENTES AL / COMIENZO DE LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,3,CAUSAS / NUEVAS / INGRESADAS / EN LA GESTION / 2023,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,4,"CAUSAS / RECIBIDAS DE / OTROS / JUZGADOS / (POR EXCUSA, / RECUSA, / DECLINATORIA / , / ACUMULACIÓN, / ETC.)",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,5,TOTAL DE / CAUSAS / ATENTIDAS / EN LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,6,"CAUSAS / CONCLUIDAS CON / RECHAZO DE LA / DENUNCIA / (proveniente del / campo 13,7)",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,7,REPARACIÓN / DE DAÑO O / CONCILIACIÓN 299LEY 548,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,8,REMISIÓN / ART. / CONCILIACIÓN 299LEY 548,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,9,CAUSAS QUE / MERECIERON / INPUTACIÓN / FORMAL,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,10,"REMITIDOS A / OTROS / JUZGADOS POR / FINALIZACIÓN DE / COMPETENCIA / (excusa, recusa y / reenvio y / declinatoria)",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,11,CAUSAS SIN / IMPUTACIÓN / FORMAL / PENDIENTES / PARA LA / SIGUIENTE / GESTION,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+33a9d46719,5.1.3.8,296-296,1,296,12,12,PROCESOS CON / REBELDIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,1,NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,2,CAUSAS CON / IMPUTACIÓN / FORMAL / PENDIENTES AL / INCIO DE LA / GESTION,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,3,CAUSAS QUE / MERECIERON / IMPUTACIÓN / FORMAL,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,4,"CAUSAS RECIBIDAS / DE OTROS / JUZGADOS CON / IMPUTACIÓN / FORMAL (POR / EXCUSA, RECUSA, / DECLINATORIA, / ACUMULACIÓN, ETC.)",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,5,TOTAL DE / CAUSAS CON / IMPUTACIÓN / FORMAL / ATENTIDAS EN / LA GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,6,SALIDAS ALTERNATIVAS / CONCILIACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,7,SALIDAS ALTERNATIVAS / REPARACIÓN / DEL DAÑO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,8,SALIDAS ALTERNATIVAS / SOBRESEIMI / ENTO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,9,TERMINACIÓN / ANTICIPADA DEL / PROCESO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,10,CAUSAS QUE / MERECIERON / ACUSACIÓN / FORMAL,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,11,CAUSAS / CONCLUIDAS POR / EXTINCIÓN O / PRESCRIPCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,12,REMITIDOS A / OTROS / JUZGADOS / POR / FINALIZACIÓN / DE / COMPETENCIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,13,CAUSAS CON / IMPUTACIÓN / FORMAL / PENDIENTES / PARA LA / SIGUIENTE / GESTION,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+6c7cbe991d,5.1.3.9,297-297,1,297,14,14,PROCESOS / CON / REBELDIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,1,NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,2,REMISIÓN ART. / 299 LEY 548,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,3,SALIDAS ALTERNATIVAS / CONCILIACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,4,SALIDAS ALTERNATIVAS / REPARACIÓN / DEL DAÑO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,5,OTROS REQUERIMIENTOS CONCLUSIVOS / SOBRESEIMIE DESESTIMACIÓ / NTO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,6,OTROS REQUERIMIENTOS CONCLUSIVOS / SOBRESEIMIE DESESTIMACIÓ / N,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,7,OTROS REQUERIMIENTOS CONCLUSIVOS / TERMINACIÓN / ANTICIPADA / DEL PROCESO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,8,FORMAS DE / CONCLUSIÓN / EXTINCIÓN O / PRESCRIPCIÓ / N DE LA / ACCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+e6868ad555,5.1.3.10,298-298,1,298,9,9,TOTAL,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,1,Formas de Resolución / NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,2,CAUSAS / PENDIENTES / CON / ACUSACIÓN / FORMAL,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,3,CAUSAS QUE / MERECIERON / ACUSACIÓN / FORMAL EN LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,4,"CAUSAS RECIBIDAS / DE OTROS / JUZGADOS CON / ACUSACIÓN FORMAL / (POR EXCUSA, / RECUSA, / DECLINATORIA, / ACUMULACIÓN, ETC.)",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,5,TOTAL DE / CAUSAS CON / ACUSACIÓN / FORMAL / ATENDIDAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,6,REMISIÓN / ART. 299 LEY / 548,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,7,CAUSAS / CONCLUIDAS / CON / SENTENCIA EN / JUICIO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,8,REPARACIÓN / DE DAÑO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,9,CONCILIACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,10,TERMINACIÓN / ANTICIPADA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,11,CAUSAS / CONCLUIDAS / POR EXTINCIÓN / O / PRESCRIPCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,12,"CAUSAS / REMITIDAS POR / FINALIZACION DE / COMPETENCIA / (Excusa, Recusa y / Reenvio y / declinatoria)",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,13,TOTAL DE / CAUSAS CON / ACUSACIÓN / FORMAL / PENDIENTES / PARA LA / SIGUIENTE / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+23aa952c95,5.1.3.11,299-299,1,299,14,14,PROCESOS / CON / REBELDIA,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+1c1caf5c19,5.1.3.12,300-300,1,300,7,1,NÚMERO DE JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+1c1caf5c19,5.1.3.12,300-300,1,300,7,2,CONDENATORIAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+1c1caf5c19,5.1.3.12,300-300,1,300,7,3,ABSOLUTORIAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+1c1caf5c19,5.1.3.12,300-300,1,300,7,4,NUMERO DE SENTENCIA DICTADAS EN LA GESTIÓN / MIXTAS (Condenatorias - / Absolutoria),Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+1c1caf5c19,5.1.3.12,300-300,1,300,7,5,NUMERO DE SENTENCIA DICTADAS EN LA GESTIÓN / TOTAL SENTENCIAS / EMITIDAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+1c1caf5c19,5.1.3.12,300-300,1,300,7,6,TOTAL DE SENTENCIAS / EJECUTORIADAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+1c1caf5c19,5.1.3.12,300-300,1,300,7,7,TOTAL DE CAUSAS / PENDIENTES CON / SENTENCIA (NO / EJECUTORIADA),Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,1,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO Y EFECTO DEVOLUTIVO SEGÚN COMO FUERON DEVUELTAS POR LA INSTANCIA SUPERIOR / Ciudades y Juzgados / Formas de Resolución / NÚMERO DE JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,2,"RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO Y EFECTO DEVOLUTIVO SEGÚN COMO FUERON DEVUELTAS POR LA INSTANCIA SUPERIOR / RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO, / NUEVOS / INTERPUESTOS AL / JUZGADO",Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,3,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO Y EFECTO DEVOLUTIVO SEGÚN COMO FUERON DEVUELTAS POR LA INSTANCIA SUPERIOR / RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA / CONFIRMADO / TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO Y EFECTO DEVOLUTIVO SEGÚN COMO FUERON DEVUELTAS POR LA INSTANCIA SUPERIOR / RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA / CONFIRMADO / PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,5,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA / INSTANCIA SUPERIOR / REVOCADO / TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,6,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA / REVOCADO / PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,7,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA / ANULATORIO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,8,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA / REPOSITORIO,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,9,TOTAL / DEVUELTAS,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+bd650084c5,5.1.3.9,301-302,2,301,10,10,RECURSOS DE / APELACIÓN / PENDIENTES,Juzgados Públicos de la Niñez y Adolescencia de Ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,1,FORMAS DE / RESOLUCIÓN / CON SENTENCIA,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,2,FORMAS DE RESOLUCIÓN CON AUTO / DESISTIMIENTO,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,3,FORMAS DE RESOLUCIÓN CON AUTO / DEFINITIVO / DE LA / RETIRO DEMANDA,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,4,FORMAS DE RESOLUCIÓN CON AUTO / DEFINITIVO / ABANDONADAS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,5,FORMAS DE RESOLUCIÓN CON AUTO / RECHAZADAS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,6,OTROS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,7,TOTAL AUTOS / DEFINITIVOS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,8,FORMAS DE RESOLUCION POR / FINALIZACIÓN DE COMPETENCIA / EXCUSA,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,9,FORMAS DE RESOLUCION POR / FINALIZACIÓN DE COMPETENCIA / RECUSA,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,10,FORMAS DE RESOLUCION POR / FINALIZACIÓN DE COMPETENCIA / OTROS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5d44212cc0,5.2.1.2,309-314,6,309,11,11,TOTAL CAUSAS / RESUELTAS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,1,RECURSOS DE / APELACIONES EN / EFECTO SUSPENSIVO / NUEVOS / INTERPUESTOS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,2,CONFIRMADAS TOTALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,3,CONFIRMADAS PARCIALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,4,FORMAS DE RESOLUCIÓN / REVOCADAS TOTALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,5,FORMAS DE RESOLUCIÓN / REVOCADAS PARCIALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,6,ANULADAS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,7,REPOSITORIO,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,8,TOTAL DE / APELACIONES / DEVUELTAS EN LA / PRESENTE GESTIÓN,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5489e8bc5e,5.2.1.3,315-320,6,315,9,9,PENDIENTES,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,1,RECURSOS DE / APELACIONES EN / EFECTO / DEVOLUTIVO / NUEVOS / INTERPUESTOS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,2,CONFIRMADAS / TOTALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,3,CONFIRMADAS / PARCIALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,4,FORMAS DE RESOLUCIÓN / REVOCADAS / TOTALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,5,FORMAS DE RESOLUCIÓN / REVOCADAS / PARCIALMENTE,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,6,ANULADAS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,7,REPOSITORIO,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,8,TOTAL DE / APELACIONES / DEVUELTAS EN / LA PRESENTE / GESTIÓN,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+5fd7461194,5.2.1.4,321-326,6,321,9,9,PENDIENTES,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+b204d9f130,5.2.1.5,327-332,6,327,5,1,PENDIENTES AL INICIO NUEVAS EN EJECUCIÓN / DE GESTIÓN,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+b204d9f130,5.2.1.5,327-332,6,327,5,2,PENDIENTES AL INICIO NUEVAS EN EJECUCIÓN / DE SENTENCIA,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+b204d9f130,5.2.1.5,327-332,6,327,5,3,MOVIMIENTO REGISTRADO / TOTAL CAUSAS,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+b204d9f130,5.2.1.5,327-332,6,327,5,4,TERMINADAS EN LA / GESTIÓN,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+b204d9f130,5.2.1.5,327-332,6,327,5,5,PENDIENTES PARA / LA PRÓXIMA / GESTIÓN,Juzgados de Partido del Trabajo y Seguridad Social de ciudades Capitales y El Alto
+9197c55687,5.2.2.1,333-335,3,333,6,1,CAUSAS / PENDIENTES CON / LAS QUE INICIO LA / GESTIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+9197c55687,5.2.2.1,333-335,3,333,6,2,FORMA DE INGRESO / CAUSAS RECIBIDAS / POR EXCUSA O / RECUSACIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+9197c55687,5.2.2.1,333-335,3,333,6,3,CAUSAS NUEVAS / INGRESADAS EN LA / GESTIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+9197c55687,5.2.2.1,333-335,3,333,6,4,TOTAL CAUSAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+9197c55687,5.2.2.1,333-335,3,333,6,5,CAUSAS RESUELTAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+9197c55687,5.2.2.1,333-335,3,333,6,6,CAUSAS QUE / QUEDARON / PENDIENTES PARA / LA SGTE GESTIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,1,SENTENCIA,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,2,EXCUSA O / RECUSACIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,3,FORMAS DE FINALIZACIÓN DE COMPETENCIA / DESISTIMIENTO,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,4,FORMAS DE FINALIZACIÓN DE COMPETENCIA / RETIRO DE LA / DEMANDA,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,5,FORMAS DE FINALIZACIÓN DE COMPETENCIA / ABANDONADAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,6,RECHAZADAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,7,OTROS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+8d398cdd20,5.2.2.2,336-338,3,336,8,8,TOTAL CAUSAS / RESUELTAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,1,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO REMITIDOS / RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO / NUEVOS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,2,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO REMITIDOS / CONFIRMADAS TOTALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,3,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO REMITIDOS / CONFIRMADAS PARCIALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO REMITIDOS / FORMAS DE RESOLUCIÓN / REVOCADAS TOTALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,5,FORMAS DE RESOLUCIÓN / REVOCADAS PARCIALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,6,FORMAS DE RESOLUCIÓN / ANULADO,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,7,REPOSITORIO,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,8,DE / DESISTIMIENTO APELACIÓN / LA,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,9,TOTAL / DEVUELTAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+21bef2e1d9,5.2.2.3,339-341,3,339,10,10,PENDIENTES,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,1,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO REMITIDOS / RECURSOS DE / APELACIÓN EN / EFECTO / DEVOLUTIVO / NUEVOS / INTERPUESTOS EN / LA GESTIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,2,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO REMITIDOS / CONFIRMADAS TOTALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,3,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO REMITIDOS / CONFIRMADAS PARCIALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,4,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO REMITIDOS / FORMAS DE RESOLUCIÓN / REVOCADAS TOTALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,5,FORMAS DE RESOLUCIÓN / REVOCADAS PARCIALMENTE,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,6,FORMAS DE RESOLUCIÓN / ANULADAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,7,REPOSITORIO,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,8,DE / DESISTIMIENTO APELACIÓN / LA,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,9,TOTAL / DEVUELTAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+978d2fa95d,5.2.2.4,342-344,3,342,10,10,PENDIENTES,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+838af06017,5.2.2.5,345-347,3,345,5,1,CAUSAS EN EJECUCIÓN DE / SENTENCIA PENDIENTES AL / INICIAR LA GESTIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+838af06017,5.2.2.5,345-347,3,345,5,2,CAUSAS INGRESADAS A / EJECUCIÓN DE SENTENCIA,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+838af06017,5.2.2.5,345-347,3,345,5,3,MOVIMIENTO REGISTRADO / TOTAL DE CAUSAS EN / EJECUCIÓN DE SENTENCIA / ATENDIDAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+838af06017,5.2.2.5,345-347,3,345,5,4,CAUSAS EN EJECUCIÓN DE / SENTENCIA CONCLUIDAS,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+838af06017,5.2.2.5,345-347,3,345,5,5,CAUSAS EN EJECUCIÓN DE / SENTENCIA PENDIENTES / PARA LA PRÓXIMA GESTIÓN,"Juzgados de Partido en Materia Administrativa, Coactivo Fiscal de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,1,Ciudades y Tipo de Acción Penal / Movimiento Registrado / PROCESOS CON / INICIO DE / INVESTIGACIÓN / PENDIENTES AL / COMIENZO DE LA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,2,"Ciudades y Tipo de Acción Penal / PROCESOS CON / INICIO DE / INVESTIGACIÓN / RECIBIDAS POR / EXCUSA, / RECUSACIÓN. / DECLINATORIA O / INHIBITORIA","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,3,(CAUSAS NUEVAS) / CON INICIO DE / INVESTIGACIÓN / INGRESADAS EN LA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,4,TOTAL DE / INFORMES DE / INICIO DE / INVESTIGACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,5,"REMITIDOS A OTROS / JUZGADOS / (EXCUSA, RECUSA, RECHAZO DE / DECLINATORIA O / INHIBITORIA)","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,6,"CAUSAS CON / (EXCUSA, RECUSA, RECHAZO DE / DENUNCIA","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,7,CAUSAS / CONCLUIDAS / POR OTRAS / FORMAS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,8,INICIOS DE / INVESTIGACIÓN QUE / MERECIERON / IMPUTACIÓN / FORMAL,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+c79602bf88,5.3.1.1,348-350,3,348,9,9,INFORMES DE / INICIOS DE / CAUSAS / PENDIENTES / PARA LA / PROXIMA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,1,Ciudades y Tipo de Acción Penal / Movimiento Registrado / IMPUTACIONES / FORMALES / PENDIENTES AL INICIO / DE LA GESTIÓN / ANTERIOR,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,2,"Ciudades y Tipo de Acción Penal / PROCESOS CON / IMPUTACIONES / FORMALES RECIBIDAS / POR EXCUSA, / RECUSACIÓN / DECLINATORIA O / INHIBITORIA","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,3,PROCESOS CON / INPUTACIÓN DIRECTA INPUTACIÓN FORMAL / (Procedimiento / Inmediato),"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,4,PROCESOS CON / INPUTACIÓN DIRECTA INPUTACIÓN FORMAL / INGRESADAS EN LA / GESTIÓN (NUEVAS),"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,5,TOTAL / IMPUTACIONES / FORMALES,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,6,"REMITIDOS A OTROS / JUZGADOS (POR / EXCUSA, RECUSA, / DECLINATORIA O / INHIBITORIA)","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,7,IMPUTACIONES / FORMALES QUE / MERECIERON / ACUSACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,8,OTRAS FORMAS / DE FINALIZACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+84b379abdf,5.3.1.2,351-353,3,351,9,9,IMPUTACIONES / FORMALES / PENDIENTES PARA / LA PROXIMA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,1,IMPUTACIONES / FORMALES DE / INICIO DE / INVESTIGACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,2,SALIDAS / ALTERNATIVAS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,3,CONCILIACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,4,RECHAZO DE LA / DENUNCIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,5,OTRAS FORMAS / DE EXTINCIÓN DE / LA ACCIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,6,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / EXCEPCIÓN POR / PRESCRIPCIÓN - / COSA JUZGADA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,7,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / CONVERSIÓN DE / ACCIONES / Por los Num. 1; 2 y / 3 del Art. 26 CPP y / no el Num. 4,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,8,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / DECLINATORIA E / INHIBITORIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,9,EXCUSA O / RECUSA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1c697ac250,5.3.1.3,354-356,3,354,10,10,TOTAL RESUELTAS / DE CAUSAS QUE / INGRESARON EN / LA GESTIÓN / ACTUAL,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,1,REMISIÓN A / JUZGADO O / TRIBUNAL DE / SENTENCIA CON / ACUSACIÓN / FORMAL,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,2,PROCEDIMIENTO / ABREVIADO,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,3,SALIDAD ALTERNATIVAS / CRITERIO DE / OPORTUNIDAD,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,4,SALIDAD ALTERNATIVAS / SUSPENSIÓN / CONDICIONAL DEL / PROCESO,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,5,CONCILIACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,6,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / SOBRESEIMIENTO,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,7,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / EXTINCIÓN DE LA / ACCIÓN EN LA / ETAPA / PREPARATORIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,8,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / EXTINCIÓN DE LA / ACCION POR / DURACION / MAXIMA O / PRESCRIPCIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,9,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / DECLINATORIA E / INHIBITORIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,10,EXCUSA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,11,RECUSA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4a87b7d5e9,6.3.1.4,357-359,3,357,12,12,TOTAL RESUELTAS DE / CAUSAS QUE / INGRESARON EN LA / GESTIÓN 2021 Y / GESTIONES / ANTERIORESDE / CAUSAS RESUELTAS / EN LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,1,NÚMERO DE JUZGADOS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,2,"RECURSOS DE APELACIÓN, / NUEVOS INTERPUESTOS AL / JUZGADO EN LA GESTIÓN","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,3,PROCEDENTE,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,4,SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / IMPROCEDENTE,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,5,"RECURSOS DE APELACIÓN, DEVUELTOS AL JUZGADO, / SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / REVOCADAS TOTALMENTE","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,6,"RECURSOS DE APELACIÓN, DEVUELTOS AL JUZGADO, / SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / REVOCADAS / PARCIALMENTE","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,7,SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / ANULATORIO,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,8,IMPROCEDENTE,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,9,TOTAL DEVUELTAS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+4651cd7865,5.3.1.5,360-361,2,360,10,10,RECURSOS DE APELACIÓN / PENDIENTES,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,1,Ciudades y Tipo de Acción Penal (TIPO DE PROCESO) / Movimiento Registrado en la gestiòn / CAUSAS / PENDIENTES AL / COMIENZODE LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,2,Ciudades y Tipo de Acción Penal (TIPO DE PROCESO) / Movimiento Registrado en la gestiòn / RECIBIDAS POR / EXCUSA O / RECUSACIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,3,Ciudades y Tipo de Acción Penal (TIPO DE PROCESO) / CAUSAS RECIBIDAS / POR DECLINATORIA E / INHIBITORIA (POR / REENVIO),"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,4,INGRESADAS POR / CONVERSIÓN DE / ACCIONES DE OTROS / DELITOS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,5,CAUSAS NUEVAS (Es la suma de todas / INGRESADAS EN LA / GESTIÓN 2021,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,6,TOTAL DE CAUSAS / CAUSAS NUEVAS (Es la suma de todas / las casillas / anteriores en cada / fila),"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,7,"CAUSAS REMITIDOS / A OTROS JUZGADOS / POR EXCUSA, / RECUSACIÓN. / DECLINATORIA O / INHIBITORIA","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,8,OTRAS FORMAS DE / CONCLUSIÒN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,9,CAUSAS / RESUELTAS CON / SENTENCIAS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,10,PENDIENTES / PARA LA / PRÓXIMA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+605618ed5b,5.3.2.1,362-364,3,362,11,11,PROCESOS CON / DECLARACIÒN DE / REBELDIA,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,1,"Ciudades y Tipo de Proceso / Movimiento Registrado / SENTENCIAS: UN / DEMANDADO, UN / DELITO","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,2,POR EL NUMERO DE DEMANDADO Y DELITOS / SENTENCIAS: UN / DEMANDADOS VARIOS / DELITO,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,3,POR EL NUMERO DE DEMANDADO Y DELITOS / SENTENCIAS: VARIOS / DEMANDADOS UN / DELITOS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,4,SENTENCIAS: VARIOS / DEMANDADOS VARIOS / DELITOS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,5,TOTAL DE CAUSAS / ATENDIDAS EN LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,6,SENTENCIA / CONDENATORIA,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,7,SENTENCIA / ABSOLUTORIA,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,8,SENTENCIA MIXTA,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,9,SENTENCIA POR / PROCEDIMIENTO / ABREVIADO,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,10,TOTAL,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+2923e75e74,5.3.2.2,365-367,3,365,11,11,SENTENCIAS / EJECUTORIADAS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,1,Ciudades y Tipo de Acción / Formas de Finalización de Competencia / FORMAS DE FINALIZACIÒN DE LOS PROCESSO / FORMAS DE RESOLUCIÓN / SENTENCIA POR PROCESAMIENTO COMÙN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,2,Formas de Finalización de Competencia / FORMAS DE FINALIZACIÒN DE LOS PROCESSO / FORMAS DE RESOLUCIÓN / SENTENCIA POR PROCESAMIENTO PRIVADO,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,3,Formas de Finalización de Competencia / FORMAS DE FINALIZACIÒN DE LOS PROCESSO / DESISTIMIENTO,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,4,FORMAS DE FINALIZACIÒN DE LOS PROCESSO / RETRACTACIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,5,OTRAS FORMAS DE CONCLUSIÓN DEL PROCESO / CONCILIACIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,6,OTRAS FORMAS DE CONCLUSIÓN DEL PROCESO / DEL / SUSPENSION CONDICIONAL PROCESO,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,7,OTRAS FORMAS DE CONCLUSIÓN DEL PROCESO / CRITERIO OPORTUNIDAD / DE,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,8,LA EL / DE / DESESTIMACIÓN DEMANDA POR JUEZ,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,9,DE / DE LA / OTRAS FORMAS EXTINCIÓN ACCIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,10,OTRAS FORMAS DE PERDIDA DE / E / DECLINATORIA INHIBITORIA,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,11,OTRAS FORMAS DE PERDIDA DE / COMPETENCIAS / EXCUSA,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,12,OTRAS FORMAS DE PERDIDA DE / RECUSA,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+7f20ce7074,5.3.2.3,368-370,3,368,13,13,TOTAL DE CAUSAS / RESUELTAS EN LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+df0c527f7a,5.3.2.4,371-371,1,371,7,1,NÚMERO DE JUZGADOS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+df0c527f7a,5.3.2.4,371-371,1,371,7,2,JUICIOS PENDIENTES AL INICIO DE LA GESTION / PROGRAMADOS AL / INICIAR LA GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+df0c527f7a,5.3.2.4,371-371,1,371,7,3,JUICIOS PENDIENTES AL INICIO DE LA GESTION / DECLARADOS / REBELDES AL INICIO LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+df0c527f7a,5.3.2.4,371-371,1,371,7,4,JUICIOS REALIZADOS / (NUEVAS INGRESADAS + / PENDIENTES),"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+df0c527f7a,5.3.2.4,371-371,1,371,7,5,JUICIOS REALIZADOS / DECLARADOS REBELDE EN / JUICIO DE UNO O MÁS DE / LOS IMPUTADOS EN LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+df0c527f7a,5.3.2.4,371-371,1,371,7,6,JUICIOS PROGRAMADOS / PARA LA SIGUIENTE / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+df0c527f7a,5.3.2.4,371-371,1,371,7,7,JUICIOS DECLARADOS / REBELDES EN LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,1,NÚMERO DE / JUZGADOS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,2,TOTAL / OTROS / TRÁMITES,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,3,(DECLARATORIA DE / REBELDIA - / ANTICORRUPCIÓN) / DECLARADOS REBELDES DECLARADOS / AL FINALIZAR LA GESTIÓN REBELDES AL,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,4,(DECLARATORIA DE / REBELDIA - VIOLENCIA / CONTRA LA MUJER Y / PENAL COMÚN) / DECLARADOS REBELDES DECLARADOS / AL FINALIZAR LA GESTIÓN REBELDES AL / FINALIZAR LA GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,5,MEDIDAS DE / PROTECCIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,6,"OTRAS ACTUACIONES EN LA GESTION 2023, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / MEDIDAS DE / SEGURIDAD","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,7,"OTRAS ACTUACIONES EN LA GESTION 2023, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / SANCIONES / ALTERNATIVAS","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,8,"OTRAS ACTUACIONES EN LA GESTION 2023, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / ANOTACIÓN / PREVENTIVA","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,9,"OTRAS ACTUACIONES EN LA GESTION 2023, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / INCAUTACIÓN","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,10,"OTRAS ACTUACIONES EN LA GESTION 2023, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / CONFISCACI","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,11,"OTRAS ACTUACIONES EN LA GESTION 2023, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / EXHORTOS Y / ORDENES / INSTRUIDAS","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,12,"OTRAS ACTUACIONES EN LA GESTION 2023, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / MANDAMIENTOS MANDAMIENTOS DECLARADOS / DE CONDENA","Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,13,MANDAMIENTOS MANDAMIENTOS DECLARADOS / DE LIBERTAD,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,14,(DECLARATORIA OTRAS / DE REBELDIA) / MANDAMIENTOS MANDAMIENTOS DECLARADOS / REBELDES AL / FINALIZAR LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+b8513e5ec5,5.3.2.5,372-372,1,372,15,15,RESOLUCIONES / CONTEMPLADAS / EN CUADROS / ANTERIORES,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,1,NÚMERO DE / JUZGADOS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,2,RECURSOS DE / APELACIÓN NUEVOS / INTERPUESTOS EN LA / GESTION,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,3,CONFIRMADAS / TOTALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,4,SEGÚN LA FORMA EN QUE FUERON RESUELTAS / CONFIRMADAS / PARCIALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,5,RECURSOS DE APELACIÓN DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTAS / REVOCADAS / TOTALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,6,SEGÚN LA FORMA EN QUE FUERON RESUELTAS / REVOCADAS / PARCIALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,7,ANULADOS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,8,TOTAL DEVUELTAS,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5b515d9dbb,5.3.2.6,373-374,2,373,9,9,PENDIENTES,"Juzgados de Sentencia Penal, Anticorrupción y de Violencia Contra la Mujer de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,1,Movimiento Registrado / CAUSAS / PENDIENTES AL / INICIO DE LA / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,2,CAUSAS RECIBIDAS / POR EXCUSA O / RECUSACIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,3,CAUSAS / INGRESADAS POR / REENVÍO / (declinatoria de / competencia de otros / juzgados),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,4,OTRAS FORMA DE / INGRESO DE / CAUSAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,5,CAUSAS NUEVAS / INGRESADAS EN / LA GESTION,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,6,TOTAL DE / CAUSAS / ATENDIDAS (Es / la suma de totas / las casillas / anteriores),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,7,CAUSAS / REMITIDAS POR / EXCUSA Y / RECUSACIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,8,CAUSAS / REMITIDAS / POR OTRAS / FORMAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,9,CAUSAS / RESUELTAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,10,CAUSAS / PENDIENTES / PARA LA / SIGUIENTE / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+5bcba9e73f,5.3.3.1,375-377,3,375,11,11,PROCESOS CON / DECLARACIÓN DE / REBELDIA,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,1,Movimiento Registrado / SENTENCIAS: / UN / DEMANDADO / UN DELITO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,2,POR EL NUMERO DE DEMANDADO Y DELITOS / SENTENCIAS: UN / DEMANDADO / VARIOS DELITOS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,3,POR EL NUMERO DE DEMANDADO Y DELITOS / SENTENCIAS: / VARIOS / DEMANDADOS UN / DELITO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,4,SENTENCIAS: / VARIOS / DEMANDADOS / VARIOS DELITOS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,5,TOTAL,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,6,TIPO DE SENTENCIA POR PROCEDIMIENTO COMÚN / CONDENATORIAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,7,TIPO DE SENTENCIA POR PROCEDIMIENTO COMÚN / ABSOLUTORIA (Condenatorias - / S,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,8,TIPO DE SENTENCIA POR PROCEDIMIENTO COMÚN / MIXTAS / ABSOLUTORIA (Condenatorias - / Absolutoria),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,9,SENTENCIA POR / PROCEDIMIENT / O ABREVIADO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+a2454a3775,5.3.3.1,378-380,3,378,10,10,TOTAL / SENTENCIAS / EMITIDAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,1,Formas de Resolución / SENTENCIAS / POR / TRIBUNALES PROCEDIMIENT PROCEDIMIENT CONDICIONAL OPORTUNIDA / O COMUN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,2,SENTENCIA / POR / TRIBUNALES PROCEDIMIENT PROCEDIMIENT CONDICIONAL OPORTUNIDA / O ABREAVIADO DEL PROCESO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,3,SUSPENSION CRITERIOS DE / TRIBUNALES PROCEDIMIENT PROCEDIMIENT CONDICIONAL OPORTUNIDA / O ABREAVIADO DEL PROCESO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,4,SUSPENSION CRITERIOS DE / TRIBUNALES PROCEDIMIENT PROCEDIMIENT CONDICIONAL OPORTUNIDA / D,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,5,OTRAS FORMAS DE RESOLUCION / CONCILIACIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,6,OTRAS FORMAS DE RESOLUCION / EXTINCIÓN DE / LA ACCIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,7,OTRAS FORMAS DE RESOLUCION / EXCUSA,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,8,RECUSA,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,9,"OTROS / Retiro de / acusación, / declinatoria o / Inhibitoria","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+77bfe883a5,5.3.3.2,381-383,3,381,10,10,TOTAL,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1b1ead728c,5.3.3.3,384-384,1,384,7,1,Ciudades / Formas de Resolución de Causas / NUMERO DE TRIBUNALES,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1b1ead728c,5.3.3.3,384-384,1,384,7,2,Formas de Resolución de Causas / (M.C - PERSONAL) EN / LA QUE SE DISPUSO LA / DETENCIÓN / PREVENTIVA / EN LA GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1b1ead728c,5.3.3.3,384-384,1,384,7,3,(M.C - PERSONAL) / EN LA QUE DISPUSO / MEDIDAS / SUSTITUTIVAS / EN LA GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1b1ead728c,5.3.3.3,384-384,1,384,7,4,TIPOS DE OTROS TRÁMITES DE SU COMPETENCIA / (M.C) DE CARACTER / REAL DISPUESTA EN LA / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1b1ead728c,5.3.3.3,384-384,1,384,7,5,TIPOS DE OTROS TRÁMITES DE SU COMPETENCIA / TOTAL EN LA GESTIÓN / (Es la suma de las / casillas anteriores),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1b1ead728c,5.3.3.3,384-384,1,384,7,6,TOTAL DETENIDOS / PREVENTIVOS / AL FINAL DE LA / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+1b1ead728c,5.3.3.3,384-384,1,384,7,7,TOTAL / BENEFICIADOS / CON MEDIDAS / SUSTITUTIVAS / AL FINAL DE LA / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+3822024aad,5.3.3.4,385-385,1,385,13,1,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / Ciudades / Tipo de Trámites / NUMERO DE / TRIBUNALES",
+3822024aad,5.3.3.4,385-385,1,385,13,2,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / Tipo de Trámites / TOTAL",
+3822024aad,5.3.3.4,385-385,1,385,13,3,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / MEDIDAS DE / PROTECCIÓ / N",
+3822024aad,5.3.3.4,385-385,1,385,13,4,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / MEDIDAS DE / SEGURIDAD",
+3822024aad,5.3.3.4,385-385,1,385,13,5,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / SANCIONES ANOTACIÓN / ALTERNATI PREVENTIV",
+3822024aad,5.3.3.4,385-385,1,385,13,6,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / SANCIONES ANOTACIÓN / ALTERNATI PREVENTIV",
+3822024aad,5.3.3.4,385-385,1,385,13,7,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / INCAUTACIÓ CONFISCACI",
+3822024aad,5.3.3.4,385-385,1,385,13,8,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / INCAUTACIÓ CONFISCACI",
+3822024aad,5.3.3.4,385-385,1,385,13,9,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / EXHORTOS / Y ORDENES / INSTRUIDAS",
+3822024aad,5.3.3.4,385-385,1,385,13,10,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / SOLICITUDE / S DE / EXTRADICIÓ",
+3822024aad,5.3.3.4,385-385,1,385,13,11,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / MANDAMIEN MANDAMIENT / TOS DE / CONDENA",
+3822024aad,5.3.3.4,385-385,1,385,13,12,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto / MANDAMIEN MANDAMIENT / OS DE / LIBERTAD",
+3822024aad,5.3.3.4,385-385,1,385,13,13,OTRAS / RESOLUSIONES / CONTEMPLADAS EN / CUADROS / ANTERIORES,
+fd777a4cd7,5.3.3.5,386-387,2,386,9,1,NUMERO DE / TRIBUNALES,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,2,RECURSOS / DE / APELACIÓN / NUEVOS / INTERPUESTO / S AL / TRIBUNAL,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,3,CONFIRMADAS / TOTALMENTE,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,4,"RECURSOS DE APELACIÓN DEVUELTOS AL TRIBUNAL, / SEGÚN LA FORMA EN QUE FUERON RESUELTOS / CONFIRMADAS / PARCIALMENTE","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,5,"RECURSOS DE APELACIÓN DEVUELTOS AL TRIBUNAL, / SEGÚN LA FORMA EN QUE FUERON RESUELTOS / REVOCADAS / TOTALMENTE","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,6,"RECURSOS DE APELACIÓN DEVUELTOS AL TRIBUNAL, / SEGÚN LA FORMA EN QUE FUERON RESUELTOS / REVOCADAS / PARCIALMENTE","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,7,ANULADOS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,8,TOTAL / DEVUELTAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+fd777a4cd7,5.3.3.5,386-387,2,386,9,9,PENDIENTES,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Ciudades Capitales y El Alto"
+e7339eedde,5.3.4.1,389-391,3,389,5,1,Ciudades y Tipo de Medida Cautelar Personal / MEDIDAS CAUTELARES PERSONALES / BAJO CONTROL DEL JUZGADO / PENDIENTES AL INICIO DE LA / PRESENTE GESTIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+e7339eedde,5.3.4.1,389-391,3,389,5,2,MEDIDAS CAUTELARES INGRESADAS A / CONTROL DEL JUZGADO,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+e7339eedde,5.3.4.1,389-391,3,389,5,3,MOVIMIENTO REGISTRADO / TOTAL DE MEDIDAS CAUTELARES / PERSONALES BAJO CONTROL DEL / JUZGADO,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+e7339eedde,5.3.4.1,389-391,3,389,5,4,MEDIDAS CUATELARES PERSONALES / BAJO CONTROL DEL JUZGADO / CONCLUIDAS O TERMINADAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+e7339eedde,5.3.4.1,389-391,3,389,5,5,MEDIDAS CAUTELARES PERSONALES / BAJO CONTROL DEL JUZGADO / PENDIENTES PARA LA PROXIMA / GESTIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+2e0e1589c9,5.3.4.2,392-393,2,392,5,1,PROCESOS DE EJECUCIÓN DE SENTENCIA EN CONOCIMIENTO DEL JUZGADO / Ciudades y Tipo de Sanción Condenatoria / Movimiento Registrado / PROCESOS PENALES EN EJECUCIÓN DE / SENTENCIA PENDIENTES AL INICIAR LA / GESTIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+2e0e1589c9,5.3.4.2,392-393,2,392,5,2,PROCESOS DE EJECUCIÓN DE SENTENCIA EN CONOCIMIENTO DEL JUZGADO / PROCESOS PENALES EN EJECUCIÓN DE / SENTENCIA INGRESADOS AL JUZGADO EN / LA PRESENTE GESTIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+2e0e1589c9,5.3.4.2,392-393,2,392,5,3,MOVIMIENTO REGISTRADO / TOTAL PROCESOS EN EJECUCIÓN DE / SENTENCIA ATENDIDAS EN EL JUZGADO EN / LA PRESENTE GESTIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+2e0e1589c9,5.3.4.2,392-393,2,392,5,4,PROCESOS EN EJECUCIÓN DE SENTENCIA / CONCLUIDOS EN LA PRESENTE GESTIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+2e0e1589c9,5.3.4.2,392-393,2,392,5,5,PROCESOS EN EJECUCIÓN DE SENTENCIA / PENDIENTES PARA LA PRÓXIMA GESTIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,1,CONTROL DE CUMPLIMIENTO DE CONDICIONES / Ciudades / Tipo de Suspensión / NÚMERO DE / JUZGADOS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,2,CONTROL DE CUMPLIMIENTO DE CONDICIONES / Tipo de Suspensión / SUSPENSIÓN CONDICIONAL DE PROCESO / CON EXTINCIÓN DE LA / ACCIÓN PENAL,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,3,SUSPENSIÓN CONDICIONAL DE PROCESO / REVOCADAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,4,SUSPENSIÓN CONDICIONAL DE LA PENA / CON EXTINCIÓN DE / LA PENA,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,5,SUSPENSIÓN CONDICIONAL DE LA PENA / REVOCADAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,6,LIBERTAD CONDICIONAL / CON EXTINCIÓN DE / LA PENA,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,7,LIBERTAD CONDICIONAL / REVOCADAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,8,DETERMINACIÓN / DEL JUEZ DE / EJECUCIÓN PENAL,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,9,REVOCADAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,10,DETENCIÓN DOMICILIARIA / DETERMINACIÓN / DEL JUEZ DE / EJECUCIÓN PENAL,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+10f983a243,5.3.4.3,394-394,1,394,11,11,DETENCIÓN DOMICILIARIA / REVOCADAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,1,TRAMITES EN EJECUCIÓN DE SENTENCIA / Ciudades / Tipo de trámite / NÚMERO DE / JUZGADOS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,2,TRAMITES EN EJECUCIÓN DE SENTENCIA / Tipo de trámite / TOTAL / TRÁMITES,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,3,LIBERTAD / CONDICIONAL,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,4,EXTRAMUROS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,5,REDENCIÓN,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,6,APELACIÓN A / RESOLUCIONES / ADMINISTRATIVAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,7,PERMISOS DE / SALIDAS (Art. 109),Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,8,SALIDAS / PROLONGADAS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,9,TRASLADOS DE / INTERNOS A OTROS / RECINTOS / PENITENCIARIOS,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,10,DETENCIÓN / DOMICILIARIA,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+1555f33512,5.3.4.4,395-395,1,395,11,11,TOTAL,Juzgados de Ejecución Penal de Ciudades Capitales y El Alto
+fdd840fa4b,6.1.1.1,399-408,10,399,8,1,CAUSAS / READECUADAS A LA / LEY N° 439,Juzgados Públicos en Materia Civil y Comercial de Provincias
+fdd840fa4b,6.1.1.1,399-408,10,399,8,2,RECIBIDAS POR / EXCUSA O / RECUSACION,Juzgados Públicos en Materia Civil y Comercial de Provincias
+fdd840fa4b,6.1.1.1,399-408,10,399,8,3,FORMA DE INGRESO / PROCESOS / PRELIMINARES / FORMALIZADAS EN / DEMANDA,Juzgados Públicos en Materia Civil y Comercial de Provincias
+fdd840fa4b,6.1.1.1,399-408,10,399,8,4,PROCESOS / CAUTELARES / FORMALIZADAS EN / DEMANDA,Juzgados Públicos en Materia Civil y Comercial de Provincias
+fdd840fa4b,6.1.1.1,399-408,10,399,8,5,NUEVAS / INGRESADAS EN LA / GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Provincias
+fdd840fa4b,6.1.1.1,399-408,10,399,8,6,TOTAL DE CAUSAS / ATENDIDAS EN LA / GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Provincias
+fdd840fa4b,6.1.1.1,399-408,10,399,8,7,CAUSAS RESUELTAS / EN LA GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Provincias
+fdd840fa4b,6.1.1.1,399-408,10,399,8,8,PENDIENTES PARA / LA PRÓXIMA / GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,1,FORMAS DE / RESOLUCIÓN / DE CAUSAS / CON / SENTENCIA,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,2,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / DESISTIMIE / NTO,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,3,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / RETIRO DE / LA / DEMANDA,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,4,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / EXTINCIÓN / POR / INACTIVIDA / D,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,5,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / ACUERDO / TRANSACC / IONAL,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,6,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / CONCILIACI / ÓN / INTRAPRO / CESAL,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,7,FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / POR NO / PRESENTA / DO,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,8,EXCUSA,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,9,FORMAS DE FINALIZACIÓN DE COMPETENCIA / RECUSA,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,10,FORMAS DE FINALIZACIÓN DE COMPETENCIA / RECHAZAD / AS/IMPROP / ONIBLES,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,11,FORMAS DE FINALIZACIÓN DE COMPETENCIA / ACUMULAC / IÓN,Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,12,OTROS / (ACC / CONST. / ETC),Juzgados Públicos en Materia Civil y Comercial de Provincias
+b713830ea1,6.1.1.2,409-418,10,409,13,13,TOTALES,Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,1,RECURSOS DE / APELACIÓN EN EFECTO / SUSPENSIVO NUEVOS / INTERPUESTOS AL / JUZGADO,Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,2,INADMISIBLE,Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,3,CONFIRMATORIO,Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,4,"RECURSOS DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS / TOTALMENTE",Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,5,"RECURSOS DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS / PARCIALMENTE",Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,6,ANULATORIO,Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,7,REPOSITORIO,Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,8,TOTAL DEVUELTAS,Juzgados Públicos en Materia Civil y Comercial de Provincias
+46cae91285,6.1.1.3,419-428,10,419,9,9,PENDIENTES,Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,1,RECURSOS DE / APELACIÓN EN EFECTO / DEVOLUTIVO NUEVOS / INTERPUESTOS AL / JUZGADO,Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,2,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / INADMISIBLE",Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,3,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / CONFIRMATORIO",Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,4,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS / TOTALMENTE",Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,5,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REVOCADAS / PARCIALMENTE",Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,6,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / ANULATORIO",Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,7,"RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS AL JUZGADO, SEGÚN LA FORMA DE RESOLUCIÓN / REPOSITORIO",Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,8,TOTAL DEVUELTAS,Juzgados Públicos en Materia Civil y Comercial de Provincias
+33006401ca,6.1.1.4,429-438,10,429,9,9,PENDIENTES,Juzgados Públicos en Materia Civil y Comercial de Provincias
+cd609accca,6.1.1.5,439-448,10,439,5,1,CAUSAS EN EJECUCION / DE SENTENCIA / READECUADAS A LA / LEY N° 439,Juzgados Públicos en Materia Civil y Comercial de Provincias
+cd609accca,6.1.1.5,439-448,10,439,5,2,CAUSAS INGRESADAS / A EJECUCION DE / SENTENCIA 2016,Juzgados Públicos en Materia Civil y Comercial de Provincias
+cd609accca,6.1.1.5,439-448,10,439,5,3,MOVIMIENTO REGISTRADO / TOTAL CAUSAS EN / EJECUCION DE / SENTENCIA,Juzgados Públicos en Materia Civil y Comercial de Provincias
+cd609accca,6.1.1.5,439-448,10,439,5,4,CUASAS EN EJECUCIÓN / DE SENTENCIA / CONCLUIDAS,Juzgados Públicos en Materia Civil y Comercial de Provincias
+cd609accca,6.1.1.5,439-448,10,439,5,5,PENDIENTES PARA LA / PROXIMA GESTIÓN,Juzgados Públicos en Materia Civil y Comercial de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,1,FORMAS DE / RESOLUCIÓN DE / CAUSAS POR / SENTENCIA,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,2,CONCILIACIÓN,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,3,DESISTIMIENTO,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,4,DE LA / RETIRO DEMANDA,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,5,EXTINCIÓN POR INACTIVIDAD,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,6,RECHAZADAS,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,7,COMO PRESENTADAS / NO,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,8,FORMAS DE FINALIZACIÓN DE COMPETENCIA / EXCUSA,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,9,FORMAS DE FINALIZACIÓN DE COMPETENCIA / RECUSA,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,10,FORMAS DE FINALIZACIÓN DE COMPETENCIA / DECLINATORIA,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,11,FORMAS DE FINALIZACIÓN DE COMPETENCIA / OTROS,Juzgados Públicos en Materia de Familia de Provincias
+45c47fcb70,6.1.2.2,459-468,10,459,12,12,TOTAL / CAUSAS / RESUELTA / S,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,1,RECURSOS DE / APELACIÓN EN EFECTO / SUSPENSIVO / GENERADOS EN / JUZGADO,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,2,RECURSOS DE / APELACIÓN EN EFECTO / SUSPENSIVO / REMITIDOS A SALA,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,3,CONFIRMADAS TOTALMENTE,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A JUZGADO / CONFIRMADAS PARCIALMENTE,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,5,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A JUZGADO / REVOCADAS TOTALMENTE,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,6,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A JUZGADO / REVOCADAS PARCIALMENTE,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,7,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS DE SALAS A JUZGADO / ANULATORIO,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,8,REPOSITORIO,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,9,TOTAL DE CAUSAS / APELADAS DEVUELTAS / EN LA GESTIÓN,Juzgados Públicos en Materia de Familia de Provincias
+c0aab777c0,6.1.2.3,469-478,10,469,10,10,PENDIENTES,Juzgados Públicos en Materia de Familia de Provincias
+78eee7bfd5,6.1.2.6,499-501,3,499,5,1,INCIDENTES / PENDIENTES AL / INICIAR LA GESTIÓN,Juzgados Públicos en Materia de Familia de Provincias
+78eee7bfd5,6.1.2.6,499-501,3,499,5,2,INCIDENTES NUEVOS / DEMANDADOS,Juzgados Públicos en Materia de Familia de Provincias
+78eee7bfd5,6.1.2.6,499-501,3,499,5,3,MOVIMIENTO REGISTRADO / TOTAL DE INCIDENTES,Juzgados Públicos en Materia de Familia de Provincias
+78eee7bfd5,6.1.2.6,499-501,3,499,5,4,INCIDENTES / RESUELTOS,Juzgados Públicos en Materia de Familia de Provincias
+78eee7bfd5,6.1.2.6,499-501,3,499,5,5,INCIDENTES / PENDIENTES PARA LA / PROXIMA GESTIÓN,Juzgados Públicos en Materia de Familia de Provincias
+6af3d06389,6.1.2.7,502-504,3,502,2,1,AUDIENCIAS DE CONCILIACIÓN,Juzgados Públicos en Materia de Familia de Provincias
+6af3d06389,6.1.2.7,502-504,3,502,2,2,CONCILIACIONES QUE DIERON FIN A LA DEMANDA,Juzgados Públicos en Materia de Familia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,1,NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,2,TOTAL DE PERMISOS / DE VIAJES AL / EXTERIOR / SOLICITADOS EN EL / JUZGADO,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,3,ESTUDIOS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,4,SEGÚN LOS MOTIVOS DEL VIAJE / VACACIONES,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,5,PERMISOS AUTORIZADOS / SEGÚN LOS MOTIVOS DEL VIAJE / DEPORTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,6,PERMISOS AUTORIZADOS / SEGÚN LOS MOTIVOS DEL VIAJE / RESIDENCIA,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,7,PERMISOS AUTORIZADOS / SEGÚN LOS MOTIVOS DEL VIAJE / SALUD,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,8,SEGÚN LOS MOTIVOS DEL VIAJE / VISITA FAMILIAR,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,9,OTROS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,10,SEGÚN PERSONAS CON LAS QUE EL MENOR / SOLO,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,11,PERMISOS AUTORIZADOS / SEGÚN PERSONAS CON LAS QUE EL MENOR / REALIZO EL VIAJE / CON PADRE / EL,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,12,PERMISOS AUTORIZADOS / SEGÚN PERSONAS CON LAS QUE EL MENOR / REALIZO EL VIAJE / CON MADRE / LA,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,13,PERMISOS AUTORIZADOS / SEGÚN PERSONAS CON LAS QUE EL MENOR / REALIZO EL VIAJE / CON MADRE SOLTERA / LA,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,14,SEGÚN PERSONAS CON LAS QUE EL MENOR / OTROS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+d705fdf8e5,6.1.3.1,505-505,1,505,15,15,TOTAL VIAJES / AUTORIZADOS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+8602fc2cde,6.1.3.2,506-515,10,506,6,1,PENDIENTES AL / INICIAR LA GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+8602fc2cde,6.1.3.2,506-515,10,506,6,2,FORMA DE INGRESO / RECIBIDAS POR / EXCUSA O / RECUSACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+8602fc2cde,6.1.3.2,506-515,10,506,6,3,NUEVAS / INGRESADAS EN LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+8602fc2cde,6.1.3.2,506-515,10,506,6,4,TOTAL DE CAUSAS / ATENDIDAS EN LA CAUSAS RESUELTAS PENDIENTES PARA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+8602fc2cde,6.1.3.2,506-515,10,506,6,5,ATENDIDAS EN LA CAUSAS RESUELTAS PENDIENTES PARA / EN LA GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+8602fc2cde,6.1.3.2,506-515,10,506,6,6,CAUSAS QUE / QUEDARON / ATENDIDAS EN LA CAUSAS RESUELTAS PENDIENTES PARA / LA PROXIMA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,1,SENTENCIA,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,2,FORMAS DE RESOLUCIÓN O FINALIZACIÓN DE COMPETENCIA / EXCUSA RECUSACIÓN / O,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,3,FORMAS DE RESOLUCIÓN O FINALIZACIÓN DE COMPETENCIA / CONCILIACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,4,FORMAS DE RESOLUCIÓN O FINALIZACIÓN DE COMPETENCIA / DESISTIMIENTO,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,5,FORMAS DE RESOLUCIÓN O FINALIZACIÓN DE COMPETENCIA / DE LA / RETIRO DEMANDA,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,6,FORMAS DE RESOLUCIÓN O FINALIZACIÓN DE COMPETENCIA / PERENCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,7,FORMAS DE RESOLUCIÓN O FINALIZACIÓN DE COMPETENCIA / ACUMULACIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,8,FORMAS DE RESOLUCIÓN O FINALIZACIÓN DE COMPETENCIA / RECHAZADAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,9,ACUERDO TRANSACCIONAL,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,10,OTROS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+691fe18520,6.1.3.3,516-525,10,516,11,11,TOTAL / RESUELTAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,1,RECURSOS DE / APELACIÓN EN / EFECTO / SUSPENSIVO / NUEVOS / INTERPUESTOS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,2,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA / CONFIRMADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,3,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA / CONFIRMADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA / SUPERIOR / REVOCADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,5,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA / SUPERIOR / REVOCADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,6,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA / ANULADAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,7,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTOS POR LA INSTANCIA / REPUESTAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,8,TOTAL DE / APELACIONES / DEVUELTAS EN LA / PRESENTE GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+0bce12b5b6,6.1.3.4,526-535,10,526,9,9,PENDIENTES DE / DEVOLUCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,1,TOTAL DE / APELACIONES / REMITIDOS EN / LA PRESENTE / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,2,CONFIRMADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,3,CONFIRMADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,4,FORMAS DE RESOLUCIÓN / REVOCADAS TOTALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,5,FORMAS DE RESOLUCIÓN / REVOCADAS PARCIALMENTE,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,6,ANULADAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,7,REPUESTAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,8,TOTAL DE / APELACIONES / DEVUELTAS EN / LA PRESENTE / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+959c4cb648,6.1.3.5,536-545,10,536,9,9,PENDIENTES DE / DEVOLUCIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,1,NÚMERO DE / JUZGADOS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,2,RECURSOS DE / APELACIÓN NUEVOS / INTERPUESTOS AL / JUZGADO,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,3,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA EN / IMPROCEDENTE",Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,4,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA EN / QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / INFUNDADO",Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,5,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA EN / QUE FUERON RESUELTOS POR LA INSTANCIA SUPERIOR / ANULADO",Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,6,"RECURSOS DE APELACION DEVUELTOS AL JUZGADO , SEGÚN LA FORMA EN / CONFIRMANDO LA / SENTENCIA",Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,7,TOTAL / DEVUELTAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+b45dea44f6,6.1.3.6,546-546,1,546,8,8,PENDIENTES,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+406d17d778,6.1.3.7,547-556,10,547,5,1,PENDIENTES EN / EJECUCIÓN DE / SENTENCIA AL INICIO / DE GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+406d17d778,6.1.3.7,547-556,10,547,5,2,NUEVAS EN / EJECUCIÓN DE / SENTENCIA,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+406d17d778,6.1.3.7,547-556,10,547,5,3,MOVIMIENTO REGISTRADO / TOTAL CAUSAS EN / EJECUCION DE / SENTENCIAS,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+406d17d778,6.1.3.7,547-556,10,547,5,4,TERMINADAS EN LA PENDIENTES PARA LA / GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+406d17d778,6.1.3.7,547-556,10,547,5,5,TERMINADAS EN LA PENDIENTES PARA LA / PRÓXIMA GESTIÓN,Juzgados Públicos de la Niñez y Adolescencia de Provincias
+daf0c6395b,6.2.1.1,557-566,10,557,6,1,PENDIENTES DE LA / GESTIÓN ANTERIOR,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+daf0c6395b,6.2.1.1,557-566,10,557,6,2,FORMA DE INGRESO / RECIBIDAS POR EXCUSA O / RECUSACIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+daf0c6395b,6.2.1.1,557-566,10,557,6,3,NUEVAS INGRESADAS / EN LA GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+daf0c6395b,6.2.1.1,557-566,10,557,6,4,TOTAL DE CAUSAS ATENDIDAS / EN LA GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+daf0c6395b,6.2.1.1,557-566,10,557,6,5,CAUSAS RESUELTAS / EN LA GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+daf0c6395b,6.2.1.1,557-566,10,557,6,6,PENDIENTES PARA LA / PRÓXIMA GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,1,FORMAS DE / RESOLUCION CON / SENTENCIA,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,2,DESISTIMIENTO,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,3,FORMAS DE RESOLUCIÓN CON AUTO DEFINITIVO / DE LA / RETIRO DEMANDA,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,4,FORMAS DE RESOLUCIÓN CON AUTO DEFINITIVO / ABANDONADAS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,5,RECHAZADAS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,6,OTROS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,7,TOTAL AUTOS / DEFINITIVOS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,8,FORMAS DE RESOLUCION POR / FINALIZACIÓN DE COMPETENCIA / EXCUSA,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,9,FORMAS DE RESOLUCION POR / FINALIZACIÓN DE COMPETENCIA / RECUSA,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,10,FORMAS DE RESOLUCION POR / FINALIZACIÓN DE COMPETENCIA / OTROS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+3bd564ae77,6.2.1.2,567-576,10,567,11,11,TOTAL CAUSAS / RESUELTAS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,1,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / RECURSOS DE / APELACIONES EN / EFECTO / SUSPENSIVO / NUEVOS / INTERPUESTOS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,2,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / CONFIRMADAS TOTALMENTE,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,3,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / CONFIRMADAS PARCIALMENTE,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,4,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / FORMAS DE RESOLUCIÓN / REVOCADAS TOTALMENTE,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,5,RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / FORMAS DE RESOLUCIÓN / REVOCADAS PARCIALMENTE,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,6,ANULADAS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,7,REPOSITORIO,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,8,TOTAL DE / APELACIONES / DEVUELTAS EN LA / PRESENTE GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+125d1101c9,6.2.1.3,577-586,10,577,9,9,PENDIENTES,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,1,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / RECURSOS DE / APELACIONES / EN EFECTO / DEVOLUTIVO CONFIRMADAS CONFIRMADAS REVOCADAS / NUEVOS / INTERPUESTO / S,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,2,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / DEVOLUTIVO CONFIRMADAS CONFIRMADAS REVOCADAS / TOTALMENTE,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,3,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / DEVOLUTIVO CONFIRMADAS CONFIRMADAS REVOCADAS / PARCIALMENT / E,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,4,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / FORMAS DE RESOLUCIÓN / DEVOLUTIVO CONFIRMADAS CONFIRMADAS REVOCADAS / TOTALMENTE,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,5,RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / FORMAS DE RESOLUCIÓN / REVOCADAS / PARCIALMENT / E,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,6,ANULADAS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,7,REPOSITORIO,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,8,TOTAL DE / APELACIONES / DEVUELTAS / EN LA / PRESENTE / GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+c4908e7496,6.2.1.4,587-596,10,587,9,9,PENDIENTES,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+9430f1f990,6.2.1.5,597-606,10,597,5,1,PENDIENTES AL / INICIO DE GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+9430f1f990,6.2.1.5,597-606,10,597,5,2,NUEVAS EN / EJECUCIÓN DE / SENTENCIA,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+9430f1f990,6.2.1.5,597-606,10,597,5,3,MOVIMIENTO REGISTRADO / TOTAL CAUSAS,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+9430f1f990,6.2.1.5,597-606,10,597,5,4,TERMINADAS EN LA / GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+9430f1f990,6.2.1.5,597-606,10,597,5,5,PENDIENTES PARA / LA PRÓXIMA GESTIÓN,Juzgados de Partido en Materia de Trabajo y Seguridad Social de Provincias
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,1,Movimiento Registrado / PROCESOS CON / INICIO DE / INVESTIGACIÓN / PENDIENTES AL / COMIENZO DE LA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,2,"PROCESOS CON INICIO / DE INVESTIGACIÓN / RECIBIDAS POR EXCUSA, / RECUSACIÓN. / DECLINATORIA O / INHIBITORIA","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,3,(CAUSAS NUEVAS) CON / INICIO DE / INVESTIGACIÓN / INGRESADAS EN LA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,4,TOTAL DE / INFORMES DE / INICIO DE / INVESTIGACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,5,"REMITIDOS A / OTROS JUZGADOS / (EXCUSA, RECUSA, / DECLINATORIA O / INHIBITORIA)","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,6,CAUSAS CON / RECHAZO DE / DENUNCIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,7,CAUSAS / CONCLUIDAS / POR OTRAS / FORMAS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,8,INICIOS DE / INVESTIGACIÓN QUE / MERECIERON / IMPUTACIÓN / FORMAL,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8d0c6dd3b8,6.3.1.1,607-609,3,607,9,9,INFORMES DE / INICIOS DE / CAUSAS / PENDIENTES / PARA LA / PROXIMA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,1,IMPUTACIONES / FORMALES / PENDIENTES AL INICIO / DE LA GESTIÓN / ANTERIOR,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,2,"PROCESOS CON / IMPUTACIONES / FORMALES RECIBIDAS / POR EXCUSA, / RECUSACIÓN / DECLINATORIA O / INHIBITORIA","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,3,PROCESOS CON / INPUTACIÓN DIRECTA / (Procedimiento / Inmediato),"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,4,PROCESOS CON / INPUTACIÓN FORMAL / INGRESADAS EN LA / GESTIÓN (NUEVAS),"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,5,TOTAL / IMPUTACIONES / FORMALES,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,6,"REMITIDOS A / OTROS JUZGADOS / (POR EXCUSA, / RECUSA, / DECLINATORIA O / INHIBITORIA)","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,7,IMPUTACIONES / FORMALES QUE / MERECIERON / ACUSACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,8,OTRAS FORMAS DE / FINALIZACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+dc37d38ff4,6.3.1.2,610-612,3,610,9,9,IMPUTACIONES / FORMALES / PENDIENTES PARA / LA PROXIMA / GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,1,IMPUTACIONES / FORMALES DE / INICIO DE / INVESTIGACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,2,SALIDAS / ALTERNATIVAS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,3,CONCILIACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,4,RECHAZO DE / LA DENUNCIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,5,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / OTRAS FORMAS EXCEPCIÓN POR / DE EXTINCIÓN DE PRESCRIPCIÓN - / LA ACCIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,6,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / OTRAS FORMAS EXCEPCIÓN POR / DE EXTINCIÓN DE PRESCRIPCIÓN - / COSA JUZGADA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,7,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / CONVERSIÓN DE / ACCIONES / Por los Num. 1; 2 y / 3 del Art. 26 CPP y / no el Num. 4,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,8,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / DECLINATORIA E / INHIBITORIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,9,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIA / EXCUSA O RECUSA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+2cd82c1ee7,6.3.1.3,613-615,3,613,10,10,TOTAL DE / CAUSAS / RESUELTAS / QUE / INGRESARÓN EN / LA GESTIÓN / 2021 Y / GESTIONES / ANTERIORES EN / LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,1,REMISIÓN A / JUZGADO O / TRIBUNAL DE / SENTENCIA CON / ACUSACIÓN / FORMAL,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,2,PROCEDIMIENTO / ABREVIADO,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,3,SALIDAS ALTERNATIVAS / CRITERIO DE / OPORTUNIDAD,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,4,SUSPENSIÓN / CONDICIONAL DEL / PROCESO,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,5,CONCILIACIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,6,SOBRESEIMIENTO,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,7,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIAS / EXTINCIÓN DE LA / ACCIÓN EN LA / ETAPA / PREPARATORIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,8,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIAS / EXTINCIÓN DE LA / ACCIÓN POR / DURACIÓN / MAXIMA DEL / PROCESO O / PRESCRIPCIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,9,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIAS / DECLINATORIA E / INHIBITORIA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,10,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIAS / EXCUSA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,11,OTRAS FORMAS DE CONCLUSIÓN O FINALIZACIÓN DE COMPETENCIAS / RECUSA,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+426267cc5f,6.3.1.4,616-618,3,616,12,12,TOTAL DE / CAUSAS / RESUELTAS QUE / INGRESARÓN EN / LA GESTIÓN 2021 / Y GESTIONES / ANTERIORES EN / LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+7a0a1ec075,6.3.1.5,619-621,3,619,6,1,(M.C - PERSONAL) EN LA / QUE SE DISPUSO LA / DETENCIÓN PREVENTIVA EN / LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+7a0a1ec075,6.3.1.5,619-621,3,619,6,2,(M.C - PERSONAL) / EN LA QUE DISPUSO / MEDIDAS SUSTITUTIVAS / EN LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+7a0a1ec075,6.3.1.5,619-621,3,619,6,3,(M.C) DE CARACTER REAL / DISPUESTA EN LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+7a0a1ec075,6.3.1.5,619-621,3,619,6,4,"TOTAL EN LA GESTIÓN (Es / la suma de las casillas 7,1, / 7,2 y 7,3)","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+7a0a1ec075,6.3.1.5,619-621,3,619,6,5,TOTAL DETENIDOS / PREVENTIVOS / AL FINAL DE LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+7a0a1ec075,6.3.1.5,619-621,3,619,6,6,TOTAL / BENEFICIADOS / CON MEDIDAS / SUSTITUTIVAS AL FINAL DE / LA GESTIÓN,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,1,NÚMERO DE / JUZGADOS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,2,"RECURSOS DE / APELACIÓN, NUEVOS / INTERPUESTOS AL / JUZGADO","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,3,PROCEDENTE,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,4,"RECURSOS DE APELACIÓN, DEVUELTOS AL JUZGADO, / SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / IMPROCEDENTE","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,5,"RECURSOS DE APELACIÓN, DEVUELTOS AL JUZGADO, / SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / REVOCADAS / TOTALMENTE","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,6,"RECURSOS DE APELACIÓN, DEVUELTOS AL JUZGADO, / SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / REVOCADAS / PARCIALMENTE","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,7,"RECURSOS DE APELACIÓN, DEVUELTOS AL JUZGADO, / SEGÚN LA FORMA DE RESOLUCIÓN POR INSTANCIA SUPERIOR / ANULATORIO","Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,8,INADMISIBLE,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,9,TOTAL DEVUELTAS,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54085da7c9,6.3.1.6,622-624,3,622,10,10,RECURSOS DE / APELACIÓN / PENDIENTES,"Juzgados de Instrucción Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,1,Distrito y Tipo de Acción Penal / Movimiento Registrado / CAUSAS / PENDIENTES AL / COMIENZODE / LA GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,2,RECIBIDAS POR / EXCUSA O / RECUSACIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,3,CAUSAS RECIBIDAS / POR DECLINATORIA E / INHIBITORIA (POR / REENVIO),"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,4,INGRESADAS POR / CONVERSIÓN DE / ACCIONES DE OTROS / DELITOS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,5,CAUSAS NUEVAS (Es la suma de todas / INGRESADAS EN / LA GESTIÓN 2021 anteriores en cada,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,6,TOTAL DE CAUSAS / CAUSAS NUEVAS (Es la suma de todas / las casillas / LA GESTIÓN 2021 anteriores en cada / fila),"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,7,"CAUSAS REMITIDOS / A OTROS JUZGADOS / POR EXCUSA, / RECUSACIÓN. / DECLINATORIA O / INHIBITORIA","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,8,OTRAS FORMAS DE / CONCLUSIÒN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,9,CAUSAS / RESUELTAS CON / SENTENCIAS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,10,PENDIENTES / PARA LA / PRÓXIMA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+a7b4d3040c,6.3.2.1,625-627,3,625,11,11,PROCESOS CON / DECLARACIÒN DE / REBELDIA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,1,"Distritos y Tipo de proceso / Movimiento Registrado / SENTENCIAS: UN / DEMANDADO, UN / DELITO","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,2,POR EL NUMERO DE DEMANDADO Y DELITO / SENTENCIAS: UN / DEMANDADOS / VARIOS DELITO,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,3,POR EL NUMERO DE DEMANDADO Y DELITO / SENTENCIAS: VARIOS SENTENCIAS: VARIOS / DEMANDADOS UN / DELITOS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,4,SENTENCIAS: VARIOS SENTENCIAS: VARIOS / DEMANDADOS VARIOS / DELITOS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,5,TOTAL,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,6,SENTENCIA / CONDENATORIA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,7,TIPOS DE SENTENCIA POR PROCEDIMIENTO COMÚN / SENTENCIA / ABSOLUTORIA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,8,TIPOS DE SENTENCIA POR PROCEDIMIENTO COMÚN / SENTENCIA MIXTA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,9,SENTENCIA POR / PROCEDIMIENTO / ABREVIADO,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,10,TOTAL,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8381eddba0,6.3.2.2,628-630,3,628,11,11,SENTENCIAS / EJECUTORIADAS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,1,Distritos y Tipo de Acción / Formas de Finalización de Competencia / FORMAS DE RESOLUCIÓN / SENTENCIA POR PROCESAMIENTO COMÙN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,2,Formas de Finalización de Competencia / FORMAS DE RESOLUCIÓN / SENTENCIA POR PROCESAMIENTO PRIVADO,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,3,DESISTIMIENTO,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,4,RETRACTACIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,5,OTRAS FORMAS DE CONCLUSIÓN / CONCILIACIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,6,OTRAS FORMAS DE CONCLUSIÓN / DEL / SUSPENSION CONDICIONAL PROCESO,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,7,OTRAS FORMAS DE CONCLUSIÓN / CRITERIO OPORTUNIDAD / DE,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,8,DESESTIMACIÓN DEMANDA POR JUEZ / DE LA / EL,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,9,OTRAS FORMAS EXTINCIÓN ACCIÓN / DE / DE LA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,10,OTRAS FORMAS DE CONCLUSIÓN DE / E / DECLINATORIA INHIBITORIA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,11,OTRAS FORMAS DE CONCLUSIÓN DE / COMPETENCIAS / EXCUSA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,12,OTRAS FORMAS DE CONCLUSIÓN DE / RECUSA,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+c55f492641,6.3.2.3,631-633,3,631,13,13,TOTAL DE CAUSAS / RESUELTAS EN LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+965dc383de,6.3.2.4,634-634,1,634,7,1,NÚMERO DE / JUZGADOS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+965dc383de,6.3.2.4,634-634,1,634,7,2,JUICIOS PENDIENTES AL INICIO DE LA GESTION / PROGRAMADOS AL / INICIAR LA GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+965dc383de,6.3.2.4,634-634,1,634,7,3,JUICIOS PENDIENTES AL INICIO DE LA GESTION / DECLARADOS / REBELDES AL INICIO LA (NUEVAS INGRESADAS / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+965dc383de,6.3.2.4,634-634,1,634,7,4,JUICIOS REALIZADOS / JUICIOS REALIZADOS REBELDE EN JUICIO DE / REBELDES AL INICIO LA (NUEVAS INGRESADAS / + PENDIENTES),"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+965dc383de,6.3.2.4,634-634,1,634,7,5,JUICIOS REALIZADOS / DECLARADOS / JUICIOS REALIZADOS REBELDE EN JUICIO DE / UNO O MÁS DE LOS / IMPUTADOS EN LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+965dc383de,6.3.2.4,634-634,1,634,7,6,JUICIOS / PROGRAMADOS PARA / LA SIGUIENTE GESTIÓN / (PEDIENTES),"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+965dc383de,6.3.2.4,634-634,1,634,7,7,TOTAL JUICIOS / DECLARADOS / REBELDES EN LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,1,NÚMERO DE / JUZGADOS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,2,TOTAL OTROS / TRÁMITES,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,3,(DECLARATORIA / DE REBELDIA - / ANTICORRUPCIÓN) / DECLARADOS / REBELDES AL / FINALIZAR LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,4,(DECLARATORIA / DE REBELDIA - / VIOLENCIA / CONTRA LA / MUJER Y PENAL / COMÚN) / DECLARADOS / REBELDES AL / FINALIZAR LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,5,MEDIDAS DE / PROTECCIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,6,"OTRAS ACTUACIONES EN LA GESTION 2021, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / MEDIDAS DE / SEGURIDAD","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,7,"OTRAS ACTUACIONES EN LA GESTION 2021, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / SANCIONES / ALTERNATIVAS","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,8,"OTRAS ACTUACIONES EN LA GESTION 2021, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / ANOTACIÓN / PREVENTIVA","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,9,"OTRAS ACTUACIONES EN LA GESTION 2021, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / INCAUTACIÓN","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,10,"OTRAS ACTUACIONES EN LA GESTION 2021, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / CONFISCACIÓN","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,11,"OTRAS ACTUACIONES EN LA GESTION 2021, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / EXHORTOS Y / ORDENES / INSTRUIDAS","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,12,"OTRAS ACTUACIONES EN LA GESTION 2021, SEGÚN ATRIBUCIONES DE LOS JUZGADOS DE SENTENCIA / MANDAMIENTOS / DE CONDENA","Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,13,MANDAMIENTOS / DE LIBERTAD,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,14,(DECLARATORIA / DE REBELDIA) / DECLARADOS / REBELDES AL / FINALIZAR LA / GESTIÓN,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd01a25076,6.3.2.5,635-635,1,635,15,15,OTRAS / RESOLUCIONES / * NO / CONTEMPLADAS / EN CUADROS / ANTERIORES,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,1,NÚMERO DE / JUZGADOS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,2,RECURSOS DE / APELACIÓN / NUEVOS / INTERPUESTOS EN / LA GESTION,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,3,CONFIRMADAS / TOTALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,4,RECURSOS DE APELACIÓN DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTAS / CONFIRMADAS / PARCIALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,5,RECURSOS DE APELACIÓN DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTAS / REVOCADAS / TOTALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,6,RECURSOS DE APELACIÓN DEVUELTOS / SEGÚN LA FORMA EN QUE FUERON RESUELTAS / REVOCADAS / PARCIALMENTE,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,7,ANULADOS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,8,TOTAL DEVUELTAS,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+feadb2c5ef,6.3.2.6,636-637,2,636,9,9,PENDIENTES,"Juzgados de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,1,CAUSAS / PENDIENTES AL RECIBIDAS POR / INICIO DE LA / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,2,CAUSAS / PENDIENTES AL RECIBIDAS POR / EXCUSA O / RECUSACIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,3,CAUSAS / INGRESADAS / POR REENVÍO / (declinatoria de / competencia de / otros juzgados),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,4,OTRAS FORMA / DE INGRESO DE / CAUSAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,5,CAUSAS / NUEVAS / INGRESADAS EN la suma de totas / LA GESTION,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,6,TOTAL DE / CAUSAS / ATENDIDAS (Es REMITIDAS POR / INGRESADAS EN la suma de totas / las casillas / anteriores),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,7,CAUSAS / ATENDIDAS (Es REMITIDAS POR / EXCUSA Y / RECUSACIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,8,CAUSAS / REMITIDAS POR / OTRAS FORMAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,9,CAUSAS / RESUELTAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,10,CAUSAS / PENDIENTES / PARA LA / SIGUIENTE / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+fd73f155dd,6.3.3.1,638-640,3,638,11,11,PROCESOS CON / DECLARACIÓN DE / REBELDIA,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,1,POR EL NUMERO DE DEMANDADOS Y DELITOS / SENTENCIAS: / UN / DEMANDADO / UN DELITO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,2,POR EL NUMERO DE DEMANDADOS Y DELITOS / SENTENCIAS: / UN / DEMANDADO / VARIOS / DELITOS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,3,POR EL NUMERO DE DEMANDADOS Y DELITOS / SENTENCIAS: / VARIOS / DEMANDADOS / UN DELITO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,4,POR EL NUMERO DE DEMANDADOS Y DELITOS / SENTENCIAS: / VARIOS / DEMANDADOS / VARIOS / DELITOS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,5,TOTAL,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,6,TIPOS DE SENTENCIA POR PROCEDIMIENTO / CONDENATORIA / S,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,7,TIPOS DE SENTENCIA POR PROCEDIMIENTO / COMÚN / ABSOLUTORIAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,8,TIPOS DE SENTENCIA POR PROCEDIMIENTO / MIXTAS / (Condenatorias - / Absolutoria),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,9,SENTENCIA / POR / PROCEDIMIEN SENTENCIAS / TO / ABREVIADO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+54280aa751,6.3.3.2,641-643,3,641,10,10,TOTAL / PROCEDIMIEN SENTENCIAS / EMITIDAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,1,SENTENCIAS / POR / PROCEDIMIENTO / COMUN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,2,SENTENCIA POR / PROCEDIMIENTO / ABREAVIADO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,3,SUSPENSION / CONDICIONAL / DEL PROCESO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,4,CRITERIOS DE / OPORTUNIDAD,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,5,CONCILIACIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,6,FORMAS DE RESOLUCION / EXTINCIÓN DE LA / ACCIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,7,EXCUSA,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,8,RECUSA,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,9,"OTROS / Retiro de / acusación, / declinatoria o / Inhibitoria","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+8f7085cf6a,6.3.3.3,644-646,3,644,10,10,TOTAL,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+d5ff225cb7,6.3.3.4,647-647,1,647,7,1,Distritos / Formas de Resolución de Causas / NUMERO DE TRIBUNALES LA QUE SE DISPUSO,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+d5ff225cb7,6.3.3.4,647-647,1,647,7,2,Formas de Resolución de Causas / (M.C - PERSONAL) EN / NUMERO DE TRIBUNALES LA QUE SE DISPUSO / LA DETENCIÓN / PREVENTIVA / EN LA GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+d5ff225cb7,6.3.3.4,647-647,1,647,7,3,(M.C - PERSONAL) / EN LA QUE DISPUSO / MEDIDAS / SUSTITUTIVAS / EN LA GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+d5ff225cb7,6.3.3.4,647-647,1,647,7,4,TIPOS DE OTROS TRÁMITES DE SU COMPETENCIA / (M.C) DE CARACTER / REAL DISPUESTA EN / LA GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+d5ff225cb7,6.3.3.4,647-647,1,647,7,5,TIPOS DE OTROS TRÁMITES DE SU COMPETENCIA / TOTAL EN LA / GESTIÓN / (Es la suma de las / casillas anteriores),"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+d5ff225cb7,6.3.3.4,647-647,1,647,7,6,TOTAL DETENIDOS / PREVENTIVOS / AL FINAL DE LA / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+d5ff225cb7,6.3.3.4,647-647,1,647,7,7,TOTAL / BENEFICIADOS / CON MEDIDAS / SUSTITUTIVAS / AL FINAL DE LA / GESTIÓN,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+edca6628cc,6.3.3.5,648-648,1,648,13,1,Distritos / Tipo de Trámites / NUMERO DE / TRIBUNALES,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,2,Tipo de Trámites / TOTAL,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,3,MEDIDAS DE / PROTECCIÓ / N,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,4,MEDIDAS DE / SEGURIDAD,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,5,SANCIONES ANOTACIÓN / ALTERNATI PREVENTIV / VAS,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,6,SANCIONES ANOTACIÓN / ALTERNATI PREVENTIV / A,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,7,INCAUTACIÓ CONFISCACI / N,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,8,INCAUTACIÓ CONFISCACI / ÓN,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,9,EXHORTOS / Y ORDENES / INSTRUIDAS,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,10,SOLICITUDE / S DE / EXTRADICIÓ / N,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,11,MANDAMIEN MANDAMIENT / TOS DE / CONDENA,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,12,MANDAMIEN MANDAMIENT / OS DE / LIBERTAD,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+edca6628cc,6.3.3.5,648-648,1,648,13,13,OTRAS / RESOLUSIONES / * NO / CONTEMPLADAS EN / CUADROS / ANTERIORES,"ribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provinci"
+57083caa8a,6.3.3.6,649-650,2,649,9,1,NUMERO DE / TRIBUNALES,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,2,RECURSOS DE / APELACIÓN / NUEVOS / INTERPUESTOS / AL TRIBUNAL,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,3,CONFIRMADAS / TOTALMENTE,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,4,"RECURSOS DE APELACIÓN DEVUELTOS AL TRIBUNAL, / SEGÚN LA FORMA EN QUE FUERON RESUELTOS / CONFIRMADAS / PARCIALMENTE","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,5,"RECURSOS DE APELACIÓN DEVUELTOS AL TRIBUNAL, / SEGÚN LA FORMA EN QUE FUERON RESUELTOS / REVOCADAS / TOTALMENTE","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,6,"RECURSOS DE APELACIÓN DEVUELTOS AL TRIBUNAL, / SEGÚN LA FORMA EN QUE FUERON RESUELTOS / REVOCADAS / PARCIALMENTE","Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,7,ANULADOS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,8,TOTAL / DEVUELTAS,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"
+57083caa8a,6.3.3.6,649-650,2,649,9,9,PENDIENTES,"Tribunales de Sentencia Penal, Anticorrupción y Contra la Violencia hacia las Mujeres de Provincias"

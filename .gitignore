@@ -1,0 +1,12 @@
+# El PDF fuente: 41 MB, publicación pública del Consejo de la Magistratura.
+# Se baja aparte; ver data/raw/README.md.
+ANUARIO-ESTADISTICO-JUDICIAL-2023.pdf
+data/raw/*
+!data/raw/README.md
+
+# Salidas intermedias: las regenera el pipeline en un par de minutos.
+data/interim/
+
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/

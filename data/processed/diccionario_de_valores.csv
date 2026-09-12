@@ -1,0 +1,195 @@
+tabla,columna,valor,frecuencia,significado
+causas_movimiento,ambito,capital,27,Ciudades capitales de departamento más El Alto.
+causas_movimiento,ambito,nacional,26,Consolidado: capitales más provincias.
+causas_movimiento,ambito,provincia,25,"Resto del país, fuera de las ciudades capitales."
+causas_movimiento,eje,materia,47,La fila es una materia (competencia del juzgado).
+causas_movimiento,eje,departamento,20,La fila es uno de los nueve departamentos.
+causas_movimiento,eje,ciudad,11,La fila es una ciudad capital o El Alto.
+causas_movimiento,tipo_fila_derivado,dato,72,Fila de dato: entra en las sumas.
+causas_movimiento,tipo_fila_derivado,total,6,Fila de total del cuadro: NO sumar junto con las de dato.
+causas_movimiento,instancia_derivada,juzgado,69,Juzgado unipersonal (valor por defecto).
+causas_movimiento,instancia_derivada,tribunal,9,"Tribunal de sentencia, deducido del prefijo del nombre."
+causas_por_gestion,ambito,capital,80,Ciudades capitales de departamento más El Alto.
+causas_por_gestion,ambito,nacional,80,Consolidado: capitales más provincias.
+causas_por_gestion,ambito,provincia,75,"Resto del país, fuera de las ciudades capitales."
+causas_por_gestion,eje,materia,235,La fila es una materia (competencia del juzgado).
+causas_por_gestion,tipo_fila_derivado,dato,220,Fila de dato: entra en las sumas.
+causas_por_gestion,tipo_fila_derivado,total,15,Fila de total del cuadro: NO sumar junto con las de dato.
+causas_por_gestion,instancia_derivada,juzgado,175,Juzgado unipersonal (valor por defecto).
+causas_por_gestion,instancia_derivada,tribunal,45,"Tribunal de sentencia, deducido del prefijo del nombre."
+causas_serie_historica,ambito,capital,17,Ciudades capitales de departamento más El Alto.
+causas_serie_historica,ambito,provincia,17,"Resto del país, fuera de las ciudades capitales."
+causas_serie_historica,ambito,nacional,17,Consolidado: capitales más provincias.
+personal,tipo_fila_derivado,dato,72,Fila de dato: entra en las sumas.
+personal,tipo_fila_derivado,subtotal,10,"Subtotal de un bloque (por ejemplo, de un distrito en 14.1.1)."
+personal,tipo_fila_derivado,total,3,Fila de total del cuadro: NO sumar junto con las de dato.
+personal_jurisdiccional,tipo_fila_derivado,dato,2,Fila de dato: entra en las sumas.
+personal_jurisdiccional,tipo_fila_derivado,total,1,Fila de total del cuadro: NO sumar junto con las de dato.
+personal_jurisdiccional,personal,JURISDICCIONAL,1,Personal que ejerce función jurisdiccional.
+personal_jurisdiccional,personal,ADMINISTRATIVO,1,Personal de apoyo administrativo.
+personal_jurisdiccional,personal,TOTAL,1,Fila de total.
+autoridad_sumariante,eje,distrito,22,La fila es un distrito judicial.
+autoridad_sumariante,eje,ente,5,La fila es un ente del Órgano Judicial.
+autoridad_sumariante,tipo_fila_derivado,dato,24,Fila de dato: entra en las sumas.
+autoridad_sumariante,tipo_fila_derivado,total,3,Fila de total del cuadro: NO sumar junto con las de dato.
+causas_por_tipo_proceso,ambito,capital,1309,Ciudades capitales de departamento más El Alto.
+causas_por_tipo_proceso,ambito,provincia,1110,"Resto del país, fuera de las ciudades capitales."
+causas_por_tipo_proceso,tipo_fila_derivado,detalle,2237,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
+causas_por_tipo_proceso,tipo_fila_derivado,total,182,Fila de total del cuadro: NO sumar junto con las de dato.
+causas_por_tipo_proceso,unidad_fila,tipo_proceso,2386,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
+causas_por_tipo_proceso,unidad_fila,entidad,33,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
+causas_por_tipo_proceso,familia,causas,2419,Movimiento de causas: el insumo directo de la clusterización.
+resueltas_por_tipo_proceso,ambito,capital,14454,Ciudades capitales de departamento más El Alto.
+resueltas_por_tipo_proceso,ambito,provincia,13539,"Resto del país, fuera de las ciudades capitales."
+resueltas_por_tipo_proceso,tipo_fila_derivado,detalle,25967,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
+resueltas_por_tipo_proceso,tipo_fila_derivado,total,2026,Fila de total del cuadro: NO sumar junto con las de dato.
+resueltas_por_tipo_proceso,unidad_fila,tipo_proceso,27894,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
+resueltas_por_tipo_proceso,unidad_fila,entidad,99,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
+resueltas_por_tipo_proceso,familia,resueltas,27993,Formas de resolución y de finalización de competencia.
+apelaciones_por_tipo_proceso,ambito,capital,20513,Ciudades capitales de departamento más El Alto.
+apelaciones_por_tipo_proceso,ambito,provincia,17358,"Resto del país, fuera de las ciudades capitales."
+apelaciones_por_tipo_proceso,tipo_fila_derivado,detalle,36015,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
+apelaciones_por_tipo_proceso,tipo_fila_derivado,total,1856,Fila de total del cuadro: NO sumar junto con las de dato.
+apelaciones_por_tipo_proceso,unidad_fila,tipo_proceso,37703,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
+apelaciones_por_tipo_proceso,unidad_fila,entidad,168,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
+apelaciones_por_tipo_proceso,familia,apelacion,37871,"Recursos de apelación, en efecto suspensivo y devolutivo."
+ejecucion_por_tipo_proceso,ambito,capital,5565,Ciudades capitales de departamento más El Alto.
+ejecucion_por_tipo_proceso,ambito,provincia,4450,"Resto del país, fuera de las ciudades capitales."
+ejecucion_por_tipo_proceso,tipo_fila_derivado,detalle,9474,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
+ejecucion_por_tipo_proceso,tipo_fila_derivado,total,541,Fila de total del cuadro: NO sumar junto con las de dato.
+ejecucion_por_tipo_proceso,unidad_fila,tipo_proceso,9894,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
+ejecucion_por_tipo_proceso,unidad_fila,entidad,121,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
+ejecucion_por_tipo_proceso,familia,ejecucion,10015,Causas y trámites en ejecución de sentencia.
+otros_tramites_por_tipo_proceso,ambito,capital,3256,Ciudades capitales de departamento más El Alto.
+otros_tramites_por_tipo_proceso,ambito,provincia,2772,"Resto del país, fuera de las ciudades capitales."
+otros_tramites_por_tipo_proceso,tipo_fila_derivado,detalle,5194,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
+otros_tramites_por_tipo_proceso,tipo_fila_derivado,total,834,Fila de total del cuadro: NO sumar junto con las de dato.
+otros_tramites_por_tipo_proceso,unidad_fila,tipo_proceso,4850,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
+otros_tramites_por_tipo_proceso,unidad_fila,entidad,1178,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
+otros_tramites_por_tipo_proceso,familia,otros,6028,"Sentencias, medidas cautelares y demás cuadros sueltos."
+causas_movimiento,cuadro_origen,9.1.1,16,p. 673 — MOVIMIENTO DE CAUSAS EN CIUDADES CAPITALES / Por: Materia
+causas_movimiento,cuadro_origen,9.1.9,16,p. 701 — MOVIMIENTO DE CAUSAS EN CIUDADES CAPITALES Y PROVINCIAS / Por: Materia
+causas_movimiento,cuadro_origen,9.1.5,15,p. 687 — MOVIMIENTO DE CAUSAS EN PROVINCIAS / Por: Materia
+causas_movimiento,cuadro_origen,9.1.3,11,p. 680 — MOVIMIENTO DE CAUSAS EN CIUDADES CAPITALES / Por: Ciudades Capitales / Según: Movimiento Registrado
+causas_movimiento,cuadro_origen,9.1.7,10,p. 694 — MOVIMIENTO DE CAUSAS EN PROVINCIAS / Por: Departamento / Según: Movimiento Registrado
+causas_movimiento,cuadro_origen,9.1.11,10,p. 708 — MOVIMIENTO DE CAUSAS EN CIUDADES CAPITALES Y PROVINCIAS POR DEPARTAMENTO / Por: Departamento / Según: Movimiento Registrado
+causas_por_gestion,cuadro_origen,9.1.2,80,p. 677 — RELACIÓN DE CAUSAS RESUELTAS POR GESTIONES EN CIUDADES CAPITALES / Por: Materia
+causas_por_gestion,cuadro_origen,9.1.10,80,p. 705 — RELACIÓN DE CAUSAS RESUELTAS POR GESTIONES - CIUDADES CAPITALES Y PROVINCIAS / Por: Materia
+causas_por_gestion,cuadro_origen,9.1.6,75,p. 691 — RELACIÓN DE CAUSAS RESUELTAS POR GESTIONES - PROVINCIAS / Por: Materia
+causas_serie_historica,cuadro_origen,9.1.4,17,p. 684 — COMPORTAMIENTO DE LA CARGA PROCESAL - CIUDADES CAPITALES / Por: Gestión / Según: Movimiento Registrado
+causas_serie_historica,cuadro_origen,9.1.8,17,p. 698 — COMPORTAMIENTO DE LA CARGA PROCESAL - PROVINCIAS / Por: Gestión / Según: Movimiento Registrado
+causas_serie_historica,cuadro_origen,9.1.12,17,p. 712 — COMPORTAMIENTO DE LA CARGA PROCESAL - CIUDAD CAPITAL Y PROVINCIAS / Por: Gestión / Según: Movimiento Registrado
+juzgados,cuadro_origen,4.1.1,285,p. 109 — NÚMERO DE JUZGADOS Y TRIBUNALES / POR: Tipo de Juzgado o Tribunal / SEGÚN: Ciudades
+juzgados,cuadro_origen,4.1.4,154,"p. 112 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.8,150,"p. 116 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.3,134,"p. 111 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.6,118,"p. 114 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.2,99,"p. 110 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.7,65,"p. 115 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.9,65,"p. 117 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.5,59,"p. 113 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.10,19,"p. 118 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+personal,cuadro_origen,14.1.1,64,p. 743-744 — CANTIDAD DE PERSONAL / Por: Distritos / Según: Entes y Género
+personal,cuadro_origen,14.1.3,12,p. 746 — CANTIDAD DE PERSONAL / Por: Distritos / Según: Género
+personal,cuadro_origen,14.1.2,9,p. 745 — CANTIDAD DE PERSONAL / Por: Entes / Según: Género
+personal_jurisdiccional,cuadro_origen,s/n (p. 746),3,Tabla sin número de cuadro en el anuario.
+autoridad_sumariante,cuadro_origen,13.1.1,11,p. 737 — PROCESOS SUMARIOS / Por: Distrito / Según: Movimiento Registrado
+autoridad_sumariante,cuadro_origen,13.1.2,11,p. 738 — DENUNCIAS PROBADAS / Por: Distrito / Según: Tipos de Faltas
+autoridad_sumariante,cuadro_origen,13.1.3,5,p. 739 — DENUNCIAS PROBADAS / Por: Entes / Según: Tipos de Faltas
+causas_por_tipo_proceso,cuadro_origen,5.1.1.1,286,p. 121-131 — CAUSAS / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.1.3.2,286,p. 240-250 — CAUSAS / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.1.2.1,264,p. 177-187 — CAUSAS / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.1.1.1,260,p. 399-408 — CAUSAS / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.1.3.2,260,p. 506-515 — CAUSAS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.1.2.1,240,p. 449-458 — CAUSAS / Por: / Según: Ciudades y Tipo
+causas_por_tipo_proceso,cuadro_origen,5.2.1.1,143,p. 303-308 — CAUSAS / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.2.1.1,130,p. 557-566 — CAUSAS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.3.2.1,110,p. 362-364 — CAUSAS / Por: Ciudades y Tipo de Acción Penal (TIPO DE PROCESO) / Según: Movimiento Registrado en la gestiòn
+causas_por_tipo_proceso,cuadro_origen,6.3.2.1,100,p. 625-627 — CAUSAS / Por: Distrito y Tipo de Acción Penal / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.2.2.1,55,p. 333-335 — CAUSAS / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.3.1.1,44,p. 348-350 — Informes de Inicio de Investigación / Por: Ciudades y Tipo de Acción Penal / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.3.1.2,44,p. 351-353 — Imputaciones Formales / Por: Ciudades y Tipo de Acción Penal / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.3.3.1,44,p. 375-380 — CAUSAS / Por: Ciudades / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.3.1.1,40,p. 607-609 — Informes de Inicio de Investigación / Por: Distritos / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.3.1.2,40,p. 610-612 — Imputaciones Formales / Por: Distritos / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.3.3.1,40,p. 638-640 — CAUSAS / Por: Distritos / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.1.3.8,11,p. 296 — CAUSAS PENALES EN ETAPA DE INVESTIGACIÓN SIN IMPUTACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
+causas_por_tipo_proceso,cuadro_origen,5.1.3.9,11,p. 297 — CAUSAS PENALES EN ETAPA DE INVESTIGACIÓN CON IMPUTACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
+causas_por_tipo_proceso,cuadro_origen,5.1.3.11,11,p. 299 — CAUSAS PENALES ATENDIDAS CON ACUSACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
+resueltas_por_tipo_proceso,cuadro_origen,5.1.1.2,3718,p. 132-142 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,6.1.1.2,3273,p. 409-418 — CAUSAS RESUELTAS / Por: Distritos y Tipo de Proceso / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.1.2.2,3168,p. 188-198 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según:Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.1.3.3,3146,p. 251-261 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,6.1.2.2,2880,p. 459-468 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según:Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,6.1.3.3,2848,p. 516-525 — CAUSAS RESUELTAS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.2.1.2,1573,p. 309-314 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.3.2.3,1430,p. 368-370 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Acción / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,6.2.1.2,1430,p. 567-576 — CAUSAS RESUELTAS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,6.3.2.3,1300,p. 631-633 — CAUSAS RESUELTAS / Por: Distritos y Tipo de Acción / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,6.3.1.4,1008,p. 357-359 — CAUSAS RESUELTAS PREPARATORIAS / Por: Distritos / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.2.2.2,440,p. 336-338 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.3.1.3,440,p. 354-356 — CAUSAS RESUELTAS PRELIMINARES / Por: Distritos / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.3.3.2,440,p. 381-383 — CAUSAS RESUELTAS / Por: Ciudades / Según: Formas de Resolución
+resueltas_por_tipo_proceso,cuadro_origen,6.3.1.3,400,p. 613-615 — CAUSAS RESUELTAS EN LA ETAPA PRELIMINAR / Por: Distritos / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,6.3.3.3,400,p. 644-646 — CAUSAS RESUELTAS / Por: Distritos / Según: Formas de Resolución
+resueltas_por_tipo_proceso,cuadro_origen,5.1.3.10,99,p. 298 — CAUSAS PENALES RESUELTAS / Por: Ciudades / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.2.3,2640,p. 199-209 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.2.4,2640,p. 210-220 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.1.3,2574,p. 143-153 — RECURSOS DE APELACIÓN CON CARÁCTER SUSPENSIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.1,2574,p. 154-164 — RECURSOS DE APELACIÓN CON CARÁCTER DEVOLUTIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.3.4,2574,p. 262-272 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Devolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.3.5,2574,p. 273-283 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Devolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.2.4,2400,p. 479-488 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.2.3,2398,p. 469-478 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.1.3,2340,p. 419-428 — RECURSOS DE APELACIÓN CON CARÁCTER SUSPENSIVO / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.1.4,2340,p. 429-438 — RECURSOS DE APELACIÓN CON CARÁCTER DEVOLUTIVO / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.3.4,2340,p. 526-535 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Formas de Devolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.3.5,2340,p. 536-545 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Formas de Devolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.2.1.3,1287,p. 315-320 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.2.1.4,1287,p. 321-326 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.2.1.3,1170,p. 577-586 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.2.1.4,1170,p. 587-596 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.2.2.3,550,p. 339-341 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO REMITIDOS / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.2.2.4,550,p. 342-344 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO REMITIDOS / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.3.9,308,p. 297 — CAUSAS PENALES EN ETAPA DE INVESTIGACIÓN CON IMPUTACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.3.1.5,308,p. 360-361 — RECURSOS DE APELACIÓN / Por: Ciudades y Tipo de Apelación / Según: Resultado del Recurso
+apelaciones_por_tipo_proceso,cuadro_origen,5.3.3.5,284,p. 386-387 — RECURSOS DE APELACIÓN / Por: Ciudades y Tipo de Apelación / Según: Resultado del Recurso
+apelaciones_por_tipo_proceso,cuadro_origen,6.3.1.6,280,p. 622-624 — RECURSOS DE APELACIÓN / Por: Distritos y Tipo de Apelación / Según: Resultado del Recurso
+apelaciones_por_tipo_proceso,cuadro_origen,5.3.2.6,275,p. 373-374 — RECURSOS DE APELACIÓN / Por: Ciudades y Tipo de Apelación / Según: Resultado del Recurso
+apelaciones_por_tipo_proceso,cuadro_origen,6.3.2.6,250,p. 636-637 — RECURSOS DE APELACIÓN / Por: Distritos y Tipo de Apelación / Según: Resultado del Recurso
+apelaciones_por_tipo_proceso,cuadro_origen,6.3.3.6,250,p. 649-650 — RECURSOS DE APELACIÓN / Por: Distritos y Tipo de Apelación / Según: Resultado del Recurso
+apelaciones_por_tipo_proceso,cuadro_origen,5.1.3.6,88,p. 284 — RECURSOS DE APELACIÓN INTERPUESTOS AL JUZGADO / Por: Ciudades / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.3.6,80,p. 546 — RECURSOS DE APELACIÓN INTERPUESTOS AL JUZGADO EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos / Según: Formas de Resolución
+ejecucion_por_tipo_proceso,cuadro_origen,5.1.1.5,1430,p. 165-175 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,5.1.3.7,1430,p. 285-295 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,5.1.2.5,1319,p. 221-231 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,6.1.1.5,1300,p. 439-448 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,6.1.3.7,1300,p. 547-556 — CAUSAS EN EJECUCIÓN DE SENTENCIA EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,6.1.2.5,1200,p. 489-498 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,5.2.1.5,715,p. 327-332 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,6.2.1.5,650,p. 597-606 — CAUSAS EN EJECUCIÓN DE SENTENCIA EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,5.2.2.5,275,p. 345-347 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,5.3.4.2,275,p. 392-393 — PROCESOS DE EJECUCIÓN DE SENTENCIA EN CONOCIMIENTO DEL JUZGADO / Por: Ciudades y Tipo de Sanción Condenatoria / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,5.3.4.4,121,p. 395 — TRAMITES EN EJECUCIÓN DE SENTENCIA / Por: Ciudades / Según: Tipo de trámite
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.2.2,1210,p. 365-367 — SENTENCIAS Y DICTADAS EN LA GESTION / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.3.2.2,1091,p. 628-630 — SENTENCIAS DICTADAS EN LA GESTIÓN - / Por: Distritos y Tipo de proceso / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.3.1,440,p. 375-380 — CAUSAS / Por: Ciudades / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.4.1,440,p. 389-391 — CONTROL DE MEDIDAS CAUTELARES PERSONALES / Por: Ciudades y Tipo de Medida Cautelar Personal / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.3.3.2,400,p. 641-643 — EMISIÓN DE SENTENCIAS DE DELITOS DE LA GESTIÓN ACTUAL / Por: Distritos / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,5.1.2.6,385,p. 232-234 — DEMANDAS NUEVAS DENTRO DE UN PROCESO / Por: Ciudades y Tipo de Incidente / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.1.2.6,350,p. 499-501 — DEMANDAS NUEVAS DENTRO DE UN PROCESO / Por: Distritos y Tipo de Incidente / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.3.1.5,240,p. 619-621 — Medidas Cautelares de carácter personal - Real / Por: Distritos / Según: Tipo de Trámites
+otros_tramites_por_tipo_proceso,cuadro_origen,5.1.3.1,165,p. 239 — PERMISOS DE VIAJES AL EXTERIOR / Por: Ciudades / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,5.1.2.7,154,p. 235-238 — DEMANDAS RESUELTOS POR CONCILIACION / Por: Ciudades y Tipo de Incidente / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.1.3.1,150,p. 505 — PERMISOS DE VIAJES AL EXTERIOR OTORGADOS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.1.2.7,140,p. 502-504 — DEMANDAS RESUELTOS POR CONCILIACION / Por: Distritos y Tipo de Incidente / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.3.2.5,132,p. 635 — OTROS TRÁMITES / Por: Distritos / Según: Tipo de Trámites
+otros_tramites_por_tipo_proceso,cuadro_origen,6.3.3.5,129,p. 648 — OTROS TRÁMITES / Por: Distritos / Según: Tipo de Trámites
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.4.3,121,p. 394 — CONTROL DE CUMPLIMIENTO DE CONDICIONES / Por: Ciudades / Según: Tipo de Suspensión
+otros_tramites_por_tipo_proceso,cuadro_origen,5.1.3.12,77,p. 300 — EMISIÓN DE SENTENCIAS DICTADAS Y OTRAS FORMAS DE FINALIZACIÓN DE COMPETENCIA / Por: Ciudades / Según: Formas de Resolución
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.2.4,77,p. 371 — JUICIOS DESARROLLADOS / Por: Ciudades / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.3.3,77,p. 384 — MEDIDAS CAUTELARES DE CARÁCTER PERSONAL - REAL / Por: Ciudades / Según: Formas de Resolución de Causas
+otros_tramites_por_tipo_proceso,cuadro_origen,6.3.2.4,70,p. 634 — JUICIOS TRÁMITADOS / Por: Distritos / Según: Movimiento Registrado
+otros_tramites_por_tipo_proceso,cuadro_origen,6.3.3.4,70,p. 647 — MEDIDAS CAUTELARES DE CARÁCTER PERSONAL - REAL / Por: Distritos / Según: Formas de Resolución de Causas
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.2.5,55,p. 372 — OTROS TRÁMITES / Por: Ciudades / Según: Tipo de Trámites
+otros_tramites_por_tipo_proceso,cuadro_origen,5.3.3.4,55,p. 385 — OTROS TRÁMITES / Por: Ciudades / Según: Tipo de Trámites

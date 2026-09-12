@@ -1,0 +1,28 @@
+cuadro_origen,pagina_pdf,eje,etiqueta_fila,pendientes_inicio,recibidas,atendidas,resoluciones_primera_instancia,rechazadas,en_tramite,amonestacion,multa,suspension,destitucion,total_sanciones,distrito,ente,departamento_derivado,tipo_fila_derivado,gestion,revisado_manual
+13.1.1,737,distrito,OFICINA NACIONAL,39,57,96,61,18,17,,,,,,OFICINA NACIONAL,,,dato,2023,False
+13.1.1,737,distrito,CHUQUISACA,5,7,12,8,0,4,,,,,,CHUQUISACA,,Chuquisaca,dato,2023,False
+13.1.1,737,distrito,LA PAZ,0,27,27,10,5,12,,,,,,LA PAZ,,La Paz,dato,2023,False
+13.1.1,737,distrito,COCHABAMBA,82,11,93,60,31,2,,,,,,COCHABAMBA,,Cochabamba,dato,2023,False
+13.1.1,737,distrito,ORURO,1,6,7,2,1,4,,,,,,ORURO,,Oruro,dato,2023,False
+13.1.1,737,distrito,POTOSÍ,3,18,21,13,4,4,,,,,,POTOSÍ,,Potosí,dato,2023,False
+13.1.1,737,distrito,TARIJA,0,53,53,12,4,37,,,,,,TARIJA,,Tarija,dato,2023,False
+13.1.1,737,distrito,SANTA CRUZ,2,10,12,4,4,4,,,,,,SANTA CRUZ,,Santa Cruz,dato,2023,False
+13.1.1,737,distrito,BENI,0,0,0,0,0,0,,,,,,BENI,,Beni,dato,2023,False
+13.1.1,737,distrito,PANDO,0,0,0,0,0,0,,,,,,PANDO,,Pando,dato,2023,False
+13.1.1,737,distrito,TOTAL,132,189,321,170,67,84,,,,,,TOTAL,,,total,2023,False
+13.1.2,738,distrito,OFICINA NACIONAL,,,,,,,11,8,10,5,34,OFICINA NACIONAL,,,dato,2023,False
+13.1.2,738,distrito,CHUQUISACA,,,,,,,0,5,2,0,7,CHUQUISACA,,Chuquisaca,dato,2023,False
+13.1.2,738,distrito,LA PAZ,,,,,,,0,0,7,0,7,LA PAZ,,La Paz,dato,2023,False
+13.1.2,738,distrito,COCHABAMBA,,,,,,,3,3,22,3,31,COCHABAMBA,,Cochabamba,dato,2023,False
+13.1.2,738,distrito,ORURO,,,,,,,0,0,0,0,0,ORURO,,Oruro,dato,2023,False
+13.1.2,738,distrito,POTOSÍ,,,,,,,0,0,15,2,17,POTOSÍ,,Potosí,dato,2023,False
+13.1.2,738,distrito,TARIJA,,,,,,,8,0,0,0,8,TARIJA,,Tarija,dato,2023,False
+13.1.2,738,distrito,SANTA CRUZ,,,,,,,0,0,2,0,2,SANTA CRUZ,,Santa Cruz,dato,2023,False
+13.1.2,738,distrito,BENI,,,,,,,0,0,0,0,0,BENI,,Beni,dato,2023,False
+13.1.2,738,distrito,PANDO,,,,,,,0,0,0,0,0,PANDO,,Pando,dato,2023,False
+13.1.2,738,distrito,TOTAL,,,,,,,22,16,58,10,106,TOTAL,,,total,2023,False
+13.1.3,739,ente,CONSEJO DE LA MAGISTRATURA,,,,,,,11,8,10,5,34,,CONSEJO DE LA MAGISTRATURA,,dato,2023,False
+13.1.3,739,ente,DERECHOS REALES,,,,,,,9,7,36,5,57,,DERECHOS REALES,,dato,2023,False
+13.1.3,739,ente,DIRECCION ADMINISTRATIVA FINANCIERA,,,,,,,1,0,10,0,11,,DIRECCION ADMINISTRATIVA FINANCIERA,,dato,2023,False
+13.1.3,739,ente,SERVICIOS JUDICIALES,,,,,,,1,1,2,0,4,,SERVICIOS JUDICIALES,,dato,2023,False
+13.1.3,739,ente,TOTAL,,,,,,,22,16,58,10,106,,TOTAL,,total,2023,False
