@@ -59,6 +59,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import geografia
 from comun import (INTERIM, _caja, agrupar_por_x, agrupar_por_y,
                    bloques_bbox, es_ruido)
 from procesos import ENTIDADES, ENTIDADES_ESPERADAS, LAYOUTS_PROCESOS
@@ -236,6 +237,13 @@ def es_entidad(texto):
     return sin_tildes(re.sub(r"(\s+\d[\d.,]*)+$", "", texto.strip())) in ENTIDADES
 
 
+def resolver_nombre_entidad(etiquetas):
+    """Única entidad válida presente en los fragmentos de un renglón."""
+    candidatas = {sin_tildes(t) for t in etiquetas}
+    candidatas &= ENTIDADES
+    return candidatas.pop() if len(candidatas) == 1 else None
+
+
 # ---------------------------------------------------------------------------
 # Lectura de una página
 # ---------------------------------------------------------------------------
@@ -351,9 +359,11 @@ class Pagina:
         for f in filas:
             f["rotulo"] = " ".join(t for _, _, _, t in f["piezas"])
             f["x_rotulo"] = min((x for _, x, _, _ in f["piezas"]), default=None)
-            etiquetas = {sin_tildes(t) for _, _, _, t in f["piezas"]}
-            f["nombre_entidad"] = (etiquetas.pop() if len(etiquetas) == 1
-                                   and next(iter(etiquetas)) in ENTIDADES else None)
+            etiquetas = {t for _, _, _, t in f["piezas"]}
+            # En la p. 362 el renglón trae a la vez "LA PAZ" y el segundo
+            # literal roto "L APAZ". Se conserva el renglón y se acepta la
+            # única entidad válida, en vez de heredar el bloque de SUCRE.
+            f["nombre_entidad"] = resolver_nombre_entidad(etiquetas)
 
         # Cabeceras de entidad sin número de juzgados: no forman fila porque no
         # tienen números, así que se buscan entre los bloques sobrantes.
@@ -750,7 +760,12 @@ def extraer(paginas, formatos, inv):
 def _filas_de_pagina(pagina, cuadro, fmt, familia, nombres, cortes_x, n):
     # Mismo vocabulario que el resto del dataset (columna ambito del 9.1.x),
     # para que las dos familias se puedan cruzar sin traducir.
-    ambito = "capital" if cuadro.startswith("5.") else "provincia"
+    entidades_pagina = [f["nombre_entidad"] for f in pagina.filas
+                        if f["nombre_entidad"]]
+    ambito = geografia.ambito_de_contexto(pagina.titulo_pagina, entidades_pagina)
+    if ambito is None:
+        anotar(cuadro, pagina.numero,
+               "no se pudo derivar el ámbito desde el encabezado ni las entidades")
     entidad, juzgados = None, None
     salida, bloque = [], []
     datos = [f for f in pagina.filas if f["clase"] == "datos"]

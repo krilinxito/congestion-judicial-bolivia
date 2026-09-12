@@ -100,10 +100,11 @@ def columnas_de_conteo(df):
 
 
 def con_materias(df, columna_etiqueta):
-    """Agrega materia_cruda, materia_norm, instancia_derivada y tipo de fila."""
+    """Agrega materia cruda, normalizada, homologada, instancia y tipo de fila."""
     descripciones = [materias.describir(v) for v in df[columna_etiqueta]]
-    for clave in ("materia_cruda", "materia_norm", "instancia_derivada",
-                  "tipo_fila_derivado", "errata_corregida"):
+    for clave in ("materia_cruda", "materia_norm", "materia_homologada",
+                  "instancia_derivada", "tipo_fila_derivado",
+                  "errata_corregida"):
         df[clave] = [d[clave] for d in descripciones]
     return df
 
@@ -133,7 +134,7 @@ def normalizar_movimiento():
                           for e, eje, t in zip(df.etiqueta_fila, df.eje, tipos)]
     # Para las ciudades, el departamento no está en el cuadro: se deriva.
     df["departamento_derivado"] = [
-        geografia.departamento_de_ciudad(c) if c else None for c in df["ciudad"]]
+        geografia.departamento_de_ciudad(c) for c in df["ciudad"]]
 
     # Las columnas de materia solo se llenan donde la fila ES una materia.
     es_materia = (df.eje == "materia") & pd.Series(
@@ -264,17 +265,18 @@ def normalizar_procesos():
         df["materia_norm"] = [
             procesos.MATERIA_PENAL.get((m, t), m) if t else m
             for m, t in zip(df.materia_seccion, tipo)]
+        df["materia_homologada"] = [
+            materias.homologar_materia(m) for m in df["materia_norm"]]
         df["materia_cruda"] = df["titulo_pagina"]
 
-        # La entidad es ciudad en el capítulo 5 y distrito en el 6; el
-        # departamento se deriva de una u otra, y queda nulo en el total.
+        # La entidad se interpreta según el ámbito derivado del encabezado y
+        # contexto territorial de la página, no desde el número del cuadro.
         es_total = df.entidad.str.upper().str.startswith("TOTAL").fillna(False)
         df["ciudad"] = df.entidad.where((df.ambito == "capital") & ~es_total)
         df["distrito"] = df.entidad.where((df.ambito == "provincia") & ~es_total)
         df["departamento_derivado"] = [
-            geografia.departamento_de_ciudad(c) if c
-            else (geografia.departamento_normalizado(d) if d else None)
-            for c, d in zip(df["ciudad"], df["distrito"])]
+            geografia.departamento_segun_ambito(a, c, d)
+            for a, c, d in zip(df["ambito"], df["ciudad"], df["distrito"])]
         df["es_total_nacional"] = es_total
 
         if "grupo_proceso" in df.columns:
@@ -337,9 +339,10 @@ def equivalencias_candidatas():
     """
     Propuesta de agrupamiento entre variantes de materia, PARA RESOLVER A MANO.
 
-    No se aplica en ninguna parte del pipeline. La columna grupo_manual viene
-    vacía a propósito: es la que decide, y grupo_sugerido es solo una pista
-    basada en coincidencia de texto normalizado.
+    Este artefacto no se aplica directamente en el pipeline. grupo_sugerido es
+    solo una pista textual y grupo_manual se conserva vacío; las decisiones
+    aprobadas se auditaron en propuesta_equivalencias_materias.csv y se
+    codifican de forma explícita en materias.MATERIAS_HOMOLOGADAS.
     """
     mov = pd.read_csv(INTERIM / "crudo_9_1_movimiento.csv", dtype=str)
     ges = pd.read_csv(INTERIM / "crudo_9_1_gestiones.csv", dtype=str)

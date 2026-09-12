@@ -44,7 +44,7 @@ Movimiento de causas de la gestión 2023: cuántas venían pendientes, cuántas 
 |---|---|---|---|---|---|
 | `cuadro_origen` | str | — | `trazabilidad` | 0 | Identificador del cuadro del anuario del que sale la fila (por ejemplo 9.1.1). Con la página, permite verificar la cifra a mano contra el PDF. |
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `eje` | str | — | `derivada` | 0 | Qué representa la etiqueta de la fila en ese cuadro: materia, ciudad, departamento, distrito o ente. |
 | `etiqueta_fila` | str | — | `fuente` | 0 | Rótulo de la fila tal como está impreso en el PDF, verbatim. |
 | `num_juzgados` | Int64 | juzgados (nominal) | `fuente` | 51 | Número NOMINAL de juzgados, no real: un juzgado mixto cuenta una vez por cada materia que atiende, así que el total nominal es mayor que la cantidad física de juzgados. No usar como conteo de juzgados existentes. |
@@ -57,11 +57,12 @@ Movimiento de causas de la gestión 2023: cuántas venían pendientes, cuántas 
 | `pct_pendientes` | Float64 | % | `fuente` | 0 | Porcentaje de causas pendientes tal como lo publica el anuario: pendientes_fin/atendidas (coincide en 65 de 72 filas). |
 | `promedio_por_juzgado` | Float64 | causas por juzgado | `fuente` | 51 | Promedio de causas ingresadas por juzgado: ingresadas/num_juzgados (coincide en 24 de 25 filas). Hereda el problema del juzgado nominal. |
 | `col_sin_rotulo_1` | Float64 | % | `fuente` | 63 | Columna sin encabezado del cuadro 9.1.5. Reproduce exactamente ingresadas/total de ingresadas × 100 en las 14 filas de materia y suma 100,00, así que es la distribución de causas INGRESADAS por materia. El documento no lo dice: por eso la columna no se renombró. |
-| `ciudad` | str | — | `fuente` | 68 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3. |
+| `ciudad` | str | — | `fuente` | 68 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3 y en las filas territoriales de ámbito capital de los capítulos 5 y 6. |
 | `departamento` | str | — | `derivada` | 60 | Departamento tal como lo nombra el cuadro, con la grafía unificada (el anuario escribe POTOSI y Potosí indistintamente). |
-| `departamento_derivado` | str | — | `derivada` | 68 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `departamento_derivado` | str | — | `derivada` | 68 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `materia_cruda` | str | — | `fuente` | 34 | Nombre de la materia tal como está impreso en el PDF, verbatim, errata incluida. Solo se llena en las filas cuyo eje es materia. |
 | `materia_norm` | str | — | `derivada` | 34 | materia_cruda con una única corrección: la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni variantes de redacción entre cuadros. |
+| `materia_homologada` | str | — | `derivada` | 34 | Materia derivada para facilitar cruces entre cuadros. Homologa únicamente equivalencias confirmadas mediante la auditoría del Anuario; si no existe una equivalencia aprobada, conserva materia_norm. No sobrescribe el literal del PDF. |
 | `instancia_derivada` | str | — | `derivada` | 0 | Instancia deducida del prefijo del nombre de la materia: tribunal, sala o juzgado. NO es un dato de la fuente: ningún cuadro del anuario tiene columna de instancia. |
 | `tipo_fila_derivado` | str | — | `derivada` | 0 | Si la fila es un dato o un agregado: dato, total o subtotal. Permite excluir los agregados de las sumas sin adivinar sobre el texto del rótulo. |
 | `errata_corregida` | boolean | — | `derivada` | 0 | True si materia_norm difiere de materia_cruda, es decir, si se corrigió una errata de imprenta. |
@@ -94,13 +95,13 @@ Causas resueltas y porcentaje de resolución por materia en las gestiones 2019 a
 - **Cuadros de origen**: 9.1.2, 9.1.6, 9.1.10 (páginas 677, 691, 705)
 - **Filas**: 235
 
-> El cuadro original es ancho (cinco gestiones × dos métricas); acá viene en formato largo. Ojo: los nombres de materia de estos cuadros NO son los mismos literales que en causas_movimiento, ver equivalencias_candidatas.csv.
+> El cuadro original es ancho (cinco gestiones × dos métricas); acá viene en formato largo. materia_homologada permite comparar con causas_movimiento usando solo las once equivalencias aprobadas; cuatro conjuntos indeterminados siguen separados, ver propuesta_equivalencias_materias.csv.
 
 | columna | tipo | unidad | origen | nulos | descripción |
 |---|---|---|---|---|---|
 | `cuadro_origen` | str | — | `trazabilidad` | 0 | Identificador del cuadro del anuario del que sale la fila (por ejemplo 9.1.1). Con la página, permite verificar la cifra a mano contra el PDF. |
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `eje` | str | — | `derivada` | 0 | Qué representa la etiqueta de la fila en ese cuadro: materia, ciudad, departamento, distrito o ente. |
 | `etiqueta_fila` | str | — | `fuente` | 0 | Rótulo de la fila tal como está impreso en el PDF, verbatim. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión a la que corresponde el dato de la fila, de 2019 a 2023. Todos los cuadros son de la edición 2023. |
@@ -108,6 +109,7 @@ Causas resueltas y porcentaje de resolución por materia en las gestiones 2019 a
 | `pct_resueltas` | Float64 | % | `fuente` | 4 | Porcentaje de resolución tal como lo publica el anuario. ATENCIÓN: es resueltas/atendidas (verificado en 72 de 72 filas), NO resueltas/ingresadas. No es la tasa de resolución de CEJA; para esa hay que calcularla. |
 | `materia_cruda` | str | — | `fuente` | 0 | Nombre de la materia tal como está impreso en el PDF, verbatim, errata incluida. Solo se llena en las filas cuyo eje es materia. |
 | `materia_norm` | str | — | `derivada` | 0 | materia_cruda con una única corrección: la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni variantes de redacción entre cuadros. |
+| `materia_homologada` | str | — | `derivada` | 0 | Materia derivada para facilitar cruces entre cuadros. Homologa únicamente equivalencias confirmadas mediante la auditoría del Anuario; si no existe una equivalencia aprobada, conserva materia_norm. No sobrescribe el literal del PDF. |
 | `instancia_derivada` | str | — | `derivada` | 15 | Instancia deducida del prefijo del nombre de la materia: tribunal, sala o juzgado. NO es un dato de la fuente: ningún cuadro del anuario tiene columna de instancia. |
 | `tipo_fila_derivado` | str | — | `derivada` | 0 | Si la fila es un dato o un agregado: dato, total o subtotal. Permite excluir los agregados de las sumas sin adivinar sobre el texto del rótulo. |
 | `errata_corregida` | boolean | — | `derivada` | 0 | True si materia_norm difiere de materia_cruda, es decir, si se corrigió una errata de imprenta. |
@@ -143,7 +145,7 @@ Comportamiento de la carga procesal gestión por gestión, de 2007 a 2023, para 
 |---|---|---|---|---|---|
 | `cuadro_origen` | str | — | `trazabilidad` | 0 | Identificador del cuadro del anuario del que sale la fila (por ejemplo 9.1.1). Con la página, permite verificar la cifra a mano contra el PDF. |
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión de la serie histórica, de 2007 a 2023. |
 | `pendientes_inicio` | Int64 | causas | `fuente` | 0 | Causas que venían pendientes de la gestión anterior. |
 | `ingresadas` | Int64 | causas | `fuente` | 0 | Causas que ingresaron durante la gestión. |
@@ -194,7 +196,7 @@ Número de juzgados, tribunales, salas y conciliadores por ciudad capital y por 
 | `valor` | Int64 | juzgados (o habitantes en col_01) | `fuente` | 0 | Valor de esa celda. En los cuadros provinciales la col_01 es población proyectada al 2022, no un conteo de juzgados; la última columna de cada fila es el total. |
 | `fragmentos_encabezado` | str | — | `fuente` | 0 | Los pedazos de encabezado del PDF que caen sobre esa columna, sin recomponer. Es la materia prima para resolver el mapeo de nombres a mano. |
 | `es_ultima_columna` | boolean | — | `derivada` | 0 | True si la columna es la última del cuadro, que en la Parte IV es siempre el total de la fila. |
-| `departamento_derivado` | str | — | `derivada` | 285 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `departamento_derivado` | str | — | `derivada` | 285 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión del cuadro. La población de col_01, en cambio, está proyectada al 2022. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
 
@@ -215,7 +217,7 @@ Cantidad de ítems de personal y remuneración mensual del Órgano Judicial, por
 |---|---|---|---|---|---|
 | `cuadro_origen` | str | — | `trazabilidad` | 0 | Identificador del cuadro del anuario del que sale la fila (por ejemplo 9.1.1). Con la página, permite verificar la cifra a mano contra el PDF. |
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
-| `distrito` | str | — | `fuente` | 10 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. |
+| `distrito` | str | — | `fuente` | 10 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
 | `ente` | str | — | `fuente` | 12 | Ente del Órgano Judicial dentro del distrito: Tribunal Departamental de Justicia, Consejo de la Magistratura, Derechos Reales, Juzgados Disciplinarios, DAF Enlace, etc. |
 | `items_mujer` | Int64 | ítems | `fuente` | 0 | Ítems de personal ocupados por mujeres. |
 | `items_varon` | Int64 | ítems | `fuente` | 0 | Ítems de personal ocupados por varones. |
@@ -226,7 +228,7 @@ Cantidad de ítems de personal y remuneración mensual del Órgano Judicial, por
 | `remun_acefalias` | Int64 | Bs/mes | `fuente` | 1 | Remuneración mensual presupuestada de los ítems vacantes. |
 | `remun_total` | Int64 | Bs/mes | `fuente` | 0 | Remuneración mensual total del ente o distrito. |
 | `distrito_derivado_del_bloque` | boolean | — | `derivada` | 21 | True si el distrito no estaba en la fila sino en la celda combinada del bloque, centrada verticalmente, y se asignó a todas las filas del bloque hasta su SUB TOTAL. |
-| `departamento_derivado` | str | — | `derivada` | 22 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `departamento_derivado` | str | — | `derivada` | 22 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `tipo_fila_derivado` | str | — | `derivada` | 0 | Si la fila es un dato o un agregado: dato, total o subtotal. Permite excluir los agregados de las sumas sin adivinar sobre el texto del rótulo. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
@@ -306,9 +308,9 @@ Procesos sumarios disciplinarios y denuncias probadas contra personal del Órgan
 | `suspension` | Int64 | sanciones | `fuente` | 11 | Sanciones de suspensión (agrupadas bajo faltas GRAVES). |
 | `destitucion` | Int64 | sanciones | `fuente` | 11 | Sanciones de destitución (agrupadas bajo faltas GRAVÍSIMAS). |
 | `total_sanciones` | Int64 | sanciones | `fuente` | 11 | Total de sanciones impuestas: suma de las cuatro anteriores. |
-| `distrito` | str | — | `fuente` | 5 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. |
+| `distrito` | str | — | `fuente` | 5 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
 | `ente` | str | — | `fuente` | 22 | Ente del Órgano Judicial dentro del distrito: Tribunal Departamental de Justicia, Consejo de la Magistratura, Derechos Reales, Juzgados Disciplinarios, DAF Enlace, etc. |
-| `departamento_derivado` | str | — | `derivada` | 9 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `departamento_derivado` | str | — | `derivada` | 9 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `tipo_fila_derivado` | str | — | `derivada` | 0 | Si la fila es un dato o un agregado: dato, total o subtotal. Permite excluir los agregados de las sumas sin adivinar sobre el texto del rótulo. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
@@ -341,9 +343,9 @@ Movimiento de causas de la gestión 2023 desagregado por ciudad o distrito, mate
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
 | `firma` | str | — | `derivado` | 0 | Firma de encabezado del cuadro: identifica el LAYOUT, es decir el juego de columnas con el que se leyó la página. Es la clave de src/procesos.py. Se usa la firma y no el número de cuadro porque el anuario numera mal: hay dos cuadros distintos numerados 5.3.3.1 y un 6.3.1.4 en medio del capítulo 5. |
 | `familia` | str | — | `derivado` | 0 | Familia temática del cuadro dentro de los capítulos 5 y 6: causas, resueltas, apelacion, ejecucion u otros. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `titulo_pagina` | str | — | `literal del PDF` | 0 | Encabezado corrido de la página, literal del PDF ('Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto'). Es de donde sale la materia. |
-| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital (capítulo 5) o distrito judicial (capítulo 6) al que pertenece la fila, tal como encabeza su bloque en la página. TOTAL NACIONAL en la página de cierre de cada cuadro. |
+| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital o distrito judicial al que pertenece la fila, tal como encabeza su bloque en la página. El ámbito sale del encabezado y las entidades, no de la numeración del cuadro, porque el 6.3.1.4 de las páginas 357-359 es de capitales. TOTAL NACIONAL aparece en la página de cierre de cada cuadro. |
 | `num_juzgados_pagina` | Int64 | juzgados | `literal del PDF` | 33 | Número de juzgados o tribunales que declara la línea de cabecera de la página ('SUCRE 14'). Vale para la ciudad entera y para el cuadro entero, NO por fila ni por tipo de proceso: el anuario no desagrega por juzgado en ninguna parte. No siempre coincide con el num_juzgados del cuadro 9.1.x; las diferencias están en auditoria/discrepancias.csv. |
 | `unidad_fila` | str | — | `derivado` | 0 | Qué representa la fila: 'tipo_proceso' en los cuadros que desagregan por tipo de proceso dentro de cada ciudad, y 'entidad' en los cuadros de una sola página que traen una fila por ciudad y no abren el tipo de proceso. |
 | `grupo_proceso` | str | — | `literal del PDF` | 2179 | Etiqueta del grupo al que pertenece la fila, verbatim. Viene impresa EN VERTICAL en el margen izquierdo del cuadro y llega con el corte de palabra del PDF ('EXTRAORDI NARIO'), que no se puede deshacer desde la geometría. |
@@ -390,10 +392,11 @@ Movimiento de causas de la gestión 2023 desagregado por ciudad o distrito, mate
 | `materia_seccion` | str | — | `derivado` | 0 | Materia que fija la sección del cuadro (el tercer nivel de la numeración: 5.1.1.x y 6.1.1.x son civil y comercial). La materia no está escrita en la fila. |
 | `tipo_accion_penal` | str | — | `derivado` | 2197 | En las materias penales, el tipo de acción que parte la materia en tres (PENAL, ANTICORRUPCIÓN, CONTRA LA VIOLENCIA HACIA LA MUJER). Según el cuadro viene como etiqueta de grupo o como rótulo de fila. Nulo fuera del fuero penal. |
 | `materia_norm` | str | — | `derivada` | 0 | materia_cruda con una única corrección: la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni variantes de redacción entre cuadros. |
+| `materia_homologada` | str | — | `derivada` | 0 | Materia derivada para facilitar cruces entre cuadros. Homologa únicamente equivalencias confirmadas mediante la auditoría del Anuario; si no existe una equivalencia aprobada, conserva materia_norm. No sobrescribe el literal del PDF. |
 | `materia_cruda` | str | — | `fuente` | 0 | Nombre de la materia tal como está impreso en el PDF, verbatim, errata incluida. Solo se llena en las filas cuyo eje es materia. |
-| `ciudad` | str | — | `fuente` | 1229 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3. |
-| `distrito` | str | — | `fuente` | 1420 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. |
-| `departamento_derivado` | float64 | — | `derivada` | 2419 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `ciudad` | str | — | `fuente` | 1229 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3 y en las filas territoriales de ámbito capital de los capítulos 5 y 6. |
+| `distrito` | str | — | `fuente` | 1420 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
+| `departamento_derivado` | str | — | `derivada` | 230 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `grupo_proceso_norm` | str | — | `derivado` | 2179 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
@@ -430,9 +433,9 @@ Formas de resolución y de finalización de competencia de las causas, por ciuda
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
 | `firma` | str | — | `derivado` | 0 | Firma de encabezado del cuadro: identifica el LAYOUT, es decir el juego de columnas con el que se leyó la página. Es la clave de src/procesos.py. Se usa la firma y no el número de cuadro porque el anuario numera mal: hay dos cuadros distintos numerados 5.3.3.1 y un 6.3.1.4 en medio del capítulo 5. |
 | `familia` | str | — | `derivado` | 0 | Familia temática del cuadro dentro de los capítulos 5 y 6: causas, resueltas, apelacion, ejecucion u otros. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `titulo_pagina` | str | — | `literal del PDF` | 0 | Encabezado corrido de la página, literal del PDF ('Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto'). Es de donde sale la materia. |
-| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital (capítulo 5) o distrito judicial (capítulo 6) al que pertenece la fila, tal como encabeza su bloque en la página. TOTAL NACIONAL en la página de cierre de cada cuadro. |
+| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital o distrito judicial al que pertenece la fila, tal como encabeza su bloque en la página. El ámbito sale del encabezado y las entidades, no de la numeración del cuadro, porque el 6.3.1.4 de las páginas 357-359 es de capitales. TOTAL NACIONAL aparece en la página de cierre de cada cuadro. |
 | `num_juzgados_pagina` | Int64 | juzgados | `literal del PDF` | 99 | Número de juzgados o tribunales que declara la línea de cabecera de la página ('SUCRE 14'). Vale para la ciudad entera y para el cuadro entero, NO por fila ni por tipo de proceso: el anuario no desagrega por juzgado en ninguna parte. No siempre coincide con el num_juzgados del cuadro 9.1.x; las diferencias están en auditoria/discrepancias.csv. |
 | `unidad_fila` | str | — | `derivado` | 0 | Qué representa la fila: 'tipo_proceso' en los cuadros que desagregan por tipo de proceso dentro de cada ciudad, y 'entidad' en los cuadros de una sola página que traen una fila por ciudad y no abren el tipo de proceso. |
 | `grupo_proceso` | str | — | `literal del PDF` | 27057 | Etiqueta del grupo al que pertenece la fila, verbatim. Viene impresa EN VERTICAL en el margen izquierdo del cuadro y llega con el corte de palabra del PDF ('EXTRAORDI NARIO'), que no se puede deshacer desde la geometría. |
@@ -443,10 +446,11 @@ Formas de resolución y de finalización de competencia de las causas, por ciuda
 | `materia_seccion` | str | — | `derivado` | 0 | Materia que fija la sección del cuadro (el tercer nivel de la numeración: 5.1.1.x y 6.1.1.x son civil y comercial). La materia no está escrita en la fila. |
 | `tipo_accion_penal` | str | — | `derivado` | 25275 | En las materias penales, el tipo de acción que parte la materia en tres (PENAL, ANTICORRUPCIÓN, CONTRA LA VIOLENCIA HACIA LA MUJER). Según el cuadro viene como etiqueta de grupo o como rótulo de fila. Nulo fuera del fuero penal. |
 | `materia_norm` | str | — | `derivada` | 0 | materia_cruda con una única corrección: la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni variantes de redacción entre cuadros. |
+| `materia_homologada` | str | — | `derivada` | 0 | Materia derivada para facilitar cruces entre cuadros. Homologa únicamente equivalencias confirmadas mediante la auditoría del Anuario; si no existe una equivalencia aprobada, conserva materia_norm. No sobrescribe el literal del PDF. |
 | `materia_cruda` | str | — | `fuente` | 0 | Nombre de la materia tal como está impreso en el PDF, verbatim, errata incluida. Solo se llena en las filas cuyo eje es materia. |
-| `ciudad` | str | — | `fuente` | 14853 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3. |
-| `distrito` | str | — | `fuente` | 15815 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. |
-| `departamento_derivado` | float64 | — | `derivada` | 27993 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `ciudad` | str | — | `fuente` | 14373 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3 y en las filas territoriales de ámbito capital de los capítulos 5 y 6. |
+| `distrito` | str | — | `fuente` | 16295 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
+| `departamento_derivado` | str | — | `derivada` | 2675 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `grupo_proceso_norm` | str | — | `derivado` | 27057 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
@@ -460,8 +464,8 @@ Formas de resolución y de finalización de competencia de las causas, por ciuda
 
 | columna | valor | filas | significado |
 |---|---|---|---|
-| `ambito` | `capital` | 14454 | Ciudades capitales de departamento más El Alto. |
-| `ambito` | `provincia` | 13539 | Resto del país, fuera de las ciudades capitales. |
+| `ambito` | `capital` | 14982 | Ciudades capitales de departamento más El Alto. |
+| `ambito` | `provincia` | 13011 | Resto del país, fuera de las ciudades capitales. |
 | `tipo_fila_derivado` | `detalle` | 25967 | Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas. |
 | `tipo_fila_derivado` | `total` | 2026 | Fila de total del cuadro: NO sumar junto con las de dato. |
 | `unidad_fila` | `tipo_proceso` | 27894 | La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6. |
@@ -487,9 +491,9 @@ Recursos de apelación en efecto suspensivo y en efecto devolutivo —interpuest
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
 | `firma` | str | — | `derivado` | 0 | Firma de encabezado del cuadro: identifica el LAYOUT, es decir el juego de columnas con el que se leyó la página. Es la clave de src/procesos.py. Se usa la firma y no el número de cuadro porque el anuario numera mal: hay dos cuadros distintos numerados 5.3.3.1 y un 6.3.1.4 en medio del capítulo 5. |
 | `familia` | str | — | `derivado` | 0 | Familia temática del cuadro dentro de los capítulos 5 y 6: causas, resueltas, apelacion, ejecucion u otros. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `titulo_pagina` | str | — | `literal del PDF` | 0 | Encabezado corrido de la página, literal del PDF ('Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto'). Es de donde sale la materia. |
-| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital (capítulo 5) o distrito judicial (capítulo 6) al que pertenece la fila, tal como encabeza su bloque en la página. TOTAL NACIONAL en la página de cierre de cada cuadro. |
+| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital o distrito judicial al que pertenece la fila, tal como encabeza su bloque en la página. El ámbito sale del encabezado y las entidades, no de la numeración del cuadro, porque el 6.3.1.4 de las páginas 357-359 es de capitales. TOTAL NACIONAL aparece en la página de cierre de cada cuadro. |
 | `num_juzgados_pagina` | Int64 | juzgados | `literal del PDF` | 2123 | Número de juzgados o tribunales que declara la línea de cabecera de la página ('SUCRE 14'). Vale para la ciudad entera y para el cuadro entero, NO por fila ni por tipo de proceso: el anuario no desagrega por juzgado en ninguna parte. No siempre coincide con el num_juzgados del cuadro 9.1.x; las diferencias están en auditoria/discrepancias.csv. |
 | `unidad_fila` | str | — | `derivado` | 0 | Qué representa la fila: 'tipo_proceso' en los cuadros que desagregan por tipo de proceso dentro de cada ciudad, y 'entidad' en los cuadros de una sola página que traen una fila por ciudad y no abren el tipo de proceso. |
 | `tipo_proceso` | str | — | `literal del PDF` | 168 | Rótulo de la fila, verbatim del PDF: el tipo de proceso (ORDINARIO, INTERDICTOS, ASISTENCIA FAMILIAR…) o el tipo de acción penal. Nulo cuando unidad_fila es 'entidad'. |
@@ -499,10 +503,11 @@ Recursos de apelación en efecto suspensivo y en efecto devolutivo —interpuest
 | `materia_seccion` | str | — | `derivado` | 0 | Materia que fija la sección del cuadro (el tercer nivel de la numeración: 5.1.1.x y 6.1.1.x son civil y comercial). La materia no está escrita en la fila. |
 | `tipo_accion_penal` | float64 | — | `derivado` | 37871 | En las materias penales, el tipo de acción que parte la materia en tres (PENAL, ANTICORRUPCIÓN, CONTRA LA VIOLENCIA HACIA LA MUJER). Según el cuadro viene como etiqueta de grupo o como rótulo de fila. Nulo fuera del fuero penal. |
 | `materia_norm` | str | — | `derivada` | 0 | materia_cruda con una única corrección: la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni variantes de redacción entre cuadros. |
+| `materia_homologada` | str | — | `derivada` | 0 | Materia derivada para facilitar cruces entre cuadros. Homologa únicamente equivalencias confirmadas mediante la auditoría del Anuario; si no existe una equivalencia aprobada, conserva materia_norm. No sobrescribe el literal del PDF. |
 | `materia_cruda` | str | — | `fuente` | 0 | Nombre de la materia tal como está impreso en el PDF, verbatim, errata incluida. Solo se llena en las filas cuyo eje es materia. |
-| `ciudad` | str | — | `fuente` | 19222 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3. |
-| `distrito` | str | — | `fuente` | 22247 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. |
-| `departamento_derivado` | float64 | — | `derivada` | 37871 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `ciudad` | str | — | `fuente` | 19222 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3 y en las filas territoriales de ámbito capital de los capítulos 5 y 6. |
+| `distrito` | str | — | `fuente` | 22247 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
+| `departamento_derivado` | str | — | `derivada` | 3598 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
@@ -542,9 +547,9 @@ Causas y trámites en ejecución de sentencia por ciudad o distrito, materia y t
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
 | `firma` | str | — | `derivado` | 0 | Firma de encabezado del cuadro: identifica el LAYOUT, es decir el juego de columnas con el que se leyó la página. Es la clave de src/procesos.py. Se usa la firma y no el número de cuadro porque el anuario numera mal: hay dos cuadros distintos numerados 5.3.3.1 y un 6.3.1.4 en medio del capítulo 5. |
 | `familia` | str | — | `derivado` | 0 | Familia temática del cuadro dentro de los capítulos 5 y 6: causas, resueltas, apelacion, ejecucion u otros. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `titulo_pagina` | str | — | `literal del PDF` | 0 | Encabezado corrido de la página, literal del PDF ('Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto'). Es de donde sale la materia. |
-| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital (capítulo 5) o distrito judicial (capítulo 6) al que pertenece la fila, tal como encabeza su bloque en la página. TOTAL NACIONAL en la página de cierre de cada cuadro. |
+| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital o distrito judicial al que pertenece la fila, tal como encabeza su bloque en la página. El ámbito sale del encabezado y las entidades, no de la numeración del cuadro, porque el 6.3.1.4 de las páginas 357-359 es de capitales. TOTAL NACIONAL aparece en la página de cierre de cada cuadro. |
 | `num_juzgados_pagina` | Int64 | juzgados | `literal del PDF` | 121 | Número de juzgados o tribunales que declara la línea de cabecera de la página ('SUCRE 14'). Vale para la ciudad entera y para el cuadro entero, NO por fila ni por tipo de proceso: el anuario no desagrega por juzgado en ninguna parte. No siempre coincide con el num_juzgados del cuadro 9.1.x; las diferencias están en auditoria/discrepancias.csv. |
 | `unidad_fila` | str | — | `derivado` | 0 | Qué representa la fila: 'tipo_proceso' en los cuadros que desagregan por tipo de proceso dentro de cada ciudad, y 'entidad' en los cuadros de una sola página que traen una fila por ciudad y no abren el tipo de proceso. |
 | `tipo_proceso` | str | — | `literal del PDF` | 121 | Rótulo de la fila, verbatim del PDF: el tipo de proceso (ORDINARIO, INTERDICTOS, ASISTENCIA FAMILIAR…) o el tipo de acción penal. Nulo cuando unidad_fila es 'entidad'. |
@@ -554,10 +559,11 @@ Causas y trámites en ejecución de sentencia por ciudad o distrito, materia y t
 | `materia_seccion` | str | — | `derivado` | 0 | Materia que fija la sección del cuadro (el tercer nivel de la numeración: 5.1.1.x y 6.1.1.x son civil y comercial). La materia no está escrita en la fila. |
 | `tipo_accion_penal` | float64 | — | `derivado` | 10015 | En las materias penales, el tipo de acción que parte la materia en tres (PENAL, ANTICORRUPCIÓN, CONTRA LA VIOLENCIA HACIA LA MUJER). Según el cuadro viene como etiqueta de grupo o como rótulo de fila. Nulo fuera del fuero penal. |
 | `materia_norm` | str | — | `derivada` | 0 | materia_cruda con una única corrección: la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni variantes de redacción entre cuadros. |
+| `materia_homologada` | str | — | `derivada` | 0 | Materia derivada para facilitar cruces entre cuadros. Homologa únicamente equivalencias confirmadas mediante la auditoría del Anuario; si no existe una equivalencia aprobada, conserva materia_norm. No sobrescribe el literal del PDF. |
 | `materia_cruda` | str | — | `fuente` | 0 | Nombre de la materia tal como está impreso en el PDF, verbatim, errata incluida. Solo se llena en las filas cuyo eje es materia. |
-| `ciudad` | str | — | `fuente` | 4956 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3. |
-| `distrito` | str | — | `fuente` | 6010 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. |
-| `departamento_derivado` | float64 | — | `derivada` | 10015 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `ciudad` | str | — | `fuente` | 4956 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3 y en las filas territoriales de ámbito capital de los capítulos 5 y 6. |
+| `distrito` | str | — | `fuente` | 6010 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
+| `departamento_derivado` | str | — | `derivada` | 951 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
 | `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). No tiene nombre porque el PDF parte los encabezados en hasta diez líneas. |
@@ -596,9 +602,9 @@ Los cuadros sueltos de los capítulos 5 y 6: sentencias dictadas, medidas cautel
 | `pagina_pdf` | Int64 | página | `trazabilidad` | 0 | Página del PDF, contada desde 1, donde está impresa la fila. No coincide con el número impreso al pie en todos los capítulos. |
 | `firma` | str | — | `derivado` | 0 | Firma de encabezado del cuadro: identifica el LAYOUT, es decir el juego de columnas con el que se leyó la página. Es la clave de src/procesos.py. Se usa la firma y no el número de cuadro porque el anuario numera mal: hay dos cuadros distintos numerados 5.3.3.1 y un 6.3.1.4 en medio del capítulo 5. |
 | `familia` | str | — | `derivado` | 0 | Familia temática del cuadro dentro de los capítulos 5 y 6: causas, resueltas, apelacion, ejecucion u otros. |
-| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). |
+| `ambito` | str | — | `derivada` | 0 | Territorio que cubre el cuadro: capital (ciudades capitales y El Alto), provincia (resto del país) o nacional (la suma de ambos). En los capítulos 5 y 6 se deriva del encabezado y de las entidades de la página, no del prefijo del cuadro. |
 | `titulo_pagina` | str | — | `literal del PDF` | 55 | Encabezado corrido de la página, literal del PDF ('Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto'). Es de donde sale la materia. |
-| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital (capítulo 5) o distrito judicial (capítulo 6) al que pertenece la fila, tal como encabeza su bloque en la página. TOTAL NACIONAL en la página de cierre de cada cuadro. |
+| `entidad` | str | — | `literal del PDF` | 0 | Ciudad capital o distrito judicial al que pertenece la fila, tal como encabeza su bloque en la página. El ámbito sale del encabezado y las entidades, no de la numeración del cuadro, porque el 6.3.1.4 de las páginas 357-359 es de capitales. TOTAL NACIONAL aparece en la página de cierre de cada cuadro. |
 | `num_juzgados_pagina` | Int64 | juzgados | `literal del PDF` | 1178 | Número de juzgados o tribunales que declara la línea de cabecera de la página ('SUCRE 14'). Vale para la ciudad entera y para el cuadro entero, NO por fila ni por tipo de proceso: el anuario no desagrega por juzgado en ninguna parte. No siempre coincide con el num_juzgados del cuadro 9.1.x; las diferencias están en auditoria/discrepancias.csv. |
 | `unidad_fila` | str | — | `derivado` | 0 | Qué representa la fila: 'tipo_proceso' en los cuadros que desagregan por tipo de proceso dentro de cada ciudad, y 'entidad' en los cuadros de una sola página que traen una fila por ciudad y no abren el tipo de proceso. |
 | `grupo_proceso` | str | — | `literal del PDF` | 5148 | Etiqueta del grupo al que pertenece la fila, verbatim. Viene impresa EN VERTICAL en el margen izquierdo del cuadro y llega con el corte de palabra del PDF ('EXTRAORDI NARIO'), que no se puede deshacer desde la geometría. |
@@ -609,10 +615,11 @@ Los cuadros sueltos de los capítulos 5 y 6: sentencias dictadas, medidas cautel
 | `materia_seccion` | str | — | `derivado` | 0 | Materia que fija la sección del cuadro (el tercer nivel de la numeración: 5.1.1.x y 6.1.1.x son civil y comercial). La materia no está escrita en la fila. |
 | `tipo_accion_penal` | str | — | `derivado` | 4626 | En las materias penales, el tipo de acción que parte la materia en tres (PENAL, ANTICORRUPCIÓN, CONTRA LA VIOLENCIA HACIA LA MUJER). Según el cuadro viene como etiqueta de grupo o como rótulo de fila. Nulo fuera del fuero penal. |
 | `materia_norm` | str | — | `derivada` | 0 | materia_cruda con una única corrección: la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni variantes de redacción entre cuadros. |
+| `materia_homologada` | str | — | `derivada` | 0 | Materia derivada para facilitar cruces entre cuadros. Homologa únicamente equivalencias confirmadas mediante la auditoría del Anuario; si no existe una equivalencia aprobada, conserva materia_norm. No sobrescribe el literal del PDF. |
 | `materia_cruda` | str | — | `fuente` | 55 | Nombre de la materia tal como está impreso en el PDF, verbatim, errata incluida. Solo se llena en las filas cuyo eje es materia. |
-| `ciudad` | str | — | `fuente` | 3086 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3. |
-| `distrito` | str | — | `fuente` | 3535 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. |
-| `departamento_derivado` | float64 | — | `derivada` | 6028 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. Queda nulo para OFICINA NACIONAL, que es administración central y no un territorio. |
+| `ciudad` | str | — | `fuente` | 3086 | Ciudad capital (o El Alto) a la que corresponde la fila. Solo se llena en el cuadro 9.1.3 y en las filas territoriales de ámbito capital de los capítulos 5 y 6. |
+| `distrito` | str | — | `fuente` | 3535 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
+| `departamento_derivado` | str | — | `derivada` | 593 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `grupo_proceso_norm` | str | — | `derivado` | 5148 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |

@@ -186,8 +186,13 @@ Las demás tablas se unen por territorio:
 - `juzgados` trae `departamento`.
 - `causas_movimiento` trae `departamento` cuando el cuadro es por departamento,
   y `departamento_derivado` cuando hay que deducirlo de la ciudad.
+- Las cinco tablas de procesos traen `ciudad` en capitales y `distrito` en
+  provincias; `departamento_derivado` se obtiene del campo que corresponde al
+  ámbito. Los totales nacionales permanecen nulos.
 
-En los tres casos, `departamento_derivado` es la columna pensada para unir.
+En todos los casos, `departamento_derivado` es la columna pensada para unir. La
+normalización geográfica ignora mayúsculas, tildes y espacios al comparar, pero
+no modifica `entidad`, `ciudad`, `distrito` ni ningún otro literal del PDF.
 
 ## 4. Cómo leer y auditar una fila
 
@@ -516,8 +521,9 @@ data/raw/anuario_2023.pdf                    el PDF, intacto
         │                       problemas_extraccion_procesos.csv
    04_normalizacion.py  tipos, formato largo, columnas derivadas
         │                   └─> norm_*.csv, equivalencias_candidatas.csv
-   05_validacion.py     identidades contables y cruces entre cuadros
-        │                   └─> discrepancias.csv
+   05_validacion.py     identidades contables, cruces y geografía
+        │                   └─> discrepancias.csv, validacion_geografia.csv,
+        │                       inconsistencias_geografia.csv
    06_export.py         CSV + Parquet + diccionarios + README
                             └─> data/processed/, docs/
 ```
@@ -628,6 +634,10 @@ La regla es tener un invariante que el propio documento deba cumplir:
   85 filas cierran, y los diez SUB TOTAL del 14.1.1 coinciden uno por uno con el
   cuadro 14.1.3.
 - En 9.1.x, las dos identidades contables y el cruce entre ámbitos.
+- En los capítulos 5 y 6, toda fila territorial con entidad y ámbito válidos
+  tiene uno de los nueve departamentos; las entidades pertenecen al dominio de
+  capitales o provincias que corresponde y los rótulos `TOTAL <entidad>`
+  cierran el bloque territorial correcto.
 
 Sin un invariante así, un parser desalineado produce números plausibles y nadie
 se entera.
@@ -645,9 +655,11 @@ Ejemplos concretos de la regla en acción:
 
 - `materia_cruda` es el literal del PDF, errata incluida. `materia_norm`
   corrige **una sola cosa**, la errata de imprenta `INSTRUCCÓN → INSTRUCCIÓN`, y
-  `errata_corregida` lo señala. No unifica mayúsculas, tildes ni variantes de
-  redacción: eso sería una decisión, y las decisiones se documentan aparte
-  (`equivalencias_candidatas.csv`).
+  `errata_corregida` lo señala. `materia_homologada` aplica las once
+  equivalencias semánticas aprobadas tras auditar cuadros y páginas; si no hay
+  una equivalencia aprobada, conserva `materia_norm`. Esta tercera capa no
+  modifica ninguna de las dos anteriores y deja separados los cuatro conjuntos
+  indeterminados documentados en `auditoria_equivalencias_materias.md`.
 - Las llamadas a nota al pie pegadas al rótulo (`Yapacani1`, `Camiri2`,
   `Puerto Suárez3`) se conservan en el texto. Se excluyen del cálculo de
   columnas, que era el motivo real para sacarlas, pero no del dato.
@@ -859,13 +871,15 @@ Vale la pena registrarlos porque muestran para qué sirve validar:
 
 ```
 python3, pandas, pyarrow        (pyarrow solo para el Parquet del paso 06)
+pytest                           solo para ejecutar las pruebas formales
 poppler-utils                    aporta pdftotext y pdfinfo
 ```
 
 ### Correr el pipeline
 
+En Linux/macOS:
+
 ```bash
-cd /home/max1/anal/proy
 python3 src/01_diagnostico.py     # solo reporta; no escribe
 python3 src/02_inventario.py
 python3 src/03_extraccion.py
@@ -874,6 +888,28 @@ python3 src/04_normalizacion.py
 python3 src/05_validacion.py
 python3 src/06_export.py
 ```
+
+En Windows PowerShell se recomienda forzar UTF-8 para evitar errores de
+codificación en consola:
+
+```powershell
+python -X utf8 src/01_diagnostico.py
+python -X utf8 src/02_inventario.py
+python -X utf8 src/03_extraccion.py
+python -X utf8 src/07_extraccion_procesos.py
+python -X utf8 src/04_normalizacion.py
+python -X utf8 src/05_validacion.py
+python -X utf8 src/06_export.py
+```
+
+Las pruebas se reproducen con:
+
+```powershell
+python -X utf8 -m pytest tests -q -p no:cacheprovider
+```
+
+En Linux/macOS, el comando equivalente es
+`python3 -m pytest tests -q -p no:cacheprovider`.
 
 Para una corrida limpia desde cero, borrar `data/interim/` y `data/processed/`
 antes. `data/raw/` no se toca nunca.

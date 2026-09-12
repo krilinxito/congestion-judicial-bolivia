@@ -1,30 +1,30 @@
 #!/usr/bin/env python3
 """
-Materias: literal del PDF, errata corregida y derivaciones. SIN fusiones.
+Materias: literal del PDF, errata corregida y homologación auditada.
 
 Regla del proyecto: el dato de origen no se sobrescribe nunca. Toda decisión
 interpretativa vive en una columna derivada, al lado del literal, y se puede
 descartar sin rehacer la extracción.
 
-De acá salen tres columnas:
+De acá salen cuatro columnas:
 
   materia_cruda        el literal del PDF, verbatim, incluida la errata.
   materia_norm         idéntica a materia_cruda salvo una única corrección:
                        la errata de imprenta INSTRUCCÓN -> INSTRUCCIÓN.
                        No unifica mayúsculas, ni acentos, ni abreviaturas,
                        ni variantes entre cuadros.
+  materia_homologada   aplica solo las once equivalencias aprobadas en
+                       propuesta_equivalencias_materias.csv. Si no hay una
+                       equivalencia aprobada, conserva materia_norm.
   instancia_derivada   juzgado o tribunal, deducido del prefijo del nombre.
                        NO es un dato de la fuente: ningún cuadro del anuario
                        tiene columna de instancia.
 
-Lo que este archivo deliberadamente NO hace: decidir que
-"Partido Administrativo, Coactivo Fiscal" (cuadros 9.1.2 y 9.1.10) y
-"PARTIDO ADMINISTRATIVO COACTIVO FISCAL Y TRIBUTARIO" (9.1.1 y 9.1.9) son la
-misma materia, o que "Sentencia Violencia C M." (9.1.10) equivale a
-"SENTENCIA CONTRA LA VIOLENCIA HACIA LA MUJER" (9.1.1, 9.1.5, 9.1.9). Son
-equivalencias plausibles pero no verificables contra el documento. El paso 04
-las vuelca como propuesta en data/interim/equivalencias_candidatas.csv, con
-una columna vacía para resolverlas a mano; el dataset no las aplica.
+Este archivo no infiere equivalencias por similitud. Conserva deliberadamente
+separados los cuatro conjuntos indeterminados de Sentencia/Tribunal de
+Sentencia Anticorrupción y contra la Violencia. La evidencia y la decisión de
+cada variante están en
+data/processed/auditoria/propuesta_equivalencias_materias.csv.
 """
 
 # ---------------------------------------------------------------------------
@@ -37,6 +37,41 @@ ERRATAS = {
     # 9.1.5 (p. 687) y 9.1.9 (p. 701).
     "INSTRUCCÓN CONTRA LA VIOLENCIA HACIA LA MUJER":
         "INSTRUCCIÓN CONTRA LA VIOLENCIA HACIA LA MUJER",
+}
+
+# Equivalencias aprobadas en la auditoría del Anuario. Las claves son valores
+# de materia_norm: la errata INSTRUCCÓN ya fue corregida antes de este paso.
+# El mapa es cerrado para que una materia nueva o indeterminada no se fusione
+# sin una revisión humana explícita.
+MATERIAS_HOMOLOGADAS = {
+    "EJECUCIÓN PENAL": "Ejecución Penal",
+    "Ejecución Penal": "Ejecución Penal",
+    "INSTRUCCIÓN ANTICORRUPCIÓN": "Instrucción Anticorrupción",
+    "Instrucción Anticorrupción": "Instrucción Anticorrupción",
+    "INSTRUCCIÓN PENAL": "Instrucción Penal",
+    "Instrucción Penal": "Instrucción Penal",
+    "PÚBLICO CIVIL Y COMERCIAL": "Público Civil y Comercial",
+    "Público Civil y Comercial": "Público Civil y Comercial",
+    "PÚBLICO DE FAMILIA": "Público de Familia",
+    "Público de Familia": "Público de Familia",
+    "PÚBLICO NIÑEZ Y ADOLESCENCIA": "Público Niñez y Adolescencia",
+    "Público Niñez y Adolescencia": "Público Niñez y Adolescencia",
+    "SENTENCIA PENAL": "Sentencia Penal",
+    "Sentencia Penal": "Sentencia Penal",
+    "INSTRUCCIÓN CONTRA LA VIOLENCIA HACIA LA MUJER":
+        "Instrucción Contra la Violencia hacia las Mujeres",
+    "Instrucción Contra la Violencia hacia las Mujeres":
+        "Instrucción Contra la Violencia hacia las Mujeres",
+    "PARTIDO ADMINISTRATIVO COACTIVO FISCAL Y TRIBUTARIO":
+        "Partido Administrativo Coactivo Fiscal y Tributario",
+    "Partido Administrativo, Coactivo Fiscal":
+        "Partido Administrativo Coactivo Fiscal y Tributario",
+    "PARTIDO DE TRABAJO Y SEGURIDAD SOCIAL":
+        "Partido de Trabajo y Seguridad Social",
+    "Partido Trabajo y Seguridad Social":
+        "Partido de Trabajo y Seguridad Social",
+    "TRIBUNAL DE SENTENCIA PENAL": "Tribunales de Sentencia Penal",
+    "Tribunales de Sentencia Penal": "Tribunales de Sentencia Penal",
 }
 
 # ---------------------------------------------------------------------------
@@ -75,6 +110,11 @@ def corregir_errata(valor_crudo):
     return ERRATAS.get(v, v)
 
 
+def homologar_materia(materia_norm):
+    """Aplica solo equivalencias aprobadas; cualquier otro valor se conserva."""
+    return MATERIAS_HOMOLOGADAS.get(materia_norm, materia_norm)
+
+
 def derivar_instancia(valor_crudo):
     """
     instancia_derivada a partir del nombre. Devuelve None para las filas de
@@ -103,12 +143,13 @@ def tipo_de_fila(valor_crudo):
 
 
 def describir(valor_crudo):
-    """Las tres columnas de una vez, más el rastro de la corrección."""
+    """Las columnas de materia de una vez, más el rastro de la corrección."""
     cruda = " ".join(str(valor_crudo).split())
     norm = corregir_errata(cruda)
     return {
         "materia_cruda": cruda,
         "materia_norm": norm,
+        "materia_homologada": homologar_materia(norm),
         "instancia_derivada": derivar_instancia(cruda),
         "tipo_fila_derivado": tipo_de_fila(cruda),
         "errata_corregida": norm != cruda,

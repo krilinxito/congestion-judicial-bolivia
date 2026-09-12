@@ -14,6 +14,8 @@ normaliza, **no** calcula indicadores ni modela.
 |---|---|
 | entender los datos antes de usarlos | [`docs/guia_de_estudio_anuario_2023.md`](docs/guia_de_estudio_anuario_2023.md) |
 | saber qué significa una columna | [`docs/diccionario_de_datos.md`](docs/diccionario_de_datos.md) |
+| revisar la corrección geográfica del ETL | [`docs/correccion_geografia_etl.md`](docs/correccion_geografia_etl.md) |
+| revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](docs/auditoria_equivalencias_materias.md) |
 | los datos | [`data/processed/`](data/processed/) — CSV y Parquet |
 | dónde el anuario no cierra consigo mismo | [`data/processed/auditoria/discrepancias.csv`](data/processed/auditoria/) |
 
@@ -53,6 +55,11 @@ nulos, booleano); el CSV es de conveniencia y los pierde al releerse.
 4. **Los encabezados no se inventan.** Cuando el PDF no rotula una columna, se
    llama `col_sin_rotulo_N`.
 
+Las tablas que contienen materia conservan el literal en `materia_cruda`, la
+errata documentada en `materia_norm` y las once equivalencias aprobadas en una
+clave separada, `materia_homologada`. Los cuatro conjuntos indeterminados de la
+auditoría siguen sin fusionarse.
+
 ## Cómo se validó
 
 La prueba más fuerte es que **las mismas cifras están publicadas dos veces**, en
@@ -68,11 +75,17 @@ ingreso da `atendidas` en **2.386 de 2.386**, y la fila `TOTAL <ciudad>` coincid
 con la suma de sus tipos de proceso en 731 de 759 bloques. Lo que no cierra está
 en `auditoria/discrepancias.csv`, sin tocar.
 
+El paso 05 también verifica la cobertura, dominio y coherencia territorial de
+las cinco tablas de los capítulos 5 y 6. El resumen reproducible queda en
+`auditoria/validacion_geografia.csv` y las inconsistencias técnicas deben ser
+cero para que el pipeline termine.
+
 ## Correr el pipeline
 
 Requiere Python 3 con `pandas` y `pyarrow`, y `pdftotext` (paquete
-`poppler-utils`). Poné el PDF en `data/raw/` (ver
-[`data/raw/README.md`](data/raw/README.md)) y:
+`poppler-utils`). `pytest` es necesario solo para ejecutar las pruebas. Poné el
+PDF en `data/raw/` (ver [`data/raw/README.md`](data/raw/README.md)). En
+Linux/macOS:
 
 ```bash
 python3 src/01_diagnostico.py          # solo reporta; no escribe
@@ -83,6 +96,28 @@ python3 src/04_normalizacion.py
 python3 src/05_validacion.py
 python3 src/06_export.py
 ```
+
+En Windows PowerShell se recomienda forzar UTF-8 para evitar errores de
+codificación en la salida del pipeline:
+
+```powershell
+python -X utf8 src/01_diagnostico.py
+python -X utf8 src/02_inventario.py
+python -X utf8 src/03_extraccion.py
+python -X utf8 src/07_extraccion_procesos.py
+python -X utf8 src/04_normalizacion.py
+python -X utf8 src/05_validacion.py
+python -X utf8 src/06_export.py
+```
+
+Las pruebas formales se reproducen con:
+
+```powershell
+python -X utf8 -m pytest tests -q -p no:cacheprovider
+```
+
+En Linux/macOS, el comando equivalente es
+`python3 -m pytest tests -q -p no:cacheprovider`.
 
 El paso 07 lleva ese número porque se escribió después, pero corre antes del 04.
 `data/interim/` no está versionado: lo regeneran los pasos 02 a 05.

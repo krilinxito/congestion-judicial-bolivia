@@ -39,11 +39,22 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import geografia
 import procesos
 from comun import INTERIM
 
 TOLERANCIA = 1e-9
 discrepancias = []
+validaciones_geografia = []
+inconsistencias_geografia = []
+
+TABLAS_PROCESOS = {
+    "causas_por_tipo_proceso": "norm_procesos_causas.csv",
+    "resueltas_por_tipo_proceso": "norm_procesos_resueltas.csv",
+    "apelaciones_por_tipo_proceso": "norm_procesos_apelacion.csv",
+    "ejecucion_por_tipo_proceso": "norm_procesos_ejecucion.csv",
+    "otros_tramites_por_tipo_proceso": "norm_procesos_otros.csv",
+}
 
 
 def registrar(identidad, cuadro, pagina, entidad, calculado, publicado, detalle=""):
@@ -67,6 +78,118 @@ def registrar(identidad, cuadro, pagina, entidad, calculado, publicado, detalle=
 def v(fila, columna):
     valor = fila.get(columna)
     return None if valor is None or pd.isna(valor) else float(valor)
+
+
+def registrar_inconsistencia_geografia(tipo, tabla, fila, detalle):
+    inconsistencias_geografia.append({
+        "validacion": tipo,
+        "tabla": tabla,
+        "cuadro_origen": fila.get("cuadro_origen"),
+        "pagina_pdf": fila.get("pagina_pdf"),
+        "entidad": fila.get("entidad"),
+        "ambito": fila.get("ambito"),
+        "departamento_derivado": fila.get("departamento_derivado"),
+        "detalle": detalle,
+    })
+
+
+def validar_geografia_procesos():
+    """
+    Controles A-D: cobertura, dominios, ámbito y cierre de bloques territoriales.
+
+    Las discrepancias numéricas del Anuario se siguen registrando sin alterar;
+    estas guardas sí son invariantes técnicas del ETL y hacen fallar el paso 05
+    si reaparece una derivación geográfica inválida.
+    """
+    departamentos = set(geografia.DEPARTAMENTOS)
+    dominios = {
+        "capital": geografia.CAPITALES_NORM,
+        "provincia": geografia.PROVINCIAS_NORM,
+    }
+    entidades_territoriales = set().union(*dominios.values())
+
+    for tabla, archivo in TABLAS_PROCESOS.items():
+        df = pd.read_csv(INTERIM / archivo)
+        nacional = df.es_total_nacional.fillna(False).astype(bool)
+        territorial = ~nacional
+        con_departamento = territorial & df.departamento_derivado.notna()
+        sin_departamento = territorial & df.departamento_derivado.isna()
+
+        fuera_dominio = df.departamento_derivado.notna() & ~df.departamento_derivado.isin(
+            departamentos)
+        for _, fila in df[fuera_dominio].iterrows():
+            registrar_inconsistencia_geografia(
+                "dominio_departamento", tabla, fila,
+                "departamento_derivado no pertenece a los nueve departamentos")
+
+        for _, fila in df[sin_departamento].iterrows():
+            suficiente = (not geografia.es_faltante(fila.get("entidad"))
+                          and fila.get("ambito") in dominios)
+            if suficiente:
+                registrar_inconsistencia_geografia(
+                    "cobertura_departamento", tabla, fila,
+                    "fila territorial con información suficiente y sin departamento")
+            else:
+                registrar_inconsistencia_geografia(
+                    "informacion_territorial", tabla, fila,
+                    "fila no nacional sin entidad o ámbito territorial válido")
+
+        for _, fila in df[territorial].iterrows():
+            ambito = fila.get("ambito")
+            entidad = geografia.normalizar_geografia(fila.get("entidad"))
+            if ambito not in dominios or entidad not in dominios.get(ambito, ()):
+                registrar_inconsistencia_geografia(
+                    "coherencia_ambito", tabla, fila,
+                    "la entidad no pertenece al dominio del ámbito derivado")
+
+        # Una fila TOTAL <entidad> debe cerrar el bloque de esa entidad. Los
+        # pocos aliases impresos por el Anuario se aceptan solo en el cuadro y
+        # página donde fueron verificados; no se infieren por departamento.
+        totales = df[(df.tipo_fila_derivado == "total") & territorial].copy()
+        if "tipo_proceso" in totales:
+            claves = ["cuadro_origen", "pagina_pdf", "entidad", "tipo_proceso"]
+            for _, fila in totales.drop_duplicates(claves).iterrows():
+                rotulo = geografia.normalizar_geografia(fila.get("tipo_proceso")) or ""
+                if not rotulo.startswith("TOTAL "):
+                    continue
+                entidad_total = rotulo.removeprefix("TOTAL ")
+                if entidad_total not in entidades_territoriales:
+                    continue
+                if not geografia.total_corresponde_a_entidad(
+                        fila.get("cuadro_origen"), fila.get("pagina_pdf"),
+                        fila.get("ambito"), fila.get("entidad"),
+                        fila.get("tipo_proceso")):
+                    registrar_inconsistencia_geografia(
+                        "total_entidad", tabla, fila,
+                        f"el rótulo {fila.get('tipo_proceso')!r} no cierra el bloque "
+                        f"de {fila.get('entidad')!r}")
+
+        validaciones_geografia.append({
+            "tabla": tabla,
+            "filas_totales": len(df),
+            "filas_nacionales": int(nacional.sum()),
+            "filas_territoriales": int(territorial.sum()),
+            "filas_territoriales_con_departamento": int(con_departamento.sum()),
+            "filas_territoriales_sin_departamento": int(sin_departamento.sum()),
+            "departamentos_fuera_dominio": int(fuera_dominio.sum()),
+        })
+
+    resumen = pd.DataFrame(validaciones_geografia)
+    problemas = pd.DataFrame(inconsistencias_geografia, columns=[
+        "validacion", "tabla", "cuadro_origen", "pagina_pdf", "entidad",
+        "ambito", "departamento_derivado", "detalle",
+    ])
+    resumen.to_csv(INTERIM / "validacion_geografia.csv", index=False, encoding="utf-8")
+    problemas.to_csv(
+        INTERIM / "inconsistencias_geografia.csv", index=False, encoding="utf-8")
+
+    print("Validación geográfica de capítulos 5 y 6:")
+    for r in resumen.itertuples():
+        print(f"  {r.tabla:<38} territoriales {r.filas_territoriales:>5}  "
+              f"con depto {r.filas_territoriales_con_departamento:>5}  "
+              f"sin depto {r.filas_territoriales_sin_departamento:>3}")
+    print(f"  inconsistencias técnicas: {len(problemas)}\n")
+    return len(problemas)
 
 
 # ---------------------------------------------------------------------------
@@ -375,6 +498,7 @@ def main():
     validar_sumariante()
     validar_procesos()
     juzgados_declarados_dos_veces()
+    errores_geografia = validar_geografia_procesos()
 
     df = pd.DataFrame(discrepancias)
     destino = INTERIM / "discrepancias.csv"
@@ -383,6 +507,10 @@ def main():
     print(f"Discrepancias registradas: {len(df)}  ->  {destino.name}")
     print("(no se corrige ninguna: son hallazgos sobre la fuente)\n")
     if df.empty:
+        if errores_geografia:
+            raise SystemExit(
+                f"Falló la validación geográfica: {errores_geografia} "
+                "inconsistencia(s); ver inconsistencias_geografia.csv")
         return
     numericas = df[df.diferencia.notna()]
     print("Por identidad:")
@@ -402,6 +530,11 @@ def main():
         print(f"\nNo comparables ({len(sin_comparar)}):")
         for _, r in sin_comparar.iterrows():
             print(f"  {r.cuadro_origen:<8} {str(r.entidad)[:52]:<54} {r.detalle}")
+
+    if errores_geografia:
+        raise SystemExit(
+            f"Falló la validación geográfica: {errores_geografia} "
+            "inconsistencia(s); ver inconsistencias_geografia.csv")
 
 
 if __name__ == "__main__":

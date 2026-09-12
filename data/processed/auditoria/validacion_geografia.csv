@@ -1,0 +1,6 @@
+tabla,filas_totales,filas_nacionales,filas_territoriales,filas_territoriales_con_departamento,filas_territoriales_sin_departamento,departamentos_fuera_dominio
+causas_por_tipo_proceso,2419,230,2189,2189,0,0
+resueltas_por_tipo_proceso,27993,2675,25318,25318,0,0
+apelaciones_por_tipo_proceso,37871,3598,34273,34273,0,0
+ejecucion_por_tipo_proceso,10015,951,9064,9064,0,0
+otros_tramites_por_tipo_proceso,6028,593,5435,5435,0,0

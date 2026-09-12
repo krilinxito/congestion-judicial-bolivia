@@ -39,8 +39,8 @@ causas_por_tipo_proceso,tipo_fila_derivado,total,182,Fila de total del cuadro: N
 causas_por_tipo_proceso,unidad_fila,tipo_proceso,2386,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
 causas_por_tipo_proceso,unidad_fila,entidad,33,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
 causas_por_tipo_proceso,familia,causas,2419,Movimiento de causas: el insumo directo de la clusterización.
-resueltas_por_tipo_proceso,ambito,capital,14454,Ciudades capitales de departamento más El Alto.
-resueltas_por_tipo_proceso,ambito,provincia,13539,"Resto del país, fuera de las ciudades capitales."
+resueltas_por_tipo_proceso,ambito,capital,14982,Ciudades capitales de departamento más El Alto.
+resueltas_por_tipo_proceso,ambito,provincia,13011,"Resto del país, fuera de las ciudades capitales."
 resueltas_por_tipo_proceso,tipo_fila_derivado,detalle,25967,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
 resueltas_por_tipo_proceso,tipo_fila_derivado,total,2026,Fila de total del cuadro: NO sumar junto con las de dato.
 resueltas_por_tipo_proceso,unidad_fila,tipo_proceso,27894,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.

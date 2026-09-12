@@ -119,9 +119,10 @@ TABLAS = {
         "cuadros": "9.1.2, 9.1.6, 9.1.10",
         "paginas": "677, 691, 705",
         "nota": "El cuadro original es ancho (cinco gestiones × dos métricas); "
-                "acá viene en formato largo. Ojo: los nombres de materia de "
-                "estos cuadros NO son los mismos literales que en "
-                "causas_movimiento, ver equivalencias_candidatas.csv.",
+                "acá viene en formato largo. materia_homologada permite "
+                "comparar con causas_movimiento usando solo las once "
+                "equivalencias aprobadas; cuatro conjuntos indeterminados "
+                "siguen separados, ver propuesta_equivalencias_materias.csv.",
     },
     "causas_serie_historica": {
         "descripcion": "Comportamiento de la carga procesal gestión por gestión, "
@@ -202,9 +203,11 @@ COLUMNAS = {
                 "El Alto'). Es de donde sale la materia.",
         "unidad": "", "origen": "literal del PDF"},
     "entidad": {
-        "desc": "Ciudad capital (capítulo 5) o distrito judicial (capítulo 6) al "
-                "que pertenece la fila, tal como encabeza su bloque en la "
-                "página. TOTAL NACIONAL en la página de cierre de cada cuadro.",
+        "desc": "Ciudad capital o distrito judicial al que pertenece la fila, "
+                "tal como encabeza su bloque en la página. El ámbito sale del "
+                "encabezado y las entidades, no de la numeración del cuadro, "
+                "porque el 6.3.1.4 de las páginas 357-359 es de capitales. "
+                "TOTAL NACIONAL aparece en la página de cierre de cada cuadro.",
         "unidad": "", "origen": "literal del PDF"},
     "num_juzgados_pagina": {
         "desc": "Número de juzgados o tribunales que declara la línea de "
@@ -410,7 +413,8 @@ COLUMNAS = {
     "ambito": {
         "desc": "Territorio que cubre el cuadro: capital (ciudades capitales y "
                 "El Alto), provincia (resto del país) o nacional (la suma de "
-                "ambos).",
+                "ambos). En los capítulos 5 y 6 se deriva del encabezado y de "
+                "las entidades de la página, no del prefijo del cuadro.",
         "unidad": "", "origen": "derivada"},
     "eje": {
         "desc": "Qué representa la etiqueta de la fila en ese cuadro: materia, "
@@ -483,7 +487,8 @@ COLUMNAS = {
     # --- geografía ---
     "ciudad": {
         "desc": "Ciudad capital (o El Alto) a la que corresponde la fila. Solo "
-                "se llena en el cuadro 9.1.3.",
+                "se llena en el cuadro 9.1.3 y en las filas territoriales de "
+                "ámbito capital de los capítulos 5 y 6.",
         "unidad": "", "origen": "fuente"},
     "departamento": {
         "desc": "Departamento tal como lo nombra el cuadro, con la grafía "
@@ -492,12 +497,14 @@ COLUMNAS = {
     "departamento_derivado": {
         "desc": "Departamento deducido cuando el cuadro no lo trae: de la "
                 "ciudad (El Alto pertenece a La Paz) o del distrito judicial. "
-                "Queda nulo para OFICINA NACIONAL, que es administración "
-                "central y no un territorio.",
+                "La comparación ignora mayúsculas, tildes y espacios, sin "
+                "modificar el literal de origen. Queda nulo en totales "
+                "nacionales y para OFICINA NACIONAL, que no son territorios.",
         "unidad": "", "origen": "derivada"},
     "distrito": {
         "desc": "Distrito judicial. Coincide con el departamento salvo OFICINA "
-                "NACIONAL / NACIONAL, que es la administración central.",
+                "NACIONAL / NACIONAL, que es la administración central. En los "
+                "capítulos 5 y 6 se llena solo para el ámbito provincia.",
         "unidad": "", "origen": "fuente"},
     "ente": {
         "desc": "Ente del Órgano Judicial dentro del distrito: Tribunal "
@@ -515,6 +522,12 @@ COLUMNAS = {
         "desc": "materia_cruda con una única corrección: la errata de imprenta "
                 "INSTRUCCÓN -> INSTRUCCIÓN. NO unifica mayúsculas, tildes ni "
                 "variantes de redacción entre cuadros.",
+        "unidad": "", "origen": "derivada"},
+    "materia_homologada": {
+        "desc": "Materia derivada para facilitar cruces entre cuadros. "
+                "Homologa únicamente equivalencias confirmadas mediante la "
+                "auditoría del Anuario; si no existe una equivalencia aprobada, "
+                "conserva materia_norm. No sobrescribe el literal del PDF.",
         "unidad": "", "origen": "derivada"},
     "errata_corregida": {
         "desc": "True si materia_norm difiere de materia_cruda, es decir, si se "

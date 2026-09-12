@@ -84,6 +84,8 @@ AUDITORIA = {
     "filas_complementarias.csv": "filas_complementarias.csv",
     "problemas_extraccion_procesos.csv": "problemas_extraccion_procesos.csv",
     "firmas_procesos.csv": "firmas_procesos.csv",
+    "validacion_geografia.csv": "validacion_geografia.csv",
+    "inconsistencias_geografia.csv": "inconsistencias_geografia.csv",
 }
 
 # Columnas que deben ser enteras aunque tengan nulos.
@@ -319,6 +321,8 @@ booleano). El CSV es de conveniencia y los pierde al releerse.
 |---|---|
 | entender los datos antes de usarlos | [`docs/guia_de_estudio_anuario_2023.md`](../../docs/guia_de_estudio_anuario_2023.md) |
 | saber qué significa una columna | [`docs/diccionario_de_datos.md`](../../docs/diccionario_de_datos.md) |
+| revisar la corrección geográfica del ETL | [`docs/correccion_geografia_etl.md`](../../docs/correccion_geografia_etl.md) |
+| revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](../../docs/auditoria_equivalencias_materias.md) |
 | lo mismo, pero para procesar | `diccionario_de_datos.csv` y `diccionario_de_valores.csv` |
 | revisar dónde el anuario no cierra | `auditoria/discrepancias.csv` |
 
@@ -351,10 +355,17 @@ cada materia trae su propio juego de formas de resolución.
    PDF, llamadas a nota al pie incluidas (`Yapacani1`, `Camiri2`).
 2. **`materia_norm` corrige una sola cosa**: la errata de imprenta
    `INSTRUCCÓN` → `INSTRUCCIÓN`, señalada en `errata_corregida`.
+   `materia_homologada` aplica solo las once equivalencias aprobadas en la
+   auditoría; para cualquier otra materia conserva `materia_norm`.
 3. **Las discrepancias no se corrigen.** Las 117 que tiene el anuario consigo
    mismo están en `auditoria/discrepancias.csv` con su página de origen.
 4. **Nada se interpola.** Una celda que no se pudo resolver quedó nula y
    registrada en `auditoria/problemas_extraccion.csv`.
+
+La cobertura y coherencia geográfica de las cinco tablas de procesos se valida
+en cada corrida. El resumen está en `auditoria/validacion_geografia.csv`; el
+detalle de fallos técnicos, que debe quedar vacío, en
+`auditoria/inconsistencias_geografia.csv`.
 
 ## Tres advertencias antes de calcular nada
 
@@ -368,9 +379,9 @@ cada materia trae su propio juego de formas de resolución.
   proceso. El número de juzgados de `causas_por_tipo_proceso` viene de la línea
   de cabecera de cada página (`num_juzgados_pagina`) y vale para la ciudad
   entera, no por fila.
-- **Faltan dos mapeos por resolver a mano**: las equivalencias de materia entre
-  cuadros (`auditoria/equivalencias_candidatas.csv`) y los nombres de las
-  columnas de `juzgados` (`auditoria/columnas_4_1_encabezados.csv`).
+- **Siguen pendientes de decisión humana** los cuatro conjuntos de materias
+  Anticorrupción/Violencia que la auditoría no pudo homologar y los nombres de
+  las columnas de `juzgados` (`auditoria/columnas_4_1_encabezados.csv`).
 
 ## Qué quedó afuera
 
