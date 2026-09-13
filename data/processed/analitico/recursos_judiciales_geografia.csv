@@ -1,0 +1,20 @@
+ambito,territorio,departamento_derivado,gestion,cuadros_origen,paginas_pdf,metodo_agregacion,juzgados_publicados,tribunales_publicados,salas_publicadas,conciliadores_publicados,otros_organos_publicados,valor_indeterminado_publicado,celdas_indeterminadas_fuente,total_publicado_fuente,clasificacion_recursos_completa
+capital,COBIJA,Pando,2023,4.1.1,109,suma_filas_detalle,21,2,3,1,,,0,27,True
+capital,COCHABAMBA,Cochabamba,2023,4.1.1,109,suma_filas_detalle,93,4,12,17,,,0,126,True
+capital,EL ALTO,La Paz,2023,4.1.1,109,suma_filas_detalle,63,4,,9,,,0,76,True
+capital,LA PAZ,La Paz,2023,4.1.1,109,suma_filas_detalle,121,6,16,22,,,0,165,True
+capital,ORURO,Oruro,2023,4.1.1,109,suma_filas_detalle,47,3,8,6,,,0,64,True
+capital,POTOSI,Potosí,2023,4.1.1,109,suma_filas_detalle,39,2,8,3,,,0,52,True
+capital,SANTA CRUZ,Santa Cruz,2023,4.1.1,109,suma_filas_detalle,129,7,14,26,,,0,176,True
+capital,SUCRE,Chuquisaca,2023,4.1.1,109,suma_filas_detalle,50,2,8,5,,,0,65,True
+capital,TARIJA,Tarija,2023,4.1.1,109,suma_filas_detalle,43,1,7,4,,,0,55,True
+capital,TRINIDAD,Beni,2023,4.1.1,109,suma_filas_detalle,32,1,5,2,,,0,40,True
+provincia,BENI,Beni,2023,4.1.9,117,total_distrital_publicado,32,4,,4,,,0,40,True
+provincia,CHUQUISACA,Chuquisaca,2023,4.1.2,110,total_distrital_publicado,43,3,,6,1,,0,53,True
+provincia,COCHABAMBA,Cochabamba,2023,4.1.4,112,total_distrital_publicado,87,7,,13,,,0,107,True
+provincia,LA PAZ,La Paz,2023,4.1.3,111,total_distrital_publicado,56,4,,9,,,0,69,True
+provincia,ORURO,Oruro,2023,4.1.5,113,total_distrital_publicado,24,2,,4,,,0,30,True
+provincia,PANDO,Pando,2023,4.1.10,118,total_distrital_publicado,5,,,1,,,0,6,True
+provincia,POTOSI,Potosí,2023,4.1.6,114,total_distrital_publicado,66,5,,8,,,0,79,True
+provincia,SANTA CRUZ,Santa Cruz,2023,4.1.8,116,total_distrital_publicado,73,6,,13,1,,0,93,True
+provincia,TARIJA,Tarija,2023,4.1.7,115,total_distrital_publicado,37,4,,4,1,4,2,50,False

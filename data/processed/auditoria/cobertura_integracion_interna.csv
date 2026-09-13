@@ -1,0 +1,4 @@
+fuente,filas_base,matches,sin_match,porcentaje_match,cardinalidad,factor_expansion,decision
+recursos_judiciales_geografia,1997,1997,0,100.0,N:1,1.0,incorporado
+personal_geografia,1997,1997,0,100.0,N:1,1.0,incorporado
+metricas_tipo_proceso_long,1997,1712,285,85.728593,1:N,29.814722,hecho_auxiliar_no_incorporado

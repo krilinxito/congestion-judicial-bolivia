@@ -1,0 +1,26 @@
+control,esperado,observado,estado
+tablas originales,12.0,12.0,OK
+filas tablas originales,85953.0,85953.0,OK
+archivos originales intactos,24.0,24.0,OK
+filas estrato base,1997.0,1997.0,OK
+filas dataset principal,1997.0,1997.0,OK
+claves únicas dataset principal,1997.0,1997.0,OK
+duplicados clave principal,0.0,0.0,OK
+fan-out dataset principal,1.0,1.0,OK
+joins N:1 válidos,2.0,2.0,OK
+joins N:M persistidos,0.0,0.0,OK
+pares CSV/Parquet equivalentes,5.0,5.0,OK
+claves únicas recursos,19.0,19.0,OK
+claves únicas personal,9.0,9.0,OK
+filas métricas longitudinales,81907.0,81907.0,OK
+claves técnicas métricas,81907.0,81907.0,OK
+claves base con métricas,1712.0,1712.0,OK
+filas movimiento gestión 2023,56.0,56.0,OK
+movimiento estado both,32.0,32.0,OK
+movimiento estado solo_movimiento,12.0,12.0,OK
+movimiento estado solo_gestion,12.0,12.0,OK
+suma base nuevas_ingresadas,378684.0,378684.0,OK
+suma base atendidas,706485.0,706485.0,OK
+suma base resueltas,212499.0,212499.0,OK
+suma base pendientes_fin,311478.0,311478.0,OK
+suma base pendientes_inicio,252037.0,252037.0,OK

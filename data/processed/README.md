@@ -104,3 +104,15 @@ de texto corrido. `auditoria/catalogo_cuadros.csv` inventaría las 774 páginas.
 
 `auditoria/firmas_procesos.csv` documenta, firma por firma, el rótulo que el PDF
 imprime sobre cada una de las 871 columnas de los capítulos 5 y 6.
+
+## Paquete analítico interno derivado
+
+El Paso 3.3 publica en [`analitico/`](analitico/) un modelo relacional derivado
+exclusivamente de estas doce tablas. La tabla recomendada para análisis por
+tipo de proceso es `analitico/dataset_analitico_interno.parquet`, con 1.997
+filas y clave semántica única. Las métricas longitudinales y el cruce agregado
+movimiento/gestión permanecen en hechos separados para evitar *fan-out*.
+
+Los componentes de juzgados, tribunales, salas y conciliadores se conservan
+separados; no existe `numero_juzgados_real`. El paquete se regenera, sin PDF ni
+fuentes externas, con `python -X utf8 src/08_integracion_interna.py`.

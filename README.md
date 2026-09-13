@@ -5,8 +5,9 @@ publica 774 páginas de tablas en un PDF, sin versión tabular ni datos abiertos
 Este repositorio lo convierte en **doce tablas, 85.953 filas**, cada una con su
 cuadro y su página de origen para poder verificarla a mano.
 
-Es el componente ETL de un proyecto de análisis de congestión judicial: extrae y
-normaliza, **no** calcula indicadores ni modela.
+Es el componente ETL e integración interna de un proyecto de análisis de
+congestión judicial: extrae, normaliza y organiza granos compatibles, **no**
+calcula indicadores finales ni modela.
 
 ## Por dónde empezar
 
@@ -20,6 +21,8 @@ normaliza, **no** calcula indicadores ni modela.
 | revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](docs/auditoria_filas_4_1_1.md) |
 | revisar el contexto auditado de tipos de proceso | [`docs/verificacion_pdf_contexto_tipo_proceso.md`](docs/verificacion_pdf_contexto_tipo_proceso.md) |
 | revisar las correcciones auditadas de extracción de tipo de proceso | [`docs/auditoria_fragmentos_tipo_proceso_completa.md`](docs/auditoria_fragmentos_tipo_proceso_completa.md) |
+| usar la integración interna final | [`data/processed/analitico/`](data/processed/analitico/) |
+| revisar su diseño y cardinalidades | [`docs/integracion_interna_final.md`](docs/integracion_interna_final.md) |
 | los datos | [`data/processed/`](data/processed/) — CSV y Parquet |
 | dónde el anuario no cierra consigo mismo | [`data/processed/auditoria/discrepancias.csv`](data/processed/auditoria/) |
 
@@ -76,6 +79,12 @@ contra el PDF. Además conservan el resultado geométrico anterior en
 mediante 87 correcciones cerradas. Estas reparan extracción, no aplican las
 cinco variaciones editoriales ni homologan tipos de proceso.
 
+El Paso 3.3 consume estas doce tablas sin modificarlas y publica un paquete
+analítico relacional en `data/processed/analitico/`. El dataset principal tiene
+1.997 filas territoriales por tipo de proceso; las métricas longitudinales y
+los agregados movimiento/gestión quedan en hechos auxiliares para no introducir
+*fan-out*. No se utilizó ninguna fuente externa.
+
 ## Cómo se validó
 
 La prueba más fuerte es que **las mismas cifras están publicadas dos veces**, en
@@ -125,6 +134,7 @@ python3 src/07_extraccion_procesos.py  # capítulos 5 y 6
 python3 src/04_normalizacion.py
 python3 src/05_validacion.py
 python3 src/06_export.py
+python3 src/08_integracion_interna.py  # capa derivada; no requiere el PDF
 ```
 
 En Windows PowerShell se recomienda forzar UTF-8 para evitar errores de
@@ -138,6 +148,7 @@ python -X utf8 src/07_extraccion_procesos.py
 python -X utf8 src/04_normalizacion.py
 python -X utf8 src/05_validacion.py
 python -X utf8 src/06_export.py
+python -X utf8 src/08_integracion_interna.py  # capa derivada; no requiere el PDF
 ```
 
 Las pruebas formales se reproducen con:
