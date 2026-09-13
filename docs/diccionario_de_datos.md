@@ -431,6 +431,8 @@ Movimiento de causas de la gestión 2023 desagregado por ciudad o distrito, mate
 | `departamento_derivado` | str | — | `derivada` | 230 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `grupo_proceso_norm` | str | — | `derivado` | 2179 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
+| `etapa_proceso_fuente` | str | — | `derivado` | 0 | Etapa estructural publicada por el cuadro fuente. Se deriva mediante un mapa cerrado auditado contra el PDF: informes_inicio_investigacion, imputaciones_formales, causas o no_aplica. No homologa tipo_proceso. |
+| `contexto_accion_penal` | str | — | `derivado` | 0 | Contexto penal padre de la fila fuente, auditado contra el PDF: penal_comun, anticorrupcion, violencia_mujeres o no_aplica. No homologa ni sobrescribe tipo_proceso. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
 
@@ -442,6 +444,14 @@ Movimiento de causas de la gestión 2023 desagregado por ciudad o distrito, mate
 | `ambito` | `provincia` | 1110 | Resto del país, fuera de las ciudades capitales. |
 | `tipo_fila_derivado` | `detalle` | 2237 | Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas. |
 | `tipo_fila_derivado` | `total` | 182 | Fila de total del cuadro: NO sumar junto con las de dato. |
+| `etapa_proceso_fuente` | `no_aplica` | 2041 | Cuadro inventariado donde la distinción de etapa auditada no aplica. |
+| `etapa_proceso_fuente` | `causas` | 210 | Causas, según el título del cuadro. |
+| `etapa_proceso_fuente` | `informes_inicio_investigacion` | 84 | Informes de Inicio de Investigación, según el título del cuadro. |
+| `etapa_proceso_fuente` | `imputaciones_formales` | 84 | Imputaciones Formales, según el título del cuadro. |
+| `contexto_accion_penal` | `no_aplica` | 2104 | Cuadro o fila donde la dimensión de bloque penal auditada no aplica. |
+| `contexto_accion_penal` | `penal_comun` | 105 | Bloque padre Penal Común. |
+| `contexto_accion_penal` | `anticorrupcion` | 105 | Bloque padre Anticorrupción. |
+| `contexto_accion_penal` | `violencia_mujeres` | 105 | Bloque padre Contra la Violencia hacia la Mujer o las Mujeres. |
 | `unidad_fila` | `tipo_proceso` | 2386 | La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6. |
 | `unidad_fila` | `entidad` | 33 | La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página. |
 | `familia` | `causas` | 2419 | Movimiento de causas: el insumo directo de la clusterización. |
@@ -485,6 +495,8 @@ Formas de resolución y de finalización de competencia de las causas, por ciuda
 | `departamento_derivado` | str | — | `derivada` | 2675 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `grupo_proceso_norm` | str | — | `derivado` | 27057 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
+| `etapa_proceso_fuente` | str | — | `derivado` | 0 | Etapa estructural publicada por el cuadro fuente. Se deriva mediante un mapa cerrado auditado contra el PDF: informes_inicio_investigacion, imputaciones_formales, causas o no_aplica. No homologa tipo_proceso. |
+| `contexto_accion_penal` | str | — | `derivado` | 0 | Contexto penal padre de la fila fuente, auditado contra el PDF: penal_comun, anticorrupcion, violencia_mujeres o no_aplica. No homologa ni sobrescribe tipo_proceso. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
 | `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
@@ -500,6 +512,8 @@ Formas de resolución y de finalización de competencia de las causas, por ciuda
 | `ambito` | `provincia` | 13011 | Resto del país, fuera de las ciudades capitales. |
 | `tipo_fila_derivado` | `detalle` | 25967 | Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas. |
 | `tipo_fila_derivado` | `total` | 2026 | Fila de total del cuadro: NO sumar junto con las de dato. |
+| `etapa_proceso_fuente` | `no_aplica` | 27993 | Cuadro inventariado donde la distinción de etapa auditada no aplica. |
+| `contexto_accion_penal` | `no_aplica` | 27993 | Cuadro o fila donde la dimensión de bloque penal auditada no aplica. |
 | `unidad_fila` | `tipo_proceso` | 27894 | La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6. |
 | `unidad_fila` | `entidad` | 99 | La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página. |
 | `familia` | `resueltas` | 27993 | Formas de resolución y de finalización de competencia. |
@@ -541,6 +555,8 @@ Recursos de apelación en efecto suspensivo y en efecto devolutivo —interpuest
 | `distrito` | str | — | `fuente` | 22247 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
 | `departamento_derivado` | str | — | `derivada` | 3598 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
+| `etapa_proceso_fuente` | str | — | `derivado` | 0 | Etapa estructural publicada por el cuadro fuente. Se deriva mediante un mapa cerrado auditado contra el PDF: informes_inicio_investigacion, imputaciones_formales, causas o no_aplica. No homologa tipo_proceso. |
+| `contexto_accion_penal` | str | — | `derivado` | 0 | Contexto penal padre de la fila fuente, auditado contra el PDF: penal_comun, anticorrupcion, violencia_mujeres o no_aplica. No homologa ni sobrescribe tipo_proceso. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
 | `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
@@ -556,6 +572,8 @@ Recursos de apelación en efecto suspensivo y en efecto devolutivo —interpuest
 | `ambito` | `provincia` | 17358 | Resto del país, fuera de las ciudades capitales. |
 | `tipo_fila_derivado` | `detalle` | 36015 | Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas. |
 | `tipo_fila_derivado` | `total` | 1856 | Fila de total del cuadro: NO sumar junto con las de dato. |
+| `etapa_proceso_fuente` | `no_aplica` | 37871 | Cuadro inventariado donde la distinción de etapa auditada no aplica. |
+| `contexto_accion_penal` | `no_aplica` | 37871 | Cuadro o fila donde la dimensión de bloque penal auditada no aplica. |
 | `unidad_fila` | `tipo_proceso` | 37703 | La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6. |
 | `unidad_fila` | `entidad` | 168 | La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página. |
 | `familia` | `apelacion` | 37871 | Recursos de apelación, en efecto suspensivo y devolutivo. |
@@ -597,6 +615,8 @@ Causas y trámites en ejecución de sentencia por ciudad o distrito, materia y t
 | `distrito` | str | — | `fuente` | 6010 | Distrito judicial. Coincide con el departamento salvo OFICINA NACIONAL / NACIONAL, que es la administración central. En los capítulos 5 y 6 se llena solo para el ámbito provincia. |
 | `departamento_derivado` | str | — | `derivada` | 951 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
+| `etapa_proceso_fuente` | str | — | `derivado` | 0 | Etapa estructural publicada por el cuadro fuente. Se deriva mediante un mapa cerrado auditado contra el PDF: informes_inicio_investigacion, imputaciones_formales, causas o no_aplica. No homologa tipo_proceso. |
+| `contexto_accion_penal` | str | — | `derivado` | 0 | Contexto penal padre de la fila fuente, auditado contra el PDF: penal_comun, anticorrupcion, violencia_mujeres o no_aplica. No homologa ni sobrescribe tipo_proceso. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
 | `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
 | `valor` | Int64 | juzgados (o habitantes en col_01) | `fuente` | 0 | Valor de esa celda. En los cuadros provinciales la col_01 es población proyectada al 2022, no un conteo de juzgados; la última columna de cada fila es el total. |
@@ -611,6 +631,8 @@ Causas y trámites en ejecución de sentencia por ciudad o distrito, materia y t
 | `ambito` | `provincia` | 4450 | Resto del país, fuera de las ciudades capitales. |
 | `tipo_fila_derivado` | `detalle` | 9474 | Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas. |
 | `tipo_fila_derivado` | `total` | 541 | Fila de total del cuadro: NO sumar junto con las de dato. |
+| `etapa_proceso_fuente` | `no_aplica` | 10015 | Cuadro inventariado donde la distinción de etapa auditada no aplica. |
+| `contexto_accion_penal` | `no_aplica` | 10015 | Cuadro o fila donde la dimensión de bloque penal auditada no aplica. |
 | `unidad_fila` | `tipo_proceso` | 9894 | La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6. |
 | `unidad_fila` | `entidad` | 121 | La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página. |
 | `familia` | `ejecucion` | 10015 | Causas y trámites en ejecución de sentencia. |
@@ -654,6 +676,8 @@ Los cuadros sueltos de los capítulos 5 y 6: sentencias dictadas, medidas cautel
 | `departamento_derivado` | str | — | `derivada` | 593 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `grupo_proceso_norm` | str | — | `derivado` | 5148 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
+| `etapa_proceso_fuente` | str | — | `derivado` | 0 | Etapa estructural publicada por el cuadro fuente. Se deriva mediante un mapa cerrado auditado contra el PDF: informes_inicio_investigacion, imputaciones_formales, causas o no_aplica. No homologa tipo_proceso. |
+| `contexto_accion_penal` | str | — | `derivado` | 0 | Contexto penal padre de la fila fuente, auditado contra el PDF: penal_comun, anticorrupcion, violencia_mujeres o no_aplica. No homologa ni sobrescribe tipo_proceso. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
 | `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
@@ -669,6 +693,8 @@ Los cuadros sueltos de los capítulos 5 y 6: sentencias dictadas, medidas cautel
 | `ambito` | `provincia` | 2772 | Resto del país, fuera de las ciudades capitales. |
 | `tipo_fila_derivado` | `detalle` | 5194 | Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas. |
 | `tipo_fila_derivado` | `total` | 834 | Fila de total del cuadro: NO sumar junto con las de dato. |
+| `etapa_proceso_fuente` | `no_aplica` | 6028 | Cuadro inventariado donde la distinción de etapa auditada no aplica. |
+| `contexto_accion_penal` | `no_aplica` | 6028 | Cuadro o fila donde la dimensión de bloque penal auditada no aplica. |
 | `unidad_fila` | `tipo_proceso` | 4850 | La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6. |
 | `unidad_fila` | `entidad` | 1178 | La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página. |
 | `familia` | `otros` | 6028 | Sentencias, medidas cautelares y demás cuadros sueltos. |

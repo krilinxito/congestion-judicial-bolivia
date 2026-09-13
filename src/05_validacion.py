@@ -39,16 +39,18 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import contexto_procesos
 import geografia
 import juzgados as semantica_juzgados
 import procesos
-from comun import INTERIM
+from comun import INTERIM, PROCESSED
 
 TOLERANCIA = 1e-9
 discrepancias = []
 validaciones_geografia = []
 inconsistencias_geografia = []
 validaciones_juzgados = []
+validaciones_contexto = []
 
 TABLAS_PROCESOS = {
     "causas_por_tipo_proceso": "norm_procesos_causas.csv",
@@ -111,7 +113,7 @@ def validar_geografia_procesos():
     entidades_territoriales = set().union(*dominios.values())
 
     for tabla, archivo in TABLAS_PROCESOS.items():
-        df = pd.read_csv(INTERIM / archivo)
+        df = pd.read_csv(INTERIM / archivo, low_memory=False)
         nacional = df.es_total_nacional.fillna(False).astype(bool)
         territorial = ~nacional
         con_departamento = territorial & df.departamento_derivado.notna()
@@ -279,7 +281,8 @@ FUERA_DEL_BALANCE = ("num_juzgados", "procesos_rebeldia")
 
 def validar_procesos():
     """Identidades 9 a 12, sobre los capítulos 5 y 6."""
-    causas = pd.read_csv(INTERIM / "norm_procesos_causas.csv")
+    causas = pd.read_csv(
+        INTERIM / "norm_procesos_causas.csv", low_memory=False)
 
     # 9 y 10: el balance de cada fila. Las columnas anteriores a "atendidas"
     # son las formas de ingreso y las posteriores, las de salida; el orden lo
@@ -303,7 +306,8 @@ def validar_procesos():
     # 11: la fila TOTAL de cada ciudad contra la suma de sus tipos de proceso.
     totales_por_entidad(causas, "causas")
     for familia in ("resueltas", "apelacion", "ejecucion", "otros"):
-        largo = pd.read_csv(INTERIM / f"norm_procesos_{familia}.csv")
+        largo = pd.read_csv(
+            INTERIM / f"norm_procesos_{familia}.csv", low_memory=False)
         ancho = largo.pivot_table(index=["cuadro_origen", "pagina_pdf", "entidad",
                                          "tipo_fila_derivado", "orden_fila"],
                                   columns="columna", values="valor",
@@ -311,6 +315,129 @@ def validar_procesos():
         totales_por_entidad(ancho, familia)
 
     validar_cruce_capitulo_9(causas)
+
+
+def validar_contexto_procesos():
+    """Valida los contratos de etapa y bloque penal aprobados en 3.1c."""
+    tablas = {
+        tabla: pd.read_csv(INTERIM / archivo, low_memory=False)
+        for tabla, archivo in TABLAS_PROCESOS.items()
+    }
+
+    def control(nombre, esperado, observado):
+        estado = "OK" if observado == esperado else "FALLO"
+        validaciones_contexto.append({
+            "control": nombre,
+            "esperado": esperado,
+            "observado": observado,
+            "estado": estado,
+        })
+        return estado == "FALLO"
+
+    errores = 0
+    cuadros = set().union(*(
+        set(df.cuadro_origen.astype(str).unique()) for df in tablas.values()))
+    errores += control("cuadros inventariados", 95, len(cuadros))
+    errores += control(
+        "cuadros inesperados", 0,
+        len(cuadros - contexto_procesos.CUADROS_CONOCIDOS))
+    errores += control(
+        "cuadros con etapa auditada", 6,
+        len(contexto_procesos.ETAPA_AUDITADA_POR_CUADRO))
+    errores += control(
+        "cuadros explícitos no_aplica", 89,
+        len(contexto_procesos.CUADROS_NO_APLICA))
+
+    nulos_etapa = sum(df.etapa_proceso_fuente.isna().sum()
+                      for df in tablas.values())
+    nulos_contexto = sum(df.contexto_accion_penal.isna().sum()
+                         for df in tablas.values())
+    errores += control("nulos de etapa", 0, int(nulos_etapa))
+    errores += control("nulos de contexto penal", 0, int(nulos_contexto))
+
+    dominios_etapa = set(contexto_procesos.ETAPA_POR_CUADRO.values())
+    dominios_contexto = set(contexto_procesos.CONTEXTOS_ACCION_PENAL) | {
+        "no_aplica"}
+    fuera_etapa = sum((~df.etapa_proceso_fuente.isin(dominios_etapa)).sum()
+                      for df in tablas.values())
+    fuera_contexto = sum((~df.contexto_accion_penal.isin(dominios_contexto)).sum()
+                         for df in tablas.values())
+    errores += control("etapas fuera de dominio", 0, int(fuera_etapa))
+    errores += control("contextos penales fuera de dominio", 0,
+                       int(fuera_contexto))
+
+    # En formato largo el contexto pertenece a la fila fuente y no a su
+    # columna-métrica. Cada clave técnica debe conservar un solo valor.
+    inconsistencias_longitudinales = 0
+    for tabla in (
+            "resueltas_por_tipo_proceso", "apelaciones_por_tipo_proceso",
+            "ejecucion_por_tipo_proceso", "otros_tramites_por_tipo_proceso"):
+        df = tablas[tabla]
+        fuente = df.groupby(
+            ["cuadro_origen", "pagina_pdf", "orden_fila"], dropna=False)
+        inconsistencias_longitudinales += int((
+            fuente["etapa_proceso_fuente"].nunique(dropna=False).gt(1)
+            | fuente["contexto_accion_penal"].nunique(dropna=False).gt(1)
+        ).sum())
+    errores += control("filas fuente longitudinales inconsistentes", 0,
+                       inconsistencias_longitudinales)
+
+    causas = tablas["causas_por_tipo_proceso"]
+    repetidas = pd.read_csv(
+        PROCESSED / "auditoria" / "claves_repetidas_tipo_proceso.csv")
+    tecnica = causas[[
+        "cuadro_origen", "pagina_pdf", "orden_fila",
+        "etapa_proceso_fuente", "contexto_accion_penal",
+    ]]
+    comprobadas = repetidas.merge(
+        tecnica, on=["cuadro_origen", "pagina_pdf", "orden_fila"],
+        how="left", validate="one_to_one")
+
+    etapa = comprobadas[comprobadas.causa_repeticion.eq("subbloque_fuente")]
+    contexto = comprobadas[
+        comprobadas.causa_repeticion.eq("tipo_accion_penal")]
+    grupos_etapa = etapa.groupby("id_grupo_repetido")
+    grupos_contexto = contexto.groupby("id_grupo_repetido")
+    etapa_ok = int(grupos_etapa.etapa_proceso_fuente.nunique().eq(2).sum())
+    contexto_ok = int((
+        grupos_contexto.contexto_accion_penal.nunique()
+        == grupos_contexto.size()
+    ).sum())
+    errores += control("grupos por etapa diferenciados", 57, etapa_ok)
+    errores += control("filas en grupos por etapa", 114, len(etapa))
+    errores += control("grupos contexto penal diferenciados", 38, contexto_ok)
+    errores += control("filas en grupos contexto penal", 96, len(contexto))
+
+    estrato = causas[
+        causas.tipo_fila_derivado.eq("detalle")
+        & ~causas.es_total_nacional
+        & causas.tipo_proceso.notna()
+    ].copy()
+    estrato["territorio"] = [
+        geografia.normalizar_geografia(ciudad if ambito == "capital" else distrito)
+        for ambito, ciudad, distrito in zip(
+            estrato.ambito, estrato.ciudad, estrato.distrito)
+    ]
+    clave = [
+        "ambito", "territorio", "materia_homologada", "tipo_proceso",
+        "etapa_proceso_fuente", "contexto_accion_penal",
+    ]
+    conteos = estrato.groupby(clave, dropna=False).size()
+    duplicados = conteos[conteos.gt(1)]
+    errores += control("filas estrato", 1997, len(estrato))
+    errores += control("claves semánticas únicas", 1997, len(conteos))
+    errores += control("duplicados semánticos", 0, len(duplicados))
+    errores += control("filas semánticas duplicadas", 0,
+                       int(duplicados.sum()))
+    errores += control("máxima multiplicidad", 1, int(conteos.max()))
+
+    destino = INTERIM / "validacion_contexto_procesos.csv"
+    pd.DataFrame(validaciones_contexto).to_csv(
+        destino, index=False, encoding="utf-8")
+    print(f"Validación de contexto de procesos: "
+          f"{len(validaciones_contexto)} controles, {errores} fallo(s)  ->  "
+          f"{destino.name}")
+    return errores
 
 
 def totales_por_entidad(df, familia):
@@ -322,7 +449,7 @@ def totales_por_entidad(df, familia):
         "n_columnas", "materia_seccion", "materia_norm", "materia_cruda", "ciudad",
         "distrito", "departamento_derivado", "es_total_nacional", "gestion",
         "revisado_manual", "columna", "orden_columna", "rotulo_columna_pdf",
-        "tipo_accion_penal")
+        "tipo_accion_penal", "etapa_proceso_fuente", "contexto_accion_penal")
         and c not in FUERA_DEL_BALANCE
         and pd.api.types.is_numeric_dtype(df[c])]
     for (cuadro, pagina, entidad), g in df.groupby(
@@ -404,7 +531,8 @@ def juzgados_declarados_dos_veces():
     civiles en capitales y el 9.1.1 declara 163 para la misma materia y el mismo
     ámbito. No se corrige ninguno de los dos: se registra.
     """
-    causas = pd.read_csv(INTERIM / "norm_procesos_causas.csv")
+    causas = pd.read_csv(
+        INTERIM / "norm_procesos_causas.csv", low_memory=False)
     mov = pd.read_csv(INTERIM / "norm_causas_movimiento.csv")
     vistos = causas[causas.es_total_nacional & causas.num_juzgados_pagina.notna()]
     for cuadro, g in vistos.groupby("cuadro_origen"):
@@ -581,6 +709,7 @@ def main():
     validar_personal()
     validar_sumariante()
     validar_procesos()
+    errores_contexto = validar_contexto_procesos()
     juzgados_declarados_dos_veces()
     errores_geografia = validar_geografia_procesos()
 
@@ -591,10 +720,11 @@ def main():
     print(f"Discrepancias registradas: {len(df)}  ->  {destino.name}")
     print("(no se corrige ninguna: son hallazgos sobre la fuente)\n")
     if df.empty:
-        if errores_geografia or errores_juzgados:
+        if errores_geografia or errores_juzgados or errores_contexto:
             raise SystemExit(
                 "Fallaron validaciones técnicas: "
-                f"geografía={errores_geografia}, juzgados={errores_juzgados}")
+                f"geografía={errores_geografia}, juzgados={errores_juzgados}, "
+                f"contexto_procesos={errores_contexto}")
         return
     numericas = df[df.diferencia.notna()]
     print("Por identidad:")
@@ -623,6 +753,10 @@ def main():
         raise SystemExit(
             f"Falló la validación de juzgados: {errores_juzgados} "
             "control(es); ver validacion_juzgados.csv")
+    if errores_contexto:
+        raise SystemExit(
+            f"Falló la validación de contexto de procesos: {errores_contexto} "
+            "control(es); ver validacion_contexto_procesos.csv")
 
 
 if __name__ == "__main__":

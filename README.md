@@ -18,6 +18,7 @@ normaliza, **no** calcula indicadores ni modela.
 | revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](docs/auditoria_equivalencias_materias.md) |
 | revisar los encabezados auditados de juzgados | [`docs/auditoria_encabezados_juzgados.md`](docs/auditoria_encabezados_juzgados.md) |
 | revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](docs/auditoria_filas_4_1_1.md) |
+| revisar el contexto auditado de tipos de proceso | [`docs/verificacion_pdf_contexto_tipo_proceso.md`](docs/verificacion_pdf_contexto_tipo_proceso.md) |
 | los datos | [`data/processed/`](data/processed/) — CSV y Parquet |
 | dónde el anuario no cierra consigo mismo | [`data/processed/auditoria/discrepancias.csv`](data/processed/auditoria/) |
 
@@ -67,6 +68,11 @@ auditada de cada combinación cuadro + columna. En 4.1.1 también mantiene por
 separado ciudad, categoría de fila y jerarquía. El único encabezado pendiente
 es 4.1.7/col_09 de Tarija; no se calculó `numero_juzgados_real`.
 
+Las cinco tablas por tipo de proceso incorporan `etapa_proceso_fuente` y
+`contexto_accion_penal`, derivados mediante mapas y reglas cerradas verificadas
+contra el PDF. Estas columnas distinguen etapas y bloques padre; no corrigen ni
+homologan el literal de `tipo_proceso`.
+
 ## Cómo se validó
 
 La prueba más fuerte es que **las mismas cifras están publicadas dos veces**, en
@@ -90,6 +96,11 @@ cero para que el pipeline termine.
 Para `juzgados`, el mismo paso verifica las 130 claves auditadas, las 37 filas
 de 4.1.1, sus cinco subtotales y el total general. El resultado reproducible se
 publica en `auditoria/validacion_juzgados.csv`.
+
+Para los cuadros de procesos, también verifica los 57 grupos diferenciados por
+etapa, los 38 grupos diferenciados por contexto penal y la unicidad de las
+1.997 filas del estrato territorial auditado. El resumen queda en
+`auditoria/validacion_contexto_procesos.csv`.
 
 ## Correr el pipeline
 

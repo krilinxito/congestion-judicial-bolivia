@@ -187,3 +187,17 @@ La construcción de una `dim_tipo_proceso` exhaustiva todavía requiere auditar 
 - No se modificaron geografía, materias, juzgados, personal ni auditorías anteriores.
 - No se incorporó ninguna fuente externa.
 - No se realizó imputación, eliminación de observaciones, tratamiento de outliers, escalado ni modelado.
+
+## 18. Estado de implementación posterior
+
+El Paso 3.2a incorporó `etapa_proceso_fuente` y
+`contexto_accion_penal` a las cinco tablas de procesos. La implementación usa
+un inventario cerrado: seis cuadros con etapa auditada, 89 cuadros con
+`no_aplica` explícito y error ante cualquier cuadro desconocido. En 5.3.2.1 y
+6.3.2.1 valida por entidad las nueve filas, los tres bloques y las tres acciones
+antes de propagar el contexto padre.
+
+Los controles publicados en `validacion_contexto_procesos.csv` reproducen
+57/57 grupos por etapa, 38/38 por contexto penal y 1.997/1.997 claves únicas.
+Los literales de `tipo_proceso`, incluidos fragmentos y variaciones editoriales,
+permanecen sin cambios.

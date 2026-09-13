@@ -156,6 +156,13 @@ formas de resolución: puestas lado a lado darían tablas de más de cien column
 casi todas vacías. Cada valor viaja con el rótulo tal como lo imprime el PDF, así
 que se lee sin consultar el layout.
 
+Las cinco tablas conservan además dos dimensiones de contexto independientes
+del literal: `etapa_proceso_fuente` identifica la etapa publicada por el cuadro
+y `contexto_accion_penal` el bloque penal padre. Ambas se derivan con contratos
+cerrados auditados contra el PDF; `no_aplica` solo se asigna a cuadros
+inventariados y un cuadro desconocido detiene el pipeline. Ninguna de las dos
+columnas corrige u homologa `tipo_proceso`.
+
 ### Por qué no es una sola tabla
 
 Porque miden unidades distintas: causas, juzgados, personas y sanciones. Meterlas
@@ -930,6 +937,7 @@ antes. `data/raw/` no se toca nunca.
 | `auditoria/problemas_extraccion.csv` | qué líneas no se pudieron resolver y por qué |
 | `auditoria/problemas_extraccion_procesos.csv` | lo mismo, para los capítulos 5 y 6 |
 | `auditoria/firmas_procesos.csv` | el encabezado que el PDF imprime sobre cada columna de los capítulos 5 y 6, firma por firma |
+| `auditoria/validacion_contexto_procesos.csv` | cobertura del mapa cerrado, 57 grupos por etapa, 38 por contexto penal y unicidad del estrato de 1.997 filas |
 | `auditoria/catalogo_cuadros.csv` | en qué página está cada cuadro |
 | `data/interim/crudo_*.csv` | el texto como salió del PDF, sin convertir |
 | `data/interim/filas_complementarias.csv` | filas reales que no son de la serie |

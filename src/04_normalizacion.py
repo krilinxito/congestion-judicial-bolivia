@@ -27,6 +27,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import contexto_procesos
 import geografia
 import juzgados as semantica_juzgados
 import materias
@@ -342,6 +343,7 @@ def normalizar_procesos():
             for g in sorted(sin_mapa):
                 anotar(f"procesos {familia}", "grupo_proceso", g,
                        "etiqueta de grupo sin entrada en procesos.GRUPOS_PROCESO")
+        df = contexto_procesos.incorporar_contexto_procesos(df)
         df = trazabilidad(df)
         salidas[familia] = df if familia == "causas" else a_formato_largo(df, valores)
     return salidas

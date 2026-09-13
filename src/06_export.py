@@ -87,6 +87,7 @@ AUDITORIA = {
     "validacion_geografia.csv": "validacion_geografia.csv",
     "inconsistencias_geografia.csv": "inconsistencias_geografia.csv",
     "validacion_juzgados.csv": "validacion_juzgados.csv",
+    "validacion_contexto_procesos.csv": "validacion_contexto_procesos.csv",
 }
 
 # Columnas que deben ser enteras aunque tengan nulos.
@@ -327,6 +328,7 @@ booleano). El CSV es de conveniencia y los pierde al releerse.
 | revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](../../docs/auditoria_equivalencias_materias.md) |
 | revisar los encabezados auditados de juzgados | [`docs/auditoria_encabezados_juzgados.md`](../../docs/auditoria_encabezados_juzgados.md) |
 | revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](../../docs/auditoria_filas_4_1_1.md) |
+| revisar el contexto auditado de tipos de proceso | [`docs/verificacion_pdf_contexto_tipo_proceso.md`](../../docs/verificacion_pdf_contexto_tipo_proceso.md) |
 | lo mismo, pero para procesar | `diccionario_de_datos.csv` y `diccionario_de_valores.csv` |
 | revisar dónde el anuario no cierra | `auditoria/discrepancias.csv` |
 
@@ -376,6 +378,12 @@ la semántica auditada de columnas. Para el cuadro 4.1.1 también incorpora la
 categoría y jerarquía de cada fila. Los controles estructurales reproducibles
 están en `auditoria/validacion_juzgados.csv`.
 
+Las cinco tablas por tipo de proceso incorporan `etapa_proceso_fuente` y
+`contexto_accion_penal` mediante mapas y reglas cerradas verificadas contra el
+PDF. No corrigen ni homologan `tipo_proceso`. Los controles de 57 grupos por
+etapa, 38 por contexto penal y 1.997 claves únicas se publican en
+`auditoria/validacion_contexto_procesos.csv`.
+
 ## Tres advertencias antes de calcular nada
 
 - **`pct_resueltas` no es la tasa de resolución.** El anuario la calcula como
@@ -415,7 +423,7 @@ def main():
         if not origen.exists():
             print(f"  FALTA {archivo}; se omite")
             continue
-        df = tipos_finales(pd.read_csv(origen))
+        df = tipos_finales(pd.read_csv(origen, low_memory=False))
         df.to_csv(PROCESSED / f"{nombre}.csv", index=False, encoding="utf-8")
         df.to_parquet(PROCESSED / f"{nombre}.parquet", index=False)
         tablas[nombre] = df

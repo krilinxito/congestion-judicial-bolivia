@@ -264,6 +264,17 @@ COLUMNAS = {
                 "MUJER). Según el cuadro viene como etiqueta de grupo o como "
                 "rótulo de fila. Nulo fuera del fuero penal.",
         "unidad": "", "origen": "derivado"},
+    "etapa_proceso_fuente": {
+        "desc": "Etapa estructural publicada por el cuadro fuente. Se deriva "
+                "mediante un mapa cerrado auditado contra el PDF: "
+                "informes_inicio_investigacion, imputaciones_formales, causas "
+                "o no_aplica. No homologa tipo_proceso.",
+        "unidad": "", "origen": "derivado"},
+    "contexto_accion_penal": {
+        "desc": "Contexto penal padre de la fila fuente, auditado contra el "
+                "PDF: penal_comun, anticorrupcion, violencia_mujeres o "
+                "no_aplica. No homologa ni sobrescribe tipo_proceso.",
+        "unidad": "", "origen": "derivado"},
     "es_total_nacional": {
         "desc": "True en las páginas de cierre de cada cuadro, donde la entidad "
                 "es TOTAL NACIONAL en vez de una ciudad o un distrito.",
@@ -810,6 +821,23 @@ VALORES = {
     "es_hoja_jerarquia": {
         True: "Fila de detalle del cuadro 4.1.1.",
         False: "Subtotal o total general del cuadro 4.1.1.",
+    },
+    "etapa_proceso_fuente": {
+        "informes_inicio_investigacion":
+            "Informes de Inicio de Investigación, según el título del cuadro.",
+        "imputaciones_formales":
+            "Imputaciones Formales, según el título del cuadro.",
+        "causas": "Causas, según el título del cuadro.",
+        "no_aplica":
+            "Cuadro inventariado donde la distinción de etapa auditada no aplica.",
+    },
+    "contexto_accion_penal": {
+        "penal_comun": "Bloque padre Penal Común.",
+        "anticorrupcion": "Bloque padre Anticorrupción.",
+        "violencia_mujeres":
+            "Bloque padre Contra la Violencia hacia la Mujer o las Mujeres.",
+        "no_aplica":
+            "Cuadro o fila donde la dimensión de bloque penal auditada no aplica.",
     },
     "unidad_fila": {
         "tipo_proceso": "La fila es un tipo de proceso dentro de una ciudad o "

@@ -52,6 +52,14 @@ causas_por_tipo_proceso,ambito,capital,1309,Ciudades capitales de departamento m
 causas_por_tipo_proceso,ambito,provincia,1110,"Resto del país, fuera de las ciudades capitales."
 causas_por_tipo_proceso,tipo_fila_derivado,detalle,2237,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
 causas_por_tipo_proceso,tipo_fila_derivado,total,182,Fila de total del cuadro: NO sumar junto con las de dato.
+causas_por_tipo_proceso,etapa_proceso_fuente,no_aplica,2041,Cuadro inventariado donde la distinción de etapa auditada no aplica.
+causas_por_tipo_proceso,etapa_proceso_fuente,causas,210,"Causas, según el título del cuadro."
+causas_por_tipo_proceso,etapa_proceso_fuente,informes_inicio_investigacion,84,"Informes de Inicio de Investigación, según el título del cuadro."
+causas_por_tipo_proceso,etapa_proceso_fuente,imputaciones_formales,84,"Imputaciones Formales, según el título del cuadro."
+causas_por_tipo_proceso,contexto_accion_penal,no_aplica,2104,Cuadro o fila donde la dimensión de bloque penal auditada no aplica.
+causas_por_tipo_proceso,contexto_accion_penal,penal_comun,105,Bloque padre Penal Común.
+causas_por_tipo_proceso,contexto_accion_penal,anticorrupcion,105,Bloque padre Anticorrupción.
+causas_por_tipo_proceso,contexto_accion_penal,violencia_mujeres,105,Bloque padre Contra la Violencia hacia la Mujer o las Mujeres.
 causas_por_tipo_proceso,unidad_fila,tipo_proceso,2386,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
 causas_por_tipo_proceso,unidad_fila,entidad,33,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
 causas_por_tipo_proceso,familia,causas,2419,Movimiento de causas: el insumo directo de la clusterización.
@@ -59,6 +67,8 @@ resueltas_por_tipo_proceso,ambito,capital,14982,Ciudades capitales de departamen
 resueltas_por_tipo_proceso,ambito,provincia,13011,"Resto del país, fuera de las ciudades capitales."
 resueltas_por_tipo_proceso,tipo_fila_derivado,detalle,25967,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
 resueltas_por_tipo_proceso,tipo_fila_derivado,total,2026,Fila de total del cuadro: NO sumar junto con las de dato.
+resueltas_por_tipo_proceso,etapa_proceso_fuente,no_aplica,27993,Cuadro inventariado donde la distinción de etapa auditada no aplica.
+resueltas_por_tipo_proceso,contexto_accion_penal,no_aplica,27993,Cuadro o fila donde la dimensión de bloque penal auditada no aplica.
 resueltas_por_tipo_proceso,unidad_fila,tipo_proceso,27894,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
 resueltas_por_tipo_proceso,unidad_fila,entidad,99,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
 resueltas_por_tipo_proceso,familia,resueltas,27993,Formas de resolución y de finalización de competencia.
@@ -66,6 +76,8 @@ apelaciones_por_tipo_proceso,ambito,capital,20513,Ciudades capitales de departam
 apelaciones_por_tipo_proceso,ambito,provincia,17358,"Resto del país, fuera de las ciudades capitales."
 apelaciones_por_tipo_proceso,tipo_fila_derivado,detalle,36015,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
 apelaciones_por_tipo_proceso,tipo_fila_derivado,total,1856,Fila de total del cuadro: NO sumar junto con las de dato.
+apelaciones_por_tipo_proceso,etapa_proceso_fuente,no_aplica,37871,Cuadro inventariado donde la distinción de etapa auditada no aplica.
+apelaciones_por_tipo_proceso,contexto_accion_penal,no_aplica,37871,Cuadro o fila donde la dimensión de bloque penal auditada no aplica.
 apelaciones_por_tipo_proceso,unidad_fila,tipo_proceso,37703,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
 apelaciones_por_tipo_proceso,unidad_fila,entidad,168,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
 apelaciones_por_tipo_proceso,familia,apelacion,37871,"Recursos de apelación, en efecto suspensivo y devolutivo."
@@ -73,6 +85,8 @@ ejecucion_por_tipo_proceso,ambito,capital,5565,Ciudades capitales de departament
 ejecucion_por_tipo_proceso,ambito,provincia,4450,"Resto del país, fuera de las ciudades capitales."
 ejecucion_por_tipo_proceso,tipo_fila_derivado,detalle,9474,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
 ejecucion_por_tipo_proceso,tipo_fila_derivado,total,541,Fila de total del cuadro: NO sumar junto con las de dato.
+ejecucion_por_tipo_proceso,etapa_proceso_fuente,no_aplica,10015,Cuadro inventariado donde la distinción de etapa auditada no aplica.
+ejecucion_por_tipo_proceso,contexto_accion_penal,no_aplica,10015,Cuadro o fila donde la dimensión de bloque penal auditada no aplica.
 ejecucion_por_tipo_proceso,unidad_fila,tipo_proceso,9894,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
 ejecucion_por_tipo_proceso,unidad_fila,entidad,121,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
 ejecucion_por_tipo_proceso,familia,ejecucion,10015,Causas y trámites en ejecución de sentencia.
@@ -80,6 +94,8 @@ otros_tramites_por_tipo_proceso,ambito,capital,3256,Ciudades capitales de depart
 otros_tramites_por_tipo_proceso,ambito,provincia,2772,"Resto del país, fuera de las ciudades capitales."
 otros_tramites_por_tipo_proceso,tipo_fila_derivado,detalle,5194,Fila de dato de los capítulos 5 y 6: un tipo de proceso dentro de una ciudad o distrito. Entra en las sumas.
 otros_tramites_por_tipo_proceso,tipo_fila_derivado,total,834,Fila de total del cuadro: NO sumar junto con las de dato.
+otros_tramites_por_tipo_proceso,etapa_proceso_fuente,no_aplica,6028,Cuadro inventariado donde la distinción de etapa auditada no aplica.
+otros_tramites_por_tipo_proceso,contexto_accion_penal,no_aplica,6028,Cuadro o fila donde la dimensión de bloque penal auditada no aplica.
 otros_tramites_por_tipo_proceso,unidad_fila,tipo_proceso,4850,La fila es un tipo de proceso dentro de una ciudad o distrito. Es la forma corriente de los capítulos 5 y 6.
 otros_tramites_por_tipo_proceso,unidad_fila,entidad,1178,La fila es una ciudad o distrito y el cuadro no abre el tipo de proceso. Pasa en los cuadros de una sola página.
 otros_tramites_por_tipo_proceso,familia,otros,6028,"Sentencias, medidas cautelares y demás cuadros sueltos."

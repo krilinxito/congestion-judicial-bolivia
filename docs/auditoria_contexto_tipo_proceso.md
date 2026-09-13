@@ -211,3 +211,16 @@ Por tanto, hace falta otro subpaso de aprobación y aplicación al ETL antes del
 - No se creó tabla maestra, dimensión, puente o indicador.
 - No se modificó `juzgados` ni se incorporaron fuentes externas.
 - No se realizó imputación, tratamiento de outliers, escalado, modelado, clustering ni serie temporal.
+
+## 19. Estado de implementación posterior
+
+El Paso 3.2a incorporó al ETL las dos dimensiones aquí propuestas. La etapa se
+resuelve mediante un mapa cerrado de 95 cuadros: seis con etapa auditada y 89
+con `no_aplica` explícito. El contexto penal se deriva con reglas cerradas para
+los seis cuadros verificados; las estructuras 3×3 de 5.3.2.1 y 6.3.2.1 deben
+cumplirse antes de propagar el encabezado padre.
+
+La validación reproducible confirma 57/57 grupos por etapa, 38/38 por contexto
+penal y 1.997/1.997 claves semánticas únicas. No se aplicó ninguna corrección de
+fragmentos ni variación editorial de `tipo_proceso`; los 67 literales no
+revisados siguen pendientes.

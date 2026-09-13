@@ -1,0 +1,19 @@
+control,esperado,observado,estado
+cuadros inventariados,95,95,OK
+cuadros inesperados,0,0,OK
+cuadros con etapa auditada,6,6,OK
+cuadros explícitos no_aplica,89,89,OK
+nulos de etapa,0,0,OK
+nulos de contexto penal,0,0,OK
+etapas fuera de dominio,0,0,OK
+contextos penales fuera de dominio,0,0,OK
+filas fuente longitudinales inconsistentes,0,0,OK
+grupos por etapa diferenciados,57,57,OK
+filas en grupos por etapa,114,114,OK
+grupos contexto penal diferenciados,38,38,OK
+filas en grupos contexto penal,96,96,OK
+filas estrato,1997,1997,OK
+claves semánticas únicas,1997,1997,OK
+duplicados semánticos,0,0,OK
+filas semánticas duplicadas,0,0,OK
+máxima multiplicidad,1,1,OK
