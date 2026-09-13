@@ -254,8 +254,10 @@ contra 573 reales). Consecuencias prácticas:
 - No usar `num_juzgados` como conteo de juzgados existentes en un territorio.
 - `promedio_por_juzgado` hereda el problema: divide por el nominal, así que
   subestima la carga real por juzgado físico.
-- Para el conteo real hay que ir a la tabla `juzgados` (cuadros 4.1.x), que
-  cuenta unidades, no competencias.
+- Para estudiar el conteo físico hay que partir de `juzgados` (cuadros 4.1.x),
+  usando sus categorías y jerarquía auditadas. La tabla todavía no define un
+  indicador `numero_juzgados_real`: tribunales, salas, conciliadores, detalles
+  y subtotales permanecen separados para evitar una suma implícita.
 
 ### Los porcentajes que publica el anuario
 
@@ -459,14 +461,15 @@ que nadie lo lea como dato faltante.
 
 **De la extracción**
 
-6. **Quedan dos mapeos por resolver a mano**, ambos deliberadamente sin decidir:
-   - `auditoria/equivalencias_candidatas.csv` — 31 variantes de nombre de
-     materia. El anuario escribe la misma materia de dos formas según el cuadro
-     (`PARTIDO ADMINISTRATIVO COACTIVO FISCAL Y TRIBUTARIO` en 9.1.1,
-     `Partido Administrativo, Coactivo Fiscal` en 9.1.2). **Sin resolver esto no
-     se puede cruzar `causas_movimiento` con `causas_por_gestion` por materia.**
-   - `auditoria/columnas_4_1_encabezados.csv` — los nombres de las columnas de
-     `juzgados`, que siguen numeradas.
+6. **Los dos mapeos manuales fueron auditados antes de incorporarse.**
+   - Materias: `materia_homologada` aplica solo las once equivalencias
+     aprobadas. Los cuatro conjuntos Anticorrupción/Violencia continúan
+     separados.
+   - Juzgados: `columna_rotulo_canonico`, `columna_codigo_canonico` y
+     `tipo_columna` interpretan cada clave `cuadro_origen + columna` sin borrar
+     `col_NN`. En 4.1.1, `fila_id`, `estructura_fila`, `tipo_entidad` y los
+     campos de jerarquía conservan separadas las dimensiones ciudad y órgano.
+     `4.1.7/col_09` sigue indeterminado y con nombre/código canónico nulos.
 6b. **Los nombres de columna de los capítulos 5 y 6 tienen dos procedencias.**
    Los diecisiete cuadros de la familia de causas —los que alimentan la
    clusterización— llevan nombres **escritos a mano** con un vocabulario único:
@@ -864,6 +867,11 @@ Vale la pena registrarlos porque muestran para qué sirve validar:
 - El cuadro 4.1.1 tiene **dos filas llamadas `Penal`**, una bajo JUZGADOS DE
   INSTRUCCIÓN y otra bajo SALAS. Al pasar a formato largo se confundían en una
   sola. Se resolvió agregando `fila_en_cuadro`.
+- Dos rótulos largos de las filas 27 y 28 del 4.1.1 perdían su continuación
+  porque `pdftotext -bbox-layout` la separa en grupos sin cifras. El extractor
+  recupera, solo para esas dos filas verificadas en la página 109, `Plan 3000)`
+  y `(C. Integrado) y EPI Norte`; los rótulos canónicos siguen en columnas
+  derivadas independientes.
 
 ## 13. Reproducir y extender
 

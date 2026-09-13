@@ -20,6 +20,22 @@ causas_por_gestion,instancia_derivada,tribunal,45,"Tribunal de sentencia, deduci
 causas_serie_historica,ambito,capital,17,Ciudades capitales de departamento más El Alto.
 causas_serie_historica,ambito,provincia,17,"Resto del país, fuera de las ciudades capitales."
 causas_serie_historica,ambito,nacional,17,Consolidado: capitales más provincias.
+juzgados,tipo_columna,organo_judicial,460,Columna que publica cantidades de órganos judiciales.
+juzgados,tipo_columna,otro,248,Dimensión distinta de órgano: en 4.1.1 identifica una ciudad.
+juzgados,tipo_columna,total,205,Total publicado de la fila del cuadro.
+juzgados,tipo_columna,poblacion,168,Población proyectada al 2022; no es un conteo de órganos.
+juzgados,tipo_columna,conciliador,64,"Columna de conciliadores, conservada como categoría separada."
+juzgados,tipo_columna,indeterminado,3,Encabezado cuya expansión no fue aprobada por la auditoría.
+juzgados,tipo_entidad,juzgado,182,Categoría de juzgado del cuadro 4.1.1.
+juzgados,tipo_entidad,sala,55,"Categoría de sala, separada de los juzgados."
+juzgados,tipo_entidad,otro,22,Subtotal mixto o total general sin una sola naturaleza de entidad.
+juzgados,tipo_entidad,tribunal,15,"Categoría de tribunal, separada de los juzgados."
+juzgados,tipo_entidad,conciliador,11,"Conciliadores, sin reclasificarlos como órgano judicial."
+juzgados,estructura_fila,detalle,219,Fila hoja con una magnitud publicada.
+juzgados,estructura_fila,subtotal,55,Suma de sus hijos; no sumar junto con ellos.
+juzgados,estructura_fila,total_general,11,Total global del cuadro 4.1.1.
+juzgados,es_hoja_jerarquia,True,219,Fila de detalle del cuadro 4.1.1.
+juzgados,es_hoja_jerarquia,False,66,Subtotal o total general del cuadro 4.1.1.
 personal,tipo_fila_derivado,dato,72,Fila de dato: entra en las sumas.
 personal,tipo_fila_derivado,subtotal,10,"Subtotal de un bloque (por ejemplo, de un distrito en 14.1.1)."
 personal,tipo_fila_derivado,total,3,Fila de total del cuadro: NO sumar junto con las de dato.

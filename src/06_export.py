@@ -36,8 +36,8 @@ SALIDAS = {
     "norm_juzgados.csv": (
         "juzgados",
         "Número de juzgados, tribunales y conciliadores por ciudad capital y por "
-        "provincia. Cuadros 4.1.1 a 4.1.10, en formato largo y con las columnas "
-        "sin nombre resolver."),
+        "provincia. Cuadros 4.1.1 a 4.1.10, en formato largo, con semántica "
+        "auditada de columnas y de la jerarquía del 4.1.1."),
     "norm_personal.csv": (
         "personal",
         "Cantidad de ítems y remuneración mensual por distrito, ente y género. "
@@ -86,6 +86,7 @@ AUDITORIA = {
     "firmas_procesos.csv": "firmas_procesos.csv",
     "validacion_geografia.csv": "validacion_geografia.csv",
     "inconsistencias_geografia.csv": "inconsistencias_geografia.csv",
+    "validacion_juzgados.csv": "validacion_juzgados.csv",
 }
 
 # Columnas que deben ser enteras aunque tengan nulos.
@@ -99,7 +100,7 @@ ENTERAS = ("pagina_pdf", "gestion", "num_juzgados", "pendientes_inicio",
            "fila_en_cuadro", "n_columnas", "num_juzgados_pagina", "orden_fila",
            "orden_columna", "valor", "nuevas_ingresadas", "readecuadas_ley_439",
            "recibidas_excusa_recusacion", "preliminares_formalizados",
-           "cautelares_formalizados", "num_juzgados")
+           "cautelares_formalizados", "num_juzgados", "nivel_jerarquia")
 
 
 def tipos_finales(df):
@@ -110,7 +111,8 @@ def tipos_finales(df):
               or col == "promedio_por_juzgado"):
             df[col] = pd.to_numeric(df[col], errors="coerce").astype("Float64")
         elif col in ("revisado_manual", "errata_corregida", "es_ultima_columna",
-                     "distrito_derivado_del_bloque", "rotulo_1_derivado_del_bloque"):
+                     "distrito_derivado_del_bloque", "rotulo_1_derivado_del_bloque",
+                     "es_hoja_jerarquia"):
             df[col] = df[col].astype("boolean")
     return df
 
@@ -323,6 +325,8 @@ booleano). El CSV es de conveniencia y los pierde al releerse.
 | saber qué significa una columna | [`docs/diccionario_de_datos.md`](../../docs/diccionario_de_datos.md) |
 | revisar la corrección geográfica del ETL | [`docs/correccion_geografia_etl.md`](../../docs/correccion_geografia_etl.md) |
 | revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](../../docs/auditoria_equivalencias_materias.md) |
+| revisar los encabezados auditados de juzgados | [`docs/auditoria_encabezados_juzgados.md`](../../docs/auditoria_encabezados_juzgados.md) |
+| revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](../../docs/auditoria_filas_4_1_1.md) |
 | lo mismo, pero para procesar | `diccionario_de_datos.csv` y `diccionario_de_valores.csv` |
 | revisar dónde el anuario no cierra | `auditoria/discrepancias.csv` |
 
@@ -367,6 +371,11 @@ en cada corrida. El resumen está en `auditoria/validacion_geografia.csv`; el
 detalle de fallos técnicos, que debe quedar vacío, en
 `auditoria/inconsistencias_geografia.csv`.
 
+La tabla `juzgados` conserva `col_NN` y los rótulos fuente, y agrega por separado
+la semántica auditada de columnas. Para el cuadro 4.1.1 también incorpora la
+categoría y jerarquía de cada fila. Los controles estructurales reproducibles
+están en `auditoria/validacion_juzgados.csv`.
+
 ## Tres advertencias antes de calcular nada
 
 - **`pct_resueltas` no es la tasa de resolución.** El anuario la calcula como
@@ -380,8 +389,9 @@ detalle de fallos técnicos, que debe quedar vacío, en
   de cabecera de cada página (`num_juzgados_pagina`) y vale para la ciudad
   entera, no por fila.
 - **Siguen pendientes de decisión humana** los cuatro conjuntos de materias
-  Anticorrupción/Violencia que la auditoría no pudo homologar y los nombres de
-  las columnas de `juzgados` (`auditoria/columnas_4_1_encabezados.csv`).
+  Anticorrupción/Violencia y `4.1.7 / col_09` de Tarija, cuyo encabezado no se
+  expandió. La semántica auditada de `juzgados` no constituye todavía un
+  indicador `numero_juzgados_real`.
 
 ## Qué quedó afuera
 

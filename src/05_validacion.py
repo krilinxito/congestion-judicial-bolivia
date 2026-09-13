@@ -40,6 +40,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import geografia
+import juzgados as semantica_juzgados
 import procesos
 from comun import INTERIM
 
@@ -47,6 +48,7 @@ TOLERANCIA = 1e-9
 discrepancias = []
 validaciones_geografia = []
 inconsistencias_geografia = []
+validaciones_juzgados = []
 
 TABLAS_PROCESOS = {
     "causas_por_tipo_proceso": "norm_procesos_causas.csv",
@@ -421,7 +423,7 @@ def juzgados_declarados_dos_veces():
 
 
 def validar_juzgados():
-    """Identidad 4, en formato largo: la última columna es el total de la fila."""
+    """Valida identidad 4 y la semántica auditada de los cuadros 4.1.x."""
     largo = pd.read_csv(INTERIM / "norm_juzgados.csv")
     clave = ["cuadro_origen", "pagina_pdf", "fila_en_cuadro",
              "provincia_o_grupo", "localidad_o_subtipo"]
@@ -438,6 +440,88 @@ def validar_juzgados():
         registrar("última columna = suma de la fila", cuadro, pagina, entidad,
                   float(resto.valor.sum(skipna=True)),
                   float(total.valor.iloc[0]), "4.1.x")
+
+    def control(nombre, esperado, observado):
+        estado = "OK" if observado == esperado else "FALLO"
+        validaciones_juzgados.append({
+            "control": nombre,
+            "esperado": esperado,
+            "observado": observado,
+            "estado": estado,
+        })
+        return estado == "FALLO"
+
+    errores = 0
+    errores += control("claves de encabezados auditadas", 130,
+                       len(semantica_juzgados.ENCABEZADOS_JUZGADOS))
+    errores += control("filas auditadas de 4.1.1", 37,
+                       len(semantica_juzgados.FILAS_4_1_1))
+    errores += control("filas de juzgados", 1148, len(largo))
+    errores += control(
+        "filas fuente de 4.1.1", 37,
+        largo.loc[largo.cuadro_origen == "4.1.1", "fila_en_cuadro"].nunique())
+    errores += control(
+        "casos indeterminados de columna", 1,
+        sum(d.tipo_columna == "indeterminado"
+            for d in semantica_juzgados.ENCABEZADOS_JUZGADOS.values()))
+    errores += control(
+        "celdas de Tarija 4.1.7/col_09", 3,
+        len(largo[(largo.cuadro_origen == "4.1.7")
+                  & (largo.columna == "col_09")]))
+    errores += control("celdas sin tipo_columna", 0,
+                       int(largo.tipo_columna.isna().sum()))
+
+    cap = largo[largo.cuadro_origen == "4.1.1"]
+
+    def celda(fila_id, columna):
+        valores = cap[(cap.fila_id == fila_id)
+                      & (cap.columna == columna)].valor.dropna()
+        if len(valores) > 1:
+            return None
+        return 0.0 if valores.empty else float(valores.iloc[0])
+
+    columnas = [f"col_{i:02d}" for i in range(1, 12)]
+    subtotales = [
+        d for d in semantica_juzgados.FILAS_4_1_1.values()
+        if d.estructura == "subtotal"]
+    coincidencias_subtotales = 0
+    for subtotal in subtotales:
+        hijos = [
+            d.fila_id for d in semantica_juzgados.FILAS_4_1_1.values()
+            if d.fila_padre_id == subtotal.fila_id]
+        for columna in columnas:
+            publicado = celda(subtotal.fila_id, columna)
+            calculado = sum(celda(hijo, columna) for hijo in hijos)
+            coincidencias_subtotales += publicado == calculado
+    errores += control("subtotales de 4.1.1 coincidentes", 55,
+                       coincidencias_subtotales)
+
+    hijos_total = [
+        d.fila_id for d in semantica_juzgados.FILAS_4_1_1.values()
+        if d.fila_padre_id == "f037"]
+    coincidencias_total = 0
+    for columna in columnas:
+        publicado = celda("f037", columna)
+        calculado = sum(celda(hijo, columna) for hijo in hijos_total)
+        coincidencias_total += publicado == calculado
+    errores += control("total general de 4.1.1 coincidente", 11,
+                       coincidencias_total)
+
+    total_publicado = cap[cap.columna == "col_11"]
+    suma_ingenua = int(total_publicado.valor.sum())
+    suma_hojas = int(total_publicado[
+        total_publicado.es_hoja_jerarquia.fillna(False)].valor.sum())
+    errores += control("suma ingenua de TOTAL 4.1.1", 2422, suma_ingenua)
+    errores += control("suma de hojas de TOTAL 4.1.1", 846, suma_hojas)
+    errores += control("exceso por doble conteo de TOTAL 4.1.1", 1576,
+                       suma_ingenua - suma_hojas)
+
+    destino = INTERIM / "validacion_juzgados.csv"
+    pd.DataFrame(validaciones_juzgados).to_csv(
+        destino, index=False, encoding="utf-8")
+    print(f"Validación de juzgados: {len(validaciones_juzgados)} controles, "
+          f"{errores} fallo(s)  ->  {destino.name}")
+    return errores
 
 
 def validar_personal():
@@ -493,7 +577,7 @@ def validar_sumariante():
 def main():
     mov = validar_causas()
     validar_cruce_ambitos(mov)
-    validar_juzgados()
+    errores_juzgados = validar_juzgados()
     validar_personal()
     validar_sumariante()
     validar_procesos()
@@ -507,10 +591,10 @@ def main():
     print(f"Discrepancias registradas: {len(df)}  ->  {destino.name}")
     print("(no se corrige ninguna: son hallazgos sobre la fuente)\n")
     if df.empty:
-        if errores_geografia:
+        if errores_geografia or errores_juzgados:
             raise SystemExit(
-                f"Falló la validación geográfica: {errores_geografia} "
-                "inconsistencia(s); ver inconsistencias_geografia.csv")
+                "Fallaron validaciones técnicas: "
+                f"geografía={errores_geografia}, juzgados={errores_juzgados}")
         return
     numericas = df[df.diferencia.notna()]
     print("Por identidad:")
@@ -535,6 +619,10 @@ def main():
         raise SystemExit(
             f"Falló la validación geográfica: {errores_geografia} "
             "inconsistencia(s); ver inconsistencias_geografia.csv")
+    if errores_juzgados:
+        raise SystemExit(
+            f"Falló la validación de juzgados: {errores_juzgados} "
+            "control(es); ver validacion_juzgados.csv")
 
 
 if __name__ == "__main__":

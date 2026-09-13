@@ -28,6 +28,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import geografia
+import juzgados as semantica_juzgados
 import materias
 import procesos
 from comun import INTERIM
@@ -195,10 +196,9 @@ def normalizar_juzgados():
     """
     4.1.x a formato largo: una fila por (cuadro, rótulo, columna).
 
-    Las columnas siguen sin nombre. El anuario parte los encabezados en hasta
-    diez líneas y reconstruirlos sería adivinar, así que se conservan numeradas
-    y los fragmentos de encabezado que caen sobre cada una viajan al lado, en
-    columna propia, para que el mapeo lo resuelva una persona.
+    `columna` y los rótulos fuente se conservan. Las columnas derivadas agregan
+    la semántica aprobada en las auditorías de encabezados y, para el 4.1.1,
+    de sus 37 filas y su jerarquía.
     """
     ancho = pd.read_csv(INTERIM / "crudo_4_1_juzgados.csv", dtype=str)
     heads = pd.read_csv(INTERIM / "columnas_4_1_encabezados.csv", dtype=str)
@@ -223,6 +223,59 @@ def normalizar_juzgados():
         col == f"col_{int(n):02d}" for col, n in zip(largo.columna, largo.n_columnas)]
     largo = largo.rename(columns={"rotulo_1": "provincia_o_grupo",
                                   "rotulo_2": "localidad_o_subtipo"})
+
+    descripciones_columna = [
+        semantica_juzgados.describir_columna(cuadro, columna)
+        for cuadro, columna in zip(largo.cuadro_origen, largo.columna)]
+    if any(d is None for d in descripciones_columna):
+        faltantes = sorted({
+            (cuadro, columna) for cuadro, columna, descripcion in zip(
+                largo.cuadro_origen, largo.columna, descripciones_columna)
+            if descripcion is None
+        })
+        raise ValueError(
+            f"Combinaciones de juzgados sin auditoría aprobada: {faltantes}")
+    largo["columna_rotulo_canonico"] = [
+        d.rotulo_canonico if d.rotulo_canonico is not None else pd.NA
+        for d in descripciones_columna]
+    largo["columna_codigo_canonico"] = [
+        d.codigo_canonico if d.codigo_canonico is not None else pd.NA
+        for d in descripciones_columna]
+    largo["tipo_columna"] = [d.tipo_columna for d in descripciones_columna]
+
+    descripciones_fila = [
+        semantica_juzgados.describir_fila_4_1_1(cuadro, fila)
+        for cuadro, fila in zip(largo.cuadro_origen, largo.fila_en_cuadro)]
+    literales_inesperados = [
+        (int(fila), literal,
+         None if descripcion is None else descripcion.literal_original)
+        for cuadro, fila, literal, descripcion in zip(
+            largo.cuadro_origen, largo.fila_en_cuadro,
+            largo.provincia_o_grupo, descripciones_fila)
+        if cuadro == "4.1.1" and (
+            descripcion is None or literal != descripcion.literal_original)
+    ]
+    if literales_inesperados:
+        raise ValueError(
+            "Las filas de 4.1.1 no coinciden con la auditoría aprobada: "
+            f"{sorted(set(literales_inesperados))}")
+    for campo in ("fila_id", "rotulo_canonico", "codigo_canonico",
+                  "tipo_entidad", "estructura", "fila_padre_id"):
+        destino = {
+            "rotulo_canonico": "fila_rotulo_canonico",
+            "codigo_canonico": "fila_codigo_canonico",
+            "estructura": "estructura_fila",
+        }.get(campo, campo)
+        largo[destino] = [
+            getattr(d, campo) if d is not None and getattr(d, campo) is not None
+            else pd.NA for d in descripciones_fila]
+    largo["nivel_jerarquia"] = pd.array([
+        d.nivel_jerarquia if d is not None else pd.NA
+        for d in descripciones_fila], dtype="Int64")
+    largo["es_hoja_jerarquia"] = pd.array([
+        d.estructura == "detalle" if d is not None else pd.NA
+        for d in descripciones_fila], dtype="boolean")
+
     largo["departamento_derivado"] = [
         geografia.departamento_normalizado(d) for d in largo.departamento]
     return trazabilidad(largo)

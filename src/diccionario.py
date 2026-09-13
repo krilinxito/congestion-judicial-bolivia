@@ -142,10 +142,11 @@ TABLAS = {
         "clave": ["cuadro_origen", "fila_en_cuadro", "columna"],
         "cuadros": "4.1.1 a 4.1.10",
         "paginas": "109 a 118",
-        "nota": "Las columnas siguen numeradas porque el PDF parte sus "
-                "encabezados en hasta diez líneas y reconstruirlos sería "
-                "adivinar. Falta resolver ese mapeo a mano con "
-                "auditoria/columnas_4_1_encabezados.csv.",
+        "nota": "Conserva las columnas numeradas y los rótulos fuente, junto "
+                "con la semántica derivada de las auditorías aprobadas. El "
+                "cuadro 4.1.1 incluye su jerarquía de filas; 4.1.7/col_09 "
+                "permanece indeterminado. No es todavía un indicador de "
+                "número físico de juzgados.",
     },
     "personal": {
         "descripcion": "Cantidad de ítems de personal y remuneración mensual del "
@@ -642,8 +643,8 @@ COLUMNAS = {
         "unidad": "columnas", "origen": "derivada"},
     "columna": {
         "desc": "Columna del cuadro, numerada de izquierda a derecha (col_01, "
-                "col_02...). No tiene nombre porque el PDF parte los "
-                "encabezados en hasta diez líneas.",
+                "col_02...). Se preserva aunque su significado auditado esté "
+                "en las columnas canónicas derivadas.",
         "unidad": "", "origen": "derivada"},
     "valor": {
         "desc": "Valor de esa celda. En los cuadros provinciales la col_01 es "
@@ -658,6 +659,52 @@ COLUMNAS = {
     "es_ultima_columna": {
         "desc": "True si la columna es la última del cuadro, que en la Parte IV "
                 "es siempre el total de la fila.",
+        "unidad": "", "origen": "derivada"},
+    "columna_rotulo_canonico": {
+        "desc": "Rótulo legible auditado para la combinación cuadro_origen + "
+                "columna. Nulo en el único encabezado indeterminado, "
+                "4.1.7/col_09.",
+        "unidad": "", "origen": "derivada"},
+    "columna_codigo_canonico": {
+        "desc": "Código estable auditado del significado de la columna dentro "
+                "de su cuadro. Nulo si la decisión quedó indeterminada.",
+        "unidad": "", "origen": "derivada"},
+    "tipo_columna": {
+        "desc": "Clasificación auditada del significado de col_NN dentro del "
+                "cuadro 4.1.x. Depende de cuadro_origen + columna.",
+        "unidad": "", "origen": "derivada"},
+    "fila_id": {
+        "desc": "Identificador estructural auditado de las 37 filas del cuadro "
+                "4.1.1 (f001 a f037). Nulo en los demás cuadros.",
+        "unidad": "", "origen": "derivada"},
+    "fila_rotulo_canonico": {
+        "desc": "Rótulo canónico auditado de la categoría representada por la "
+                "fila de 4.1.1. No sustituye provincia_o_grupo.",
+        "unidad": "", "origen": "derivada"},
+    "fila_codigo_canonico": {
+        "desc": "Código estable auditado de la categoría de fila del cuadro "
+                "4.1.1. Nulo en los cuadros provinciales.",
+        "unidad": "", "origen": "derivada"},
+    "tipo_entidad": {
+        "desc": "Naturaleza auditada de la categoría de 4.1.1: juzgado, "
+                "tribunal, sala, conciliador u otro.",
+        "unidad": "", "origen": "derivada"},
+    "estructura_fila": {
+        "desc": "Papel jerárquico auditado de la fila de 4.1.1: detalle, "
+                "subtotal o total_general.",
+        "unidad": "", "origen": "derivada"},
+    "fila_padre_id": {
+        "desc": "fila_id del padre jerárquico de la fila de 4.1.1. Nulo para "
+                "el total general y para los demás cuadros.",
+        "unidad": "", "origen": "derivada"},
+    "nivel_jerarquia": {
+        "desc": "Nivel auditado de la fila de 4.1.1: 0 total general, 1 "
+                "categorías principales y 2 detalles internos.",
+        "unidad": "nivel", "origen": "derivada"},
+    "es_hoja_jerarquia": {
+        "desc": "True cuando la fila de 4.1.1 es detalle; False para sus "
+                "subtotales y total general. Nulo fuera de 4.1.1. No decide "
+                "qué entra en un futuro indicador.",
         "unidad": "", "origen": "derivada"},
 }
 
@@ -739,6 +786,30 @@ VALORES = {
                    "dentro de una ciudad o distrito. Entra en las sumas.",
         "total": "Fila de total del cuadro: NO sumar junto con las de dato.",
         "subtotal": "Subtotal de un bloque (por ejemplo, de un distrito en 14.1.1).",
+    },
+    "tipo_columna": {
+        "poblacion": "Población proyectada al 2022; no es un conteo de órganos.",
+        "organo_judicial": "Columna que publica cantidades de órganos judiciales.",
+        "conciliador": "Columna de conciliadores, conservada como categoría separada.",
+        "total": "Total publicado de la fila del cuadro.",
+        "otro": "Dimensión distinta de órgano: en 4.1.1 identifica una ciudad.",
+        "indeterminado": "Encabezado cuya expansión no fue aprobada por la auditoría.",
+    },
+    "tipo_entidad": {
+        "juzgado": "Categoría de juzgado del cuadro 4.1.1.",
+        "tribunal": "Categoría de tribunal, separada de los juzgados.",
+        "sala": "Categoría de sala, separada de los juzgados.",
+        "conciliador": "Conciliadores, sin reclasificarlos como órgano judicial.",
+        "otro": "Subtotal mixto o total general sin una sola naturaleza de entidad.",
+    },
+    "estructura_fila": {
+        "detalle": "Fila hoja con una magnitud publicada.",
+        "subtotal": "Suma de sus hijos; no sumar junto con ellos.",
+        "total_general": "Total global del cuadro 4.1.1.",
+    },
+    "es_hoja_jerarquia": {
+        True: "Fila de detalle del cuadro 4.1.1.",
+        False: "Subtotal o total general del cuadro 4.1.1.",
     },
     "unidad_fila": {
         "tipo_proceso": "La fila es un tipo de proceso dentro de una ciudad o "

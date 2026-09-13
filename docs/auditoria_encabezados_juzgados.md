@@ -205,3 +205,14 @@ Riesgos que deberá controlar el Paso 2B.2:
 - No se modificaron materias ni sus homologaciones.
 - No se corrigieron valores ni totales del Anuario.
 - No se realizó limpieza estadística.
+
+## 15. Incorporación aprobada al ETL (Paso 2B.2)
+
+Las 130 decisiones de esta auditoría se incorporaron después al módulo
+`src/juzgados.py`, con tests que exigen coincidencia exacta entre el mapa de
+código y `propuesta_encabezados_juzgados.csv`. La tabla procesada conserva
+`columna` y `fragmentos_encabezado` y añade el rótulo, código y tipo auditados.
+
+La única decisión indeterminada, 4.1.7/col_09, continúa con rótulo y código
+canónicos nulos. No se calculó `numero_juzgados_real`; los controles de
+cobertura y aritmética se publican en `auditoria/validacion_juzgados.csv`.

@@ -16,6 +16,8 @@ normaliza, **no** calcula indicadores ni modela.
 | saber qué significa una columna | [`docs/diccionario_de_datos.md`](docs/diccionario_de_datos.md) |
 | revisar la corrección geográfica del ETL | [`docs/correccion_geografia_etl.md`](docs/correccion_geografia_etl.md) |
 | revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](docs/auditoria_equivalencias_materias.md) |
+| revisar los encabezados auditados de juzgados | [`docs/auditoria_encabezados_juzgados.md`](docs/auditoria_encabezados_juzgados.md) |
+| revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](docs/auditoria_filas_4_1_1.md) |
 | los datos | [`data/processed/`](data/processed/) — CSV y Parquet |
 | dónde el anuario no cierra consigo mismo | [`data/processed/auditoria/discrepancias.csv`](data/processed/auditoria/) |
 
@@ -60,6 +62,11 @@ errata documentada en `materia_norm` y las once equivalencias aprobadas en una
 clave separada, `materia_homologada`. Los cuatro conjuntos indeterminados de la
 auditoría siguen sin fusionarse.
 
+`juzgados` conserva `col_NN` y los rótulos del PDF, y agrega la interpretación
+auditada de cada combinación cuadro + columna. En 4.1.1 también mantiene por
+separado ciudad, categoría de fila y jerarquía. El único encabezado pendiente
+es 4.1.7/col_09 de Tarija; no se calculó `numero_juzgados_real`.
+
 ## Cómo se validó
 
 La prueba más fuerte es que **las mismas cifras están publicadas dos veces**, en
@@ -79,6 +86,10 @@ El paso 05 también verifica la cobertura, dominio y coherencia territorial de
 las cinco tablas de los capítulos 5 y 6. El resumen reproducible queda en
 `auditoria/validacion_geografia.csv` y las inconsistencias técnicas deben ser
 cero para que el pipeline termine.
+
+Para `juzgados`, el mismo paso verifica las 130 claves auditadas, las 37 filas
+de 4.1.1, sus cinco subtotales y el total general. El resultado reproducible se
+publica en `auditoria/validacion_juzgados.csv`.
 
 ## Correr el pipeline
 

@@ -247,3 +247,19 @@ Clasificación por naturaleza:
 - No se modificaron materias.
 - No se incorporaron fuentes externas.
 - No se realizó limpieza estadística.
+
+## 15. Incorporación aprobada al ETL (Paso 2B.2)
+
+Las 37 filas, sus cinco subtotales y el total general se incorporaron después
+al módulo `src/juzgados.py`. La tabla procesada agrega identificadores, rótulos
+y códigos canónicos, naturaleza de entidad y relaciones padre–hijo sin borrar
+el rótulo fuente ni las columnas `col_NN`.
+
+El extractor recupera además dos continuaciones que la segmentación bbox había
+dejado fuera de las filas 27 y 28: `Plan 3000)` y `(C. Integrado) y EPI Norte`.
+Son correcciones de extracción limitadas a cuadro y fila y verificadas en la
+página 109; la evidencia del defecto se conserva en esta auditoría y los
+rótulos canónicos permanecen separados. Las validaciones automatizadas exigen
+55/55 cierres de subtotales, 11/11 cierres del total general y mantienen
+separados juzgados, tribunales, salas y conciliadores. No se calculó
+`numero_juzgados_real`.

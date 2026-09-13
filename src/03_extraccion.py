@@ -34,6 +34,7 @@ from pathlib import Path
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import juzgados as semantica_juzgados
 from comun import INTERIM, es_ruido, filas_bbox, paginas
 
 RE_NUMERO = re.compile(r"^-?\d[\d.,]*%?$")
@@ -653,7 +654,7 @@ def extraer_juzgados(pags):
             y = (grupo[0][1] + grupo[0][3]) / 2
             return min(etiquetas_bloque, key=lambda e: abs(e[0] - y))[1]
 
-        for grupo, numeros, rotulos in datos:
+        for fila_orden, (grupo, numeros, rotulos) in enumerate(datos, 1):
             valores = [None] * len(limites)
             for w in numeros:
                 i = columna_de(w)
@@ -687,6 +688,12 @@ def extraer_juzgados(pags):
                 else:
                     rotulo_1, rotulo_2 = provincia, textos[0]
                     rotulo_1_derivado = True
+
+            # En las filas 27 y 28 del 4.1.1 la continuación del rótulo cae en
+            # una línea bbox sin números. La corrección estricta por cuadro y
+            # fila recupera el literal completo verificado en la página 109.
+            rotulo_1 = semantica_juzgados.corregir_literal_extraido(
+                cuadro, fila_orden, rotulo_1)
 
             fila = {"cuadro_origen": cuadro, "pagina_pdf": pag, "departamento": depto,
                     "rotulo_1": rotulo_1, "rotulo_2": rotulo_2,

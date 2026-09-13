@@ -1,0 +1,13 @@
+control,esperado,observado,estado
+claves de encabezados auditadas,130,130,OK
+filas auditadas de 4.1.1,37,37,OK
+filas de juzgados,1148,1148,OK
+filas fuente de 4.1.1,37,37,OK
+casos indeterminados de columna,1,1,OK
+celdas de Tarija 4.1.7/col_09,3,3,OK
+celdas sin tipo_columna,0,0,OK
+subtotales de 4.1.1 coincidentes,55,55,OK
+total general de 4.1.1 coincidente,11,11,OK
+suma ingenua de TOTAL 4.1.1,2422,2422,OK
+suma de hojas de TOTAL 4.1.1,846,846,OK
+exceso por doble conteo de TOTAL 4.1.1,1576,1576,OK

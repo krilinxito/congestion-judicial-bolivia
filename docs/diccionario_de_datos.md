@@ -180,7 +180,7 @@ Número de juzgados, tribunales, salas y conciliadores por ciudad capital y por 
 - **Cuadros de origen**: 4.1.1 a 4.1.10 (páginas 109 a 118)
 - **Filas**: 1148
 
-> Las columnas siguen numeradas porque el PDF parte sus encabezados en hasta diez líneas y reconstruirlos sería adivinar. Falta resolver ese mapeo a mano con auditoria/columnas_4_1_encabezados.csv.
+> Conserva las columnas numeradas y los rótulos fuente, junto con la semántica derivada de las auditorías aprobadas. El cuadro 4.1.1 incluye su jerarquía de filas; 4.1.7/col_09 permanece indeterminado. No es todavía un indicador de número físico de juzgados.
 
 | columna | tipo | unidad | origen | nulos | descripción |
 |---|---|---|---|---|---|
@@ -192,13 +192,45 @@ Número de juzgados, tribunales, salas y conciliadores por ciudad capital y por 
 | `localidad_o_subtipo` | str | — | `fuente` | 434 | Segundo rótulo: la localidad o asiento judicial en los cuadros provinciales. Nulo en 4.1.1, que tiene una sola columna de rótulo. |
 | `rotulo_1_derivado_del_bloque` | boolean | — | `derivada` | 0 | True si la provincia no estaba en la fila sino en la celda combinada del bloque y se asignó por cercanía vertical. |
 | `n_columnas` | Int64 | columnas | `derivada` | 0 | Cuántas columnas numéricas tiene el cuadro del que sale la fila. Varía entre 5 y 19 según el departamento. |
-| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). No tiene nombre porque el PDF parte los encabezados en hasta diez líneas. |
+| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
 | `valor` | Int64 | juzgados (o habitantes en col_01) | `fuente` | 0 | Valor de esa celda. En los cuadros provinciales la col_01 es población proyectada al 2022, no un conteo de juzgados; la última columna de cada fila es el total. |
 | `fragmentos_encabezado` | str | — | `fuente` | 0 | Los pedazos de encabezado del PDF que caen sobre esa columna, sin recomponer. Es la materia prima para resolver el mapeo de nombres a mano. |
 | `es_ultima_columna` | boolean | — | `derivada` | 0 | True si la columna es la última del cuadro, que en la Parte IV es siempre el total de la fila. |
+| `columna_rotulo_canonico` | str | — | `derivada` | 3 | Rótulo legible auditado para la combinación cuadro_origen + columna. Nulo en el único encabezado indeterminado, 4.1.7/col_09. |
+| `columna_codigo_canonico` | str | — | `derivada` | 3 | Código estable auditado del significado de la columna dentro de su cuadro. Nulo si la decisión quedó indeterminada. |
+| `tipo_columna` | str | — | `derivada` | 0 | Clasificación auditada del significado de col_NN dentro del cuadro 4.1.x. Depende de cuadro_origen + columna. |
+| `fila_id` | str | — | `derivada` | 863 | Identificador estructural auditado de las 37 filas del cuadro 4.1.1 (f001 a f037). Nulo en los demás cuadros. |
+| `fila_rotulo_canonico` | str | — | `derivada` | 863 | Rótulo canónico auditado de la categoría representada por la fila de 4.1.1. No sustituye provincia_o_grupo. |
+| `fila_codigo_canonico` | str | — | `derivada` | 863 | Código estable auditado de la categoría de fila del cuadro 4.1.1. Nulo en los cuadros provinciales. |
+| `tipo_entidad` | str | — | `derivada` | 863 | Naturaleza auditada de la categoría de 4.1.1: juzgado, tribunal, sala, conciliador u otro. |
+| `estructura_fila` | str | — | `derivada` | 863 | Papel jerárquico auditado de la fila de 4.1.1: detalle, subtotal o total_general. |
+| `fila_padre_id` | str | — | `derivada` | 874 | fila_id del padre jerárquico de la fila de 4.1.1. Nulo para el total general y para los demás cuadros. |
+| `nivel_jerarquia` | Int64 | nivel | `derivada` | 863 | Nivel auditado de la fila de 4.1.1: 0 total general, 1 categorías principales y 2 detalles internos. |
+| `es_hoja_jerarquia` | boolean | — | `derivada` | 863 | True cuando la fila de 4.1.1 es detalle; False para sus subtotales y total general. Nulo fuera de 4.1.1. No decide qué entra en un futuro indicador. |
 | `departamento_derivado` | str | — | `derivada` | 285 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión del cuadro. La población de col_01, en cambio, está proyectada al 2022. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
+
+### Valores posibles
+
+| columna | valor | filas | significado |
+|---|---|---|---|
+| `tipo_columna` | `organo_judicial` | 460 | Columna que publica cantidades de órganos judiciales. |
+| `tipo_columna` | `otro` | 248 | Dimensión distinta de órgano: en 4.1.1 identifica una ciudad. |
+| `tipo_columna` | `total` | 205 | Total publicado de la fila del cuadro. |
+| `tipo_columna` | `poblacion` | 168 | Población proyectada al 2022; no es un conteo de órganos. |
+| `tipo_columna` | `conciliador` | 64 | Columna de conciliadores, conservada como categoría separada. |
+| `tipo_columna` | `indeterminado` | 3 | Encabezado cuya expansión no fue aprobada por la auditoría. |
+| `tipo_entidad` | `juzgado` | 182 | Categoría de juzgado del cuadro 4.1.1. |
+| `tipo_entidad` | `sala` | 55 | Categoría de sala, separada de los juzgados. |
+| `tipo_entidad` | `otro` | 22 | Subtotal mixto o total general sin una sola naturaleza de entidad. |
+| `tipo_entidad` | `tribunal` | 15 | Categoría de tribunal, separada de los juzgados. |
+| `tipo_entidad` | `conciliador` | 11 | Conciliadores, sin reclasificarlos como órgano judicial. |
+| `estructura_fila` | `detalle` | 219 | Fila hoja con una magnitud publicada. |
+| `estructura_fila` | `subtotal` | 55 | Suma de sus hijos; no sumar junto con ellos. |
+| `estructura_fila` | `total_general` | 11 | Total global del cuadro 4.1.1. |
+| `es_hoja_jerarquia` | `True` | 219 | Fila de detalle del cuadro 4.1.1. |
+| `es_hoja_jerarquia` | `False` | 66 | Subtotal o total general del cuadro 4.1.1. |
 
 ---
 
@@ -455,7 +487,7 @@ Formas de resolución y de finalización de competencia de las causas, por ciuda
 | `grupo_proceso_norm` | str | — | `derivado` | 27057 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
-| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). No tiene nombre porque el PDF parte los encabezados en hasta diez líneas. |
+| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
 | `valor` | Int64 | juzgados (o habitantes en col_01) | `fuente` | 0 | Valor de esa celda. En los cuadros provinciales la col_01 es población proyectada al 2022, no un conteo de juzgados; la última columna de cada fila es el total. |
 | `orden_columna` | Int64 | — | `derivado` | 0 | Posición de la columna dentro del cuadro, contada desde 1 de izquierda a derecha. Solo en las tablas de formato largo. |
 | `rotulo_columna_pdf` | str | — | `literal del PDF` | 0 | Rótulo de la columna tal como lo imprime el anuario, con sus líneas separadas por ' / '. Permite leer un valor sin consultar el layout. Solo en las tablas de formato largo. |
@@ -511,7 +543,7 @@ Recursos de apelación en efecto suspensivo y en efecto devolutivo —interpuest
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
-| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). No tiene nombre porque el PDF parte los encabezados en hasta diez líneas. |
+| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
 | `valor` | Int64 | juzgados (o habitantes en col_01) | `fuente` | 0 | Valor de esa celda. En los cuadros provinciales la col_01 es población proyectada al 2022, no un conteo de juzgados; la última columna de cada fila es el total. |
 | `orden_columna` | Int64 | — | `derivado` | 0 | Posición de la columna dentro del cuadro, contada desde 1 de izquierda a derecha. Solo en las tablas de formato largo. |
 | `rotulo_columna_pdf` | str | — | `literal del PDF` | 0 | Rótulo de la columna tal como lo imprime el anuario, con sus líneas separadas por ' / '. Permite leer un valor sin consultar el layout. Solo en las tablas de formato largo. |
@@ -566,7 +598,7 @@ Causas y trámites en ejecución de sentencia por ciudad o distrito, materia y t
 | `departamento_derivado` | str | — | `derivada` | 951 | Departamento deducido cuando el cuadro no lo trae: de la ciudad (El Alto pertenece a La Paz) o del distrito judicial. La comparación ignora mayúsculas, tildes y espacios, sin modificar el literal de origen. Queda nulo en totales nacionales y para OFICINA NACIONAL, que no son territorios. |
 | `es_total_nacional` | bool | — | `derivado` | 0 | True en las páginas de cierre de cada cuadro, donde la entidad es TOTAL NACIONAL en vez de una ciudad o un distrito. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
-| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). No tiene nombre porque el PDF parte los encabezados en hasta diez líneas. |
+| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
 | `valor` | Int64 | juzgados (o habitantes en col_01) | `fuente` | 0 | Valor de esa celda. En los cuadros provinciales la col_01 es población proyectada al 2022, no un conteo de juzgados; la última columna de cada fila es el total. |
 | `orden_columna` | Int64 | — | `derivado` | 0 | Posición de la columna dentro del cuadro, contada desde 1 de izquierda a derecha. Solo en las tablas de formato largo. |
 | `rotulo_columna_pdf` | str | — | `literal del PDF` | 0 | Rótulo de la columna tal como lo imprime el anuario, con sus líneas separadas por ' / '. Permite leer un valor sin consultar el layout. Solo en las tablas de formato largo. |
@@ -624,7 +656,7 @@ Los cuadros sueltos de los capítulos 5 y 6: sentencias dictadas, medidas cautel
 | `grupo_proceso_norm` | str | — | `derivado` | 5148 | grupo_proceso resuelto contra la lista cerrada de etiquetas del capítulo: ORDINARIO, EXTRAORDINARIO, MONITOREO, PROCESO CONCURSALES, PROCESOS VOLUNTARIOS y las tres del fuero penal. |
 | `gestion` | Int64 | año | `fuente` | 0 | Gestión (año) a la que corresponde el dato. |
 | `revisado_manual` | boolean | — | `trazabilidad` | 0 | Marca de auditoría. Sale en False en todo el dataset: es la columna para ir marcando las filas que alguien verifique contra el PDF. |
-| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). No tiene nombre porque el PDF parte los encabezados en hasta diez líneas. |
+| `columna` | str | — | `derivada` | 0 | Columna del cuadro, numerada de izquierda a derecha (col_01, col_02...). Se preserva aunque su significado auditado esté en las columnas canónicas derivadas. |
 | `valor` | Int64 | juzgados (o habitantes en col_01) | `fuente` | 0 | Valor de esa celda. En los cuadros provinciales la col_01 es población proyectada al 2022, no un conteo de juzgados; la última columna de cada fila es el total. |
 | `orden_columna` | Int64 | — | `derivado` | 0 | Posición de la columna dentro del cuadro, contada desde 1 de izquierda a derecha. Solo en las tablas de formato largo. |
 | `rotulo_columna_pdf` | str | — | `literal del PDF` | 0 | Rótulo de la columna tal como lo imprime el anuario, con sus líneas separadas por ' / '. Permite leer un valor sin consultar el layout. Solo en las tablas de formato largo. |

@@ -15,6 +15,8 @@ booleano). El CSV es de conveniencia y los pierde al releerse.
 | saber qué significa una columna | [`docs/diccionario_de_datos.md`](../../docs/diccionario_de_datos.md) |
 | revisar la corrección geográfica del ETL | [`docs/correccion_geografia_etl.md`](../../docs/correccion_geografia_etl.md) |
 | revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](../../docs/auditoria_equivalencias_materias.md) |
+| revisar los encabezados auditados de juzgados | [`docs/auditoria_encabezados_juzgados.md`](../../docs/auditoria_encabezados_juzgados.md) |
+| revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](../../docs/auditoria_filas_4_1_1.md) |
 | lo mismo, pero para procesar | `diccionario_de_datos.csv` y `diccionario_de_valores.csv` |
 | revisar dónde el anuario no cierra | `auditoria/discrepancias.csv` |
 
@@ -59,6 +61,11 @@ en cada corrida. El resumen está en `auditoria/validacion_geografia.csv`; el
 detalle de fallos técnicos, que debe quedar vacío, en
 `auditoria/inconsistencias_geografia.csv`.
 
+La tabla `juzgados` conserva `col_NN` y los rótulos fuente, y agrega por separado
+la semántica auditada de columnas. Para el cuadro 4.1.1 también incorpora la
+categoría y jerarquía de cada fila. Los controles estructurales reproducibles
+están en `auditoria/validacion_juzgados.csv`.
+
 ## Tres advertencias antes de calcular nada
 
 - **`pct_resueltas` no es la tasa de resolución.** El anuario la calcula como
@@ -72,8 +79,9 @@ detalle de fallos técnicos, que debe quedar vacío, en
   de cabecera de cada página (`num_juzgados_pagina`) y vale para la ciudad
   entera, no por fila.
 - **Siguen pendientes de decisión humana** los cuatro conjuntos de materias
-  Anticorrupción/Violencia que la auditoría no pudo homologar y los nombres de
-  las columnas de `juzgados` (`auditoria/columnas_4_1_encabezados.csv`).
+  Anticorrupción/Violencia y `4.1.7 / col_09` de Tarija, cuyo encabezado no se
+  expandió. La semántica auditada de `juzgados` no constituye todavía un
+  indicador `numero_juzgados_real`.
 
 ## Qué quedó afuera
 
