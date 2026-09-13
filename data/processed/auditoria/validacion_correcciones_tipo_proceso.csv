@@ -1,0 +1,55 @@
+control,esperado,observado,estado
+reglas auditadas,87,87,OK
+reglas implementadas,87,87,OK
+reglas generales,0,0,OK
+reglas acotadas por cuadro,80,80,OK
+reglas acotadas por fila/contexto,7,7,OK
+causas_por_tipo_proceso: columnas de trazabilidad faltantes,0,0,OK
+causas_por_tipo_proceso: filas fuente longitudinales inconsistentes,0,0,OK
+causas_por_tipo_proceso: filas fuente corregidas,151,151,OK
+causas_por_tipo_proceso: filas físicas corregidas,151,151,OK
+causas_por_tipo_proceso: dominio extraído,130,130,OK
+causas_por_tipo_proceso: dominio corregido,107,107,OK
+resueltas_por_tipo_proceso: columnas de trazabilidad faltantes,0,0,OK
+resueltas_por_tipo_proceso: filas fuente longitudinales inconsistentes,0,0,OK
+resueltas_por_tipo_proceso: filas fuente corregidas,116,116,OK
+resueltas_por_tipo_proceso: filas físicas corregidas,1486,1486,OK
+resueltas_por_tipo_proceso: dominio extraído,125,125,OK
+resueltas_por_tipo_proceso: dominio corregido,109,109,OK
+apelaciones_por_tipo_proceso: columnas de trazabilidad faltantes,0,0,OK
+apelaciones_por_tipo_proceso: filas fuente longitudinales inconsistentes,0,0,OK
+apelaciones_por_tipo_proceso: filas fuente corregidas,128,128,OK
+apelaciones_por_tipo_proceso: filas físicas corregidas,1194,1194,OK
+apelaciones_por_tipo_proceso: dominio extraído,137,137,OK
+apelaciones_por_tipo_proceso: dominio corregido,121,121,OK
+ejecucion_por_tipo_proceso: columnas de trazabilidad faltantes,0,0,OK
+ejecucion_por_tipo_proceso: filas fuente longitudinales inconsistentes,0,0,OK
+ejecucion_por_tipo_proceso: filas fuente corregidas,51,51,OK
+ejecucion_por_tipo_proceso: filas físicas corregidas,255,255,OK
+ejecucion_por_tipo_proceso: dominio extraído,113,113,OK
+ejecucion_por_tipo_proceso: dominio corregido,106,106,OK
+otros_tramites_por_tipo_proceso: columnas de trazabilidad faltantes,0,0,OK
+otros_tramites_por_tipo_proceso: filas fuente longitudinales inconsistentes,0,0,OK
+otros_tramites_por_tipo_proceso: filas fuente corregidas,189,189,OK
+otros_tramites_por_tipo_proceso: filas físicas corregidas,1194,1194,OK
+otros_tramites_por_tipo_proceso: dominio extraído,49,49,OK
+otros_tramites_por_tipo_proceso: dominio corregido,34,34,OK
+reglas aplicadas,87,87,OK
+reglas sin match,0,0,OK
+reglas con exceso,0,0,OK
+reglas contradictorias,0,0,OK
+filas fuente con más de una regla,0,0,OK
+filas físicas con más de una regla,0,0,OK
+filas fuente corregidas,635,635,OK
+filas físicas corregidas,4280,4280,OK
+dominio combinado corregido,147,147,OK
+variaciones editoriales aplicadas,0,0,OK
+grupos por etapa diferenciados,57,57,OK
+grupos contexto penal diferenciados,38,38,OK
+cuadros inventariados,95,95,OK
+cuadros inesperados,0,0,OK
+filas estrato,1997,1997,OK
+claves semánticas únicas,1997,1997,OK
+grupos semánticos duplicados,0,0,OK
+filas semánticas duplicadas,0,0,OK
+máxima multiplicidad,1,1,OK

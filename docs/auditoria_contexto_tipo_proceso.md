@@ -221,6 +221,7 @@ los seis cuadros verificados; las estructuras 3×3 de 5.3.2.1 y 6.3.2.1 deben
 cumplirse antes de propagar el encabezado padre.
 
 La validación reproducible confirma 57/57 grupos por etapa, 38/38 por contexto
-penal y 1.997/1.997 claves semánticas únicas. No se aplicó ninguna corrección de
-fragmentos ni variación editorial de `tipo_proceso`; los 67 literales no
-revisados siguen pendientes.
+penal y 1.997/1.997 claves semánticas únicas. El posterior Paso 3.2b auditó los
+87 candidatos completos y el Paso 3.2c aplicó solo sus correcciones de
+extracción. El valor anterior queda en `tipo_proceso_extraido`; ninguna
+variación editorial fue aplicada.

@@ -199,5 +199,7 @@ antes de propagar el contexto padre.
 
 Los controles publicados en `validacion_contexto_procesos.csv` reproducen
 57/57 grupos por etapa, 38/38 por contexto penal y 1.997/1.997 claves únicas.
-Los literales de `tipo_proceso`, incluidos fragmentos y variaciones editoriales,
-permanecen sin cambios.
+El posterior Paso 3.2b cerró la auditoría de los 87 candidatos y el Paso 3.2c
+aplicó exclusivamente las correcciones de extracción, preservando el valor
+anterior en `tipo_proceso_extraido`. Las variaciones editoriales permanecen sin
+cambios.

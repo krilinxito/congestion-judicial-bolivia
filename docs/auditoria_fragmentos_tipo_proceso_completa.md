@@ -148,3 +148,15 @@ Después de recuperar los literales fuente, la futura dimensión debe excluir o 
 - No se creó `tipo_proceso_canonico`, dimensión, puente, join o dataset maestro.
 - No se eliminó ninguna fila ni se usó `drop_duplicates`.
 - No se realizó limpieza estadística ni se incorporaron fuentes externas.
+
+## 19. Estado de implementación posterior
+
+El Paso 3.2c incorporó las 87 reglas cerradas al ETL. La salida previa se
+conserva en `tipo_proceso_extraido` y `tipo_proceso` recupera el literal fuente
+confirmado por esta auditoría. La corrección actúa sobre 635 filas fuente antes
+de desplegar métricas y se refleja en 4.280 filas físicas. Las cinco variaciones
+editoriales continúan intactas y no se creó una forma canónica.
+
+`validacion_correcciones_tipo_proceso.csv` comprueba que las 87 reglas se
+aplican exactamente una vez en sus contextos aprobados, que no hay reglas sin
+match o contradictorias y que el dominio combinado queda en 147 literales.

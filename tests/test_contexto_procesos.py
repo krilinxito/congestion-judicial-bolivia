@@ -12,6 +12,7 @@ AUDITORIA = PROCESSED / "auditoria"
 sys.path.insert(0, str(RAIZ / "src"))
 
 import contexto_procesos
+import correcciones_tipo_proceso
 import geografia
 
 
@@ -166,26 +167,42 @@ def test_contexto_es_constante_entre_metricas_longitudinales(tabla):
     assert fuente.contexto_accion_penal.nunique(dropna=False).eq(1).all()
 
 
-def test_fragmentos_auditados_y_tipo_proceso_permanecen_intactos():
+def test_fragmentos_auditados_preservan_extraido_y_solo_reparan_extraccion():
     auditoria = pd.read_csv(
         AUDITORIA / "auditoria_fragmentos_tipo_proceso.csv")
     tablas = {
         tabla: pd.read_parquet(PROCESSED / f"{tabla}.parquet")
         for tabla in auditoria.tabla.unique()
     }
+    contrato = {
+        (regla.tabla, cuadro, regla.literal_extraido): regla.literal_fuente
+        for regla in correcciones_tipo_proceso.CORRECCIONES_TIPO_PROCESO
+        for cuadro in regla.cuadros
+    }
     for fila in auditoria.itertuples(index=False):
         df = tablas[fila.tabla]
-        assert (
+        mascara = (
             df.cuadro_origen.eq(fila.cuadro_origen)
             & df.pagina_pdf.eq(fila.pagina_pdf)
-            & df.tipo_proceso.eq(fila.literal_actual)
-        ).any()
+            & df.tipo_proceso_extraido.eq(fila.literal_actual)
+        )
+        assert mascara.any()
+        clave = (fila.tabla, fila.cuadro_origen, fila.literal_actual)
+        if clave in contrato:
+            assert df.loc[mascara, "tipo_proceso"].eq(contrato[clave]).all()
+        else:
+            # El caso registral revisado en 3.1c quedó fuera del inventario
+            # cerrado de 87 candidatos de 3.2b; incorporarlo sería una regla 88.
+            assert df.loc[mascara, "tipo_proceso"].eq(
+                fila.literal_actual).all()
 
 
 def test_derivacion_conserva_todas_las_columnas_preexistentes():
     actual = _causas()
     entrada = actual.drop(columns=[
-        "etapa_proceso_fuente", "contexto_accion_penal"])
+        "tipo_proceso_extraido", "etapa_proceso_fuente",
+        "contexto_accion_penal"])
+    entrada["tipo_proceso"] = actual.tipo_proceso_extraido
     derivada = contexto_procesos.incorporar_contexto_procesos(entrada)
 
     pd.testing.assert_frame_equal(

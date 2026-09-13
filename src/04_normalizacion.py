@@ -28,6 +28,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import contexto_procesos
+import correcciones_tipo_proceso
 import geografia
 import juzgados as semantica_juzgados
 import materias
@@ -343,7 +344,20 @@ def normalizar_procesos():
             for g in sorted(sin_mapa):
                 anotar(f"procesos {familia}", "grupo_proceso", g,
                        "etiqueta de grupo sin entrada en procesos.GRUPOS_PROCESO")
+        # El contexto se deriva primero porque sus validaciones observan la
+        # estructura geométrica original. Después se conserva ese literal y
+        # se recupera el rótulo fiel al PDF mediante el contrato de 3.2b,
+        # todavía al nivel de fila fuente y antes del formato longitudinal.
         df = contexto_procesos.incorporar_contexto_procesos(df)
+        tabla = {
+            "causas": "causas_por_tipo_proceso",
+            "resueltas": "resueltas_por_tipo_proceso",
+            "apelacion": "apelaciones_por_tipo_proceso",
+            "ejecucion": "ejecucion_por_tipo_proceso",
+            "otros": "otros_tramites_por_tipo_proceso",
+        }[familia]
+        df = correcciones_tipo_proceso.incorporar_correcciones_tipo_proceso(
+            df, tabla)
         df = trazabilidad(df)
         salidas[familia] = df if familia == "causas" else a_formato_largo(df, valores)
     return salidas
@@ -385,7 +399,8 @@ def a_formato_largo(df, valores):
 # Columnas que no son valores del cuadro y no se tipan como número.
 METADATOS_PROCESOS = (
     "cuadro_origen", "firma", "familia", "ambito", "titulo_pagina", "entidad",
-    "unidad_fila", "grupo_proceso", "tipo_proceso", "tipo_fila_derivado",
+    "unidad_fila", "grupo_proceso", "tipo_proceso_extraido", "tipo_proceso",
+    "tipo_fila_derivado",
     "pagina_pdf", "num_juzgados_pagina", "orden_fila", "n_columnas",
 )
 

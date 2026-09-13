@@ -224,11 +224,17 @@ COLUMNAS = {
                 "'entidad' en los cuadros de una sola página que traen una fila "
                 "por ciudad y no abren el tipo de proceso.",
         "unidad": "", "origen": "derivado"},
+    "tipo_proceso_extraido": {
+        "desc": "Literal obtenido originalmente por la extracción geométrica "
+                "del PDF antes de aplicar las correcciones deterministas "
+                "auditadas. Se conserva exclusivamente para trazabilidad.",
+        "unidad": "", "origen": "literal extraído del PDF"},
     "tipo_proceso": {
-        "desc": "Rótulo de la fila, verbatim del PDF: el tipo de proceso "
-                "(ORDINARIO, INTERDICTOS, ASISTENCIA FAMILIAR…) o el tipo de "
-                "acción penal. Nulo cuando unidad_fila es 'entidad'.",
-        "unidad": "", "origen": "literal del PDF"},
+        "desc": "Literal de la fila fuente reconstruido a partir del PDF. Las "
+                "correcciones reparan únicamente defectos de extracción "
+                "auditados; no corrigen errores editoriales ni realizan "
+                "homologación semántica. Nulo cuando unidad_fila es 'entidad'.",
+        "unidad": "", "origen": "literal reconstruido del PDF"},
     "grupo_proceso": {
         "desc": "Etiqueta del grupo al que pertenece la fila, verbatim. Viene "
                 "impresa EN VERTICAL en el margen izquierdo del cuadro y llega "

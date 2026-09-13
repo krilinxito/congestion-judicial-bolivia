@@ -88,6 +88,8 @@ AUDITORIA = {
     "inconsistencias_geografia.csv": "inconsistencias_geografia.csv",
     "validacion_juzgados.csv": "validacion_juzgados.csv",
     "validacion_contexto_procesos.csv": "validacion_contexto_procesos.csv",
+    "validacion_correcciones_tipo_proceso.csv": (
+        "validacion_correcciones_tipo_proceso.csv"),
 }
 
 # Columnas que deben ser enteras aunque tengan nulos.
@@ -329,6 +331,7 @@ booleano). El CSV es de conveniencia y los pierde al releerse.
 | revisar los encabezados auditados de juzgados | [`docs/auditoria_encabezados_juzgados.md`](../../docs/auditoria_encabezados_juzgados.md) |
 | revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](../../docs/auditoria_filas_4_1_1.md) |
 | revisar el contexto auditado de tipos de proceso | [`docs/verificacion_pdf_contexto_tipo_proceso.md`](../../docs/verificacion_pdf_contexto_tipo_proceso.md) |
+| revisar las correcciones auditadas de extracción de tipo de proceso | [`docs/auditoria_fragmentos_tipo_proceso_completa.md`](../../docs/auditoria_fragmentos_tipo_proceso_completa.md) |
 | lo mismo, pero para procesar | `diccionario_de_datos.csv` y `diccionario_de_valores.csv` |
 | revisar dónde el anuario no cierra | `auditoria/discrepancias.csv` |
 
@@ -380,9 +383,13 @@ están en `auditoria/validacion_juzgados.csv`.
 
 Las cinco tablas por tipo de proceso incorporan `etapa_proceso_fuente` y
 `contexto_accion_penal` mediante mapas y reglas cerradas verificadas contra el
-PDF. No corrigen ni homologan `tipo_proceso`. Los controles de 57 grupos por
-etapa, 38 por contexto penal y 1.997 claves únicas se publican en
-`auditoria/validacion_contexto_procesos.csv`.
+PDF. Además, `tipo_proceso_extraido` conserva la salida geométrica anterior y
+`tipo_proceso` recupera el literal fiel al PDF mediante 87 reglas cerradas. No
+se aplican variaciones editoriales ni homologaciones. Los controles de 57
+grupos por etapa, 38 por contexto penal y 1.997 claves únicas se publican en
+`auditoria/validacion_contexto_procesos.csv`; el contrato de 87 correcciones,
+635 filas fuente y 4.280 filas físicas se publica en
+`auditoria/validacion_correcciones_tipo_proceso.csv`.
 
 ## Tres advertencias antes de calcular nada
 

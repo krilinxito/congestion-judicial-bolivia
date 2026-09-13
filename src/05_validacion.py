@@ -40,6 +40,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import contexto_procesos
+import correcciones_tipo_proceso
 import geografia
 import juzgados as semantica_juzgados
 import procesos
@@ -51,6 +52,7 @@ validaciones_geografia = []
 inconsistencias_geografia = []
 validaciones_juzgados = []
 validaciones_contexto = []
+validaciones_correcciones_tipo_proceso = []
 
 TABLAS_PROCESOS = {
     "causas_por_tipo_proceso": "norm_procesos_causas.csv",
@@ -440,12 +442,223 @@ def validar_contexto_procesos():
     return errores
 
 
+def validar_correcciones_tipo_proceso():
+    """Valida el contrato cerrado de las 87 correcciones de extracción."""
+    tablas = {
+        tabla: pd.read_csv(INTERIM / archivo, low_memory=False)
+        for tabla, archivo in TABLAS_PROCESOS.items()
+    }
+
+    def control(nombre, esperado, observado):
+        estado = "OK" if observado == esperado else "FALLO"
+        validaciones_correcciones_tipo_proceso.append({
+            "control": nombre,
+            "esperado": esperado,
+            "observado": observado,
+            "estado": estado,
+        })
+        return estado == "FALLO"
+
+    def distintas(izquierda, derecha):
+        iguales = izquierda.eq(derecha) | (
+            izquierda.isna() & derecha.isna())
+        return ~iguales
+
+    def filas_fuente(df):
+        clave = ["cuadro_origen", "pagina_pdf", "orden_fila"]
+        grupos = df.groupby(clave, sort=False, dropna=False)
+        inconsistentes = int((
+            grupos["tipo_proceso_extraido"].nunique(dropna=False).gt(1)
+            | grupos["tipo_proceso"].nunique(dropna=False).gt(1)
+        ).sum())
+        fuente = grupos[["tipo_proceso_extraido", "tipo_proceso"]].first(
+            ).reset_index()
+        return fuente, inconsistentes
+
+    errores = 0
+    reglas = correcciones_tipo_proceso.CORRECCIONES_TIPO_PROCESO
+    errores += control("reglas auditadas", 87, len(reglas))
+    errores += control("reglas implementadas", 87, len(reglas))
+    errores += control(
+        "reglas generales", 0,
+        sum(r.alcance not in {
+            correcciones_tipo_proceso.ALCANCE_CUADRO,
+            correcciones_tipo_proceso.ALCANCE_FILA_CONTEXTO,
+        } for r in reglas))
+    errores += control(
+        "reglas acotadas por cuadro", 80,
+        sum(r.alcance == correcciones_tipo_proceso.ALCANCE_CUADRO
+            for r in reglas))
+    errores += control(
+        "reglas acotadas por fila/contexto", 7,
+        sum(r.alcance == correcciones_tipo_proceso.ALCANCE_FILA_CONTEXTO
+            for r in reglas))
+
+    fuentes = {}
+    reglas_aplicadas = 0
+    reglas_sin_match = 0
+    reglas_con_exceso = 0
+    reglas_contradictorias = 0
+    dobles_fuente = 0
+    dobles_fisicas = 0
+
+    for tabla, df in tablas.items():
+        requeridas = {"tipo_proceso_extraido", "tipo_proceso"}
+        faltantes = requeridas - set(df.columns)
+        errores += control(f"{tabla}: columnas de trazabilidad faltantes", 0,
+                           len(faltantes))
+        if faltantes:
+            continue
+
+        fuente, inconsistentes = filas_fuente(df)
+        fuentes[tabla] = fuente
+        errores += control(
+            f"{tabla}: filas fuente longitudinales inconsistentes", 0,
+            inconsistentes)
+
+        aplicaciones_fuente = correcciones_tipo_proceso.contar_coincidencias_por_fila(
+            fuente, tabla, "tipo_proceso_extraido")
+        aplicaciones_fisicas = correcciones_tipo_proceso.contar_coincidencias_por_fila(
+            df, tabla, "tipo_proceso_extraido")
+        dobles_fuente += int(aplicaciones_fuente.gt(1).sum())
+        dobles_fisicas += int(aplicaciones_fisicas.gt(1).sum())
+
+        cambio_fuente = distintas(
+            fuente.tipo_proceso_extraido, fuente.tipo_proceso)
+        cambio_fisico = distintas(df.tipo_proceso_extraido, df.tipo_proceso)
+        errores += control(
+            f"{tabla}: filas fuente corregidas",
+            correcciones_tipo_proceso.FILAS_FUENTE_ESPERADAS[tabla],
+            int(cambio_fuente.sum()))
+        errores += control(
+            f"{tabla}: filas físicas corregidas",
+            correcciones_tipo_proceso.FILAS_FISICAS_ESPERADAS[tabla],
+            int(cambio_fisico.sum()))
+        errores += control(
+            f"{tabla}: dominio extraído",
+            correcciones_tipo_proceso.DOMINIOS_ANTES[tabla],
+            int(df.tipo_proceso_extraido.nunique()))
+        errores += control(
+            f"{tabla}: dominio corregido",
+            correcciones_tipo_proceso.DOMINIOS_DESPUES[tabla],
+            int(df.tipo_proceso.nunique()))
+
+        for regla in correcciones_tipo_proceso.reglas_para_tabla(tabla):
+            mascara = correcciones_tipo_proceso.mascara_regla(
+                fuente, regla, "tipo_proceso_extraido")
+            observadas = int(mascara.sum())
+            if observadas == 0:
+                reglas_sin_match += 1
+            if observadas > regla.apariciones_fuente:
+                reglas_con_exceso += 1
+            if observadas == regla.apariciones_fuente:
+                reglas_aplicadas += 1
+            reglas_contradictorias += int((
+                ~fuente.loc[mascara, "tipo_proceso"].eq(regla.literal_fuente)
+            ).sum())
+
+    errores += control("reglas aplicadas", 87, reglas_aplicadas)
+    errores += control("reglas sin match", 0, reglas_sin_match)
+    errores += control("reglas con exceso", 0, reglas_con_exceso)
+    errores += control("reglas contradictorias", 0, reglas_contradictorias)
+    errores += control("filas fuente con más de una regla", 0, dobles_fuente)
+    errores += control("filas físicas con más de una regla", 0, dobles_fisicas)
+    errores += control(
+        "filas fuente corregidas", 635,
+        sum(int(distintas(d.tipo_proceso_extraido, d.tipo_proceso).sum())
+            for d in fuentes.values()))
+    errores += control(
+        "filas físicas corregidas", 4280,
+        sum(int(distintas(d.tipo_proceso_extraido, d.tipo_proceso).sum())
+            for d in tablas.values()))
+    errores += control(
+        "dominio combinado corregido", 147,
+        len(set().union(*(set(d.tipo_proceso.dropna()) for d in tablas.values()))))
+
+    editoriales = pd.read_csv(
+        PROCESSED / "auditoria" /
+        "propuesta_variaciones_editoriales_tipo_proceso.csv")
+    editoriales_aplicadas = 0
+    for fila in editoriales.itertuples():
+        df = tablas[fila.tabla]
+        mascara = (
+            df.cuadro_origen.astype(str).eq(str(fila.cuadro_origen))
+            & df.tipo_proceso_extraido.eq(fila.literal_fuente)
+        )
+        editoriales_aplicadas += int(distintas(
+            df.loc[mascara, "tipo_proceso_extraido"],
+            df.loc[mascara, "tipo_proceso"]).sum())
+    errores += control(
+        "variaciones editoriales aplicadas", 0, editoriales_aplicadas)
+
+    causas = tablas["causas_por_tipo_proceso"]
+    repetidas = pd.read_csv(
+        PROCESSED / "auditoria" / "claves_repetidas_tipo_proceso.csv")
+    tecnica = causas[[
+        "cuadro_origen", "pagina_pdf", "orden_fila",
+        "etapa_proceso_fuente", "contexto_accion_penal",
+    ]]
+    comprobadas = repetidas.merge(
+        tecnica, on=["cuadro_origen", "pagina_pdf", "orden_fila"],
+        how="left", validate="one_to_one")
+    etapa = comprobadas[comprobadas.causa_repeticion.eq("subbloque_fuente")]
+    contexto = comprobadas[
+        comprobadas.causa_repeticion.eq("tipo_accion_penal")]
+    etapa_ok = int(etapa.groupby("id_grupo_repetido")[
+        "etapa_proceso_fuente"].nunique().eq(2).sum())
+    contexto_grupos = contexto.groupby("id_grupo_repetido")
+    contexto_ok = int((
+        contexto_grupos.contexto_accion_penal.nunique()
+        == contexto_grupos.size()).sum())
+    errores += control("grupos por etapa diferenciados", 57, etapa_ok)
+    errores += control("grupos contexto penal diferenciados", 38, contexto_ok)
+
+    cuadros = set().union(*(
+        set(df.cuadro_origen.astype(str).unique()) for df in tablas.values()))
+    errores += control("cuadros inventariados", 95, len(cuadros))
+    errores += control(
+        "cuadros inesperados", 0,
+        len(cuadros - contexto_procesos.CUADROS_CONOCIDOS))
+
+    estrato = causas[
+        causas.tipo_fila_derivado.eq("detalle")
+        & ~causas.es_total_nacional
+        & causas.tipo_proceso.notna()
+    ].copy()
+    estrato["territorio"] = [
+        geografia.normalizar_geografia(ciudad if ambito == "capital" else distrito)
+        for ambito, ciudad, distrito in zip(
+            estrato.ambito, estrato.ciudad, estrato.distrito)
+    ]
+    clave = [
+        "ambito", "territorio", "materia_homologada", "tipo_proceso",
+        "etapa_proceso_fuente", "contexto_accion_penal",
+    ]
+    conteos = estrato.groupby(clave, dropna=False).size()
+    duplicados = conteos[conteos.gt(1)]
+    errores += control("filas estrato", 1997, len(estrato))
+    errores += control("claves semánticas únicas", 1997, len(conteos))
+    errores += control("grupos semánticos duplicados", 0, len(duplicados))
+    errores += control(
+        "filas semánticas duplicadas", 0, int(duplicados.sum()))
+    errores += control("máxima multiplicidad", 1, int(conteos.max()))
+
+    destino = INTERIM / "validacion_correcciones_tipo_proceso.csv"
+    pd.DataFrame(validaciones_correcciones_tipo_proceso).to_csv(
+        destino, index=False, encoding="utf-8")
+    print(f"Validación de correcciones de tipo de proceso: "
+          f"{len(validaciones_correcciones_tipo_proceso)} controles, "
+          f"{errores} fallo(s)  ->  {destino.name}")
+    return errores
+
+
 def totales_por_entidad(df, familia):
     """Identidad 11: TOTAL <ciudad> = suma de sus filas de tipo de proceso."""
     valores = [c for c in df.columns if c not in (
         "cuadro_origen", "pagina_pdf", "firma", "familia", "ambito", "titulo_pagina",
         "entidad", "num_juzgados_pagina", "unidad_fila", "grupo_proceso",
-        "grupo_proceso_norm", "tipo_proceso", "tipo_fila_derivado", "orden_fila",
+        "grupo_proceso_norm", "tipo_proceso_extraido", "tipo_proceso",
+        "tipo_fila_derivado", "orden_fila",
         "n_columnas", "materia_seccion", "materia_norm", "materia_cruda", "ciudad",
         "distrito", "departamento_derivado", "es_total_nacional", "gestion",
         "revisado_manual", "columna", "orden_columna", "rotulo_columna_pdf",
@@ -710,6 +923,7 @@ def main():
     validar_sumariante()
     validar_procesos()
     errores_contexto = validar_contexto_procesos()
+    errores_correcciones = validar_correcciones_tipo_proceso()
     juzgados_declarados_dos_veces()
     errores_geografia = validar_geografia_procesos()
 
@@ -720,11 +934,13 @@ def main():
     print(f"Discrepancias registradas: {len(df)}  ->  {destino.name}")
     print("(no se corrige ninguna: son hallazgos sobre la fuente)\n")
     if df.empty:
-        if errores_geografia or errores_juzgados or errores_contexto:
+        if (errores_geografia or errores_juzgados or errores_contexto
+                or errores_correcciones):
             raise SystemExit(
                 "Fallaron validaciones técnicas: "
                 f"geografía={errores_geografia}, juzgados={errores_juzgados}, "
-                f"contexto_procesos={errores_contexto}")
+                f"contexto_procesos={errores_contexto}, "
+                f"correcciones_tipo_proceso={errores_correcciones}")
         return
     numericas = df[df.diferencia.notna()]
     print("Por identidad:")
@@ -757,6 +973,11 @@ def main():
         raise SystemExit(
             f"Falló la validación de contexto de procesos: {errores_contexto} "
             "control(es); ver validacion_contexto_procesos.csv")
+    if errores_correcciones:
+        raise SystemExit(
+            "Falló la validación de correcciones de tipo de proceso: "
+            f"{errores_correcciones} control(es); ver "
+            "validacion_correcciones_tipo_proceso.csv")
 
 
 if __name__ == "__main__":

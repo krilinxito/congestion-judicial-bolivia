@@ -163,6 +163,12 @@ cerrados auditados contra el PDF; `no_aplica` solo se asigna a cuadros
 inventariados y un cuadro desconocido detiene el pipeline. Ninguna de las dos
 columnas corrige u homologa `tipo_proceso`.
 
+La extracción geométrica anterior queda en `tipo_proceso_extraido`. Sobre esa
+traza, `tipo_proceso` recupera el rótulo completo y ordenado que publica el PDF
+mediante las 87 reglas auditadas en el Paso 3.2b. La operación no corrige
+erratas del Anuario ni fusiona variantes editoriales: es una reparación de
+fragmentación, concatenación o reordenamiento de la extracción.
+
 ### Por qué no es una sola tabla
 
 Porque miden unidades distintas: causas, juzgados, personas y sanciones. Meterlas
