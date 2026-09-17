@@ -453,3 +453,99 @@ pre .good { color: var(--ok); }
   color: var(--ink-soft);
 }
 .tldr b { color: var(--ink); }
+
+/* ============================================================
+   Gráficos — colores por rol. El tema los intercambia en un
+   solo lugar; el SVG se escribe contra los roles, no contra hex.
+   Serie y "resto" validados: ΔE normal 29,8 claro / 28,8 oscuro.
+   ============================================================ */
+
+:root {
+  --viz-serie:       #0f8a5f;
+  --viz-resto:       #C3CBCE;
+  --viz-txt:         #101A20;
+  --viz-txt2:        #5A6B73;
+  --viz-grid:        #E1E6E0;
+  --viz-surface:     #FFFFFF;
+  --viz-sobre-serie: #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --viz-serie:       #35b380;
+    --viz-resto:       #40525B;
+    --viz-txt:         #E8EDE9;
+    --viz-txt2:        #9DACB2;
+    --viz-grid:        #223038;
+    --viz-surface:     #141E23;
+    --viz-sobre-serie: #06221A;
+  }
+}
+:root[data-theme="dark"] {
+  --viz-serie:       #35b380;
+  --viz-resto:       #40525B;
+  --viz-txt:         #E8EDE9;
+  --viz-txt2:        #9DACB2;
+  --viz-grid:        #223038;
+  --viz-surface:     #141E23;
+  --viz-sobre-serie: #06221A;
+}
+
+.figura {
+  border: 1px solid var(--rule); border-radius: 3px; background: var(--paper-raised);
+  margin: 1.5rem 0; overflow: hidden;
+}
+.figura > figcaption {
+  font-family: var(--sans); font-size: .8125rem; font-weight: 600;
+  padding: .7rem .95rem .1rem; color: var(--ink);
+}
+.figura > .fig-sub {
+  font-size: .8125rem; color: var(--ink-mute); padding: 0 .95rem .6rem; margin: 0;
+}
+.figura .chart { display: block; width: 100%; height: auto; padding: 0 .6rem .5rem; }
+.figura .fig-nota {
+  font-size: .75rem; color: var(--ink-mute); padding: .55rem .95rem;
+  border-top: 1px solid var(--rule); background: var(--paper-sunken); margin: 0;
+}
+.leyenda { display: flex; flex-wrap: wrap; gap: 1rem; padding: 0 .95rem .6rem;
+  font-family: var(--sans); font-size: .75rem; color: var(--ink-soft); }
+.leyenda span { display: flex; align-items: center; gap: .35rem; }
+.leyenda i { width: .8rem; height: .8rem; border-radius: 2px; display: inline-block; }
+.leyenda i.serie { background: var(--viz-serie); }
+.leyenda i.hueco { border: 2px solid var(--ink); border-radius: 50%; }
+.leyenda i.lleno { background: var(--viz-serie); border-radius: 50%; }
+
+/* Tabla que muestra un CSV real */
+.csv { margin: 1.5rem 0; }
+.csv-top {
+  font-family: var(--mono); font-size: .75rem; color: var(--accent-ink);
+  background: var(--paper-sunken); border: 1px solid var(--rule); border-bottom: 0;
+  padding: .5rem .85rem; border-radius: 3px 3px 0 0; display: flex;
+  justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.csv-top em { font-style: normal; color: var(--ink-mute); }
+.csv .twrap { margin: 0; border-radius: 0 0 3px 3px; }
+.csv table { font-size: .8125rem; }
+.csv td, .csv th { white-space: nowrap; }
+.csv td.wrap-cell { white-space: normal; min-width: 14rem; }
+.csv .nuevo { background: var(--accent-soft); }
+.csv thead th.nuevo { background: var(--accent-soft); color: var(--accent-ink); }
+
+/* Antes → después en una fila */
+.paso-ad { display: grid; grid-template-columns: 1fr auto 1fr; gap: .75rem; align-items: center;
+  margin: 1rem 0; }
+.paso-ad .caja { border: 1px solid var(--rule); border-radius: 3px; padding: .6rem .8rem;
+  background: var(--paper-raised); font-family: var(--mono); font-size: .8125rem; }
+.paso-ad .caja.mal { border-color: var(--crit); }
+.paso-ad .caja.bien { border-color: var(--ok); }
+.paso-ad .et { font-family: var(--sans); font-size: .625rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-mute); display: block; margin-bottom: .25rem; }
+.paso-ad .flecha { font-size: 1.1rem; color: var(--accent); font-family: var(--mono); }
+@media (max-width: 40rem) {
+  .paso-ad { grid-template-columns: 1fr; }
+  .paso-ad .flecha { transform: rotate(90deg); justify-self: center; }
+}
+
+@media print {
+  .figura { page-break-inside: avoid; }
+  .chart { max-height: 9cm; }
+}

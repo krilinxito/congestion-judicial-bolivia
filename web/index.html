@@ -725,6 +725,41 @@ atendidas = resueltas + pendientes_fin          <span class="hl">← lo que sali
     </table>
   </div>
 
+  <h4>Cómo se ve una fila de verdad</h4>
+
+  <p>
+    Esto es un recorte literal de <code>causas_por_tipo_proceso</code>. Las dos
+    primeras columnas son la <strong>trazabilidad</strong>: dicen de qué cuadro y qué
+    página del PDF salió la fila, así que cualquiera puede ir a verificarla.
+  </p>
+
+  <div class="csv">
+    <div class="csv-top"><span>data/processed/causas_por_tipo_proceso.csv</span><em>4 de 2.419 filas · 10 de 62 columnas</em></div>
+    <div class="twrap"><table>
+      <thead><tr>
+        <th>cuadro</th><th>pág.</th><th>ciudad</th><th>materia</th><th class="wrap-cell">tipo_proceso</th>
+        <th class="num">pend_ini</th><th class="num">nuevas</th><th class="num">atendidas</th><th class="num">resueltas</th><th class="num">pend_fin</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="mono">5.1.1.1</td><td class="num">121</td><td>SUCRE</td><td>Público Civil y Comercial</td><td class="wrap-cell">ORDINARIO</td><td class="num">—</td><td class="num">1.424</td><td class="num">2.397</td><td class="num">1.286</td><td class="num">1.111</td></tr>
+        <tr><td class="mono">5.1.1.1</td><td class="num">121</td><td>SUCRE</td><td>Público Civil y Comercial</td><td class="wrap-cell">REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEBLES URBANOS…</td><td class="num">—</td><td class="num">12</td><td class="num">20</td><td class="num">6</td><td class="num">14</td></tr>
+        <tr><td class="mono">5.1.1.1</td><td class="num">121</td><td>SUCRE</td><td>Público Civil y Comercial</td><td class="wrap-cell">INTERDICTOS</td><td class="num">—</td><td class="num">44</td><td class="num">79</td><td class="num">37</td><td class="num">42</td></tr>
+        <tr><td class="mono">5.1.1.1</td><td class="num">121</td><td>SUCRE</td><td>Público Civil y Comercial</td><td class="wrap-cell">DESALOJO DE VIVIENDA</td><td class="num">—</td><td class="num">28</td><td class="num">34</td><td class="num">20</td><td class="num">14</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="note">
+    <span class="note-label">Leé la primera fila</span>
+    <p style="margin-bottom:0">
+      En Sucre, los procesos <strong>ordinarios</strong> civiles: entraron 1.424 causas
+      nuevas, el juzgado manejó 2.397 en total, cerró 1.286 y le quedaron 1.111
+      abiertas. Cerró menos de lo que entró, así que <strong>acumuló mora</strong>.
+      El guion en <code>pend_ini</code> no es un cero: ese cuadro no publica esa
+      columna.
+    </p>
+  </div>
+
   <div class="def">
     <span class="def-t">Una tabla va "ancha" y cuatro van "largas" — ¿por qué?</span>
     <p><code>causas_por_tipo_proceso</code> tiene una columna por variable, como una
@@ -740,6 +775,37 @@ atendidas = resueltas + pendientes_fin          <span class="hl">← lo que sali
     en esas cuatro tablas, <em>una fila del PDF genera varias filas del CSV</em>. Por
     eso todo el proyecto distingue "filas fuente" de "filas físicas".</p>
   </div>
+
+  <h4>Y así se ve el formato largo</h4>
+
+  <p>
+    Una sola fila del PDF —el juzgado de instrucción penal de una ciudad— se convierte
+    en nueve filas del CSV, una por cada columna que ese cuadro publica:
+  </p>
+
+  <div class="csv">
+    <div class="csv-top"><span>data/processed/resueltas_por_tipo_proceso.csv</span><em>9 filas físicas = 1 fila fuente</em></div>
+    <div class="twrap"><table>
+      <thead><tr><th>cuadro</th><th>pág.</th><th>orden_fila</th><th>columna</th><th class="wrap-cell">rotulo_columna_pdf</th><th class="num">valor</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">num_juzgados</td><td class="wrap-cell">NÚMERO DE / JUZGADOS</td><td class="num">3</td></tr>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">remision_art_299_ley_548</td><td class="wrap-cell">REMISIÓN ART. / 299 LEY 548</td><td class="num">2</td></tr>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">conciliacion</td><td class="wrap-cell">SALIDAS ALTERNATIVAS / CONCILIACIÓN</td><td class="num">1</td></tr>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">reparacion_dano</td><td class="wrap-cell">SALIDAS ALTERNATIVAS / REPARACIÓN / DEL DAÑO</td><td class="num">0</td></tr>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">sobreseimiento</td><td class="wrap-cell">OTROS REQUERIMIENTOS CONCLUSIVOS / SOBRESEIMIE…</td><td class="num">3</td></tr>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">terminacion_anticipada</td><td class="wrap-cell">OTROS REQUERIMIENTOS CONCLUSIVOS / TERMINACIÓN / ANTICIPADA…</td><td class="num">28</td></tr>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">extincion_prescripcion</td><td class="wrap-cell">FORMAS DE / CONCLUSIÓN / EXTINCIÓN O / PRESCRIPCIÓN…</td><td class="num">0</td></tr>
+        <tr><td class="mono">5.1.3.10</td><td class="num">298</td><td class="num">1</td><td class="mono">total</td><td class="wrap-cell">TOTAL</td><td class="num">34</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <p>
+    Fijate en <code>rotulo_columna_pdf</code>: guarda el encabezado <em>tal como está
+    impreso</em>, con las barras marcando dónde el PDF lo parte en varias líneas.
+    Eso es la regla n.º 1 en acción — el nombre corto y limpio va en
+    <code>columna</code>, y el original no se pierde.
+  </p>
 
   <h3>Cómo se sabe que la extracción está bien</h3>
 
@@ -858,6 +924,118 @@ Contra el cuadro 9.1.2, misma materia, otro capítulo:
       </tbody>
     </table>
   </div>
+
+  <h3>Qué cambió en los datos, fila por fila</h3>
+
+  <p>
+    Cada auditoría dejó una huella concreta en el CSV. Estos son recortes reales de
+    antes y después.
+  </p>
+
+  <h4>1 · Geografía</h4>
+  <div class="paso-ad">
+    <div class="caja mal"><span class="et">antes — v1</span>ciudad: SUCRE<br>departamento_derivado: <strong>vacío</strong></div>
+    <div class="flecha">→</div>
+    <div class="caja bien"><span class="et">después</span>ciudad: SUCRE<br>departamento_derivado: <strong>Chuquisaca</strong></div>
+  </div>
+  <p>
+    En esa sola tabla pasó de <strong>1.190 filas sin departamento a 0</strong>. En las
+    cinco tablas de procesos, de 76.279 a cero. La causa era que el código comparaba
+    <code>SUCRE</code> contra <code>Sucre</code>.
+  </p>
+
+  <h4>2 · Materias</h4>
+  <div class="csv">
+    <div class="csv-top"><span>tres columnas conviven: ninguna pisa a la anterior</span></div>
+    <div class="twrap"><table>
+      <thead><tr><th>materia_cruda <em>(literal del PDF)</em></th><th>materia_norm <em>(errata corregida)</em></th><th class="nuevo">materia_homologada <em>(clave nueva)</em></th></tr></thead>
+      <tbody>
+        <tr><td class="mono">PÚBLICO CIVIL Y COMERCIAL</td><td class="mono">PÚBLICO CIVIL Y COMERCIAL</td><td class="mono nuevo">Público Civil y Comercial</td></tr>
+        <tr><td class="mono">Público Civil y Comercial</td><td class="mono">Público Civil y Comercial</td><td class="mono nuevo">Público Civil y Comercial</td></tr>
+        <tr><td class="mono">INSTRUCCÓN CONTRA LA VIOLENCIA HACIA LA MUJER</td><td class="mono">INSTRUCCIÓN CONTRA LA VIOLENCIA HACIA LA MUJER</td><td class="mono nuevo">Instrucción Contra la Violencia hacia las Mujeres</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p>
+    Las dos primeras filas son la <strong>misma materia escrita distinto en dos
+    cuadros</strong>: antes no cruzaban, ahora sí. La tercera muestra la errata de
+    imprenta <code>INSTRUCCÓN</code>, que se corrige en <code>materia_norm</code> pero
+    <strong>nunca en el literal original</strong>.
+  </p>
+
+  <h4>3 · Juzgados: <code>col_NN</code> sigue ahí, la interpretación va al lado</h4>
+  <div class="csv">
+    <div class="csv-top"><span>data/processed/juzgados.csv · cuadro 4.1.2, Chuquisaca</span></div>
+    <div class="twrap"><table>
+      <thead><tr><th>columna</th><th class="wrap-cell">fragmentos_encabezado <em>(lo que se pudo leer)</em></th><th class="nuevo">columna_rotulo_canonico</th><th class="nuevo">tipo_columna</th><th class="num">valor</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">col_01</td><td class="wrap-cell mono">CHUQUISACA: Y CONCILIADORES POBLACIÓN PROYECTADA AL 2022</td><td class="nuevo">Población proyectada al 2022</td><td class="nuevo mono">poblacion</td><td class="num">9.081</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="note warn">
+    <p style="margin-bottom:0">
+      Esa columna era <strong>población, no juzgados</strong>. Sin la auditoría,
+      cualquiera que sumara "todas las columnas de juzgados" habría sumado 9.081
+      habitantes como si fueran tribunales. Por eso <code>tipo_columna</code> existe.
+    </p>
+  </div>
+
+  <h4>4 · Tipos de proceso: los 87 nombres rotos</h4>
+  <div class="csv">
+    <div class="csv-top"><span>el valor anterior se conserva, no se borra</span><em>151 filas corregidas en esta tabla</em></div>
+    <div class="twrap"><table>
+      <thead><tr><th>pág.</th><th class="wrap-cell">tipo_proceso_extraido <em>(lo que salió del PDF)</em></th><th class="wrap-cell nuevo">tipo_proceso <em>(corregido)</em></th><th>qué pasaba</th></tr></thead>
+      <tbody>
+        <tr><td class="num">122</td><td class="wrap-cell mono">CONCURSALES ESO LES</td><td class="wrap-cell mono nuevo">CONCURSALES</td><td>letras del rótulo vertical «PROC<strong>ESO</strong>S CONCUR<strong>S</strong>A<strong>LES</strong>» pegadas a la fila</td></tr>
+        <tr><td class="num">131</td><td class="wrap-cell mono">O ORDINARIO</td><td class="wrap-cell mono nuevo">ORDINARIO</td><td>la «O» viene del grupo vertical vecino</td></tr>
+        <tr><td class="num">177</td><td class="wrap-cell mono">DE CONSTITUCIÓN DEL PATRIMONIO FAMILIAR</td><td class="wrap-cell mono nuevo">CONSTITUCIÓN DEL PATRIMONIO FAMILIAR</td><td>el «DE» es de «PROCESOS <strong>DE</strong> RESOLUCIÓN INMEDIATA»</td></tr>
+        <tr><td class="num">122</td><td class="wrap-cell mono">TRADUCCIÓN DE DOCUMENTO EN IDIOMA EXTRANJERO INSCRIPCIÓN, MODIFICACIÓN…</td><td class="wrap-cell mono nuevo">TRADUCCIÓN DE DOCUMENTO EN IDIOMA EXTRANJERO</td><td>dos filas del PDF quedaron pegadas en una</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <h4>5 · Las 95 claves repetidas</h4>
+  <div class="csv">
+    <div class="csv-top"><span>mismo territorio, misma materia, mismo tipo de proceso — y aun así no son duplicados</span></div>
+    <div class="twrap"><table>
+      <thead><tr><th>cuadro</th><th>pág.</th><th>ciudad</th><th>tipo_proceso</th><th class="nuevo">etapa_proceso_fuente</th><th class="nuevo">contexto_accion_penal</th><th class="num">atendidas</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">5.3.1.1</td><td class="num">350</td><td>COBIJA</td><td>ANTICORRUPCIÓN</td><td class="mono nuevo">informes_inicio_investigacion</td><td class="mono nuevo">anticorrupcion</td><td class="num">45</td></tr>
+        <tr><td class="mono">5.3.1.2</td><td class="num">353</td><td>COBIJA</td><td>ANTICORRUPCIÓN</td><td class="mono nuevo">imputaciones_formales</td><td class="mono nuevo">anticorrupcion</td><td class="num">16</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="note crit">
+    <p style="margin-bottom:0">
+      <strong>45 no es lo mismo que 16.</strong> La primera fila cuenta cuántas
+      investigaciones se iniciaron en Cobija; la segunda, cuántas llegaron a
+      imputación formal. Son dos etapas del mismo camino. Borrar una como "duplicado"
+      habría perdido información real; sumarlas habría contado dos veces el mismo
+      expediente.
+    </p>
+  </div>
+
+  <h4>6 · La jerarquía del cuadro 4.1.1</h4>
+  <div class="csv">
+    <div class="csv-top"><span>data/processed/juzgados.csv · columna col_01 = Sucre</span><em>las columnas de jerarquía son nuevas</em></div>
+    <div class="twrap"><table>
+      <thead><tr><th class="nuevo">fila_id</th><th class="wrap-cell">rótulo</th><th class="nuevo">estructura_fila</th><th class="nuevo">tipo_entidad</th><th class="nuevo">padre</th><th class="num">valor</th></tr></thead>
+      <tbody>
+        <tr><td class="mono nuevo">f001</td><td class="wrap-cell"><strong>JUZGADOS DE INSTRUCCIÓN</strong></td><td class="mono nuevo">subtotal</td><td class="mono nuevo">juzgado</td><td class="mono nuevo">f037</td><td class="num">8</td></tr>
+        <tr><td class="mono nuevo">f002</td><td class="wrap-cell" style="padding-left:2rem">Penal</td><td class="mono nuevo">detalle</td><td class="mono nuevo">juzgado</td><td class="mono nuevo">f001</td><td class="num">4</td></tr>
+        <tr><td class="mono nuevo">f003</td><td class="wrap-cell" style="padding-left:2rem">Anticorrupción y Contra la Violencia hacia las mujeres</td><td class="mono nuevo">detalle</td><td class="mono nuevo">juzgado</td><td class="mono nuevo">f001</td><td class="num">4</td></tr>
+        <tr><td class="mono nuevo">f036</td><td class="wrap-cell">CONCILIADORES</td><td class="mono nuevo">detalle</td><td class="mono nuevo">conciliador</td><td class="mono nuevo">f037</td><td class="num">5</td></tr>
+        <tr><td class="mono nuevo">f037</td><td class="wrap-cell"><strong>TOTAL GENERAL</strong></td><td class="mono nuevo">total_general</td><td class="mono nuevo">otro</td><td class="num">—</td><td class="num">65</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <p>
+    Mirá <code>f001</code>: vale <strong>8</strong>, y sus dos hijos valen 4 y 4. Si
+    sumás los tres, contás 16 juzgados donde hay 8. Sumando las 24 filas de Sucre da
+    <strong>188</strong>; sumando solo las de detalle da <strong>65</strong>, que es
+    exactamente lo que dice <code>TOTAL GENERAL</code>.
+  </p>
 
   <h3>Los tres hallazgos que hay que saber sí o sí</h3>
 
@@ -1120,6 +1298,61 @@ movimiento_gestion_2023  (56)  ← hecho agregado, separado</code></pre>
     </p>
   </div>
 
+  <h4>Una fila completa, de principio a fin</h4>
+
+  <p>
+    Esta es <strong>la misma fila</strong> que vimos cruda en §05 — los procesos
+    ordinarios civiles de Sucre — ahora al final del recorrido. Agrupada por lo que
+    hace cada bloque de columnas:
+  </p>
+
+  <div class="csv">
+    <div class="csv-top"><span>data/curated/features/dataset_analitico_curado.csv</span><em>1 de 1.997 filas · 20 de 115 columnas</em></div>
+    <div class="twrap"><table>
+      <thead><tr><th>bloque</th><th>columna</th><th>valor</th><th>quién la puso</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="3"><strong>de dónde salió</strong></td><td class="mono">cuadro_origen</td><td class="mono">5.1.1.1</td><td rowspan="3">Fase 1</td></tr>
+        <tr><td class="mono">pagina_pdf</td><td class="mono">121</td></tr>
+        <tr><td class="mono">orden_fila</td><td class="mono">1</td></tr>
+
+        <tr><td rowspan="5"><strong>qué representa</strong></td><td class="mono">ambito</td><td class="mono">capital</td><td>Fase 1</td></tr>
+        <tr><td class="mono">territorio</td><td class="mono">SUCRE</td><td>Fase 2</td></tr>
+        <tr><td class="mono nuevo">materia_homologada</td><td class="mono">Público Civil y Comercial</td><td>Fase 2 · auditoría 2</td></tr>
+        <tr><td class="mono">tipo_proceso</td><td class="mono">ORDINARIO</td><td>Fase 2 · auditoría 6</td></tr>
+        <tr><td class="mono nuevo">etapa_proceso_fuente</td><td class="mono">no_aplica</td><td>Fase 2 · auditoría 5</td></tr>
+
+        <tr><td rowspan="5"><strong>lo que publica el Anuario</strong></td><td class="mono">nuevas_ingresadas</td><td class="mono">1.424</td><td rowspan="5">Fase 1</td></tr>
+        <tr><td class="mono">readecuadas_ley_439</td><td class="mono">770</td></tr>
+        <tr><td class="mono">atendidas</td><td class="mono">2.397</td></tr>
+        <tr><td class="mono">resueltas</td><td class="mono">1.286</td></tr>
+        <tr><td class="mono">pendientes_fin</td><td class="mono">1.111</td></tr>
+
+        <tr><td rowspan="2"><strong>recursos del territorio</strong></td><td class="mono nuevo">recurso_juzgados_publicados</td><td class="mono">50</td><td rowspan="2">Fase 2 · integración</td></tr>
+        <tr><td class="mono nuevo">personal_items_total</td><td class="mono">565</td></tr>
+
+        <tr><td rowspan="5"><strong>lo calculado</strong></td><td class="mono nuevo">ingresos_totales</td><td class="mono">2.397</td><td rowspan="5">Fase 3</td></tr>
+        <tr><td class="mono nuevo">tasa_resolucion</td><td class="mono">0,537</td></tr>
+        <tr><td class="mono nuevo">tasa_congestion</td><td class="mono">1,86</td></tr>
+        <tr><td class="mono nuevo">duracion_estimada_dias</td><td class="mono">315,3</td></tr>
+        <tr><td class="mono nuevo">flag_acumula_mora</td><td class="mono">True</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="note">
+    <span class="note-label">Leé la fila completa</span>
+    <p style="margin-bottom:0">
+      Los juzgados civiles de Sucre recibieron 2.397 causas ordinarias en 2023 y
+      cerraron 1.286: una tasa de resolución del <strong>53,7 %</strong>, poco más de
+      la mitad. Manejaron 1,86 causas por cada una cerrada, y al ritmo de ese año
+      tardarían <strong>315 días</strong> en vaciar lo que les quedó pendiente. La
+      bandera <code>flag_acumula_mora</code> lo confirma.
+      <br><br>
+      Y se puede ir a verificarlo: <strong>cuadro 5.1.1.1, página 121 del PDF</strong>.
+      Esa es toda la idea del proyecto.
+    </p>
+  </div>
+
   <h3>Paso 11 — outliers sin borrar nada</h3>
 
   <p>Esta es la parte mejor resuelta de la Fase 3. Tres decisiones correctas:</p>
@@ -1178,6 +1411,86 @@ movimiento_gestion_2023  (56)  ← hecho agregado, separado</code></pre>
       </tbody>
     </table>
   </div>
+
+  <h4>Qué le hace la winsorización a los datos, exactamente</h4>
+
+  <p>
+    Cada línea es un tipo de proceso real. El círculo <strong>hueco</strong> es el
+    valor publicado; el <strong>relleno</strong> es dónde queda después del tope.
+    Nada se borra: la fila sigue ahí, con las dos columnas.
+  </p>
+
+  <figure class="figura">
+    <figcaption>Los diez valores más extremos de tasa de congestión</figcaption>
+    <p class="fig-sub">antes y después del tope al percentil 95 de su estrato</p>
+    <div class="leyenda">
+      <span><i class="hueco"></i> valor publicado (<code>tasa_congestion</code>)</span>
+      <span><i class="lleno"></i> topeado (<code>tasa_congestion_winsorizada</code>)</span>
+    </div>
+    <svg viewBox="0 0 720 286" role="img" class="chart" aria-label="Winsorización: los diez valores más extremos de tasa de congestión, antes y después del tope">
+<line x1="294.9" y1="10" x2="294.9" y2="256" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="294.9" y="272" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">1</text>
+<line x1="313.5" y1="10" x2="313.5" y2="256" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="313.5" y="272" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">2</text>
+<line x1="350.4" y1="10" x2="350.4" y2="256" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="350.4" y="272" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">5</text>
+<line x1="392.0" y1="10" x2="392.0" y2="256" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="392.0" y="272" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">10</text>
+<line x1="450.8" y1="10" x2="450.8" y2="256" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="450.8" y="272" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">20</text>
+<line x1="534.0" y1="10" x2="534.0" y2="256" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="534.0" y="272" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">40</text>
+<line x1="651.6" y1="10" x2="651.6" y2="256" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="651.6" y="272" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">80</text>
+<line x1="360.7" y1="18" x2="654.1" y2="18" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="654.1" cy="18" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>TUTELA ORDINARIA — antes: 81.00</title></circle>
+<circle cx="360.7" cy="18" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>TUTELA ORDINARIA — después del tope: 6.08</title></circle>
+<text x="238" y="22" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">TUTELA ORDINARIA</text>
+<line x1="427.2" y1="42" x2="470.0" y2="42" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="470.0" cy="42" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>COACTIVO FISCAL — antes: 24.00</title></circle>
+<circle cx="427.2" cy="42" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>COACTIVO FISCAL — después del tope: 15.57</title></circle>
+<text x="238" y="46" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">COACTIVO FISCAL</text>
+<line x1="427.2" y1="66" x2="436.0" y2="66" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="436.0" cy="66" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>CONTENCIOSO TRIBUTARIO — antes: 17.15</title></circle>
+<circle cx="427.2" cy="66" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>CONTENCIOSO TRIBUTARIO — después del tope: 15.57</title></circle>
+<text x="238" y="70" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">CONTENCIOSO TRIBUTARIO</text>
+<line x1="360.7" y1="90" x2="429.6" y2="90" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="429.6" cy="90" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>OTROS CON PROCEDIMIENTO ES… — antes: 16.00</title></circle>
+<circle cx="360.7" cy="90" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>OTROS CON PROCEDIMIENTO ES… — después del tope: 6.08</title></circle>
+<text x="238" y="94" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">OTROS CON PROCEDIMIENTO ES…</text>
+<line x1="389.7" y1="114" x2="426.4" y2="114" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="426.4" cy="114" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>INFRACCION A LEYES SOCIALES — antes: 15.43</title></circle>
+<circle cx="389.7" cy="114" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>INFRACCION A LEYES SOCIALES — después del tope: 9.68</title></circle>
+<text x="238" y="118" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">INFRACCION A LEYES SOCIALES</text>
+<line x1="338.2" y1="138" x2="423.9" y2="138" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="423.9" cy="138" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>PROCESOS INNOMINADOS - OTR… — antes: 15.00</title></circle>
+<circle cx="338.2" cy="138" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>PROCESOS INNOMINADOS - OTR… — después del tope: 3.86</title></circle>
+<text x="238" y="142" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">PROCESOS INNOMINADOS - OTR…</text>
+<line x1="353.8" y1="162" x2="418.0" y2="162" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="418.0" cy="162" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>DESALOJO EN REGIMEN DE LIB… — antes: 14.00</title></circle>
+<circle cx="353.8" cy="162" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>DESALOJO EN REGIMEN DE LIB… — después del tope: 5.34</title></circle>
+<text x="238" y="166" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">DESALOJO EN REGIMEN DE LIB…</text>
+<line x1="326.8" y1="186" x2="418.0" y2="186" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="418.0" cy="186" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>NULIDAD DE ACUERDOS EN LA … — antes: 14.00</title></circle>
+<circle cx="326.8" cy="186" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>NULIDAD DE ACUERDOS EN LA … — después del tope: 2.93</title></circle>
+<text x="238" y="190" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">NULIDAD DE ACUERDOS EN LA …</text>
+<line x1="353.8" y1="210" x2="411.9" y2="210" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="411.9" cy="210" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>TRADUCCIÓN DE DOCUMENTO EN… — antes: 13.00</title></circle>
+<circle cx="353.8" cy="210" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>TRADUCCIÓN DE DOCUMENTO EN… — después del tope: 5.34</title></circle>
+<text x="238" y="214" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">TRADUCCIÓN DE DOCUMENTO EN…</text>
+<line x1="349.5" y1="234" x2="411.9" y2="234" stroke="var(--viz-txt2)" stroke-width="2" opacity=".45"/>
+<circle cx="411.9" cy="234" r="5" fill="none" stroke="var(--viz-txt)" stroke-width="2"><title>OFERTA DE PAGO Y CONSIGNAC… — antes: 13.00</title></circle>
+<circle cx="349.5" cy="234" r="5.5" fill="var(--viz-serie)" stroke="var(--viz-surface)" stroke-width="2"><title>OFERTA DE PAGO Y CONSIGNAC… — después del tope: 4.91</title></circle>
+<text x="238" y="238" fill="var(--viz-txt)" font-size="11.5" text-anchor="end" font-family="var(--sans)">OFERTA DE PAGO Y CONSIGNAC…</text>
+<text x="250" y="285" fill="var(--viz-txt2)" font-size="11" font-family="var(--sans)">escala raíz cuadrada · tasa de congestión</text>
+</svg>
+    <p class="fig-nota">
+      Solo <strong>59 de 1.122</strong> filas con tasa fueron topeadas: el 5,3 %. La
+      tutela ordinaria de niñez en capitales pasa de 81 a 6,08 — atendió 81 causas y
+      resolvió 1. El caso sigue existiendo en el dataset y sigue marcado como outlier
+      severo; lo que cambia es que ya no domina un promedio.
+    </p>
+  </figure>
 
   <h3>Paso 12 — el reporte</h3>
 
@@ -1244,6 +1557,28 @@ atendidas − pendientes_inicio    <span class="good">250.871</span>   <span cla
       mora". <strong>Es la conclusión opuesta</strong>, y era el titular del informe.
     </p>
   </div>
+
+  <figure class="figura">
+    <figcaption>La misma división, dos denominadores</figcaption>
+    <p class="fig-sub">tasa de resolución de la justicia no penal, 2023</p>
+    <svg viewBox="0 0 720 172" role="img" class="chart" aria-label="Tasa de resolución: 103,84 % con el denominador incorrecto, 83,39 % con el correcto">
+<defs><pattern id="rayado2" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="var(--viz-resto)"/><line x1="0" y1="0" x2="0" y2="7" stroke="var(--viz-txt2)" stroke-width="1.6" opacity=".5"/></pattern></defs>
+<line x1="560.0" y1="12" x2="560.0" y2="112" stroke="var(--viz-txt)" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="560.0" y="128" fill="var(--viz-txt)" font-size="11.5" text-anchor="middle" font-family="var(--sans)" font-weight="600">100 % = cierra lo que entra</text>
+<rect x="210" y="22" width="363.4" height="30" rx="4" fill="url(#rayado2)"><title>incorrecto: 103.84 %</title></rect>
+<text x="198" y="34" fill="var(--viz-txt)" font-size="12" text-anchor="end" font-family="var(--sans)">Dividiendo solo por<tspan x='198' dy='15'>nuevas_ingresadas</tspan></text>
+<text x="563.4" y="42" fill="var(--viz-txt)" font-size="14" text-anchor="end" font-family="var(--mono)" font-weight="600">103,84 %</text>
+<rect x="210" y="68" width="291.9" height="30" rx="4" fill="var(--viz-serie)"><title>correcto: 83.39 %</title></rect>
+<text x="198" y="80" fill="var(--viz-txt)" font-size="12" text-anchor="end" font-family="var(--sans)">Dividiendo por todas las<tspan x='198' dy='15'>formas de ingreso</tspan></text>
+<text x="491.9" y="88" fill="var(--viz-sobre-serie)" font-size="14" text-anchor="end" font-family="var(--mono)" font-weight="600">83,39 %</text>
+<text x="210" y="152" fill="var(--viz-txt2)" font-size="11.5" font-family="var(--sans)">Mismo numerador (209.197 resueltas). Solo cambia el denominador: 201.455 contra 250.871.</text>
+</svg>
+    <p class="fig-nota">
+      La línea punteada marca el 100 %: por encima, el sistema cierra más de lo que
+      recibe; por debajo, acumula. El error movía el resultado <strong>de un lado al
+      otro de esa línea</strong>.
+    </p>
+  </figure>
 
   <h3>Las cinco correcciones</h3>
 
@@ -1366,6 +1701,25 @@ denominador = (resueltas + pendientes_fin) − pendientes_fin + resueltas
     </div>
   </div>
 
+  <figure class="figura">
+    <figcaption>Qué parte del sistema cubre este reporte</figcaption>
+    <svg viewBox="0 0 720 116" role="img" class="chart" aria-label="Cobertura del reporte: 47,5 % de las causas atendidas">
+<defs><pattern id="rayado" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="var(--viz-resto)"/><line x1="0" y1="0" x2="0" y2="7" stroke="var(--viz-txt2)" stroke-width="1.6" opacity=".5"/></pattern></defs>
+<rect x="8" y="26" width="334.4" height="42" rx="4" fill="var(--viz-serie)"><title>Analizado: 335.472 causas atendidas (47,5 %)</title></rect>
+<rect x="344.4" y="26" width="367.6" height="42" rx="4" fill="url(#rayado)"><title>Materias penales, fuera del reporte: 371.013 causas (52,5 %)</title></rect>
+<text x="20" y="44" fill="var(--viz-sobre-serie)" font-size="12" font-weight="600" font-family="var(--sans)">Justicia no penal — analizado</text>
+<text x="20" y="60" fill="var(--viz-sobre-serie)" font-size="13" font-family="var(--mono)" font-weight="600">335.472 · 47,5 %</text>
+<text x="356.4" y="44" fill="var(--viz-txt)" font-size="12" font-weight="600" font-family="var(--sans)">Materias penales — fuera</text>
+<text x="356.4" y="60" fill="var(--viz-txt)" font-size="13" font-family="var(--mono)" font-weight="600">371.013 · 52,5 %</text>
+<text x="8" y="16" fill="var(--viz-txt2)" font-size="11" font-family="var(--mono)">causas atendidas en el dataset analítico · total 706.485</text>
+</svg>
+    <p class="fig-nota">
+      Las ocho materias penales no entran porque sus cuadros no publican
+      <code>resueltas</code>. Es una limitación de la fuente, no una decisión de
+      recorte.
+    </p>
+  </figure>
+
   <h3>Balance de la justicia no penal, 2023</h3>
 
   <div class="chain" role="group" aria-label="Balance general">
@@ -1382,6 +1736,43 @@ denominador = (resueltas + pendientes_fin) − pendientes_fin + resueltas
   </p>
 
   <h3>Por materia</h3>
+
+  <figure class="figura">
+    <figcaption>Tasa de congestión por materia</figcaption>
+    <p class="fig-sub">causas que el sistema gestionó por cada una que logró cerrar</p>
+    <svg viewBox="0 0 720 214" role="img" class="chart" aria-label="Tasa de congestión por materia">
+<line x1="250.0" y1="8" x2="250.0" y2="188" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="250.0" y="204" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">0,00</text>
+<line x1="349.5" y1="8" x2="349.5" y2="188" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="349.5" y="204" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">1,25</text>
+<line x1="449.0" y1="8" x2="449.0" y2="188" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="449.0" y="204" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">2,50</text>
+<line x1="548.5" y1="8" x2="548.5" y2="188" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="548.5" y="204" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">3,75</text>
+<line x1="648.0" y1="8" x2="648.0" y2="188" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="648.0" y="204" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">5,00</text>
+<rect x="250" y="8" width="394.8" height="26" rx="4" fill="var(--viz-serie)" opacity="1"><title>Coactivo Fiscal y Tributario: 4,96 causas gestionadas por cada una resuelta</title></rect>
+<text x="240" y="25.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)" font-weight="600">Coactivo Fiscal y Tributario</text>
+<text x="652.8" y="25.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">4,96</text>
+<rect x="250" y="44" width="174.3" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Trabajo y Seguridad Social: 2,19 causas gestionadas por cada una resuelta</title></rect>
+<text x="240" y="61.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Trabajo y Seguridad Social</text>
+<text x="432.3" y="61.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">2,19</text>
+<rect x="250" y="80" width="121.0" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Público de Familia: 1,52 causas gestionadas por cada una resuelta</title></rect>
+<text x="240" y="97.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Público de Familia</text>
+<text x="379.0" y="97.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">1,52</text>
+<rect x="250" y="116" width="118.6" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Niñez y Adolescencia: 1,49 causas gestionadas por cada una resuelta</title></rect>
+<text x="240" y="133.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Niñez y Adolescencia</text>
+<text x="376.6" y="133.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">1,49</text>
+<rect x="250" y="152" width="114.6" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Civil y Comercial: 1,44 causas gestionadas por cada una resuelta</title></rect>
+<text x="240" y="169.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Civil y Comercial</text>
+<text x="372.6" y="169.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">1,44</text>
+</svg>
+    <p class="fig-nota">
+      Coactivo Fiscal gestiona <strong>casi cinco causas por cada una que cierra</strong>;
+      civil y comercial, una y media. Esa diferencia de 3,4 veces es la hipótesis del
+      proyecto hecha número.
+    </p>
+  </figure>
 
   <div class="twrap">
     <table>
@@ -1457,6 +1848,56 @@ denominador = (resueltas + pendientes_fin) − pendientes_fin + resueltas
   </p>
 
   <h3>Por departamento</h3>
+
+  <figure class="figura">
+    <figcaption>Duración estimada por departamento</figcaption>
+    <p class="fig-sub">días que tardaría en vaciar su stock pendiente al ritmo de 2023</p>
+    <svg viewBox="0 0 720 358" role="img" class="chart" aria-label="Duración estimada por departamento, en días">
+<line x1="160.0" y1="8" x2="160.0" y2="332" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="160.0" y="348" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">0</text>
+<line x1="282.0" y1="8" x2="282.0" y2="332" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="282.0" y="348" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">75</text>
+<line x1="404.0" y1="8" x2="404.0" y2="332" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="404.0" y="348" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">150</text>
+<line x1="526.0" y1="8" x2="526.0" y2="332" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="526.0" y="348" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">225</text>
+<line x1="648.0" y1="8" x2="648.0" y2="332" stroke="var(--viz-grid)" stroke-width="1"/>
+<text x="648.0" y="348" fill="var(--viz-txt2)" font-size="11" text-anchor="middle" font-family="var(--mono)">300</text>
+<rect x="160" y="8" width="478.2" height="26" rx="4" fill="var(--viz-serie)" opacity="1"><title>Santa Cruz: 294 días</title></rect>
+<text x="150" y="25.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)" font-weight="600">Santa Cruz</text>
+<text x="646.2" y="25.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">294</text>
+<rect x="160" y="44" width="462.0" height="26" rx="4" fill="var(--viz-serie)" opacity="1"><title>La Paz: 284 días</title></rect>
+<text x="150" y="61.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)" font-weight="600">La Paz</text>
+<text x="630.0" y="61.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">284</text>
+<rect x="160" y="80" width="414.8" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Beni: 255 días</title></rect>
+<text x="150" y="97.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Beni</text>
+<text x="582.8" y="97.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">255</text>
+<rect x="160" y="116" width="335.1" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Pando: 206 días</title></rect>
+<text x="150" y="133.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Pando</text>
+<text x="503.1" y="133.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">206</text>
+<rect x="160" y="152" width="330.2" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Potosí: 203 días</title></rect>
+<text x="150" y="169.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Potosí</text>
+<text x="498.2" y="169.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">203</text>
+<rect x="160" y="188" width="266.8" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Tarija: 164 días</title></rect>
+<text x="150" y="205.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Tarija</text>
+<text x="434.8" y="205.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">164</text>
+<rect x="160" y="224" width="208.2" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Cochabamba: 128 días</title></rect>
+<text x="150" y="241.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Cochabamba</text>
+<text x="376.2" y="241.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">128</text>
+<rect x="160" y="260" width="195.2" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Chuquisaca: 120 días</title></rect>
+<text x="150" y="277.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Chuquisaca</text>
+<text x="363.2" y="277.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">120</text>
+<rect x="160" y="296" width="154.5" height="26" rx="4" fill="var(--viz-serie)" opacity="0.78"><title>Oruro: 95 días</title></rect>
+<text x="150" y="313.7" fill="var(--viz-txt)" font-size="12.5" text-anchor="end" font-family="var(--sans)">Oruro</text>
+<text x="322.5" y="313.7" fill="var(--viz-txt)" font-size="12.5" font-family="var(--mono)" font-weight="600">95</text>
+</svg>
+    <p class="fig-nota">
+      Santa Cruz y La Paz, los dos distritos más grandes, son también los más lentos:
+      más de nueve meses contra los tres de Oruro. Pero Cochabamba maneja casi el
+      mismo volumen que Potosí y Tarija juntos y es más rápido que ambos, así que
+      <strong>el tamaño no explica todo</strong>.
+    </p>
+  </figure>
 
   <div class="twrap">
     <table>
