@@ -1,0 +1,2048 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Congestión Judicial Bolivia — cómo se construyó el dataset</title>
+<meta name="description" content="Documentación completa del proyecto: de un PDF de 774 páginas a un dataset analítico con indicadores de congestión judicial. Explicado desde cero.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+
+<nav class="sidebar" id="sidebar">
+  <div class="topbar">
+    <a class="brand" href="#inicio">
+      <span class="brand-mark">Anuario Judicial 2023</span>
+      <span class="brand-name">Congestión Judicial<br>en Bolivia</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="tocList">Índice</button>
+  </div>
+
+  <ul class="toc" id="tocList">
+    <li class="toc-group">Empezar acá</li>
+    <li><a href="#inicio"><span class="num">00</span> Qué es esto</a></li>
+    <li><a href="#vocabulario"><span class="num">01</span> Vocabulario mínimo</a></li>
+    <li><a href="#problema"><span class="num">02</span> El problema</a></li>
+    <li><a href="#anuario"><span class="num">03</span> Cómo es el Anuario</a></li>
+
+    <li class="toc-group">Las tres fases</li>
+    <li><a href="#fases"><span class="num">04</span> Mapa general</a></li>
+    <li><a href="#fase1"><span class="num">05</span> Fase 1 · El ETL</a></li>
+    <li><a href="#fase2"><span class="num">06</span> Fase 2 · Auditorías</a></li>
+    <li><a href="#fase3"><span class="num">07</span> Fase 3 · Limpieza y EDA</a></li>
+
+    <li class="toc-group">Resultados</li>
+    <li><a href="#correcciones"><span class="num">08</span> Las correcciones</a></li>
+    <li><a href="#hallazgos"><span class="num">09</span> Qué encontramos</a></li>
+
+    <li class="toc-group">Referencia</li>
+    <li><a href="#documentos"><span class="num">10</span> Los 19 documentos</a></li>
+    <li><a href="#conceptos"><span class="num">11</span> Conceptos clave</a></li>
+    <li><a href="#errores"><span class="num">12</span> Los tres errores</a></li>
+    <li><a href="#defensa"><span class="num">13</span> Preguntas de defensa</a></li>
+    <li><a href="#pendiente"><span class="num">14</span> Lo que falta</a></li>
+    <li><a href="#glosario"><span class="num">15</span> Glosario</a></li>
+  </ul>
+</nav>
+
+<main class="main">
+
+<!-- ============ PORTADA ============ -->
+<header class="hero wrap" id="inicio">
+  <p class="eyebrow">Proyecto de Análisis de Datos</p>
+  <h1>De un PDF de 774 páginas a un dataset que se puede defender</h1>
+  <p class="lede">
+    El Consejo de la Magistratura de Bolivia publica cada año las estadísticas de
+    todos los juzgados del país. Las publica en un PDF: sin Excel, sin CSV, sin
+    forma de usarlas. Este proyecto las convierte en datos, verifica que estén
+    bien, y calcula con ellas cuánto tarda el sistema judicial boliviano en
+    cerrar un caso.
+  </p>
+
+  <div class="chain" role="group" aria-label="Del PDF al resultado">
+    <div class="chain-step"><span class="chain-v">774</span><span class="chain-k">páginas de PDF</span></div>
+    <div class="chain-step"><span class="chain-v">85.953</span><span class="chain-k">filas extraídas</span></div>
+    <div class="chain-step"><span class="chain-v">1.997</span><span class="chain-k">filas analíticas</span></div>
+    <div class="chain-step"><span class="chain-v">83,4 %</span><span class="chain-k">tasa de resolución</span></div>
+  </div>
+
+  <div class="note">
+    <span class="note-label">Cómo leer esta página</span>
+    <p>
+      Está escrita asumiendo que <strong>no sabés nada</strong> ni del Poder Judicial
+      boliviano ni de ingeniería de datos. Cada término se define antes de usarse, y
+      los que llevan <span class="term">subrayado punteado</span> están también en el
+      <a href="#glosario">glosario</a> del final.
+    </p>
+    <p style="margin-bottom:0">
+      Si tenés 20 minutos: leé <a href="#vocabulario">§01</a>,
+      <a href="#fases">§04</a> y <a href="#defensa">§13</a>. Si vas a defender el
+      trabajo en clase, leé además <a href="#errores">§12</a>, que es donde están las
+      preguntas difíciles.
+    </p>
+  </div>
+</header>
+
+<!-- ============ 01 VOCABULARIO ============ -->
+<section class="section wrap" id="vocabulario">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2>El vocabulario mínimo</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Antes de mirar un solo número</b>, hay que saber qué cuenta el Anuario y con
+    qué palabras. Son dos vocabularios distintos: el del Poder Judicial y el de
+    datos. Sin el primero no se entiende qué se midió; sin el segundo no se entiende
+    cómo.
+  </p>
+
+  <h3>Vocabulario judicial</h3>
+
+  <p>
+    El Poder Judicial boliviano se llama oficialmente <strong>Órgano Judicial</strong>.
+    Lo que este proyecto mide es cuánto trabajo entra, cuánto sale y cuánto se
+    acumula en cada pedazo de ese órgano.
+  </p>
+
+  <dl class="vocab">
+    <div>
+      <dt>Causa</dt>
+      <dd>Un caso judicial. Un expediente. Es la unidad que se cuenta en todo el
+      proyecto: cuántas entran, cuántas se cierran, cuántas quedan pendientes.
+      <span class="ej">un divorcio, una demanda laboral, un juicio penal</span></dd>
+    </div>
+    <div>
+      <dt>Juzgado</dt>
+      <dd>La oficina donde un juez atiende causas. Es la unidad física del sistema.
+      Hay juzgados de distintos tipos según lo que atienden.
+      <span class="ej">Juzgado Público Civil y Comercial N.º 3</span></dd>
+    </div>
+    <div>
+      <dt>Tribunal y Sala</dt>
+      <dd><strong>No son juzgados.</strong> Un tribunal tiene varios jueces que
+      deciden juntos; una sala es una división de un tribunal superior que revisa
+      decisiones de instancias menores. Cuentan aparte.
+      <span class="ej">Tribunal de Sentencia · Sala Civil</span></dd>
+    </div>
+    <div>
+      <dt>Conciliador</dt>
+      <dd>Una <strong>persona</strong>, no una oficina: ayuda a que las partes lleguen
+      a un acuerdo sin juicio. El Anuario lo suma en la misma tabla que los juzgados,
+      y eso es una trampa que el proyecto tuvo que desarmar.
+      <span class="ej">95 conciliadores en las capitales</span></dd>
+    </div>
+    <div>
+      <dt>Materia</dt>
+      <dd>La rama del derecho de la que se ocupa un juzgado. Es la primera forma de
+      cortar los datos.
+      <span class="ej">Civil y Comercial · Familia · Penal · Trabajo · Niñez</span></dd>
+    </div>
+    <div>
+      <dt>Tipo de proceso</dt>
+      <dd>Dentro de una materia, el procedimiento concreto. Es la variable más fina
+      que publica el Anuario, y la que faltaba antes de este proyecto.
+      <span class="ej">dentro de Familia: divorcio, asistencia familiar, adopción</span></dd>
+    </div>
+    <div>
+      <dt>Ámbito: capital o provincia</dt>
+      <dd>El Anuario separa las <strong>ciudades capitales</strong> (más El Alto) del
+      <strong>resto del departamento</strong>. Son realidades muy distintas: un
+      juzgado de La Paz ciudad no se compara con uno rural.
+      <span class="ej">capital = 10 ciudades · provincia = 9 departamentos</span></dd>
+    </div>
+    <div>
+      <dt>Distrito judicial</dt>
+      <dd>La división territorial del Órgano Judicial. Coincide con los nueve
+      departamentos de Bolivia, pero <strong>no</strong> es lo mismo que la ciudad:
+      el distrito La Paz incluye La Paz ciudad, El Alto y toda la provincia.
+      <span class="ej">9 distritos = 9 departamentos</span></dd>
+    </div>
+    <div>
+      <dt>Instrucción vs. Sentencia</dt>
+      <dd>Dos etapas de un proceso penal. <strong>Instrucción</strong> es la
+      investigación; <strong>sentencia</strong> es el juicio donde se decide. Son
+      juzgados distintos y cuadros distintos: confundirlos cuenta el mismo caso dos
+      veces.</dd>
+    </div>
+    <div>
+      <dt>Acción penal pública / privada</dt>
+      <dd>Quién impulsa el caso. En la <strong>pública</strong> el Estado acusa (un
+      robo, un homicidio); en la <strong>privada</strong> tiene que acusar la víctima
+      (una injuria). "A instancia de parte" es intermedia: el Estado actúa pero
+      necesita que la víctima denuncie primero.</dd>
+    </div>
+    <div>
+      <dt>Ítem</dt>
+      <dd>En la jerga administrativa boliviana, un <strong>puesto de trabajo</strong>
+      presupuestado. "1.560 ítems" en La Paz significa 1.560 cargos, no 1.560
+      personas necesariamente ocupándolos.
+      <span class="ej">items_total, items_acefalias (vacantes)</span></dd>
+    </div>
+    <div>
+      <dt>Gestión</dt>
+      <dd>En Bolivia, el <strong>año</strong> administrativo. "Gestión 2023" = año
+      2023. No tiene nada que ver con "gestionar".</dd>
+    </div>
+  </dl>
+
+  <div class="def">
+    <span class="def-t">Las cinco palabras que hay que saber de memoria</span>
+    <p>Todo el análisis se apoya en cinco cantidades que el Anuario publica por cada
+    combinación de territorio, materia y tipo de proceso:</p>
+    <ul style="margin-bottom:.5rem">
+      <li><code>pendientes_inicio</code> — causas que ya estaban abiertas el 1 de enero</li>
+      <li><code>ingresadas</code> — causas nuevas que entraron durante el año</li>
+      <li><code>atendidas</code> — todo lo que el juzgado tuvo en las manos = <em>pendientes_inicio + ingresadas</em></li>
+      <li><code>resueltas</code> — causas cerradas durante el año</li>
+      <li><code>pendientes_fin</code> — causas que quedaron abiertas el 31 de diciembre</li>
+    </ul>
+    <p style="margin-bottom:0">Y se relacionan por dos identidades que <strong>siempre</strong> deben cumplirse:</p>
+    <pre><code>atendidas = pendientes_inicio + ingresadas      <span class="hl">← lo que entró</span>
+atendidas = resueltas + pendientes_fin          <span class="hl">← lo que salió</span></code></pre>
+    <p style="margin-bottom:0">Estas dos ecuaciones son la herramienta de verificación
+    más usada en todo el proyecto. Si no cierran, algo está mal: o el parser, o la
+    fuente.</p>
+  </div>
+
+  <h3>Vocabulario de datos</h3>
+
+  <dl class="vocab">
+    <div>
+      <dt>ETL</dt>
+      <dd><em>Extract, Transform, Load.</em> El proceso de sacar datos de donde están
+      atrapados (extract), darles forma utilizable (transform) y guardarlos
+      (load). La Fase 1 de este proyecto es exactamente eso.</dd>
+    </div>
+    <div>
+      <dt>Capa de texto de un PDF</dt>
+      <dd>Un PDF puede ser <strong>texto</strong> (las letras están guardadas como
+      caracteres) o <strong>imagen</strong> (una foto de una página). Este Anuario es
+      el primer caso — por suerte, porque si fuera imagen habría que usar OCR y el
+      error sería mucho mayor.</dd>
+    </div>
+    <div>
+      <dt>Parser</dt>
+      <dd>El programa que lee un texto desordenado y saca de él una estructura. Acá,
+      el que convierte "SUCRE 14 ... 1.234 567" en filas y columnas.</dd>
+    </div>
+    <div>
+      <dt>CSV y Parquet</dt>
+      <dd>Dos formatos de tabla. <strong>CSV</strong> es texto plano, lo abre Excel,
+      pero pierde los tipos de dato. <strong>Parquet</strong> es binario, conserva si
+      un número era entero o decimal y si una celda estaba vacía. Por eso el proyecto
+      usa Parquet como referencia.</dd>
+    </div>
+    <div>
+      <dt>Nulo (NaN / NA)</dt>
+      <dd>Una celda <strong>vacía</strong>. Importante: <em>vacío no es cero</em>.
+      Cero significa "ninguna causa"; vacío significa "el Anuario no publica este
+      dato acá". Confundirlos inventa datos.</dd>
+    </div>
+    <div>
+      <dt>Grano</dt>
+      <dd>El nivel de detalle de una fila. Si cada fila es un tipo de proceso en una
+      ciudad, ese es el grano. <strong>Es el concepto más importante del proyecto</strong>:
+      juntar tablas de grano distinto sin cuidado multiplica los números.
+      <span class="ej">grano de la tabla base: ámbito × territorio × materia × tipo de proceso</span></dd>
+    </div>
+    <div>
+      <dt>Formato ancho y formato largo</dt>
+      <dd><strong>Ancho</strong>: una columna por variable (lo normal en Excel).
+      <strong>Largo</strong>: una fila por cada celda, con columnas
+      <code>variable</code> y <code>valor</code>. Se usa formato largo cuando cada
+      grupo tiene variables distintas y el ancho quedaría lleno de vacíos.</dd>
+    </div>
+    <div>
+      <dt>Join (unir tablas)</dt>
+      <dd>Pegar dos tablas usando una columna en común, como el BUSCARV de Excel. Si
+      la columna en común no identifica una sola fila de cada lado, el resultado
+      tiene más filas que el original: eso es <em>fan-out</em> y es el error más caro
+      del proyecto.</dd>
+    </div>
+    <div>
+      <dt>Clave</dt>
+      <dd>La combinación de columnas que identifica una fila sin repetirse. Si dos
+      filas tienen la misma clave, o hay un duplicado o falta una columna en la
+      clave. En este proyecto pasó lo segundo.</dd>
+    </div>
+    <div>
+      <dt>Outlier</dt>
+      <dd>Un valor muy alejado del resto. En datos judiciales oficiales casi nunca es
+      un error: suele ser un juzgado realmente saturado. Por eso acá <strong>se marcan
+      pero no se borran</strong>.</dd>
+    </div>
+    <div>
+      <dt>Trazabilidad</dt>
+      <dd>Poder decir, para cualquier número del dataset, de qué cuadro y qué página
+      del PDF salió. Cada fila de este proyecto la tiene. Es lo que permite defender
+      el trabajo: cualquiera puede ir a verificarlo a mano.</dd>
+    </div>
+    <div>
+      <dt>Reproducible</dt>
+      <dd>Que otra persona, con el mismo PDF y el mismo código, obtenga exactamente
+      los mismos resultados. Nada se hizo "a mano en Excel": todo está en scripts que
+      se vuelven a correr.</dd>
+    </div>
+  </dl>
+</section>
+
+<!-- ============ 02 EL PROBLEMA ============ -->
+<section class="section wrap" id="problema">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <h2>El problema, y por qué vale la pena</h2>
+  </div>
+
+  <p class="tldr">
+    <b>El dato existe pero nadie lo puede usar.</b> Está encerrado en un PDF de 774
+    páginas. Bolivia quedó fuera del ranking regional de congestión judicial por eso.
+  </p>
+
+  <h3>Qué es la congestión judicial</h3>
+
+  <p>
+    Un sistema judicial está congestionado cuando le entran más casos de los que
+    logra cerrar. El stock de causas pendientes crece año a año, y cada caso nuevo
+    tarda más. Medirlo importa porque la demora tiene consecuencias concretas: en
+    Bolivia, cerca de <strong>seis de cada diez personas privadas de libertad no
+    tienen sentencia</strong> — están presas esperando un juicio que no llega.
+  </p>
+
+  <div class="def">
+    <span class="def-t">Cómo se mide — las tres fórmulas</span>
+    <p>Son las que usa el <span class="term">CEJA</span> (Centro de Estudios de
+    Justicia de las Américas) para comparar países. Todo el proyecto apunta a poder
+    calcularlas bien:</p>
+    <div class="twrap" style="margin:.75rem 0 .5rem">
+      <table>
+        <thead><tr><th>Indicador</th><th>Fórmula</th><th>Qué responde</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Tasa de resolución</strong><br><span class="mono" style="font-size:.7rem">clearance rate</span></td>
+            <td class="mono">resueltas ÷ ingresadas</td>
+            <td>¿Cierra al mismo ritmo que recibe? Menos de 1 = acumula mora.</td>
+          </tr>
+          <tr>
+            <td><strong>Tasa de congestión</strong></td>
+            <td class="mono">atendidas ÷ resueltas</td>
+            <td>¿Cuántas causas maneja por cada una que cierra?</td>
+          </tr>
+          <tr>
+            <td><strong>Duración estimada</strong></td>
+            <td class="mono">(pendientes_fin ÷ resueltas) × 365</td>
+            <td>¿Cuántos días tardaría en vaciar lo que tiene acumulado?</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-bottom:0">Las tres salen de las cinco cantidades de §01. No hace
+    falta nada más — pero hay que sacarlas del PDF sin equivocarse.</p>
+  </div>
+
+  <div class="analogy">
+    <b>Analogía</b>
+    <p>Pensá en la caja de un supermercado. <em>Ingresadas</em> son los clientes que
+    se ponen en la fila hoy. <em>Resueltas</em> son los que pasaron por caja.
+    <em>Pendientes al cierre</em> son los que quedaron en la fila cuando cerró el
+    local. La <strong>duración estimada</strong> pregunta: al ritmo al que atiende
+    esta caja, ¿cuánto tardaría en vaciar la fila que quedó? No mide cuánto esperó
+    cada cliente — mide la salud de la fila.</p>
+  </div>
+
+  <div class="note warn">
+    <span class="note-label">Límite honesto del método</span>
+    <p style="margin-bottom:0">
+      La duración es un <span class="term">estimador de estado estacionario</span>:
+      calcula cuánto tardaría en vaciarse el stock al ritmo actual.
+      <strong>No mide expedientes reales.</strong> Para eso habría que saber la fecha
+      de inicio y de cierre de cada causa, y el sistema judicial boliviano no publica
+      ese dato. Hay que decirlo cuando se presentan los resultados.
+    </p>
+  </div>
+
+  <h3>Por qué nadie lo había hecho</h3>
+
+  <p>
+    El Anuario se publica como un PDF de 774 páginas, sin versión tabular, sin datos
+    abiertos, sin API. El Índice de Congestión Judicial en las Américas de CEJA
+    (2025) <strong>excluyó a Bolivia de su ranking</strong> por falta de datos
+    posteriores a 2022, y en su propio informe recomienda que la academia haga el
+    desglose por materia y territorio que él no hace.
+  </p>
+
+  <p>
+    Eso es exactamente el hueco que llena este proyecto: no inventa datos nuevos,
+    libera los que ya existían.
+  </p>
+
+  <h3>La hipótesis que se quiere poner a prueba</h3>
+
+  <p>
+    Que <strong>la demora judicial boliviana no es homogénea</strong>. El promedio
+    nacional esconde realidades opuestas: una causa civil se cerraría en torno a seis
+    meses mientras una de ejecución penal superaría los cuatro años. Si eso es cierto,
+    hablar de "la justicia boliviana es lenta" es inútil — hay que decir
+    <em>dónde</em> y <em>en qué</em>.
+  </p>
+
+  <div class="note">
+    <span class="note-label">La unidad de análisis</span>
+    <p style="margin-bottom:0">
+      Todo el proyecto apunta a poder medir en esta unidad, que es la más fina que el
+      Anuario permite:
+      <br><br>
+      <strong class="mono">(ámbito, ciudad o distrito, materia, tipo de proceso)</strong>
+      <br><br>
+      <strong>No es el juzgado individual</strong>, y esa fue una corrección de premisa
+      importante: el planteo original del proyecto suponía que se podría analizar
+      juzgado por juzgado. El Anuario no publica eso y ningún esfuerzo lo puede
+      recuperar — el dato no existe.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 03 EL ANUARIO ============ -->
+<section class="section wrap" id="anuario">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2>Cómo está armado el Anuario</h2>
+  </div>
+
+  <p class="tldr">
+    <b>176 cuadros repartidos en capítulos.</b> Cada cuadro tiene un número tipo
+    <code>5.1.1.1</code> y ocupa una o varias páginas. Entender esa numeración es
+    entender de dónde sale cada dato.
+  </p>
+
+  <h3>El documento fuente</h3>
+
+  <div class="twrap">
+    <table>
+      <caption>Identificación exacta del PDF usado. El hash importa: si alguien usa otra descarga, las referencias de página pueden no coincidir.</caption>
+      <tbody>
+        <tr><th>Documento</th><td><em>Anuario Estadístico Judicial 2023</em></td></tr>
+        <tr><th>Publica</th><td>Consejo de la Magistratura de Bolivia — Jefatura Nacional de Estudios Técnicos y Estadísticos</td></tr>
+        <tr><th>Páginas</th><td class="mono">774</td></tr>
+        <tr><th>Tamaño</th><td class="mono">42.905.977 bytes</td></tr>
+        <tr><th>SHA-256</th><td class="mono" style="word-break:break-all;font-size:.7rem">8B860105762A5987509C65AA4482B240FA21FDE2E6E6EC5C0902022AC243F851</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="def">
+    <span class="def-t">¿Qué es un SHA-256 y por qué aparece acá?</span>
+    <p style="margin-bottom:0">Es una huella digital de un archivo: una cadena de
+    caracteres que cambia por completo si el archivo cambia aunque sea en un byte.
+    Declararlo permite que cualquiera verifique que trabajó sobre <em>exactamente</em>
+    el mismo PDF. Es la diferencia entre "revisé el Anuario" y "revisé este archivo".</p>
+  </div>
+
+  <h3>Cómo se numeran los cuadros</h3>
+
+  <p>
+    Un número como <code>5.1.1.1</code> se lee por niveles: el primer dígito es el
+    capítulo, y los siguientes van afinando materia, tipo de tabla y subtipo. Lo que
+    hay que retener:
+  </p>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Familia</th><th class="num">Páginas</th><th>Qué contiene</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">9.1.x</td><td class="num">~14</td><td>Movimiento de causas por materia. Series históricas 2007–2023. Es el resumen del sistema.</td></tr>
+        <tr><td class="mono">4.1.x</td><td class="num">10</td><td>Cuántos juzgados, tribunales, salas y conciliadores hay, y dónde.</td></tr>
+        <tr><td class="mono">13.1.x</td><td class="num">~2</td><td>Procesos disciplinarios internos (autoridad sumariante).</td></tr>
+        <tr><td class="mono">14.1.x</td><td class="num">~3</td><td>Personal: ítems y remuneraciones por distrito.</td></tr>
+        <tr><td class="mono"><strong>Cap. 5 y 6</strong></td><td class="num"><strong>525</strong></td><td><strong>Tipo de proceso.</strong> 97 cuadros, 95 formatos de tabla distintos. Capítulo 5 = capitales, capítulo 6 = provincias.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Las 220 páginas restantes son gráficas, mapas rasterizados, portadas y capítulos
+    de texto corrido: no contienen tablas recuperables. En total el dataset cubre
+    <strong>554 de las 774 páginas</strong>.
+  </p>
+
+  <div class="note">
+    <span class="note-label">Por qué los capítulos 5 y 6 son el corazón del proyecto</span>
+    <p style="margin-bottom:0">
+      Son 525 de las 554 páginas útiles, y aportan la única variable que no está en
+      ningún otro lado: <strong>el tipo de proceso</strong>. Sin ellos, lo más fino
+      que se puede decir es "la materia civil tarda X". Con ellos se puede decir "los
+      procesos ejecutivos civiles en Santa Cruz provincia tardan X" — que es el nivel
+      donde la hipótesis del proyecto se puede probar o refutar.
+    </p>
+  </div>
+
+  <h3>Las trampas del documento</h3>
+
+  <p>
+    Un PDF de tablas no es una tabla. Estas son las dificultades reales que hubo que
+    resolver, y explican por qué el código es tan largo:
+  </p>
+
+  <ul>
+    <li><strong>Encabezados rotados 90°.</strong> El nombre de un grupo de columnas
+    está escrito en vertical al costado. Al extraer el texto, esas letras sueltas se
+    pegan a la fila equivocada.</li>
+    <li><strong>Rótulos partidos con los números en el medio.</strong> Un nombre largo
+    de proceso ocupa dos líneas, y entre esas dos líneas el extractor encuentra las
+    cifras de la primera.</li>
+    <li><strong>El mismo número de cuadro usado dos veces.</strong> El
+    <code>6.3.1.4</code> aparece en las páginas 357–359 (capitales) y otra vez en las
+    616–618 (provincias). Suponer que todo lo que empieza con "6." es provincia
+    clasificó mal 528 filas.</li>
+    <li><strong>Erratas de imprenta.</strong> <code>OTROS VOLUNATRIOS</code>,
+    <code>INSTRUCCÓN</code>, <code>ANTICORRUPCIÒN</code> con acento grave. Están así
+    en el PDF: no son errores del programa.</li>
+    <li><strong>Columnas sin nombre.</strong> El PDF no rotula algunas columnas. No se
+    les inventó nombre: se llaman <code>col_sin_rotulo_N</code>.</li>
+    <li><strong>El Anuario no cierra consigo mismo.</strong> Hay 117 casos donde sus
+    propias cifras no cuadran. No se corrigieron: se registraron.</li>
+  </ul>
+</section>
+
+<!-- ============ 04 LAS TRES FASES ============ -->
+<section class="section wrap" id="fases">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <h2>Las tres fases, y por qué están separadas</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Cada fase tiene prohibido hacer el trabajo de la siguiente.</b> Esa disciplina
+    es lo que permite que un error se localice en minutos en vez de días.
+  </p>
+
+  <div class="phases">
+    <article class="phase">
+      <div class="phase-n">1</div>
+      <div>
+        <h3>El ETL — sacar el dato sin interpretarlo</h3>
+        <p>Lee el PDF y produce doce tablas. No decide nada: si una celda es ambigua,
+        la deja vacía y la anota. Si el Anuario se contradice, lo registra sin
+        corregir.</p>
+        <p class="phase-io"><b>entra:</b> PDF, 774 páginas &nbsp;·&nbsp;
+        <b>sale:</b> 12 tablas, 85.953 filas</p>
+      </div>
+    </article>
+    <article class="phase">
+      <div class="phase-n">2</div>
+      <div>
+        <h3>Auditoría e integración — entender qué significa</h3>
+        <p>Seis auditorías contra el PDF original resuelven qué quiere decir cada
+        columna sin nombre, qué materias son la misma, y por qué había filas que
+        parecían duplicadas. Después organiza las tablas por grano compatible.</p>
+        <p class="phase-io"><b>entra:</b> 12 tablas &nbsp;·&nbsp;
+        <b>sale:</b> 5 tablas analíticas relacionadas, base de 1.997 filas</p>
+      </div>
+    </article>
+    <article class="phase">
+      <div class="phase-n">3</div>
+      <div>
+        <h3>Limpieza y EDA — calcular y describir</h3>
+        <p>Clasifica los vacíos, calcula los indicadores de congestión, marca valores
+        extremos sin borrarlos, y produce el reporte con tablas y gráficos.</p>
+        <p class="phase-io"><b>entra:</b> base analítica &nbsp;·&nbsp;
+        <b>sale:</b> dataset curado de 115 columnas + reporte</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="def">
+    <span class="def-t">¿Qué es un EDA?</span>
+    <p style="margin-bottom:0"><em>Exploratory Data Analysis</em>, análisis exploratorio
+    de datos. Es la etapa en la que todavía no se modela nada: se describe qué hay,
+    cómo se distribuye, dónde están los valores raros y qué falta. Sirve para decidir
+    qué preguntas tiene sentido hacerle a los datos después.</p>
+  </div>
+
+  <h3>La regla que ordena todo</h3>
+
+  <div class="twrap">
+    <table>
+      <caption>Lo que cada fase puede y no puede hacer. Violar esto es lo que hace que un proyecto de datos se vuelva imposible de auditar.</caption>
+      <thead><tr><th>Fase</th><th>Puede</th><th>NO puede</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>1 · ETL</strong></td>
+          <td>extraer, tipar, derivar lo que sale directo del dato</td>
+          <td>interpretar, homologar, decidir qué significa algo ambiguo</td>
+        </tr>
+        <tr>
+          <td><strong>2 · Auditoría</strong></td>
+          <td>verificar contra el PDF, homologar lo comprobado, relacionar tablas</td>
+          <td>calcular indicadores, imputar valores, modelar</td>
+        </tr>
+        <tr>
+          <td><strong>3 · Limpieza y EDA</strong></td>
+          <td>calcular indicadores, describir, marcar outliers</td>
+          <td>modificar las fases anteriores, borrar filas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Esto no es burocracia. Cuando la tasa de resolución salió mal (ver
+    <a href="#correcciones">§08</a>), en diez minutos se supo que el problema estaba
+    en la Fase 3 y no en los datos — porque las Fases 1 y 2 tienen sus propias
+    verificaciones que seguían dando bien.
+  </p>
+
+  <h3>Las cuatro reglas que valen para todo el proyecto</h3>
+
+  <ol class="steps">
+    <li>
+      <b>El dato de origen no se sobrescribe nunca.</b>
+      Toda decisión interpretativa va en una columna <em>aparte</em>. El nombre que
+      imprime el PDF se conserva tal cual, con erratas y llamadas a nota al pie
+      incluidas (<code>Yapacani1</code>, <code>Camiri2</code>).
+    </li>
+    <li>
+      <b>Nada se interpola.</b>
+      Una celda que no se pudo resolver queda <strong>vacía</strong>, nunca en cero, y
+      se anota en un archivo de problemas. Rellenar con la media o con cero sería
+      inventar datos que después nadie podría distinguir de los reales.
+    </li>
+    <li>
+      <b>Las discrepancias se registran, no se corrigen.</b>
+      Las 117 veces que el Anuario no cuadra consigo mismo están listadas con su
+      página. Son un <em>hallazgo sobre la fuente</em>, no ruido a limpiar.
+    </li>
+    <li>
+      <b>Los encabezados no se inventan.</b>
+      Si el PDF no rotula una columna, se llama <code>col_sin_rotulo_N</code> y se
+      investiga aparte qué reproduce.
+    </li>
+  </ol>
+
+  <div class="note">
+    <span class="note-label">Y una quinta que agregaron las auditorías</span>
+    <p style="margin-bottom:0">
+      <strong>Una decisión auditada nunca borra el valor anterior.</strong> Cuando la
+      Fase 2 homologó materias, creó <code>materia_homologada</code> y dejó intactas
+      <code>materia_norm</code> y <code>materia_cruda</code>. Cuando corrigió nombres
+      de proceso, guardó el anterior en <code>tipo_proceso_extraido</code>. Siempre se
+      puede volver atrás y ver qué decía el PDF.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 05 FASE 1 ============ -->
+<section class="section wrap" id="fase1">
+  <div class="sec-head">
+    <span class="sec-num">05</span>
+    <h2>Fase 1 — El ETL</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Siete scripts que convierten el PDF en doce tablas.</b> Cada uno lee lo que
+    dejó el anterior y escribe su propia salida, así se puede revisar el trabajo a
+    mitad de camino.
+  </p>
+
+  <h3>Los siete pasos</h3>
+
+  <pre><code>data/raw/anuario_2023.pdf                 el PDF, intacto
+     │
+  <span class="hl">01_diagnostico.py</span>      ¿tiene capa de texto? ¿cuántas páginas?
+     │                    (solo reporta, no escribe nada)
+  <span class="hl">02_inventario.py</span>       recorre las 774 páginas y las clasifica
+     │                    → catalogo_cuadros.csv
+  <span class="hl">03_extraccion.py</span>       parsers de los cuadros 9.1.x, 4.1.x, 13.1.x, 14.1.x
+     │                    todo sale como TEXTO CRUDO, sin convertir
+  <span class="hl">07_extraccion_procesos.py</span>  capítulos 5 y 6 (525 páginas), por coordenadas
+     │                    → crudo_procesos_*.csv
+  <span class="hl">04_normalizacion.py</span>    convierte a números, arma el formato largo
+     │                    → norm_*.csv
+  <span class="hl">05_validacion.py</span>       verifica las identidades contables
+     │                    → discrepancias.csv
+  <span class="hl">06_export.py</span>           publica CSV + Parquet + diccionarios
+                          → data/processed/</code></pre>
+
+  <div class="def">
+    <span class="def-t">¿Por qué el paso 07 corre antes que el 04?</span>
+    <p style="margin-bottom:0">Porque es un <em>extractor</em>, igual que el 03. Lleva
+    el número 7 porque se escribió después, cuando se decidió incorporar los capítulos
+    5 y 6. Se dejó separado del 03 en vez de mezclarlos porque son familias de tablas
+    muy distintas y juntarlas habría hecho ilegible un archivo que ya tiene casi 800
+    líneas.</p>
+  </div>
+
+  <h3>La herramienta: <code>pdftotext</code></h3>
+
+  <p>
+    Como el PDF tiene capa de texto, alcanza con <code>pdftotext</code>, una
+    utilidad libre del paquete <em>poppler</em>. <strong>No se usó OCR</strong>, ni
+    librerías especializadas como camelot o tabula. Se usan dos modos:
+  </p>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Modo</th><th>Qué devuelve</th><th>Para qué sirve acá</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="mono">-layout</td>
+          <td>La página como texto monoespaciado, respetando las columnas con espacios — un dibujo ASCII de la tabla.</td>
+          <td>Casi todo el Anuario.</td>
+        </tr>
+        <tr>
+          <td class="mono">-bbox-layout</td>
+          <td>Cada fragmento de texto con sus <strong>coordenadas exactas</strong> en la página.</td>
+          <td>Los capítulos 5 y 6, donde hay rótulos rotados y filas partidas: hay que saber <em>dónde</em> está cada cosa, no solo qué dice.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Las doce tablas que produce</h3>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Tabla</th><th class="num">Filas</th><th>Qué contiene</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">causas_movimiento</td><td class="num">78</td><td>Movimiento 2023 por materia, ciudad y departamento</td></tr>
+        <tr><td class="mono">causas_por_gestion</td><td class="num">235</td><td>Causas resueltas por materia, 2019–2023</td></tr>
+        <tr><td class="mono">causas_serie_historica</td><td class="num">51</td><td>Carga procesal por año, 2007–2023</td></tr>
+        <tr><td class="mono">juzgados</td><td class="num">1.148</td><td>Juzgados, tribunales, salas y conciliadores por territorio</td></tr>
+        <tr><td class="mono">personal</td><td class="num">85</td><td>Ítems y remuneración por distrito, ente y género</td></tr>
+        <tr><td class="mono">personal_jurisdiccional</td><td class="num">3</td><td>Reparto jurisdiccional / administrativo</td></tr>
+        <tr><td class="mono">autoridad_sumariante</td><td class="num">27</td><td>Procesos disciplinarios internos</td></tr>
+        <tr><td class="mono"><strong>causas_por_tipo_proceso</strong></td><td class="num"><strong>2.419</strong></td><td><strong>La tabla clave</strong>: movimiento por territorio, materia y tipo de proceso</td></tr>
+        <tr><td class="mono">resueltas_por_tipo_proceso</td><td class="num">27.993</td><td>Formas de resolución (cómo terminó cada causa)</td></tr>
+        <tr><td class="mono">apelaciones_por_tipo_proceso</td><td class="num">37.871</td><td>Recursos de apelación</td></tr>
+        <tr><td class="mono">ejecucion_por_tipo_proceso</td><td class="num">10.015</td><td>Causas en ejecución de sentencia</td></tr>
+        <tr><td class="mono">otros_tramites_por_tipo_proceso</td><td class="num">6.028</td><td>Sentencias, medidas cautelares y demás</td></tr>
+        <tr><td><strong>Total</strong></td><td class="num"><strong>85.953</strong></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="def">
+    <span class="def-t">Una tabla va "ancha" y cuatro van "largas" — ¿por qué?</span>
+    <p><code>causas_por_tipo_proceso</code> tiene una columna por variable, como una
+    planilla normal. Se puede porque los 17 cuadros de esa familia usan el mismo
+    vocabulario: <code>pendientes_inicio</code> significa lo mismo en civil que en
+    penal.</p>
+    <p>Las otras cuatro van en <strong>formato largo</strong>: una fila por celda, con
+    las columnas <code>columna</code>, <code>valor</code> y
+    <code>rotulo_columna_pdf</code>. Es necesario porque cada materia publica sus
+    propias formas de resolución — las de familia no existen en penal — y en formato
+    ancho quedarían cientos de columnas casi todas vacías.</p>
+    <p style="margin-bottom:0"><strong>Consecuencia que hay que tener presente:</strong>
+    en esas cuatro tablas, <em>una fila del PDF genera varias filas del CSV</em>. Por
+    eso todo el proyecto distingue "filas fuente" de "filas físicas".</p>
+  </div>
+
+  <h3>Cómo se sabe que la extracción está bien</h3>
+
+  <p>
+    Esta es la parte que más conviene saber para defender el trabajo. La prueba no es
+    "lo revisamos": es que <strong>el Anuario publica las mismas cifras dos veces</strong>,
+    en capítulos distintos, con desgloses distintos, y cada una la lee un parser que no
+    conoce al otro.
+  </p>
+
+  <pre><code>Cuadro 5.1.1.1 — civil y comercial, capitales, total nacional:
+  29.688 │ 243 │ 4.398 │ 355 │ 61.144 │ 95.828 │ 67.788 │ 28.040
+
+Contra el cuadro 9.1.2, misma materia, otro capítulo:
+  <span class="good">29.688</span>                          = pendientes_inicio   <span class="good">✓</span>
+  <span class="good">243 + 4.398 + 355 + 61.144 = 66.140</span> = ingresadas         <span class="good">✓</span>
+  <span class="good">95.828</span> = atendidas   <span class="good">67.788</span> = resueltas   <span class="good">28.040</span> = pendientes_fin  <span class="good">✓</span></code></pre>
+
+  <p>
+    Cierra exacto. <strong>Y de paso resuelve una duda</strong>: deja claro que
+    <code>ingresadas</code> no es una sola columna sino la suma de cuatro formas de
+    ingreso más las nuevas. Ese detalle va a ser decisivo en la Fase 3.
+  </p>
+
+  <p>Otras verificaciones del paso 05:</p>
+  <ul>
+    <li>En las 2.386 filas de la familia de causas, la suma de las formas de ingreso
+    da <code>atendidas</code> en <strong>2.386 de 2.386</strong>.</li>
+    <li>La fila "TOTAL &lt;ciudad&gt;" coincide con la suma de sus tipos de proceso en
+    <strong>731 de 759</strong> bloques.</li>
+    <li>Lo que no cierra queda en <code>discrepancias.csv</code>: <strong>117
+    registros</strong>, cada uno con su cuadro y su página.</li>
+  </ul>
+
+  <div class="note crit">
+    <span class="note-label">Dato incómodo, y hay que decirlo</span>
+    <p style="margin-bottom:0">
+      Entre esas 117 discrepancias hay seis donde <strong>el propio Anuario declara
+      distinta cantidad de juzgados en dos capítulos</strong>: el cuadro 5.1.1.1 dice
+      153 juzgados civiles en capitales y el 9.1.1 dice 163, para la misma materia y
+      el mismo ámbito. Pasa en siete cuadros más, con diferencias de entre 2 y 104.
+      No se corrigió ninguno.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 06 FASE 2 ============ -->
+<section class="section wrap" id="fase2">
+  <div class="sec-head">
+    <span class="sec-num">06</span>
+    <h2>Fase 2 — Las seis auditorías</h2>
+  </div>
+
+  <p class="tldr">
+    <b>La Fase 1 dejó doce tablas correctas pero que no se podían usar juntas.</b>
+    Esta fase las hace utilizables, verificando cada decisión contra el PDF original.
+  </p>
+
+  <h3>Qué estaba roto</h3>
+
+  <ul>
+    <li>La columna de departamento estaba <strong>vacía en las 76.279 filas
+    territoriales</strong>: no había geografía usable en la mitad más importante del
+    dataset.</li>
+    <li>Una tabla escribía <code>EJECUCIÓN PENAL</code> y otra
+    <code>Ejecución Penal</code>. Al cruzarlas, coincidencias: <strong>cero</strong>.</li>
+    <li>La tabla <code>juzgados</code> tenía columnas llamadas <code>col_01</code>,
+    <code>col_02</code>… sin ningún significado.</li>
+    <li>La clave natural de la tabla base producía <strong>95 grupos de filas que
+    parecían duplicadas</strong>.</li>
+    <li><strong>87 nombres de tipo de proceso</strong> estaban rotos por la geometría
+    del PDF.</li>
+  </ul>
+
+  <h3>El protocolo — esto es lo más importante de la fase</h3>
+
+  <p>
+    Las seis auditorías siguieron todas el mismo camino. Conviene entenderlo aunque no
+    se lea ninguna auditoría en detalle, porque es lo que hace el trabajo defendible:
+  </p>
+
+  <ol class="steps">
+    <li><b>Propuesta</b> Se investiga y se publica un CSV con la decisión propuesta,
+    <em>sin tocar los datos</em>.</li>
+    <li><b>Verificación</b> Se contrasta contra el PDF oficial, declarando su hash.</li>
+    <li><b>Aprobación</b> Se decide qué se aplica y qué queda pendiente por falta de
+    evidencia.</li>
+    <li><b>Incorporación</b> Se implementa en código, con tests que exigen que el
+    código coincida <em>exactamente</em> con el CSV de propuesta.</li>
+    <li><b>Validación</b> El paso 05 publica controles reproducibles que deben dar OK
+    o el pipeline falla.</li>
+  </ol>
+
+  <div class="note">
+    <span class="note-label">El truco del paso 4</span>
+    <p style="margin-bottom:0">
+      Los tests <strong>no comprueban que el código haga algo razonable</strong>.
+      Comprueban que coincide con la auditoría. Si alguien cambia una regla sin
+      actualizar la evidencia que la respalda, el test falla. Eso convierte la
+      documentación en algo ejecutable, no en un archivo que se desactualiza.
+    </p>
+  </div>
+
+  <h3>Las seis auditorías</h3>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>#</th><th>Auditoría</th><th>Qué resolvió</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><strong>Geografía</strong></td><td>Cobertura de departamento: 0 % → 100 % en las 5 tablas de procesos</td><td><span class="chip chip-ok">cerrada</span></td></tr>
+        <tr><td class="num">2</td><td><strong>Materias</strong></td><td>11 equivalencias aprobadas; 4 conjuntos sin resolver</td><td><span class="chip chip-warn">parcial</span></td></tr>
+        <tr><td class="num">3</td><td><strong>Juzgados · columnas</strong></td><td>130 encabezados <code>col_NN</code> interpretados; 1 indeterminado</td><td><span class="chip chip-warn">parcial</span></td></tr>
+        <tr><td class="num">4</td><td><strong>Juzgados · filas</strong></td><td>Jerarquía del cuadro 4.1.1: 37 filas, 5 subtotales</td><td><span class="chip chip-ok">cerrada</span></td></tr>
+        <tr><td class="num">5</td><td><strong>Contexto de procesos</strong></td><td>95 claves repetidas → 1.997 únicas</td><td><span class="chip chip-ok">cerrada</span></td></tr>
+        <tr><td class="num">6</td><td><strong>Fragmentos</strong></td><td>87 correcciones de extracción; dominio de 206 → 147 nombres</td><td><span class="chip chip-ok">cerrada</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Los tres hallazgos que hay que saber sí o sí</h3>
+
+  <h4>(a) El Anuario invierte rótulos entre cuadros</h4>
+
+  <p>
+    En el cuadro <code>9.1.1</code>, página 673, <em>Sentencia contra la Violencia</em>
+    tiene 4.347 causas y <em>Sentencia Anticorrupción</em> tiene 370. En el cuadro
+    <code>9.1.2</code>, página 677, <strong>esos mismos dos valores aparecen con los
+    nombres intercambiados</strong>. En provincias sí coinciden. En el consolidado
+    vuelven a invertirse.
+  </p>
+
+  <p>
+    Por eso cuatro conjuntos de materias quedaron <strong>deliberadamente sin
+    unificar</strong>. No se rechazó que sean equivalentes: se rechazó afirmar cuál es
+    cuál, porque la fuente no lo permite. Es un ejemplo de decisión que es mejor no
+    tomar que tomar mal.
+  </p>
+
+  <h4>(b) El doble conteo del cuadro 4.1.1</h4>
+
+  <p>
+    Ese cuadro lista cuántos órganos judiciales hay en cada ciudad capital. Tiene 37
+    filas, pero <strong>no todas son del mismo nivel</strong>: algunas son categorías
+    (subtotales) y otras son el detalle que las compone.
+  </p>
+
+  <div class="ba">
+    <div class="before">
+      <span class="ba-label">Sumando las 37 filas</span>
+      <span class="ba-v">2.422</span>
+    </div>
+    <div class="after">
+      <span class="ba-label">Sumando solo las 31 hojas</span>
+      <span class="ba-v">846</span>
+    </div>
+  </div>
+
+  <p>
+    El exceso de <strong>1.576</strong> sale de sumar cada subtotal junto con sus
+    hijos. La auditoría reconstruyó la jerarquía padre–hijo y verificó que cada
+    subtotal cierra con sus componentes en las 11 columnas: <strong>55 de 55
+    comprobaciones</strong>.
+  </p>
+
+  <div class="note warn">
+    <span class="note-label">Y 846 tampoco son "juzgados"</span>
+    <p style="margin-bottom:0">
+      Ese total incluye 3 tipos de tribunal, 5 tipos de sala y <strong>95
+      conciliadores</strong>, que son personas, no oficinas. Por eso el proyecto
+      <strong>no calcula un número único de juzgados</strong>: publica los componentes
+      separados y deja que quien analice decida qué cuenta. Es una decisión
+      metodológica que hay que tomar explícitamente, no por descuido.
+    </p>
+  </div>
+
+  <h4>(c) Las 95 claves repetidas no eran duplicados</h4>
+
+  <div class="def">
+    <span class="def-t">El problema, explicado</span>
+    <p>Se quiso identificar cada fila con esta combinación:</p>
+    <pre style="margin:.5rem 0"><code>ámbito + territorio + materia + tipo de proceso</code></pre>
+    <p style="margin-bottom:0">Pero 1.997 filas producían solo 1.882 combinaciones
+    distintas: 95 grupos se repetían. La pregunta era si el ETL había duplicado filas
+    por error, o si eran registros genuinamente distintos.</p>
+  </div>
+
+  <p>La respuesta, verificada contra el PDF, fue la segunda. Eran dos cosas:</p>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Causa</th><th class="num">Grupos</th><th>Qué pasaba</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Etapa distinta</strong></td>
+          <td class="num">57</td>
+          <td>Mismo territorio y materia, pero un cuadro publica <em>informes de inicio de investigación</em> y el otro <em>imputaciones formales</em>. Son dos momentos del mismo expediente.</td>
+        </tr>
+        <tr>
+          <td><strong>Bloque padre distinto</strong></td>
+          <td class="num">38</td>
+          <td>El mismo texto "ACCIÓN PENAL PÚBLICA" aparece tres veces en la página, una bajo cada encabezado: penal común, anticorrupción y violencia.</td>
+        </tr>
+        <tr>
+          <td><strong>Duplicado técnico</strong></td>
+          <td class="num">0</td>
+          <td>No se encontró ni un solo caso de error del ETL.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    La solución fue agregar dos columnas, <code>etapa_proceso_fuente</code> y
+    <code>contexto_accion_penal</code>, derivadas con reglas cerradas verificadas
+    página por página. La clave pasó a ser única en <strong>1.997 de 1.997</strong>
+    filas.
+  </p>
+
+  <div class="note crit">
+    <span class="note-label">Por qué esto importa tanto</span>
+    <p style="margin-bottom:0">
+      Si alguien hubiera "limpiado los duplicados" con un
+      <code>drop_duplicates()</code>, habría borrado 210 filas de datos reales. Y si
+      los hubiera sumado sin darse cuenta, habría <strong>contado dos veces el mismo
+      expediente</strong> en dos etapas distintas. Las dos salidas fáciles eran
+      erróneas.
+    </p>
+  </div>
+
+  <h3>La capa analítica: por qué no hay una sola tabla grande</h3>
+
+  <p>
+    El último paso de la Fase 2 organiza todo en cinco tablas relacionadas. El
+    principio:
+  </p>
+
+  <div class="note">
+    <p style="margin-bottom:0">
+      <strong>Una relación 1:N se representa con dos tablas relacionadas, no copiando
+      el lado N dentro de la base.</strong>
+    </p>
+  </div>
+
+  <div class="def">
+    <span class="def-t">¿Qué es una relación 1:N y por qué es un problema?</span>
+    <p>Significa que a una fila de la tabla A le corresponden varias de la tabla B.
+    Por ejemplo: a un tipo de proceso le corresponden 15 formas distintas de
+    resolución.</p>
+    <p style="margin-bottom:0">Si se pegan en una sola tabla, esa fila única se
+    <strong>multiplica por 15</strong>. Si después alguien suma la columna
+    <code>atendidas</code>, obtiene 15 veces el valor real. Eso se llama
+    <span class="term">fan-out</span>.</p>
+  </div>
+
+  <div class="twrap">
+    <table>
+      <caption>Simulaciones que se hicieron para justificar la decisión. Ninguna se guardó: se midieron para demostrar por qué NO hacerlas.</caption>
+      <thead><tr><th>Si se uniera…</th><th class="num">Filas antes</th><th class="num">Después</th><th class="num">Factor</th></tr></thead>
+      <tbody>
+        <tr><td>movimiento ↔ apelaciones</td><td class="num">44</td><td class="num">32.696</td><td class="num"><strong>×743</strong></td></tr>
+        <tr><td>causas ↔ juzgados en crudo</td><td class="num">2.027</td><td class="num">116.169</td><td class="num"><strong>×57</strong></td></tr>
+        <tr><td>causas ↔ resueltas</td><td class="num">1.997</td><td class="num">25.516</td><td class="num"><strong>×12,8</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Con el efecto correspondiente sobre las cifras: la columna <code>atendidas</code>
+    pasaría de <strong>1.477.682</strong> a <strong>80.966.966</strong>. Un informe
+    construido así sería absurdo, pero el error no se vería por ningún lado — las
+    filas simplemente se ven repetidas.
+  </p>
+
+  <h4>La arquitectura final</h4>
+
+  <pre><code><span class="hl">dataset_analitico_interno</span>  (1.997 filas, 87 columnas) ← LA BASE
+     │
+     ├── 1:N lógica, NO aplanada ──→ metricas_tipo_proceso_long  (81.907)
+     ├── N:1 por ámbito+territorio ─→ recursos_judiciales_geografia  (19)
+     └── N:1 por departamento ──────→ personal_geografia  (9)
+
+movimiento_gestion_2023  (56)  ← hecho agregado, separado</code></pre>
+
+  <p>
+    La base son las filas que cumplen tres condiciones a la vez: son de
+    <strong>detalle</strong> (no totales), <strong>no</strong> son el total nacional, y
+    tienen tipo de proceso. Resultado: 1.997 filas — 1.070 de capital y 927 de
+    provincia. Al excluir los totales, <strong>no hay doble conteo posible</strong>.
+  </p>
+</section>
+
+<!-- ============ 07 FASE 3 ============ -->
+<section class="section wrap" id="fase3">
+  <div class="sec-head">
+    <span class="sec-num">07</span>
+    <h2>Fase 3 — Limpieza, indicadores y EDA</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Cuatro pasos:</b> clasificar los vacíos, calcular los indicadores, tratar los
+    valores extremos, y producir el reporte.
+  </p>
+
+  <h3>Paso 09 — los vacíos no son todos iguales</h3>
+
+  <p>
+    Este paso es más sutil de lo que parece. Una celda vacía puede significar cosas
+    muy distintas, y tratarlas igual es un error clásico:
+  </p>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Categoría</th><th class="num">Columnas</th><th>Qué significa el vacío</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">completa</td><td class="num">47</td><td>No hay vacíos.</td></tr>
+        <tr><td class="mono">estructural_materia</td><td class="num">34</td><td>La columna <strong>no aplica</strong> a esa materia. "Sobreseimiento" es una forma de cerrar un caso penal: en un divorcio no existe.</td></tr>
+        <tr><td class="mono">estructural_recursos</td><td class="num">3</td><td>El Anuario no publica ese recurso para ese territorio.</td></tr>
+        <tr><td class="mono">estructural_geografico</td><td class="num">2</td><td>El nivel geográfico no corresponde.</td></tr>
+        <tr><td class="mono">estructural_tipo_elemento</td><td class="num">1</td><td>No aplica a ese tipo de fila.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="note-label">El hallazgo</span>
+    <p style="margin-bottom:0">
+      <strong>Ninguna categoría es "faltante aleatorio".</strong> Todos los vacíos del
+      dataset se explican por la estructura de la fuente. Por eso <strong>no se imputa
+      nada</strong>: no hay nada que imputar. Rellenar con la media un
+      "sobreseimiento" de una causa civil sería inventar un dato que no puede existir.
+    </p>
+  </div>
+
+  <p>El paso también clasifica en qué estado quedó cada proceso durante el año:</p>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Estado</th><th class="num">Filas</th><th class="num">%</th><th>Qué significa</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">con_resolucion_parcial</td><td class="num">972</td><td class="num">58,7</td><td>Cerró algunas causas, le quedaron otras. Lo normal.</td></tr>
+        <tr><td class="mono">sin_movimiento</td><td class="num">415</td><td class="num">25,1</td><td>Ni entradas ni salidas en el año.</td></tr>
+        <tr><td class="mono">resolucion_total</td><td class="num">150</td><td class="num">9,1</td><td>Cerró todo lo que tenía.</td></tr>
+        <tr><td class="mono">en_tramite_exclusivo</td><td class="num">118</td><td class="num">7,1</td><td><strong>Causas abiertas y cero resoluciones en el año.</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    Esas 118 filas de <code>en_tramite_exclusivo</code> son las que rompen cualquier
+    división por <code>resueltas</code> — dividir por cero. Por eso todas las fórmulas
+    del paso siguiente llevan control de denominador.
+  </p>
+
+  <h3>Paso 10 — los indicadores</h3>
+
+  <p>Se agregan 13 columnas nuevas. Las que importan:</p>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Columna</th><th>Fórmula</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">ingresos_totales</td><td>suma de <strong>todas</strong> las formas de ingreso publicadas</td></tr>
+        <tr><td class="mono">tasa_resolucion</td><td class="mono">resueltas / ingresos_totales</td></tr>
+        <tr><td class="mono">tasa_congestion</td><td class="mono">atendidas / resueltas</td></tr>
+        <tr><td class="mono">tasa_pendencia</td><td class="mono">pendientes_fin / atendidas</td></tr>
+        <tr><td class="mono">duracion_estimada_dias</td><td class="mono">(pendientes_fin / resueltas) × 365</td></tr>
+        <tr><td class="mono">acumulacion_neta_anual</td><td class="mono">ingresos_totales − resueltas</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note crit">
+    <span class="note-label">Acá se cometió el error más caro del proyecto</span>
+    <p style="margin-bottom:0">
+      El denominador de <code>tasa_resolucion</code> estaba mal, y eso invirtió la
+      conclusión del reporte. Está explicado en detalle en
+      <a href="#correcciones">§08</a>.
+    </p>
+  </div>
+
+  <h3>Paso 11 — outliers sin borrar nada</h3>
+
+  <p>Esta es la parte mejor resuelta de la Fase 3. Tres decisiones correctas:</p>
+
+  <div class="def">
+    <span class="def-t">Qué es el método IQR (rango intercuartílico)</span>
+    <p>Es la forma estándar de detectar valores extremos. Se ordenan los datos, se
+    toma el valor que deja el 25 % abajo (Q1) y el que deja el 75 % abajo (Q3). La
+    distancia entre ambos es el IQR. Se considera extremo lo que esté más allá de
+    <code>Q3 + 1,5 × IQR</code>.</p>
+    <p style="margin-bottom:0"><strong>Estratificado</strong> significa que ese cálculo
+    se hace <em>dentro de cada grupo comparable</em> — acá, cada combinación de materia
+    y ámbito — en vez de sobre todo el dataset junto.</p>
+  </div>
+
+  <ol class="steps">
+    <li>
+      <b>IQR estratificado por materia × ámbito</b>
+      Un juzgado civil de La Paz capital y uno mixto de provincia tienen volúmenes
+      incomparables. Con un umbral nacional único, media capital quedaría marcada como
+      "anómala" solo por ser grande.
+    </li>
+    <li>
+      <b>Regla de cero eliminación</b>
+      Entran 1.997 filas, salen 1.997. Un valor extremo en estadísticas judiciales
+      oficiales <strong>es el dato</strong>, no ruido: es un juzgado realmente saturado.
+      Se marca con banderas, no se borra.
+    </li>
+    <li>
+      <b>Todas las transformaciones son aditivas</b>
+      <code>tasa_congestion_winsorizada</code> convive con
+      <code>tasa_congestion</code>; las columnas <code>log_*</code> conviven con las
+      originales. Es la regla n.º 1 de la Fase 1, aplicada acá.
+    </li>
+  </ol>
+
+  <div class="def">
+    <span class="def-t">Winsorización y log(1+x), en cristiano</span>
+    <p><strong>Winsorizar</strong> es recortar la cola: los valores por encima del
+    percentil 95 se bajan a ese percentil. No se borran los casos, se topean, para que
+    un solo juzgado desastroso no domine un promedio.</p>
+    <p style="margin-bottom:0"><strong>log(1+x)</strong> comprime las escalas: la
+    diferencia entre 10 y 100 causas pasa a parecerse a la que hay entre 100 y 1.000.
+    Sirve para que después un algoritmo de agrupamiento no clasifique solo por tamaño.
+    El "+1" evita el logaritmo de cero, que es infinito.</p>
+  </div>
+
+  <div class="twrap">
+    <table>
+      <caption>Outliers detectados sobre las 1.655 filas analizadas. "Severo" usa un umbral de 3 × IQR en vez de 1,5.</caption>
+      <thead><tr><th>Variable</th><th class="num">Leve</th><th class="num">Severo</th></tr></thead>
+      <tbody>
+        <tr><td>Carga (atendidas)</td><td class="num">244 · 14,7 %</td><td class="num">184 · 11,1 %</td></tr>
+        <tr><td>Tasa de congestión</td><td class="num">97 · 5,9 %</td><td class="num">53 · 3,2 %</td></tr>
+        <tr><td>Duración estimada</td><td class="num">96 · 5,8 %</td><td class="num">53 · 3,2 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Paso 12 — el reporte</h3>
+
+  <p>
+    Genera cuatro tablas de resumen, cuatro gráficos y el documento ejecutivo. El
+    resultado está en <a href="#hallazgos">§09</a>.
+  </p>
+</section>
+
+<!-- ============ 08 CORRECCIONES ============ -->
+<section class="section wrap" id="correcciones">
+  <div class="sec-head">
+    <span class="sec-num">08</span>
+    <h2>Las correcciones — el error que invirtió la conclusión</h2>
+  </div>
+
+  <p class="tldr">
+    <b>El reporte original decía que el sistema descargaba su acumulado.</b> Con el
+    denominador correcto dice lo contrario: acumula mora. Esta sección explica qué
+    pasó, porque es lo que más probablemente pregunten en clase.
+  </p>
+
+  <h3>El error</h3>
+
+  <p>
+    La tasa de resolución dividía <code>resueltas</code> entre
+    <code>nuevas_ingresadas</code>. Pero <code>nuevas_ingresadas</code> es
+    <strong>solo una de las cinco formas de ingreso</strong> que publica el Anuario.
+    Las causas también entran por readecuación a la Ley 439, por excusa o recusación
+    de otro juzgado, y por formalización de preliminares o cautelares.
+  </p>
+
+  <pre><code>readecuadas_ley_439               43.062
+recibidas_excusa_recusacion          519
+preliminares_formalizados          5.423
+cautelares_formalizados              412
+nuevas_ingresadas                <span class="bad">201.455</span>   <span class="bad">← se usaba solo esta</span>
+─────────────────────────────────────────
+SUMA                             <span class="good">250.871</span>
+atendidas − pendientes_inicio    <span class="good">250.871</span>   <span class="good">← la identidad del Anuario cierra exacto</span></code></pre>
+
+  <p>
+    Las dos vías dan el mismo número, en las 1.180 filas donde se pueden comparar, con
+    <strong>cero diferencias</strong>. Eso confirma cuál es el denominador correcto.
+  </p>
+
+  <div class="ba">
+    <div class="before">
+      <span class="ba-label">Lo que decía el reporte</span>
+      <span class="ba-v">103,84 %</span>
+    </div>
+    <div class="after">
+      <span class="ba-label">Con el denominador correcto</span>
+      <span class="ba-v">83,39 %</span>
+    </div>
+  </div>
+
+  <div class="note crit">
+    <span class="note-label">Por qué importa tanto</span>
+    <p style="margin-bottom:0">
+      Una tasa de <strong>103,84 %</strong> significa "el sistema cierra más causas de
+      las que recibe: está descargando su acumulado". Una de <strong>83,39 %</strong>
+      significa "el sistema cierra 5 de cada 6 causas que recibe: está acumulando
+      mora". <strong>Es la conclusión opuesta</strong>, y era el titular del informe.
+    </p>
+  </div>
+
+  <h3>Las cinco correcciones</h3>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>#</th><th>Problema</th><th>Arreglo</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="num">1</td>
+          <td>La tasa dividía por <code>nuevas_ingresadas</code></td>
+          <td>Ahora divide por <code>ingresos_totales</code>. La variante anterior se conserva con nombre honesto: <code>tasa_resolucion_solo_nuevas</code>.</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td>Faltaba <code>readecuadas_ley_439</code> en la lista de formas de ingreso</td>
+          <td>Un olvido de una línea, que dejaba fuera <strong>43.062 causas</strong>.</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td>A los procesos sin causas se les asignaba tasa = 1,0</td>
+          <td>Ahora quedan <strong>vacíos</strong>. Con 415 filas sin movimiento sobre 1.655, esa imputación arrastraba la mediana de casi todas las materias a exactamente 1,0.</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td>Una fórmula agregada daba <strong>0,5 constante</strong></td>
+          <td>Ver abajo: colapsaba algebraicamente.</td>
+        </tr>
+        <tr>
+          <td class="num">5</td>
+          <td>El reporte no declaraba su alcance</td>
+          <td>Ahora abre con una sección de cobertura y se titula "justicia NO penal".</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>El detalle de la corrección 4, que es instructivo</h4>
+
+  <p>
+    Una columna llamada <code>clearance_rate_ponderado</code> daba exactamente
+    <strong>0,5</strong> en cuatro de las cinco materias. No era casualidad — la
+    fórmula se anulaba sola:
+  </p>
+
+  <pre><code>denominador = atendidas − pendientes_fin + resueltas
+
+pero como   atendidas = resueltas + pendientes_fin   (identidad del Anuario)
+
+denominador = (resueltas + pendientes_fin) − pendientes_fin + resueltas
+            = 2 × resueltas
+
+→  tasa = resueltas / (2 × resueltas) = <span class="bad">0,5 siempre</span></code></pre>
+
+  <p>
+    La lección: <strong>un número sospechosamente redondo y repetido es una señal de
+    alarma</strong>. Cuatro materias muy distintas no pueden dar el mismo valor exacto.
+  </p>
+
+  <h3>El test que faltaba</h3>
+
+  <p>
+    La suite de pruebas verificaba la identidad <code>atendidas = resueltas +
+    pendientes_fin</code> — el lado de <strong>salida</strong>. Nadie verificaba
+    <code>atendidas = pendientes_inicio + ingresadas</code> — el lado de
+    <strong>entrada</strong>. Ese test habría atrapado el error en el primer intento.
+  </p>
+
+  <p>Se agregaron tres pruebas nuevas, y ahora el paso 10 se detiene con error si la
+  suma de formas de ingreso no reproduce la identidad.</p>
+
+  <h3>Resumen del antes y después</h3>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Medida</th><th class="num">Antes</th><th class="num">Después</th></tr></thead>
+      <tbody>
+        <tr><td>Tasa de resolución global</td><td class="num">103,84 %</td><td class="num"><strong>83,39 %</strong></td></tr>
+        <tr><td>Procesos que acumulan mora</td><td class="num">577</td><td class="num"><strong>747</strong></td></tr>
+        <tr><td><code>clearance_rate_ponderado</code></td><td class="num">0,5 constante</td><td class="num">0,69 – 1,33</td></tr>
+        <tr><td>Cobertura declarada en el reporte</td><td class="num">no</td><td class="num">sí, 47,5 %</td></tr>
+        <tr><td>Tests de la Fase 3</td><td class="num">9</td><td class="num"><strong>12</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    La suite completa del repositorio pasa <strong>196 tests</strong>. El tratamiento
+    de outliers no cambió en absoluto — esa parte estaba bien hecha y los resultados
+    son idénticos, lo que sirve como control de que la corrección no rompió nada más.
+  </p>
+</section>
+
+<!-- ============ 09 HALLAZGOS ============ -->
+<section class="section wrap-wide" id="hallazgos">
+  <div class="sec-head">
+    <span class="sec-num">09</span>
+    <h2>Qué encontramos</h2>
+  </div>
+
+  <div class="wrap" style="padding:0">
+    <p class="tldr">
+      <b>El sistema no penal cierra 5 de cada 6 causas que recibe.</b> El cuello de
+      botella está en materia fiscal, con casi cuatro años de demora estimada.
+    </p>
+
+    <div class="note warn">
+      <span class="note-label">Alcance — leer antes que cualquier cifra</span>
+      <p>
+        Todo lo que sigue cubre <strong>1.655 de las 1.997 filas</strong> del dataset
+        analítico: el <strong>47,5 %</strong> de las causas atendidas. Ese estrato
+        contiene <strong>únicamente las materias no penales</strong>.
+      </p>
+      <p style="margin-bottom:0">
+        Las ocho materias penales quedan fuera porque sus cuadros publican otro juego
+        de columnas y <strong>no publican <code>resueltas</code></strong>: las
+        fórmulas de CEJA no se les pueden aplicar tal cual. Necesitan indicadores
+        propios. <strong>Ninguna cifra de acá debe presentarse como "el sistema
+        judicial boliviano"</strong>.
+      </p>
+    </div>
+  </div>
+
+  <h3>Balance de la justicia no penal, 2023</h3>
+
+  <div class="chain" role="group" aria-label="Balance general">
+    <div class="chain-step"><span class="chain-v">250.871</span><span class="chain-k">ingresadas</span></div>
+    <div class="chain-step"><span class="chain-v">335.472</span><span class="chain-k">atendidas</span></div>
+    <div class="chain-step"><span class="chain-v">209.197</span><span class="chain-k">resueltas</span></div>
+    <div class="chain-step"><span class="chain-v">126.065</span><span class="chain-k">pendientes al cierre</span></div>
+    <div class="chain-step"><span class="chain-v">83,4 %</span><span class="chain-k">tasa de resolución</span></div>
+  </div>
+
+  <p class="wrap" style="padding:0">
+    <strong>747 de 1.655 procesos (45,1 %)</strong> tienen tasa de resolución menor a
+    1, es decir, acumulan mora.
+  </p>
+
+  <h3>Por materia</h3>
+
+  <div class="twrap">
+    <table>
+      <caption>Ordenado por congestión. La duración es un estimador de estado estacionario, no una medición de expedientes reales.</caption>
+      <thead>
+        <tr>
+          <th>Materia</th>
+          <th class="num">Atendidas</th>
+          <th class="num">Resueltas</th>
+          <th class="num">Congestión</th>
+          <th class="num">Duración (días)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Partido Administrativo Coactivo Fiscal y Tributario</strong></td>
+          <td class="num">13.249</td><td class="num">2.671</td>
+          <td class="num"><strong>4,96</strong></td><td class="num"><strong>1.417</strong></td>
+        </tr>
+        <tr>
+          <td>Partido de Trabajo y Seguridad Social</td>
+          <td class="num">51.342</td><td class="num">23.441</td>
+          <td class="num">2,19</td><td class="num">434</td>
+        </tr>
+        <tr>
+          <td>Público de Familia</td>
+          <td class="num">120.483</td><td class="num">79.210</td>
+          <td class="num">1,52</td><td class="num">190</td>
+        </tr>
+        <tr>
+          <td>Público Niñez y Adolescencia</td>
+          <td class="num">13.524</td><td class="num">9.106</td>
+          <td class="num">1,49</td><td class="num">177</td>
+        </tr>
+        <tr>
+          <td>Público Civil y Comercial</td>
+          <td class="num">136.874</td><td class="num">94.769</td>
+          <td class="num">1,44</td><td class="num">162</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <span class="note-label">Cómo leer esta tabla</span>
+    <p style="margin-bottom:0">
+      <strong>Coactivo Fiscal</strong> es el caso extremo: gestiona casi 5 causas por
+      cada una que cierra, y a ese ritmo tardaría <strong>casi cuatro años</strong> en
+      vaciar lo acumulado. Es cobranza de deudas al Estado, así que la demora tiene
+      un costo fiscal directo. En el otro extremo, civil y familia concentran el
+      volumen (257.357 causas combinadas) pero se mueven mucho más rápido — lo cual
+      <strong>respalda parcialmente la hipótesis del proyecto</strong>: la demora no
+      es homogénea, varía por un factor de 8,7 entre materias.
+    </p>
+  </div>
+
+  <h3>Capital contra provincia</h3>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Ámbito</th><th class="num">Procesos</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración</th></tr></thead>
+      <tbody>
+        <tr><td>Capital</td><td class="num">890</td><td class="num">85,1 %</td><td class="num">1,58</td><td class="num">213 días</td></tr>
+        <tr><td>Provincia</td><td class="num">765</td><td class="num">79,3 %</td><td class="num">1,65</td><td class="num">238 días</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="wrap" style="padding:0">
+    La brecha territorial existe pero es moderada: <strong>25 días</strong> de
+    diferencia. Es mucho menor que la brecha entre materias, lo que sugiere que
+    <em>qué</em> tipo de caso es importa más que <em>dónde</em> se tramita.
+  </p>
+
+  <h3>Por departamento</h3>
+
+  <div class="twrap">
+    <table>
+      <caption>Ordenado por volumen. "Causas por funcionario" divide causas no penales entre el personal completo del distrito, que también atiende penal: sirve para comparar departamentos entre sí, no como carga absoluta.</caption>
+      <thead><tr><th>Departamento</th><th class="num">Atendidas</th><th class="num">Resueltas</th><th class="num">Congestión</th><th class="num">Duración</th><th class="num">Ítems</th></tr></thead>
+      <tbody>
+        <tr><td>La Paz</td><td class="num">98.531</td><td class="num">55.457</td><td class="num">1,78</td><td class="num">284</td><td class="num">1.560</td></tr>
+        <tr><td>Santa Cruz</td><td class="num">91.497</td><td class="num">50.674</td><td class="num">1,81</td><td class="num">294</td><td class="num">1.348</td></tr>
+        <tr><td>Cochabamba</td><td class="num">53.222</td><td class="num">39.433</td><td class="num">1,35</td><td class="num">128</td><td class="num">1.112</td></tr>
+        <tr><td>Potosí</td><td class="num">24.607</td><td class="num">15.816</td><td class="num">1,56</td><td class="num">203</td><td class="num">594</td></tr>
+        <tr><td>Tarija</td><td class="num">19.196</td><td class="num">13.238</td><td class="num">1,45</td><td class="num">164</td><td class="num">522</td></tr>
+        <tr><td>Oruro</td><td class="num">17.425</td><td class="num">13.674</td><td class="num">1,27</td><td class="num">95</td><td class="num">470</td></tr>
+        <tr><td>Chuquisaca</td><td class="num">15.117</td><td class="num">11.369</td><td class="num">1,33</td><td class="num">120</td><td class="num">565</td></tr>
+        <tr><td>Beni</td><td class="num">12.081</td><td class="num">7.111</td><td class="num">1,70</td><td class="num">255</td><td class="num">413</td></tr>
+        <tr><td>Pando</td><td class="num">3.796</td><td class="num">2.425</td><td class="num">1,57</td><td class="num">206</td><td class="num">182</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="wrap" style="padding:0">
+    Los dos distritos más grandes, <strong>La Paz y Santa Cruz</strong>, son también
+    los más congestionados. Cochabamba y Oruro, con volúmenes muy distintos entre sí,
+    son los más eficientes. Eso descarta que el problema sea solo de escala.
+  </p>
+</section>
+
+<!-- ============ 10 DOCUMENTOS ============ -->
+<section class="section wrap" id="documentos">
+  <div class="sec-head">
+    <span class="sec-num">10</span>
+    <h2>Los 19 documentos del repositorio</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Cada documento responde una pregunta concreta.</b> Acá está cuál, para que
+    nadie tenga que abrir siete archivos buscando una cosa.
+  </p>
+
+  <div class="filters" role="group" aria-label="Filtrar documentos por fase">
+    <button class="filter" data-f="todos" aria-pressed="true">Todos</button>
+    <button class="filter" data-f="f1" aria-pressed="false">Fase 1</button>
+    <button class="filter" data-f="f2" aria-pressed="false">Fase 2</button>
+    <button class="filter" data-f="f3" aria-pressed="false">Fase 3</button>
+    <button class="filter" data-f="guia" aria-pressed="false">Guías</button>
+  </div>
+
+  <div class="docs" id="docList">
+
+    <article class="doc" data-fase="guia">
+      <div class="doc-top"><span class="doc-name">docs/guia_tres_fases.md</span><span class="doc-lines">841 líneas</span></div>
+      <p class="doc-q">¿Por dónde empiezo a estudiar todo esto?</p>
+      <p>La guía de estudio del proyecto completo, equivalente en texto a esta web.
+      Recorre las tres fases, define los ocho conceptos clave, cuenta los tres errores
+      que se cometieron y cierra con 12 preguntas de autoevaluación con respuestas.</p>
+      <p class="doc-key">→ tiene tres rutas de lectura: 20 minutos, 2 horas, o un fin de semana</p>
+    </article>
+
+    <article class="doc" data-fase="guia">
+      <div class="doc-top"><span class="doc-name">docs/documentacion_unificada.md</span><span class="doc-lines">1.506 líneas</span></div>
+      <p class="doc-q">¿Qué hizo exactamente la Fase 2, en detalle?</p>
+      <p>Consolida las seis auditorías en un solo documento: método, evidencia,
+      decisión y pendientes de cada una. Es el más largo del repositorio y el que hay
+      que abrir cuando alguien pregunta "¿y cómo saben que eso está bien?".</p>
+      <p class="doc-key">→ incluye inventario completo de artefactos y glosario</p>
+    </article>
+
+    <article class="doc" data-fase="f1">
+      <div class="doc-top"><span class="doc-name">docs/guia_de_estudio_anuario_2023.md</span><span class="doc-lines">996 líneas</span></div>
+      <p class="doc-q">¿Qué tengo que saber antes de tocar estos datos?</p>
+      <p>El documento más importante de la Fase 1. Catorce secciones: el modelo de
+      datos, cómo auditar una fila, las identidades contables, las 117 discrepancias,
+      el <strong>catálogo de trampas del PDF</strong>, y las limitaciones de uso.</p>
+      <p class="doc-key">→ su §8 tiene la lista completa de advertencias antes de calcular nada</p>
+    </article>
+
+    <article class="doc" data-fase="f1">
+      <div class="doc-top"><span class="doc-name">docs/diccionario_de_datos.md</span><span class="doc-lines">836 líneas</span></div>
+      <p class="doc-q">¿Qué significa esta columna?</p>
+      <p>Descripción de cada tabla y cada columna del dataset. Se genera
+      automáticamente desde <code>src/diccionario.py</code>, así que no se puede
+      desactualizar respecto del código.</p>
+      <p class="doc-key">→ versión procesable: data/processed/diccionario_de_datos.csv</p>
+    </article>
+
+    <article class="doc" data-fase="f1">
+      <div class="doc-top"><span class="doc-name">docs/plan.md</span><span class="doc-lines">375 líneas</span></div>
+      <p class="doc-q">¿Cómo se atacaron las 525 páginas de los capítulos 5 y 6?</p>
+      <p>El plan de extracción, y al final una sección "Resultado" que cuenta
+      honestamente <strong>en qué se apartó del plan</strong>: lo que no se había
+      previsto y lo que se decidió distinto.</p>
+      <p class="doc-key">→ acá está documentada la corrección de premisa sobre juzgados individuales</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/correccion_geografia_etl.md</span><span class="doc-lines">151 líneas</span></div>
+      <p class="doc-q">¿Por qué faltaba el departamento en 76.279 filas?</p>
+      <p>Auditoría 1. Documenta los tres errores técnicos, su causa exacta (una
+      comparación de mayúsculas, un <code>NaN</code> mal usado, y un número de cuadro
+      repetido) y la solución. Cobertura final: 100 %.</p>
+      <p class="doc-key">→ incluye los 12 aliases de total verificados uno por uno</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/auditoria_equivalencias_materias.md</span><span class="doc-lines">181 líneas</span></div>
+      <p class="doc-q">¿"EJECUCIÓN PENAL" y "Ejecución Penal" son lo mismo?</p>
+      <p>Auditoría 2. Compara tres pares de cuadros contrastando posición y valores
+      numéricos, no parecido de texto. Aprueba 11 equivalencias y deja
+      <strong>4 sin resolver</strong> porque el Anuario invierte los rótulos.</p>
+      <p class="doc-key">→ el caso de rótulos invertidos está en su §5</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/auditoria_encabezados_juzgados.md</span><span class="doc-lines">218 líneas</span></div>
+      <p class="doc-q">¿Qué es la columna "col_07" del cuadro 4.1.4?</p>
+      <p>Auditoría 3. Reconstruye el significado de las 130 combinaciones cuadro +
+      columna de la tabla <code>juzgados</code>, validando aritméticamente contra la
+      columna TOTAL: 205 filas, 205 coincidencias, 0 discrepancias.</p>
+      <p class="doc-key">→ queda 1 columna indeterminada: 4.1.7/col_09 de Tarija</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/auditoria_filas_4_1_1.md</span><span class="doc-lines">265 líneas</span></div>
+      <p class="doc-q">¿Cuántos juzgados hay realmente en las capitales?</p>
+      <p>Auditoría 4. Reconstruye la jerarquía de las 37 filas del cuadro 4.1.1 y
+      demuestra el doble conteo: la suma ingenua da 2.422, el número real es 846.</p>
+      <p class="doc-key">→ su §11 lista los siete riesgos de doble conteo, ciudad por ciudad</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/auditoria_uniones_internas.md</span><span class="doc-lines">276 líneas</span></div>
+      <p class="doc-q">¿Qué tablas se pueden unir con cuáles, y cómo?</p>
+      <p>El estudio de grano y cardinalidad de las doce tablas. Mide el fan-out de cada
+      unión posible y clasifica cada relación como recomendada, con filtro, con
+      agregación o desaconsejada.</p>
+      <p class="doc-key">→ su §17 es el plano de la arquitectura que después se construyó</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/auditoria_contexto_tipo_proceso.md</span><span class="doc-lines">227 líneas</span></div>
+      <p class="doc-q">¿Por qué hay 95 filas que parecen duplicadas?</p>
+      <p>Auditoría 5, primera parte. Descarta una por una las columnas que podrían
+      explicar la repetición y concluye que faltan dos dimensiones. Verifica que
+      <strong>no hay ni un solo duplicado técnico</strong>.</p>
+      <p class="doc-key">→ su tabla de claves candidatas muestra el razonamiento completo</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/verificacion_pdf_contexto_tipo_proceso.md</span><span class="doc-lines">205 líneas</span></div>
+      <p class="doc-q">¿Y cómo saben que esa explicación es cierta?</p>
+      <p>Auditoría 5, segunda parte. Va al PDF página por página y confirma la
+      estructura 3×3 de los bloques penales en las diez capitales y los nueve
+      distritos: 57/57 y 38/38 grupos confirmados, 0 contradichos.</p>
+      <p class="doc-key">→ ejemplo de cómo se separa "hipótesis" de "verificación"</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/auditoria_fragmentos_tipo_proceso_completa.md</span><span class="doc-lines">162 líneas</span></div>
+      <p class="doc-q">¿Por qué hay nombres de proceso que no se entienden?</p>
+      <p>Auditoría 6. Revisa los 87 literales rotos contra 240 páginas del PDF y los
+      clasifica: 46 fragmentos, 39 concatenaciones, 2 reordenamientos, 0
+      indeterminados. Define 87 reglas de corrección, ninguna global.</p>
+      <p class="doc-key">→ deja 5 erratas del Anuario SIN corregir, a propósito</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">docs/integracion_interna_final.md</span><span class="doc-lines">326 líneas</span></div>
+      <p class="doc-q">¿Cómo quedó armada la capa analítica?</p>
+      <p>Documenta las cinco tablas finales, los tres joins que se hicieron y los seis
+      que se rechazaron, con las cardinalidades medidas y las sumas verificadas antes
+      y después de cada unión.</p>
+      <p class="doc-key">→ su §17 documenta el riesgo de leakage columna por columna</p>
+    </article>
+
+    <article class="doc" data-fase="f3">
+      <div class="doc-top"><span class="doc-name">docs/reporte_eda_congestion_2023.md</span><span class="doc-lines">~120 líneas</span></div>
+      <p class="doc-q">¿Qué dicen los datos?</p>
+      <p>El reporte ejecutivo con los resultados. Se genera automáticamente desde
+      <code>12_reporte_eda.py</code>, así que sus números nunca se desincronizan del
+      dataset. Abre declarando su cobertura del 47,5 %.</p>
+      <p class="doc-key">→ es el documento a proyectar en la defensa</p>
+    </article>
+
+    <article class="doc" data-fase="f1">
+      <div class="doc-top"><span class="doc-name">README.md</span><span class="doc-lines">184 líneas</span></div>
+      <p class="doc-q">¿Qué es este repositorio?</p>
+      <p>La puerta de entrada: qué contiene, las cuatro reglas, cómo se validó, cómo
+      correr el pipeline, y las advertencias antes de calcular nada.</p>
+      <p class="doc-key">→ su tabla "Por dónde empezar" enruta a todo lo demás</p>
+    </article>
+
+    <article class="doc" data-fase="f1">
+      <div class="doc-top"><span class="doc-name">data/processed/README.md</span><span class="doc-lines">118 líneas</span></div>
+      <p class="doc-q">¿Qué hay en cada archivo de datos?</p>
+      <p>Describe las doce tablas, el criterio CSV vs. Parquet, las reglas de
+      extracción y qué quedó afuera del dataset.</p>
+      <p class="doc-key">→ también explica por qué una tabla va ancha y cuatro largas</p>
+    </article>
+
+    <article class="doc" data-fase="f2">
+      <div class="doc-top"><span class="doc-name">data/processed/analitico/README.md</span><span class="doc-lines">60 líneas</span></div>
+      <p class="doc-q">¿Cuál tabla uso para analizar?</p>
+      <p>El manual de la capa analítica: el grano y la clave de cada una de las cinco
+      tablas, el diagrama de relaciones, y las advertencias sobre qué <strong>no</strong>
+      unir.</p>
+      <p class="doc-key">→ la respuesta corta: dataset_analitico_interno.parquet</p>
+    </article>
+
+    <article class="doc" data-fase="f1">
+      <div class="doc-top"><span class="doc-name">data/raw/README.md</span><span class="doc-lines">15 líneas</span></div>
+      <p class="doc-q">¿Dónde consigo el PDF?</p>
+      <p>La URL oficial del Anuario y el hash que debe tener el archivo descargado.</p>
+      <p class="doc-key">→ el PDF no está versionado: pesa 43 MB</p>
+    </article>
+
+  </div>
+
+  <p style="color:var(--ink-mute);font-size:.875rem">
+    Además de estos, <code>data/processed/auditoria/</code> tiene 28 archivos CSV con
+    la evidencia de cada decisión: propuestas, validaciones y las 117 discrepancias.
+  </p>
+</section>
+
+<!-- ============ 11 CONCEPTOS ============ -->
+<section class="section wrap" id="conceptos">
+  <div class="sec-head">
+    <span class="sec-num">11</span>
+    <h2>Los ocho conceptos clave</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Si entendés estos ocho, entendés el proyecto.</b> Cada uno explica por qué se
+    tomó alguna decisión que de otro modo parece exagerada.
+  </p>
+
+  <h3>1 · Grano</h3>
+  <p>
+    El nivel de detalle de una fila. Si cada fila es "un tipo de proceso en una
+    ciudad", ese es el grano. <strong>Es el concepto más importante</strong>: unir
+    tablas de grano distinto sin agregar primero es la causa de casi todos los errores
+    de datos.
+  </p>
+
+  <h3>2 · Fan-out</h3>
+  <p>
+    La multiplicación de filas al unir por una clave que no es única del otro lado.
+    <strong>El síntoma es siempre el mismo</strong>: después del join,
+    <code>df.atendidas.sum()</code> cambió. Si una suma cambia al unir tablas, la
+    unión está mal.
+  </p>
+
+  <h3>3 · Clave técnica vs. clave semántica</h3>
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Cuál es acá</th><th>Para qué sirve</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Técnica</strong></td><td class="mono" style="font-size:.75rem">cuadro_origen + pagina_pdf + orden_fila</td><td>Volver al PDF y verificar a mano</td></tr>
+        <tr><td><strong>Semántica</strong></td><td class="mono" style="font-size:.75rem">ámbito + territorio + materia + tipo_proceso + etapa + contexto</td><td>Identificar qué representa la fila</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    La técnica <strong>no sustituye</strong> a la semántica. Usar
+    <code>orden_fila</code> para desempatar filas repetidas es esconder que no se
+    entendió el dato — que es exactamente lo que la auditoría 5 se negó a hacer.
+  </p>
+
+  <h3>4 · Leakage (fuga de información)</h3>
+  <div class="def">
+    <span class="def-t">Qué es</span>
+    <p style="margin-bottom:0">Usar como <em>predictor</em> una variable que es, o se
+    deriva de, el <em>resultado</em> que se quiere predecir. El modelo parece perfecto
+    y no sirve para nada, porque en el mundo real no vas a tener esa variable antes de
+    conocer el resultado.</p>
+  </div>
+  <p>
+    Ejemplo concreto: la duración estimada se calcula como
+    <code>pendientes_fin / resueltas</code>. Si se arma un modelo para predecir
+    duración y se le pasa <code>resueltas</code> como predictor, el modelo va a
+    "acertar" siempre — porque le estás dando la respuesta. El diccionario analítico
+    marca <strong>47 columnas</strong> con este riesgo.
+  </p>
+
+  <h3>5 · Clearance rate ≠ <code>pct_resueltas</code></h3>
+  <div class="note crit">
+    <p style="margin-bottom:0">
+      El Anuario publica una columna <code>pct_resueltas</code> calculada como
+      <code>resueltas / atendidas</code>. <strong>Esa NO es la tasa de
+      resolución.</strong> El clearance rate estándar es
+      <code>resueltas / ingresadas</code>. Dan números muy distintos, y solo el segundo
+      es comparable con los demás países del índice de CEJA. Tomar la columna del
+      Anuario como tasa de resolución es reportar otra cosa.
+    </p>
+  </div>
+
+  <h3>6 · Estimador de estado estacionario</h3>
+  <p>
+    La duración estimada <strong>no mide expedientes</strong>. Mide cuánto tardaría el
+    juzgado en vaciar su stock al ritmo al que resuelve hoy. Es una foto del sistema,
+    no un seguimiento de casos. Hay que aclararlo siempre que se presente el número.
+  </p>
+
+  <h3>7 · Nulo estructural vs. faltante</h3>
+  <p>
+    Un vacío en <code>sobreseimiento</code> para una causa civil <strong>no es un dato
+    que falta</strong>: es una columna que no aplica. Imputarlo con la media sería
+    inventar una categoría jurídica que no existe. En este dataset,
+    <strong>todos</strong> los vacíos son estructurales, y por eso no se imputó nada.
+  </p>
+
+  <h3>8 · IQR estratificado</h3>
+  <p>
+    Detección de valores extremos <em>dentro de grupos comparables</em>
+    (materia × ámbito) en vez de sobre todo el dataset junto. Sin estratificar, el
+    umbral nacional marcaría como anómala a media capital simplemente por tener más
+    volumen que una provincia.
+  </p>
+</section>
+
+<!-- ============ 12 ERRORES ============ -->
+<section class="section wrap" id="errores">
+  <div class="sec-head">
+    <span class="sec-num">12</span>
+    <h2>Los tres errores que este proyecto cometió</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Uno por fase.</b> Contarlos es mejor que esconderlos: muestran que el sistema
+    de verificación funciona, que es exactamente lo que hay que demostrar en una
+    defensa.
+  </p>
+
+  <h3>Fase 1 — dos bugs del parser que el ojo no vio</h3>
+  <p>
+    La validación cruzada entre capítulos encontró que <strong>dos de las
+    discrepancias iniciales no eran de la fuente sino del código</strong>. Si la
+    validación hubiera estado pegada a la extracción, se habrían mezclado con las 117
+    reales y nadie las habría separado nunca.
+  </p>
+  <p class="doc-key" style="color:var(--accent-ink)">
+    → Técnica que lo detectó: <strong>identidades contables independientes</strong>.
+  </p>
+
+  <h3>Fase 2 — el cuadro 6.3.1.4 duplicado</h3>
+  <p>
+    El ámbito se deducía del prefijo del número de cuadro: "5." capital, "6."
+    provincia. Parecía seguro. Pero el Anuario <strong>imprime el número 6.3.1.4 dos
+    veces</strong>: en las páginas 357–359 para capitales y en las 616–618 para
+    provincias. 528 filas quedaron mal clasificadas.
+  </p>
+  <p class="doc-key" style="color:var(--accent-ink)">
+    → Técnica: <strong>no confiar en convenciones de la fuente</strong>; verificar
+    contra el encabezado real de la página.
+  </p>
+
+  <h3>Fase 3 — el clearance rate inflado</h3>
+  <p>
+    El denominador equivocado, explicado en <a href="#correcciones">§08</a>. Lo más
+    incómodo: <strong>el dato correcto ya estaba documentado</strong> en la guía de
+    estudio de la Fase 1, verificado numéricamente contra el cuadro 9.1.1. No hizo
+    falta información nueva para detectarlo — solo consultar lo que la fase anterior ya
+    había probado.
+  </p>
+  <p class="doc-key" style="color:var(--accent-ink)">
+    → Técnica: <strong>cuando una fase anterior verificó una identidad, convertirla en
+    un test</strong>.
+  </p>
+
+  <div class="note">
+    <span class="note-label">El patrón común</span>
+    <p>
+      Los tres errores tienen la misma forma: <strong>una suposición razonable que
+      nadie contrastó contra una fuente independiente</strong>. Y los tres se
+      detectaron igual: comparando dos caminos que deberían dar el mismo número.
+    </p>
+    <p style="margin-bottom:0">
+      <strong>Si podés calcular algo de dos maneras distintas, hacelo. Y si no podés,
+      construí la segunda manera.</strong>
+    </p>
+  </div>
+</section>
+
+<!-- ============ 13 DEFENSA ============ -->
+<section class="section wrap" id="defensa">
+  <div class="sec-head">
+    <span class="sec-num">13</span>
+    <h2>Preguntas de defensa</h2>
+  </div>
+
+  <p class="tldr">
+    <b>Si podés responder estas quince sin mirar, estás listo.</b> Hacé clic para ver
+    la respuesta.
+  </p>
+
+  <div class="qa">
+    <details>
+      <summary><span class="qn">01</span> ¿Por qué no usaron simplemente Excel o un conversor de PDF?</summary>
+      <div class="ans"><p>Porque un PDF de tablas no es una tabla. Tiene encabezados rotados 90°, rótulos partidos en dos líneas con los números en el medio, y el mismo número de cuadro usado para dos cuadros distintos. Un conversor genérico produce filas corridas y columnas mezcladas sin avisar. Acá se escribieron parsers por familia de cuadro y se verificó cada uno contra identidades contables.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">02</span> ¿Cómo saben que la extracción no tiene errores?</summary>
+      <div class="ans"><p>Porque el Anuario publica las mismas cifras dos veces, en capítulos distintos, y cada una la lee un parser que no conoce al otro. El cuadro 5.1.1.1 cierra exacto contra el 9.1.1 en las cinco columnas. Además, la suma de formas de ingreso da <code>atendidas</code> en 2.386 de 2.386 filas. Donde no cierra, está documentado con su página: son 117 casos y son de la fuente, no del código.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">03</span> ¿Por qué no corrigieron las 117 discrepancias del Anuario?</summary>
+      <div class="ans"><p>Porque no son ruido: son un hallazgo sobre la fuente oficial. Corregirlas sería inventar cuál de las dos cifras publicadas es la buena, y perder la evidencia de que el Anuario no cierra consigo mismo. Están todas listadas con su cuadro y página para que cualquiera las verifique.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">04</span> ¿Por qué una tabla va ancha y cuatro van largas?</summary>
+      <div class="ans"><p>Los 17 cuadros de la familia de causas comparten vocabulario de columnas, así que se pueden apilar en formato ancho. Las otras cuatro familias traen un juego distinto de formas de resolución según la materia — las de familia no existen en penal — y en formato ancho quedarían cientos de columnas casi todas vacías.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">05</span> Si sumo las 37 filas del cuadro 4.1.1 me da 2.422. ¿Está mal el dato?</summary>
+      <div class="ans"><p>No, está mal la suma. Ese cuadro mezcla filas de detalle con subtotales y un total general. Sumando solo las 31 hojas da 846, que es el número correcto y coincide con el total publicado. El exceso de 1.576 es puro doble conteo. Y ojo: 846 tampoco son "juzgados" — incluye tribunales, salas y 95 conciliadores, que son personas.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">06</span> Había 95 claves repetidas. ¿Por qué no borraron los duplicados?</summary>
+      <div class="ans"><p>Porque no eran duplicados. 57 grupos eran el mismo territorio y materia publicados en dos cuadros que miden <em>etapas distintas</em> del proceso penal: informes de inicio de investigación e imputaciones formales. Los otros 38 eran el mismo texto de acción penal repetido bajo tres encabezados padre distintos. Se verificó contra el PDF página por página: cero duplicados técnicos. Un <code>drop_duplicates()</code> habría borrado 210 filas de datos reales.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">07</span> ¿Por qué cuatro materias no se unificaron, si claramente se parecen?</summary>
+      <div class="ans"><p>Porque el Anuario invierte los rótulos entre cuadros: los mismos valores numéricos aparecen con los nombres de Anticorrupción y Violencia intercambiados según el cuadro. Unificarlas exigiría afirmar cuál es cuál, y la fuente no lo permite. Se dejaron separadas y documentadas. Es preferible una decisión no tomada a una decisión mal tomada.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">08</span> ¿Por qué no hicieron una sola tabla grande con todo?</summary>
+      <div class="ans"><p>Porque las doce tablas no comparten grano. Se midió el efecto: unir movimiento con apelaciones multiplica las filas por 743; unir causas con juzgados en crudo, por 57. La columna <code>atendidas</code> pasaría de 1.477.682 a 80.966.966. Una relación 1:N se representa con dos tablas relacionadas, no aplanándola.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">09</span> ¿Cuál es el denominador correcto de la tasa de resolución y por qué?</summary>
+      <div class="ans"><p>La suma de <strong>todas</strong> las formas de ingreso publicadas, no solo <code>nuevas_ingresadas</code>. Se verifica contra la identidad del Anuario: <code>ingresadas = atendidas − pendientes_inicio</code>, y las dos vías dan 250.871 sin una sola diferencia. Usar solo <code>nuevas_ingresadas</code> daba 103,84 % en vez de 83,39 %, e invertía la conclusión del informe.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">10</span> Un proceso tiene 0 ingresos y 0 resueltas. ¿Cuál es su tasa de resolución?</summary>
+      <div class="ans"><p>No tiene: queda vacía. Un cociente sin denominador es indefinido, no 1. El código original le asignaba 1,0 como "balance neutro", y con 415 filas sin movimiento sobre 1.655 eso arrastraba la mediana de casi todas las materias a exactamente 1,0 — un número que parecía un resultado y era un artefacto.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">11</span> ¿Por qué el IQR se calcula por materia y ámbito, y no sobre todo el dataset?</summary>
+      <div class="ans"><p>Porque una capital y un despacho provincial tienen magnitudes incomparables. Con un umbral nacional único, media capital quedaría marcada como anómala solo por tener más volumen. Estratificar pregunta lo correcto: "¿es este juzgado raro <em>entre los de su tipo y su ámbito</em>?"</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">12</span> ¿Por qué no eliminaron los outliers?</summary>
+      <div class="ans"><p>Porque en estadísticas judiciales oficiales un valor extremo no es un error de medición: es un juzgado realmente saturado, que es justamente lo que el proyecto quiere encontrar. Se marcan con banderas y se ofrece una versión winsorizada en columna aparte, pero las 1.997 filas originales siguen intactas.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">13</span> El reporte dice 83,39 % de tasa de resolución. ¿Sobre qué universo?</summary>
+      <div class="ans"><p>Sobre la justicia <strong>no penal</strong>: 1.655 de 1.997 filas, el 47,5 % de las causas atendidas del dataset analítico. Las ocho materias penales quedan fuera porque sus cuadros publican otras columnas y no publican <code>resueltas</code>, así que las fórmulas de CEJA no se les aplican. El reporte lo declara en su primera sección.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">14</span> Quiero predecir la duración. ¿Puedo usar <code>pendientes_fin</code> como predictor? ¿Y el gasto en personal?</summary>
+      <div class="ans"><p><code>pendientes_fin</code> <strong>no</strong>: la duración se calcula a partir de él, sería leakage directo. El gasto en personal <strong>sí</strong> para predecir duración, porque es un recurso estructural — pero <strong>no</strong> si el objetivo es el costo por caso, porque ese costo se construye con esas mismas remuneraciones. El diccionario analítico marca las 47 columnas con riesgo.</p></div>
+    </details>
+    <details>
+      <summary><span class="qn">15</span> ¿Qué le falta al proyecto?</summary>
+      <div class="ans"><p>Todas las fuentes externas: población del INE para calcular tasas por cien mil habitantes, el documento de CEJA 2025 para confirmar las fórmulas exactas y comparar con la región, datos penitenciarios y presupuesto. También faltan los indicadores propios para las ocho materias penales, y el modelado (clustering y regresión), que es la Fase 4.</p></div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ 14 PENDIENTE ============ -->
+<section class="section wrap" id="pendiente">
+  <div class="sec-head">
+    <span class="sec-num">14</span>
+    <h2>Lo que falta</h2>
+  </div>
+
+  <h3>Pendientes heredados, y por qué siguen abiertos</h3>
+
+  <div class="twrap">
+    <table>
+      <thead><tr><th>Pendiente</th><th>Motivo</th></tr></thead>
+      <tbody>
+        <tr><td>4 conjuntos de materias Anticorrupción / Violencia</td><td>El Anuario invierte los rótulos entre cuadros</td></tr>
+        <tr><td>La columna <code>4.1.7 / col_09</code> de Tarija</td><td>Su encabezado no se desarrolla en ninguna parte del PDF</td></tr>
+        <tr><td>5 variaciones editoriales de tipo de proceso</td><td>Son erratas del Anuario, no del parser: decisión editorial separada</td></tr>
+        <tr><td>Un número único de juzgados</td><td>Hay que decidir primero si tribunales, salas y conciliadores cuentan</td></tr>
+        <tr><td>Indicadores para las 8 materias penales</td><td>Necesitan fórmulas propias, no las de CEJA</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Lo que la consigna pide y todavía no existe</h3>
+
+  <div class="note warn">
+    <p style="margin-bottom:0">
+      <strong>Ninguna de las tres fases incorporó una sola fuente externa.</strong> Eso
+      deja sin insumo estos objetivos: validar la extracción contra fuentes externas;
+      usar <strong>población</strong> como predictor y calcular tasas por cien mil
+      habitantes; cruzar con situación penitenciaria; y comparar con el benchmark de
+      <strong>CEJA 2025</strong> — cuyas fórmulas exactas hay que confirmar antes de
+      publicar resultados.
+    </p>
+  </div>
+
+  <div class="def">
+    <span class="def-t">Aviso para cuando se incorpore población</span>
+    <p style="margin-bottom:0">La columna de población que trae el propio Anuario en
+    los cuadros 4.1.2–4.1.10 es <strong>proyección al 2022</strong>, no el Censo 2024.
+    Al cruzar con datos del INE hay que distinguir tres años distintos: el de
+    observación, el de la edición del Anuario, y el de referencia de la variable
+    auxiliar. Mezclarlos produce tasas inconsistentes.</p>
+  </div>
+
+  <h3>Lo que sí está listo</h3>
+
+  <p>
+    El archivo <code>dataset_analitico_curado.parquet</code> — 1.997 filas × 115
+    columnas — tiene la unidad de análisis exacta que pide la consigna, los tres
+    indicadores calculados, las banderas de outlier, las transformaciones logarítmicas
+    para agrupamiento, y el riesgo de leakage documentado columna por columna.
+  </p>
+
+  <p>
+    El siguiente paso natural es el <strong>clustering</strong> sobre distrito ×
+    materia × tipo de proceso, usando solo variables estructurales y excluyendo las 47
+    columnas marcadas como resultado.
+  </p>
+</section>
+
+<!-- ============ 15 GLOSARIO ============ -->
+<section class="section wrap" id="glosario">
+  <div class="sec-head">
+    <span class="sec-num">15</span>
+    <h2>Glosario</h2>
+  </div>
+
+  <dl class="glos">
+    <div><dt>Acción penal pública / privada <span class="cat">judicial</span></dt><dd>Quién impulsa el caso: el Estado o la víctima. "A instancia de parte" es intermedia.</dd></div>
+    <div><dt>Ámbito <span class="cat">judicial</span></dt><dd>Capital (10 ciudades incluida El Alto) o provincia (resto del departamento).</dd></div>
+    <div><dt>Atendidas <span class="cat">judicial</span></dt><dd>Todo lo que el juzgado tuvo en el año = pendientes al inicio + ingresadas.</dd></div>
+    <div><dt>Causa <span class="cat">judicial</span></dt><dd>Un caso judicial, un expediente. La unidad que se cuenta.</dd></div>
+    <div><dt>CEJA <span class="cat">referencia</span></dt><dd>Centro de Estudios de Justicia de las Américas. Publica el Índice de Congestión Judicial que este proyecto toma como referencia metodológica.</dd></div>
+    <div><dt>Clave semántica <span class="cat">datos</span></dt><dd>La combinación de dimensiones que identifica unívocamente una observación.</dd></div>
+    <div><dt>Clave técnica <span class="cat">datos</span></dt><dd>Cuadro + página + orden de fila. Sirve para volver al PDF, no para identificar el contenido.</dd></div>
+    <div><dt>Clearance rate <span class="cat">indicador</span></dt><dd>Tasa de resolución: resueltas ÷ ingresadas. Menos de 1 significa que se acumula mora.</dd></div>
+    <div><dt>Conciliador <span class="cat">judicial</span></dt><dd>Persona que facilita acuerdos sin juicio. No es un órgano judicial, aunque el Anuario lo sume junto a los juzgados.</dd></div>
+    <div><dt>CSV <span class="cat">datos</span></dt><dd>Tabla en texto plano. Cómodo pero pierde los tipos de dato al releerse.</dd></div>
+    <div><dt>Cuadro <span class="cat">fuente</span></dt><dd>Una tabla del Anuario, identificada por su número (5.1.1.1, 9.1.1, 4.1.7).</dd></div>
+    <div><dt>Distrito judicial <span class="cat">judicial</span></dt><dd>División territorial del Órgano Judicial. Coincide con los nueve departamentos.</dd></div>
+    <div><dt>EDA <span class="cat">datos</span></dt><dd>Análisis exploratorio de datos: describir qué hay antes de modelar.</dd></div>
+    <div><dt>Estimador de estado estacionario <span class="cat">indicador</span></dt><dd>Estimación basada en el ritmo actual, no en el seguimiento de casos individuales.</dd></div>
+    <div><dt>ETL <span class="cat">datos</span></dt><dd>Extract, Transform, Load: sacar datos, darles forma, guardarlos.</dd></div>
+    <div><dt>Fan-out <span class="cat">datos</span></dt><dd>Multiplicación de filas al unir tablas de distinto grano. El error más caro del proyecto.</dd></div>
+    <div><dt>Fila fuente / fila física <span class="cat">datos</span></dt><dd>Una fila del PDF vs. una fila del CSV. En las tablas largas, una fuente genera varias físicas.</dd></div>
+    <div><dt>Gestión <span class="cat">judicial</span></dt><dd>Año administrativo. "Gestión 2023" = año 2023.</dd></div>
+    <div><dt>Grano <span class="cat">datos</span></dt><dd>El nivel de detalle de una fila.</dd></div>
+    <div><dt>Instrucción <span class="cat">judicial</span></dt><dd>Etapa de investigación de un proceso penal, previa al juicio.</dd></div>
+    <div><dt>IQR <span class="cat">datos</span></dt><dd>Rango intercuartílico. Método estándar para detectar valores extremos.</dd></div>
+    <div><dt>Ítem <span class="cat">judicial</span></dt><dd>Puesto de trabajo presupuestado.</dd></div>
+    <div><dt>Join <span class="cat">datos</span></dt><dd>Unir dos tablas por una columna en común.</dd></div>
+    <div><dt>Leakage <span class="cat">datos</span></dt><dd>Usar como predictor algo que deriva del resultado a predecir.</dd></div>
+    <div><dt>Mapa cerrado <span class="cat">datos</span></dt><dd>Diccionario explícito y exhaustivo: ante una entrada no listada, el programa falla en vez de adivinar.</dd></div>
+    <div><dt>Materia <span class="cat">judicial</span></dt><dd>Rama del derecho: civil, familia, penal, trabajo, niñez.</dd></div>
+    <div><dt>Nulo <span class="cat">datos</span></dt><dd>Celda vacía. No es cero: significa "no publicado" o "no aplica".</dd></div>
+    <div><dt>OCR <span class="cat">datos</span></dt><dd>Reconocimiento óptico de caracteres: leer texto de una imagen. No se usó acá.</dd></div>
+    <div><dt>Órgano Judicial <span class="cat">judicial</span></dt><dd>Nombre oficial del Poder Judicial boliviano.</dd></div>
+    <div><dt>Outlier <span class="cat">datos</span></dt><dd>Valor muy alejado del resto. Acá se marca, no se borra.</dd></div>
+    <div><dt>Parquet <span class="cat">datos</span></dt><dd>Formato binario de tabla que conserva los tipos de dato. Es la copia de referencia del proyecto.</dd></div>
+    <div><dt>Parser <span class="cat">datos</span></dt><dd>Programa que extrae estructura de un texto desordenado.</dd></div>
+    <div><dt>Sala <span class="cat">judicial</span></dt><dd>División de un tribunal superior que revisa decisiones de instancias menores.</dd></div>
+    <div><dt>SHA-256 <span class="cat">datos</span></dt><dd>Huella digital de un archivo. Permite verificar que dos personas trabajaron sobre el mismo PDF.</dd></div>
+    <div><dt>Tipo de proceso <span class="cat">judicial</span></dt><dd>El procedimiento concreto dentro de una materia. La variable que aportan los capítulos 5 y 6.</dd></div>
+    <div><dt>Trazabilidad <span class="cat">datos</span></dt><dd>Poder decir de qué cuadro y página salió cualquier número del dataset.</dd></div>
+    <div><dt>Tribunal <span class="cat">judicial</span></dt><dd>Órgano con varios jueces que deciden en conjunto. No es un juzgado.</dd></div>
+    <div><dt>Winsorización <span class="cat">datos</span></dt><dd>Recortar la cola de una distribución topeando los valores extremos, sin eliminar los casos.</dd></div>
+  </dl>
+</section>
+
+<footer class="foot wrap">
+  <p>
+    <strong>Fuente:</strong> Consejo de la Magistratura de Bolivia,
+    <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos
+    y Estadísticos. Los datos son públicos; este proyecto solo los tabula.
+  </p>
+  <p>
+    Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero ·
+    Andrés Gabriel Maydana García · Maximiliano Gómez Mallo
+  </p>
+  <p>
+    Todas las cifras de esta página están verificadas contra los artefactos del
+    repositorio. La suite de pruebas pasa 196 tests.
+  </p>
+</footer>
+
+</main>
+</div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">Tema</button>
+<script src="app.js"></script>
+</body>
+</html>
