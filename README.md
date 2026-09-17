@@ -13,6 +13,9 @@ calcula indicadores finales ni modela.
 
 | Si querés… | Leé |
 |---|---|
+| **estudiar el proyecto completo, las tres fases** | [`docs/guia_tres_fases.md`](docs/guia_tres_fases.md) |
+| la Fase 2 en detalle, todo consolidado | [`docs/documentacion_unificada.md`](docs/documentacion_unificada.md) |
+| los resultados del EDA | [`docs/reporte_eda_congestion_2023.md`](docs/reporte_eda_congestion_2023.md) |
 | entender los datos antes de usarlos | [`docs/guia_de_estudio_anuario_2023.md`](docs/guia_de_estudio_anuario_2023.md) |
 | saber qué significa una columna | [`docs/diccionario_de_datos.md`](docs/diccionario_de_datos.md) |
 | revisar la corrección geográfica del ETL | [`docs/correccion_geografia_etl.md`](docs/correccion_geografia_etl.md) |
