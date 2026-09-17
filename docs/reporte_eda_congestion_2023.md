@@ -1,19 +1,56 @@
-# Diagnóstico de Congestión Judicial en Bolivia (Gestión 2023)
+# Diagnóstico de Congestión Judicial en Bolivia — justicia NO penal (Gestión 2023)
 ## Reporte Ejecutivo de Análisis Exploratorio de Datos (EDA)
 
-Este reporte consolida los hallazgos cuantitativos sobre el estado de la justicia ordinaria boliviana en 2023, utilizando como fuente el paquete analítico derivado del *Anuario Estadístico Judicial 2023*.
+Este reporte consolida los hallazgos cuantitativos sobre la **justicia ordinaria
+no penal** boliviana en 2023, usando el paquete analítico derivado del *Anuario
+Estadístico Judicial 2023*.
 
 ---
 
-## 1. Balance General del Sistema Judicial
+## 0. Alcance y cobertura — leer antes que cualquier cifra
 
-Durante la gestión 2023, el universo de causas analizadas a nivel de proceso directo (1.655 filas territoriales) refleja la siguiente dinámica operativa:
+El estrato analizado es `tipo_elemento_analitico == "proceso"`: **1,655 de
+1,997 filas** del dataset analítico interno. Ese estrato contiene
+**únicamente las materias no penales**.
 
+| | filas | causas atendidas |
+|---|---:|---:|
+| analizado en este reporte | 1,655 | 335,472 |
+| universo del dataset analítico | 1,997 | 706,485 |
+| **cobertura** | | **47.5%** |
+
+Las 8 materias fuera de este reporte son:
+- Instrucción Anticorrupción
+- Instrucción Contra la Violencia hacia las Mujeres
+- Instrucción Penal
+- SENTENCIA ANTICORRUPCIÓN
+- Sentencia Penal
+- TRIBUNAL DE SENTENCIA ANTICORRUPCIÓN
+- TRIBUNAL DE SENTENCIA CONTRA LA VIOLENCIA HACIA LA MUJER
+- Tribunales de Sentencia Penal
+
+**Por qué quedan fuera:** los cuadros penales del Anuario publican otro juego de
+columnas (`sobreseimiento`, `merecieron_imputacion_formal`, `terminacion_anticipada`…)
+y **no publican `resueltas`**, así que las tres fórmulas de CEJA no se les pueden
+aplicar tal cual. Necesitan indicadores propios, en un análisis aparte.
+
+> **Ninguna cifra de este reporte debe presentarse como "el sistema judicial
+> boliviano".** Es la mitad no penal del sistema.
+
+---
+
+## 1. Balance General de la justicia no penal
+
+- **Total Causas Ingresadas:** 250,871
 - **Total Causas Atendidas:** 335,472
 - **Total Causas Resueltas:** 209,197
 - **Stock Remanente (Pendientes al Cierre):** 126,065
-- **Tasa de Resolución Global (Clearance Rate):** 103.84%
+- **Tasa de Resolución Global (Clearance Rate = resueltas / ingresadas):** 83.39%
 - **Tasa de Congestión Ponderada:** 1.60 (por cada causa resuelta, el sistema gestionó 1.60 causas)
+
+> `ingresadas` es la suma de **todas** las formas de ingreso publicadas, no solo
+> `nuevas_ingresadas`. Se verifica contra la identidad del Anuario
+> `ingresadas == atendidas − pendientes_inicio`.
 
 ---
 
@@ -29,7 +66,7 @@ Durante la gestión 2023, el universo de causas analizadas a nivel de proceso di
 
 ### Hallazgo Clave en Materias:
 1. **Coactivo Fiscal y Tributario:** Presenta la mayor congestión (4.96) y duración estimada (1417 días), constituyendo un cuello de botella crítico para la recaudación del Estado.
-2. **Civil y Familiar:** Concentran el mayor volumen bruto de litigiosidad (257,357 causas combinadas), absorbiendo más del 80% de la carga procesal nacional.
+2. **Civil y Familiar:** Concentran el mayor volumen bruto de litigiosidad (257,357 causas combinadas), equivalentes al 76.7% de la carga no penal analizada y al 36.4% del universo del dataset.
 
 ---
 
@@ -37,12 +74,18 @@ Durante la gestión 2023, el universo de causas analizadas a nivel de proceso di
 
 | Ámbito | Procesos | Atendidas | Resueltas | Pendientes Fin | Clearance Rate | Congestión Ponderada | Duración (Días) |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Capital | 890 | 238,306 | 150,408 | 87,688 | 105.95% | 1.58 | 212.8 |
-| Provincia | 765 | 97,166 | 58,789 | 38,377 | 98.82% | 1.65 | 238.3 |
+| Capital | 890 | 238,306 | 150,408 | 87,688 | 85.10% | 1.58 | 212.8 |
+| Provincia | 765 | 97,166 | 58,789 | 38,377 | 79.30% | 1.65 | 238.3 |
 
 ---
 
 ## 4. Desempeño Departamental
+
+> **Cuidado con `Causas/Funcionario`.** El numerador son solo las causas no
+> penales de este reporte; el denominador es el personal **completo** del
+> distrito, que también atiende materia penal. El ratio real por funcionario es
+> más alto que el de esta columna. Sirve para comparar departamentos entre sí,
+> no como carga absoluta.
 
 | Departamento | Causas Atendidas | Resueltas | Pendientes | Congestión | Duración (Días) | Personal Ítems | Causas/Funcionario |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -76,6 +119,13 @@ Durante la gestión 2023, el universo de causas analizadas a nivel de proceso di
 ---
 
 ## 6. Tratamiento Metodológico Realizado
+
+0. **Denominador de la tasa de resolución:** se usa la suma de **todas** las
+   formas de ingreso publicadas (`readecuadas_ley_439`, `recibidas_excusa_recusacion`,
+   `preliminares_formalizados`, `cautelares_formalizados`, `nuevas_ingresadas` y
+   las formas penales cuando aplican). El paso 10 aborta si esa suma no reproduce
+   la identidad `atendidas − pendientes_inicio`. Los procesos sin ingresos quedan
+   con tasa **nula**, no imputada a 1,0.
 
 1. **Nulos:**
    - Se distinguieron nulos estructurales por especialidad de materia (34 columnas exclusivas de civil o penal) de ausencias por estados de la causa.

@@ -56,10 +56,57 @@ def test_identidad_contable_flujos_pendencia(df_curado: pd.DataFrame):
     assert filas_descuadre <= 1
 
 
-def test_consistencia_acumulacion_anual(df_curado: pd.DataFrame):
-    """Verifica que acumulacion_neta_anual sea exactamente nuevas_ingresadas - resueltas."""
+def test_identidad_contable_ingresos(df_curado: pd.DataFrame):
+    """El denominador del clearance rate debe reproducir la identidad del Anuario.
+
+    ingresadas == atendidas - pendientes_inicio
+
+    Este es el control que faltaba: la version anterior dividia por
+    `nuevas_ingresadas` sola y publicaba un clearance rate de 103,84% cuando el
+    valor real era 83,39%. Solo se comparan las filas con `pendientes_inicio`
+    publicado.
+    """
     proc = df_curado[df_curado["tipo_elemento_analitico"] == "proceso"]
-    esperado = proc["nuevas_ingresadas"].astype(float) - proc["resueltas"].astype(float)
+    comparables = proc[proc["pendientes_inicio"].notna() & proc["atendidas"].notna()]
+    assert len(comparables) > 0
+
+    identidad = comparables["atendidas"].astype(float) - comparables["pendientes_inicio"].astype(float)
+    diferencia = (identidad - comparables["ingresos_totales"].astype(float)).abs()
+    assert (diferencia == 0).all(), (
+        f"{int((diferencia > 0).sum())} filas donde la suma de formas de ingreso "
+        f"no reproduce atendidas - pendientes_inicio"
+    )
+
+
+def test_tasa_resolucion_usa_ingreso_total(df_curado: pd.DataFrame):
+    """La tasa de resolucion divide por el ingreso total, no por nuevas_ingresadas."""
+    proc = df_curado[df_curado["tipo_elemento_analitico"] == "proceso"]
+    con_cr = proc[proc["tasa_resolucion"].notna()]
+
+    esperado = con_cr["resueltas"].astype(float) / con_cr["ingresos_totales"].astype(float)
+    np.testing.assert_allclose(con_cr["tasa_resolucion"].values, esperado.values)
+
+    # Y el agregado no puede coincidir con la variante inflada, salvo que no
+    # existan otras formas de ingreso (no es el caso en este dataset).
+    cr_correcto = proc["resueltas"].sum() / proc["ingresos_totales"].sum()
+    cr_inflado = proc["resueltas"].sum() / proc["nuevas_ingresadas"].sum()
+    assert cr_correcto < cr_inflado
+
+
+def test_procesos_sin_ingresos_no_tienen_tasa_imputada(df_curado: pd.DataFrame):
+    """Un proceso sin ingresos no tiene tasa de resolucion: debe quedar nulo.
+
+    Imputar 1.0 arrastraba la mediana de casi todas las materias a 1,0 exacto.
+    """
+    proc = df_curado[df_curado["tipo_elemento_analitico"] == "proceso"]
+    sin_ingresos = proc[proc["ingresos_totales"] == 0]
+    assert sin_ingresos["tasa_resolucion"].isna().all()
+
+
+def test_consistencia_acumulacion_anual(df_curado: pd.DataFrame):
+    """Verifica que acumulacion_neta_anual sea exactamente ingresos_totales - resueltas."""
+    proc = df_curado[df_curado["tipo_elemento_analitico"] == "proceso"]
+    esperado = proc["ingresos_totales"].astype(float) - proc["resueltas"].astype(float)
     np.testing.assert_allclose(
         proc["acumulacion_neta_anual"].dropna().values,
         esperado.dropna().values

@@ -46,6 +46,7 @@ def main():
     # 1. Resumen Departamental
     deptos = proc.groupby("departamento_derivado").agg(
         total_procesos=("tipo_proceso", "count"),
+        ingresos_totales=("ingresos_totales", "sum"),
         nuevas_ingresadas=("nuevas_ingresadas", "sum"),
         atendidas=("atendidas", "sum"),
         resueltas=("resueltas", "sum"),
@@ -57,7 +58,7 @@ def main():
         duracion_dias_mediana=("duracion_estimada_dias", "median"),
     ).reset_index()
 
-    deptos["cr_ponderado"] = deptos["resueltas"] / deptos["nuevas_ingresadas"].replace(0, np.nan)
+    deptos["cr_ponderado"] = deptos["resueltas"] / deptos["ingresos_totales"].replace(0, np.nan)
     deptos["congestion_ponderada"] = deptos["atendidas"] / deptos["resueltas"].replace(0, np.nan)
     deptos["duracion_dias_ponderada"] = (deptos["pendientes_fin"] / deptos["resueltas"].replace(0, np.nan)) * 365
     deptos["causas_por_funcionario"] = deptos["atendidas"] / deptos["personal_items"].replace(0, np.nan)
@@ -70,6 +71,7 @@ def main():
     # 2. Resumen por Materia
     materias = proc.groupby("materia_homologada").agg(
         total_procesos=("tipo_proceso", "count"),
+        ingresos_totales=("ingresos_totales", "sum"),
         nuevas_ingresadas=("nuevas_ingresadas", "sum"),
         atendidas=("atendidas", "sum"),
         resueltas=("resueltas", "sum"),
@@ -81,7 +83,7 @@ def main():
         n_outliers_congestion=("es_outlier_congestion_iqr", "sum"),
     ).reset_index()
 
-    materias["cr_ponderado"] = materias["resueltas"] / materias["nuevas_ingresadas"].replace(0, np.nan)
+    materias["cr_ponderado"] = materias["resueltas"] / materias["ingresos_totales"].replace(0, np.nan)
     materias["congestion_ponderada"] = materias["atendidas"] / materias["resueltas"].replace(0, np.nan)
     materias["duracion_dias_ponderada"] = (materias["pendientes_fin"] / materias["resueltas"].replace(0, np.nan)) * 365
 
@@ -93,6 +95,7 @@ def main():
     # 3. Resumen por Ámbito (Capital vs. Provincia)
     ambitos = proc.groupby("ambito").agg(
         total_procesos=("tipo_proceso", "count"),
+        ingresos_totales=("ingresos_totales", "sum"),
         nuevas_ingresadas=("nuevas_ingresadas", "sum"),
         atendidas=("atendidas", "sum"),
         resueltas=("resueltas", "sum"),
@@ -102,7 +105,7 @@ def main():
         duracion_dias_mediana=("duracion_estimada_dias", "median"),
     ).reset_index()
 
-    ambitos["cr_ponderado"] = ambitos["resueltas"] / ambitos["nuevas_ingresadas"].replace(0, np.nan)
+    ambitos["cr_ponderado"] = ambitos["resueltas"] / ambitos["ingresos_totales"].replace(0, np.nan)
     ambitos["congestion_ponderada"] = ambitos["atendidas"] / ambitos["resueltas"].replace(0, np.nan)
     ambitos["duracion_dias_ponderada"] = (ambitos["pendientes_fin"] / ambitos["resueltas"].replace(0, np.nan)) * 365
     ambitos_csv = OUT_TABLES / "resumen_congestion_ambito.csv"
@@ -196,35 +199,81 @@ def main():
 
     # 7. Generar Documento Ejecutivo en Markdown
     reporte_md = OUT_DOCS / "reporte_eda_congestion_2023.md"
-    generar_documento_reporte(deptos, materias, ambitos, top20, reporte_md)
+    generar_documento_reporte(deptos, materias, ambitos, top20, reporte_md, df)
     print(f"[OK] Documento de reporte guardado en: {reporte_md.relative_to(PROJECT_ROOT)}")
     print("=" * 70)
 
 
-def generar_documento_reporte(deptos: pd.DataFrame, materias: pd.DataFrame, ambitos: pd.DataFrame, top20: pd.DataFrame, ruta: Path):
+def generar_documento_reporte(deptos: pd.DataFrame, materias: pd.DataFrame, ambitos: pd.DataFrame, top20: pd.DataFrame, ruta: Path, universo: pd.DataFrame):
     """Escribe el reporte analítico estructurado en formato Markdown."""
     total_atendidas = int(deptos["atendidas"].sum())
     total_resueltas = int(deptos["resueltas"].sum())
     total_pendientes = int(deptos["pendientes_fin"].sum())
-    cr_global = total_resueltas / deptos["nuevas_ingresadas"].sum()
+    total_ingresos = int(deptos["ingresos_totales"].sum())
+    cr_global = total_resueltas / total_ingresos
     tc_global = total_atendidas / total_resueltas
 
-    contenido = f"""# Diagnóstico de Congestión Judicial en Bolivia (Gestión 2023)
+    # Cobertura real: el estrato `proceso` son SOLO las materias no penales.
+    atendidas_universo = int(universo["atendidas"].sum())
+    cobertura = total_atendidas / atendidas_universo
+    filas_universo = len(universo)
+    filas_analizadas = int((universo["tipo_elemento_analitico"] == "proceso").sum())
+    materias_excluidas = sorted(
+        universo.loc[universo["tipo_elemento_analitico"] != "proceso", "materia_homologada"]
+        .dropna().unique()
+    )
+    civil = float(materias.loc[materias["materia_homologada"].str.contains("Civil", na=False), "atendidas"].values[0])
+    familia = float(materias.loc[materias["materia_homologada"].str.contains("Familia", na=False), "atendidas"].values[0])
+    civil_familia = civil + familia
+    pct_civfam_subconjunto = civil_familia / total_atendidas
+    pct_civfam_universo = civil_familia / atendidas_universo
+
+    contenido = f"""# Diagnóstico de Congestión Judicial en Bolivia — justicia NO penal (Gestión 2023)
 ## Reporte Ejecutivo de Análisis Exploratorio de Datos (EDA)
 
-Este reporte consolida los hallazgos cuantitativos sobre el estado de la justicia ordinaria boliviana en 2023, utilizando como fuente el paquete analítico derivado del *Anuario Estadístico Judicial 2023*.
+Este reporte consolida los hallazgos cuantitativos sobre la **justicia ordinaria
+no penal** boliviana en 2023, usando el paquete analítico derivado del *Anuario
+Estadístico Judicial 2023*.
 
 ---
 
-## 1. Balance General del Sistema Judicial
+## 0. Alcance y cobertura — leer antes que cualquier cifra
 
-Durante la gestión 2023, el universo de causas analizadas a nivel de proceso directo (1.655 filas territoriales) refleja la siguiente dinámica operativa:
+El estrato analizado es `tipo_elemento_analitico == "proceso"`: **{filas_analizadas:,} de
+{filas_universo:,} filas** del dataset analítico interno. Ese estrato contiene
+**únicamente las materias no penales**.
 
+| | filas | causas atendidas |
+|---|---:|---:|
+| analizado en este reporte | {filas_analizadas:,} | {total_atendidas:,} |
+| universo del dataset analítico | {filas_universo:,} | {atendidas_universo:,} |
+| **cobertura** | | **{cobertura:.1%}** |
+
+Las {len(materias_excluidas)} materias fuera de este reporte son:
+{chr(10).join('- ' + m for m in materias_excluidas)}
+
+**Por qué quedan fuera:** los cuadros penales del Anuario publican otro juego de
+columnas (`sobreseimiento`, `merecieron_imputacion_formal`, `terminacion_anticipada`…)
+y **no publican `resueltas`**, así que las tres fórmulas de CEJA no se les pueden
+aplicar tal cual. Necesitan indicadores propios, en un análisis aparte.
+
+> **Ninguna cifra de este reporte debe presentarse como "el sistema judicial
+> boliviano".** Es la mitad no penal del sistema.
+
+---
+
+## 1. Balance General de la justicia no penal
+
+- **Total Causas Ingresadas:** {total_ingresos:,}
 - **Total Causas Atendidas:** {total_atendidas:,}
 - **Total Causas Resueltas:** {total_resueltas:,}
 - **Stock Remanente (Pendientes al Cierre):** {total_pendientes:,}
-- **Tasa de Resolución Global (Clearance Rate):** {cr_global:.2%}
+- **Tasa de Resolución Global (Clearance Rate = resueltas / ingresadas):** {cr_global:.2%}
 - **Tasa de Congestión Ponderada:** {tc_global:.2f} (por cada causa resuelta, el sistema gestionó {tc_global:.2f} causas)
+
+> `ingresadas` es la suma de **todas** las formas de ingreso publicadas, no solo
+> `nuevas_ingresadas`. Se verifica contra la identidad del Anuario
+> `ingresadas == atendidas − pendientes_inicio`.
 
 ---
 
@@ -239,7 +288,7 @@ Durante la gestión 2023, el universo de causas analizadas a nivel de proceso di
     contenido += f"""
 ### Hallazgo Clave en Materias:
 1. **Coactivo Fiscal y Tributario:** Presenta la mayor congestión ({materias.loc[materias['materia_homologada'].str.contains('Coactivo', na=False), 'congestion_ponderada'].values[0]:.2f}) y duración estimada ({materias.loc[materias['materia_homologada'].str.contains('Coactivo', na=False), 'duracion_dias_ponderada'].values[0]:.0f} días), constituyendo un cuello de botella crítico para la recaudación del Estado.
-2. **Civil y Familiar:** Concentran el mayor volumen bruto de litigiosidad ({int(materias.loc[materias['materia_homologada'].str.contains('Civil', na=False), 'atendidas'].values[0] + materias.loc[materias['materia_homologada'].str.contains('Familia', na=False), 'atendidas'].values[0]):,} causas combinadas), absorbiendo más del 80% de la carga procesal nacional.
+2. **Civil y Familiar:** Concentran el mayor volumen bruto de litigiosidad ({int(materias.loc[materias['materia_homologada'].str.contains('Civil', na=False), 'atendidas'].values[0] + materias.loc[materias['materia_homologada'].str.contains('Familia', na=False), 'atendidas'].values[0]):,} causas combinadas), equivalentes al {pct_civfam_subconjunto:.1%} de la carga no penal analizada y al {pct_civfam_universo:.1%} del universo del dataset.
 
 ---
 
@@ -255,6 +304,12 @@ Durante la gestión 2023, el universo de causas analizadas a nivel de proceso di
 ---
 
 ## 4. Desempeño Departamental
+
+> **Cuidado con `Causas/Funcionario`.** El numerador son solo las causas no
+> penales de este reporte; el denominador es el personal **completo** del
+> distrito, que también atiende materia penal. El ratio real por funcionario es
+> más alto que el de esta columna. Sirve para comparar departamentos entre sí,
+> no como carga absoluta.
 
 | Departamento | Causas Atendidas | Resueltas | Pendientes | Congestión | Duración (Días) | Personal Ítems | Causas/Funcionario |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -277,6 +332,13 @@ Durante la gestión 2023, el universo de causas analizadas a nivel de proceso di
 ---
 
 ## 6. Tratamiento Metodológico Realizado
+
+0. **Denominador de la tasa de resolución:** se usa la suma de **todas** las
+   formas de ingreso publicadas (`readecuadas_ley_439`, `recibidas_excusa_recusacion`,
+   `preliminares_formalizados`, `cautelares_formalizados`, `nuevas_ingresadas` y
+   las formas penales cuando aplican). El paso 10 aborta si esa suma no reproduce
+   la identidad `atendidas − pendientes_inicio`. Los procesos sin ingresos quedan
+   con tasa **nula**, no imputada a 1,0.
 
 1. **Nulos:**
    - Se distinguieron nulos estructurales por especialidad de materia (34 columnas exclusivas de civil o penal) de ausencias por estados de la causa.

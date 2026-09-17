@@ -24,51 +24,51 @@ ingresadas_conversion_acciones,1997,1826,0.9143715573360041,11,float64,estructur
 otras_formas_conclusion,1997,1826,0.9143715573360041,68,float64,estructural_materia,Exclusiva de cuadros penales (instrucción o sentencia); nula por ley en materias civiles/sociales
 recibidas_declinatoria_inhibitoria,1997,1826,0.9143715573360041,16,float64,estructural_materia,Exclusiva de cuadros penales (instrucción o sentencia); nula por ley en materias civiles/sociales
 resueltas_sentencia,1997,1826,0.9143715573360041,72,float64,estructural_materia,Exclusiva de cuadros penales (instrucción o sentencia); nula por ley en materias civiles/sociales
-tipo_accion_penal,1997,1796,0.899349023535303,3,object,estructural_materia,Exclusiva de cuadros penales (instrucción o sentencia); nula por ley en materias civiles/sociales
+tipo_accion_penal,1997,1796,0.899349023535303,3,str,estructural_materia,Exclusiva de cuadros penales (instrucción o sentencia); nula por ley en materias civiles/sociales
 procesos_rebeldia,1997,1769,0.885828743114672,95,float64,estructural_materia,Exclusiva de cuadros penales (instrucción o sentencia); nula por ley en materias civiles/sociales
-grupo_proceso,1997,1760,0.8813219829744617,8,object,estructural_materia,Etiquetas rotadas publicadas únicamente en cuadros civiles y familiares con agrupación formal de procesos
-grupo_proceso_norm,1997,1760,0.8813219829744617,7,object,estructural_materia,Etiquetas rotadas publicadas únicamente en cuadros civiles y familiares con agrupación formal de procesos
+grupo_proceso,1997,1760,0.8813219829744617,8,str,estructural_materia,Etiquetas rotadas publicadas únicamente en cuadros civiles y familiares con agrupación formal de procesos
+grupo_proceso_norm,1997,1760,0.8813219829744617,7,str,estructural_materia,Etiquetas rotadas publicadas únicamente en cuadros civiles y familiares con agrupación formal de procesos
 remitidas_otros_juzgados,1997,1712,0.85728592889334,71,float64,estructural_materia,Forma de salida penal publicada solo en juzgados de instrucción y sentencia penal
 recurso_otros_organos_publicados,1997,1688,0.8452679018527791,1,Int64,estructural_recursos,"Blancos publicados en el Anuario donde no existen salas, tribunales u otros órganos creados en esa localidad"
 cautelares_formalizados,1997,1522,0.7621432148222334,17,Int64,estructural_materia,Exclusiva de los cuadros civiles (5.1.1.1 / 6.1.1.1) bajo el Código Procesal Civil (Ley 439); nula por ley en penal/familiar
 preliminares_formalizados,1997,1522,0.7621432148222334,43,Int64,estructural_materia,Exclusiva de los cuadros civiles (5.1.1.1 / 6.1.1.1) bajo el Código Procesal Civil (Ley 439); nula por ley en penal/familiar
 readecuadas_ley_439,1997,1522,0.7621432148222334,131,Int64,estructural_materia,Exclusiva de los cuadros civiles (5.1.1.1 / 6.1.1.1) bajo el Código Procesal Civil (Ley 439); nula por ley en penal/familiar
-distrito,1997,1070,0.5358037055583375,9,object,estructural_geografico,"Excluyente por ámbito: 'ciudad' solo en capitales/El Alto, 'distrito' solo en provincias"
+distrito,1997,1070,0.5358037055583375,9,str,estructural_geografico,"Excluyente por ámbito: 'ciudad' solo en capitales/El Alto, 'distrito' solo en provincias"
 recurso_salas_publicadas,1997,1034,0.5177766649974962,7,Int64,estructural_recursos,"Blancos publicados en el Anuario donde no existen salas, tribunales u otros órganos creados en esa localidad"
-ciudad,1997,927,0.4641962944416625,10,object,estructural_geografico,"Excluyente por ámbito: 'ciudad' solo en capitales/El Alto, 'distrito' solo en provincias"
+ciudad,1997,927,0.4641962944416625,10,str,estructural_geografico,"Excluyente por ámbito: 'ciudad' solo en capitales/El Alto, 'distrito' solo en provincias"
 pendientes_inicio,1997,481,0.24086129193790687,334,Int64,estructural_materia,Nula en los cuadros civiles 5.1.1.1 y 6.1.1.1 donde el Anuario publicó readecuadas Ley 439 en lugar de stock inicial
 resueltas,1997,285,0.14271407110665998,321,Int64,estructural_tipo_elemento,Nula exclusivamente en 285 filas de encabezados padre ('accion_penal' y 'otro_detalle'). 100% poblada en las 1.655 filas procesales
 recurso_tribunales_publicados,1997,103,0.05157736604907361,7,Int64,estructural_recursos,"Blancos publicados en el Anuario donde no existen salas, tribunales u otros órganos creados en esa localidad"
-ambito,1997,0,0.0,2,object,completa,100% poblada; sin valores nulos
+ambito,1997,0,0.0,2,str,completa,100% poblada; sin valores nulos
 atendidas,1997,0,0.0,532,Int64,completa,100% poblada; sin valores nulos
-contexto_accion_penal,1997,0,0.0,4,object,completa,100% poblada; sin valores nulos
-cuadro_origen,1997,0,0.0,17,object,completa,100% poblada; sin valores nulos
-departamento_derivado,1997,0,0.0,9,object,completa,100% poblada; sin valores nulos
-entidad,1997,0,0.0,13,object,completa,100% poblada; sin valores nulos
+contexto_accion_penal,1997,0,0.0,4,str,completa,100% poblada; sin valores nulos
+cuadro_origen,1997,0,0.0,17,str,completa,100% poblada; sin valores nulos
+departamento_derivado,1997,0,0.0,9,str,completa,100% poblada; sin valores nulos
+entidad,1997,0,0.0,13,str,completa,100% poblada; sin valores nulos
 es_total_nacional,1997,0,0.0,1,bool,completa,100% poblada; sin valores nulos
-etapa_proceso_fuente,1997,0,0.0,4,object,completa,100% poblada; sin valores nulos
-familia,1997,0,0.0,1,object,completa,100% poblada; sin valores nulos
-firma,1997,0,0.0,15,object,completa,100% poblada; sin valores nulos
+etapa_proceso_fuente,1997,0,0.0,4,str,completa,100% poblada; sin valores nulos
+familia,1997,0,0.0,1,str,completa,100% poblada; sin valores nulos
+firma,1997,0,0.0,15,str,completa,100% poblada; sin valores nulos
 gestion,1997,0,0.0,1,Int64,completa,100% poblada; sin valores nulos
-materia_cruda,1997,0,0.0,15,object,completa,100% poblada; sin valores nulos
-materia_homologada,1997,0,0.0,13,object,completa,100% poblada; sin valores nulos
-materia_norm,1997,0,0.0,13,object,completa,100% poblada; sin valores nulos
-materia_seccion,1997,0,0.0,8,object,completa,100% poblada; sin valores nulos
+materia_cruda,1997,0,0.0,15,str,completa,100% poblada; sin valores nulos
+materia_homologada,1997,0,0.0,13,str,completa,100% poblada; sin valores nulos
+materia_norm,1997,0,0.0,13,str,completa,100% poblada; sin valores nulos
+materia_seccion,1997,0,0.0,8,str,completa,100% poblada; sin valores nulos
 n_columnas,1997,0,0.0,4,Int64,completa,100% poblada; sin valores nulos
 nuevas_ingresadas,1997,0,0.0,432,Int64,completa,100% poblada; sin valores nulos
 num_juzgados_pagina,1997,0,0.0,35,Int64,completa,100% poblada; sin valores nulos
 orden_fila,1997,0,0.0,38,Int64,completa,100% poblada; sin valores nulos
 pagina_pdf,1997,0,0.0,98,Int64,completa,100% poblada; sin valores nulos
 pendientes_fin,1997,0,0.0,400,Int64,completa,100% poblada; sin valores nulos
-personal_cuadro_origen,1997,0,0.0,1,object,completa,100% poblada; sin valores nulos
-personal_distrito,1997,0,0.0,9,object,completa,100% poblada; sin valores nulos
+personal_cuadro_origen,1997,0,0.0,1,str,completa,100% poblada; sin valores nulos
+personal_distrito,1997,0,0.0,9,str,completa,100% poblada; sin valores nulos
 personal_gestion,1997,0,0.0,1,Int64,completa,100% poblada; sin valores nulos
 personal_items_acefalias,1997,0,0.0,9,Int64,completa,100% poblada; sin valores nulos
 personal_items_mujer,1997,0,0.0,9,Int64,completa,100% poblada; sin valores nulos
 personal_items_total,1997,0,0.0,9,Int64,completa,100% poblada; sin valores nulos
 personal_items_varon,1997,0,0.0,9,Int64,completa,100% poblada; sin valores nulos
-personal_metodo_seleccion,1997,0,0.0,1,object,completa,100% poblada; sin valores nulos
-personal_nivel_geografico,1997,0,0.0,1,object,completa,100% poblada; sin valores nulos
+personal_metodo_seleccion,1997,0,0.0,1,str,completa,100% poblada; sin valores nulos
+personal_nivel_geografico,1997,0,0.0,1,str,completa,100% poblada; sin valores nulos
 personal_pagina_pdf,1997,0,0.0,1,Int64,completa,100% poblada; sin valores nulos
 personal_remun_acefalias,1997,0,0.0,9,Int64,completa,100% poblada; sin valores nulos
 personal_remun_mujer,1997,0,0.0,9,Int64,completa,100% poblada; sin valores nulos
@@ -79,10 +79,10 @@ recurso_conciliadores_publicados,1997,0,0.0,12,Int64,completa,100% poblada; sin 
 recurso_juzgados_publicados,1997,0,0.0,17,Int64,completa,100% poblada; sin valores nulos
 recursos_clasificacion_completa,1997,0,0.0,2,boolean,completa,100% poblada; sin valores nulos
 revisado_manual,1997,0,0.0,1,boolean,completa,100% poblada; sin valores nulos
-territorio,1997,0,0.0,13,object,completa,100% poblada; sin valores nulos
+territorio,1997,0,0.0,13,str,completa,100% poblada; sin valores nulos
 tipo_elemento_analitico,1997,0,0.0,3,string,completa,100% poblada; sin valores nulos
-tipo_fila_derivado,1997,0,0.0,1,object,completa,100% poblada; sin valores nulos
-tipo_proceso,1997,0,0.0,93,object,completa,100% poblada; sin valores nulos
-tipo_proceso_extraido,1997,0,0.0,110,object,completa,100% poblada; sin valores nulos
-titulo_pagina,1997,0,0.0,15,object,completa,100% poblada; sin valores nulos
-unidad_fila,1997,0,0.0,1,object,completa,100% poblada; sin valores nulos
+tipo_fila_derivado,1997,0,0.0,1,str,completa,100% poblada; sin valores nulos
+tipo_proceso,1997,0,0.0,93,str,completa,100% poblada; sin valores nulos
+tipo_proceso_extraido,1997,0,0.0,110,str,completa,100% poblada; sin valores nulos
+titulo_pagina,1997,0,0.0,15,str,completa,100% poblada; sin valores nulos
+unidad_fila,1997,0,0.0,1,str,completa,100% poblada; sin valores nulos

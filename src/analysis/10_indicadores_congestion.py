@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from analysis.nulos import clasificar_dinamica_procesal
-from analysis.metricas import calcular_indicadores_congestion
+from analysis.metricas import calcular_indicadores_congestion, verificar_identidad_ingresos
 
 DATA_ANALITICO = PROJECT_ROOT / "data" / "processed" / "analitico" / "dataset_analitico_interno.parquet"
 OUT_FEATURES = PROJECT_ROOT / "data" / "curated" / "features"
@@ -40,6 +40,24 @@ def main():
 
     # 2. Calcular indicadores de congestión
     df_ind = calcular_indicadores_congestion(df)
+
+    # 2b. Control duro: el denominador del clearance rate debe reproducir la
+    # identidad contable del Anuario (ingresadas == atendidas - pendientes_inicio).
+    es_proceso = df_ind["tipo_elemento_analitico"] == "proceso"
+    descuadres = verificar_identidad_ingresos(df_ind, mascara=es_proceso)
+    assert descuadres.empty, (
+        f"La suma de formas de ingreso no reproduce la identidad contable "
+        f"en {len(descuadres)} filas del estrato 'proceso'; revisar COLUMNAS_INGRESOS."
+    )
+    print("Identidad de ingresos verificada en el estrato 'proceso': "
+          "suma de formas == atendidas - pendientes_inicio.")
+
+    # Los cuadros penales publican otras formas de ingreso y no cierran esta
+    # identidad. No se les calculan indicadores CEJA; se informa la magnitud.
+    fuera = verificar_identidad_ingresos(df_ind, mascara=~es_proceso)
+    if not fuera.empty:
+        print(f"  [nota] {len(fuera)} filas penales no cierran la identidad y quedan "
+              f"fuera del calculo de indicadores (columnas de ingreso distintas).")
     n_cols_nuevas = len(df_ind.columns) - len(df.columns)
     print(f"Indicadores calculados exitosamente ({n_cols_nuevas} columnas analíticas añadidas).")
 
@@ -72,6 +90,7 @@ def main():
     proc_validos = proc[proc["resueltas"].notnull() & (proc["atendidas"] > 0)]
     resumen_mat = proc_validos.groupby("materia_homologada").agg(
         total_procesos=("tipo_proceso", "count"),
+        ingresos_total=("ingresos_totales", "sum"),
         atendidas_total=("atendidas", "sum"),
         resueltas_total=("resueltas", "sum"),
         pendientes_total=("pendientes_fin", "sum"),
@@ -80,8 +99,11 @@ def main():
         duracion_dias_mediana=("duracion_estimada_dias", "median"),
     ).reset_index()
 
-    # Tasas agregadas globales por materia
-    resumen_mat["clearance_rate_ponderado"] = resumen_mat["resueltas_total"] / (resumen_mat["atendidas_total"] - resumen_mat["pendientes_total"] + resumen_mat["resueltas_total"]).replace(0, pd.NA)
+    # Tasas agregadas globales por materia.
+    # El clearance rate ponderado es resueltas / ingresadas. La formula anterior
+    # usaba (atendidas - pendientes_fin + resueltas), que por la identidad
+    # contable colapsa a 2*resueltas y devolvia 0,5 constante.
+    resumen_mat["clearance_rate_ponderado"] = resumen_mat["resueltas_total"] / resumen_mat["ingresos_total"].replace(0, pd.NA)
     resumen_mat["tasa_congestion_ponderada"] = resumen_mat["atendidas_total"] / resumen_mat["resueltas_total"].replace(0, pd.NA)
     resumen_mat["duracion_dias_ponderada"] = (resumen_mat["pendientes_total"] / resumen_mat["resueltas_total"].replace(0, pd.NA)) * 365
 
