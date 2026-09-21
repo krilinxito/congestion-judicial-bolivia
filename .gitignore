@@ -10,3 +10,6 @@ data/interim/
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+
+# Entorno virtual local.
+.venv/
