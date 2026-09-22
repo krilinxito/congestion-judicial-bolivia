@@ -1,34 +1,19 @@
-# Dependencias del pipeline y de los notebooks.
-# Instalación:  python -m venv .venv && .venv/Scripts/python -m pip install -r requirements.txt
+# Dependencias de los notebooks.
+# Instalación (Linux/macOS):  python -m venv .venv && .venv/bin/pip install -r requirements.txt
+# Instalación (Windows):      python -m venv .venv && .venv\Scripts\pip install -r requirements.txt
 #
-# Fuera de pip: `pdftotext` (poppler-utils). Los pasos 01, 02, 03 y 07 lo
-# invocan como binario externo; los pasos 04 a 12 no lo necesitan.
-# Versiones verificadas contra la suite de tests (196 pasan) el 2026-09-17.
+# Fuera de pip: poppler (`pdftotext`, `pdfinfo`). Lo usan los notebooks 01, 02, 03 y 07.
+# Con poppler >= 25 el notebook 07 compensa una "A" que esa versión descarta en las pp. 362-364.
 #
-# Nota: los artefactos commiteados se escribieron con pyarrow 24.0.0 y acá hay
-# 25.0.1. Los datos y los tipos salen idénticos; lo único que difiere son los
-# bytes del Parquet, porque la metadata graba la versión del escritor. Si se
-# quiere que una corrida deje `git status` limpio, fijar pyarrow==24.0.0.
-
-# --- núcleo del ETL ---
-# pandas 2.x a propósito. Con pandas 3.0.5 el pipeline corre y los 196 tests
-# pasan, pero los dtypes que se graban en el Parquet cambian: las columnas de
-# texto pasan de `object` a `str`/`string`. Como el Parquet es la copia de
-# referencia justamente porque conserva los tipos, eso rompe la equivalencia con
-# los artefactos publicados. Verificado: con 2.3.3 las cinco tablas analíticas
-# se regeneran idénticas en datos y en tipos.
+# pandas 2.x a propósito: con pandas 3 las columnas de texto se graban como `str` en el
+# Parquet en lugar de `object` y cambian los tipos publicados.
 pandas==2.3.3
 numpy==2.4.6
-pyarrow==25.0.1          # el Parquet es la copia de referencia: conserva los tipos
-
-# --- capa analítica (src/analysis, pasos 09-12) ---
+pyarrow==25.0.1
 matplotlib==3.11.2
 scipy==1.17.1
 
-# --- notebooks ---
 jupyterlab==4.6.3
 ipykernel==7.3.0
 nbformat==5.11.1
-
-# --- pruebas ---
-pytest==9.1.1
+nbconvert==7.17.1

@@ -117,8 +117,8 @@ juzgados,cuadro_origen,4.1.8,150,"p. 116 — NÚMERO DE JUZGADOS, TRIBUNALES Y C
 juzgados,cuadro_origen,4.1.3,134,"p. 111 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
 juzgados,cuadro_origen,4.1.6,118,"p. 114 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
 juzgados,cuadro_origen,4.1.2,99,"p. 110 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
-juzgados,cuadro_origen,4.1.7,65,"p. 115 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
 juzgados,cuadro_origen,4.1.9,65,"p. 117 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
+juzgados,cuadro_origen,4.1.7,65,"p. 115 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
 juzgados,cuadro_origen,4.1.5,59,"p. 113 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
 juzgados,cuadro_origen,4.1.10,19,"p. 118 — NÚMERO DE JUZGADOS, TRIBUNALES Y CONCILIADORES / POR: Asiento judicial / SEGÚN: Tipo de Juzgado o Tribunal"
 personal,cuadro_origen,14.1.1,64,p. 743-744 — CANTIDAD DE PERSONAL / Por: Distritos / Según: Entes y Género
@@ -140,14 +140,14 @@ causas_por_tipo_proceso,cuadro_origen,5.3.2.1,110,p. 362-364 — CAUSAS / Por: C
 causas_por_tipo_proceso,cuadro_origen,6.3.2.1,100,p. 625-627 — CAUSAS / Por: Distrito y Tipo de Acción Penal / Según: Movimiento Registrado
 causas_por_tipo_proceso,cuadro_origen,5.2.2.1,55,p. 333-335 — CAUSAS / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
 causas_por_tipo_proceso,cuadro_origen,5.3.1.1,44,p. 348-350 — Informes de Inicio de Investigación / Por: Ciudades y Tipo de Acción Penal / Según: Movimiento Registrado
-causas_por_tipo_proceso,cuadro_origen,5.3.1.2,44,p. 351-353 — Imputaciones Formales / Por: Ciudades y Tipo de Acción Penal / Según: Movimiento Registrado
 causas_por_tipo_proceso,cuadro_origen,5.3.3.1,44,p. 375-380 — CAUSAS / Por: Ciudades / Según: Movimiento Registrado
-causas_por_tipo_proceso,cuadro_origen,6.3.1.1,40,p. 607-609 — Informes de Inicio de Investigación / Por: Distritos / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,5.3.1.2,44,p. 351-353 — Imputaciones Formales / Por: Ciudades y Tipo de Acción Penal / Según: Movimiento Registrado
 causas_por_tipo_proceso,cuadro_origen,6.3.1.2,40,p. 610-612 — Imputaciones Formales / Por: Distritos / Según: Movimiento Registrado
+causas_por_tipo_proceso,cuadro_origen,6.3.1.1,40,p. 607-609 — Informes de Inicio de Investigación / Por: Distritos / Según: Movimiento Registrado
 causas_por_tipo_proceso,cuadro_origen,6.3.3.1,40,p. 638-640 — CAUSAS / Por: Distritos / Según: Movimiento Registrado
-causas_por_tipo_proceso,cuadro_origen,5.1.3.8,11,p. 296 — CAUSAS PENALES EN ETAPA DE INVESTIGACIÓN SIN IMPUTACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
 causas_por_tipo_proceso,cuadro_origen,5.1.3.9,11,p. 297 — CAUSAS PENALES EN ETAPA DE INVESTIGACIÓN CON IMPUTACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
 causas_por_tipo_proceso,cuadro_origen,5.1.3.11,11,p. 299 — CAUSAS PENALES ATENDIDAS CON ACUSACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
+causas_por_tipo_proceso,cuadro_origen,5.1.3.8,11,p. 296 — CAUSAS PENALES EN ETAPA DE INVESTIGACIÓN SIN IMPUTACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
 resueltas_por_tipo_proceso,cuadro_origen,5.1.1.2,3718,p. 132-142 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Formas de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,6.1.1.2,3273,p. 409-418 — CAUSAS RESUELTAS / Por: Distritos y Tipo de Proceso / Según: Formas de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,5.1.2.2,3168,p. 188-198 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según:Forma de Finalización de Competencia
@@ -155,12 +155,12 @@ resueltas_por_tipo_proceso,cuadro_origen,5.1.3.3,3146,p. 251-261 — CAUSAS RESU
 resueltas_por_tipo_proceso,cuadro_origen,6.1.2.2,2880,p. 459-468 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según:Forma de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,6.1.3.3,2848,p. 516-525 — CAUSAS RESUELTAS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Forma de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,5.2.1.2,1573,p. 309-314 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Forma de Finalización de Competencia
-resueltas_por_tipo_proceso,cuadro_origen,5.3.2.3,1430,p. 368-370 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Acción / Según: Formas de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,6.2.1.2,1430,p. 567-576 — CAUSAS RESUELTAS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Forma de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.3.2.3,1430,p. 368-370 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Acción / Según: Formas de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,6.3.2.3,1300,p. 631-633 — CAUSAS RESUELTAS / Por: Distritos y Tipo de Acción / Según: Formas de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,6.3.1.4,1008,p. 357-359 — CAUSAS RESUELTAS PREPARATORIAS / Por: Distritos / Según: Formas de Finalización de Competencia
-resueltas_por_tipo_proceso,cuadro_origen,5.2.2.2,440,p. 336-338 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Forma de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,5.3.1.3,440,p. 354-356 — CAUSAS RESUELTAS PRELIMINARES / Por: Distritos / Según: Formas de Finalización de Competencia
+resueltas_por_tipo_proceso,cuadro_origen,5.2.2.2,440,p. 336-338 — CAUSAS RESUELTAS / Por: Ciudades y Tipo de Proceso / Según: Forma de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,5.3.3.2,440,p. 381-383 — CAUSAS RESUELTAS / Por: Ciudades / Según: Formas de Resolución
 resueltas_por_tipo_proceso,cuadro_origen,6.3.1.3,400,p. 613-615 — CAUSAS RESUELTAS EN LA ETAPA PRELIMINAR / Por: Distritos / Según: Formas de Finalización de Competencia
 resueltas_por_tipo_proceso,cuadro_origen,6.3.3.3,400,p. 644-646 — CAUSAS RESUELTAS / Por: Distritos / Según: Formas de Resolución
@@ -175,28 +175,28 @@ apelaciones_por_tipo_proceso,cuadro_origen,6.1.2.4,2400,p. 479-488 — RECURSOS 
 apelaciones_por_tipo_proceso,cuadro_origen,6.1.2.3,2398,p. 469-478 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,6.1.1.3,2340,p. 419-428 — RECURSOS DE APELACIÓN CON CARÁCTER SUSPENSIVO / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,6.1.1.4,2340,p. 429-438 — RECURSOS DE APELACIÓN CON CARÁCTER DEVOLUTIVO / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
-apelaciones_por_tipo_proceso,cuadro_origen,6.1.3.4,2340,p. 526-535 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Formas de Devolución
 apelaciones_por_tipo_proceso,cuadro_origen,6.1.3.5,2340,p. 536-545 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Formas de Devolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.1.3.4,2340,p. 526-535 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Formas de Devolución
 apelaciones_por_tipo_proceso,cuadro_origen,5.2.1.3,1287,p. 315-320 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,5.2.1.4,1287,p. 321-326 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
-apelaciones_por_tipo_proceso,cuadro_origen,6.2.1.3,1170,p. 577-586 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,6.2.1.4,1170,p. 587-596 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
-apelaciones_por_tipo_proceso,cuadro_origen,5.2.2.3,550,p. 339-341 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO REMITIDOS / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,6.2.1.3,1170,p. 577-586 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO DEVUELTOS EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,5.2.2.4,550,p. 342-344 — RECURSOS DE APELACIÓN EN EFECTO DEVOLUTIVO REMITIDOS / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
+apelaciones_por_tipo_proceso,cuadro_origen,5.2.2.3,550,p. 339-341 — RECURSOS DE APELACIÓN EN EFECTO SUSPENSIVO REMITIDOS / Por: Ciudades y Tipo de Proceso / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,5.1.3.9,308,p. 297 — CAUSAS PENALES EN ETAPA DE INVESTIGACIÓN CON IMPUTACIÓN FORMAL / Por: Ciudades / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,5.3.1.5,308,p. 360-361 — RECURSOS DE APELACIÓN / Por: Ciudades y Tipo de Apelación / Según: Resultado del Recurso
 apelaciones_por_tipo_proceso,cuadro_origen,5.3.3.5,284,p. 386-387 — RECURSOS DE APELACIÓN / Por: Ciudades y Tipo de Apelación / Según: Resultado del Recurso
 apelaciones_por_tipo_proceso,cuadro_origen,6.3.1.6,280,p. 622-624 — RECURSOS DE APELACIÓN / Por: Distritos y Tipo de Apelación / Según: Resultado del Recurso
 apelaciones_por_tipo_proceso,cuadro_origen,5.3.2.6,275,p. 373-374 — RECURSOS DE APELACIÓN / Por: Ciudades y Tipo de Apelación / Según: Resultado del Recurso
-apelaciones_por_tipo_proceso,cuadro_origen,6.3.2.6,250,p. 636-637 — RECURSOS DE APELACIÓN / Por: Distritos y Tipo de Apelación / Según: Resultado del Recurso
 apelaciones_por_tipo_proceso,cuadro_origen,6.3.3.6,250,p. 649-650 — RECURSOS DE APELACIÓN / Por: Distritos y Tipo de Apelación / Según: Resultado del Recurso
+apelaciones_por_tipo_proceso,cuadro_origen,6.3.2.6,250,p. 636-637 — RECURSOS DE APELACIÓN / Por: Distritos y Tipo de Apelación / Según: Resultado del Recurso
 apelaciones_por_tipo_proceso,cuadro_origen,5.1.3.6,88,p. 284 — RECURSOS DE APELACIÓN INTERPUESTOS AL JUZGADO / Por: Ciudades / Según: Formas de Resolución
 apelaciones_por_tipo_proceso,cuadro_origen,6.1.3.6,80,p. 546 — RECURSOS DE APELACIÓN INTERPUESTOS AL JUZGADO EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos / Según: Formas de Resolución
 ejecucion_por_tipo_proceso,cuadro_origen,5.1.1.5,1430,p. 165-175 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
 ejecucion_por_tipo_proceso,cuadro_origen,5.1.3.7,1430,p. 285-295 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
 ejecucion_por_tipo_proceso,cuadro_origen,5.1.2.5,1319,p. 221-231 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
-ejecucion_por_tipo_proceso,cuadro_origen,6.1.1.5,1300,p. 439-448 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
 ejecucion_por_tipo_proceso,cuadro_origen,6.1.3.7,1300,p. 547-556 — CAUSAS EN EJECUCIÓN DE SENTENCIA EN MATERIA DE LA NIÑEZ Y ADOLESCENCIA / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
+ejecucion_por_tipo_proceso,cuadro_origen,6.1.1.5,1300,p. 439-448 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
 ejecucion_por_tipo_proceso,cuadro_origen,6.1.2.5,1200,p. 489-498 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
 ejecucion_por_tipo_proceso,cuadro_origen,5.2.1.5,715,p. 327-332 — CAUSAS EN EJECUCIÓN DE SENTENCIA / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado
 ejecucion_por_tipo_proceso,cuadro_origen,6.2.1.5,650,p. 597-606 — CAUSAS EN EJECUCIÓN DE SENTENCIA EN MATERIA DEL TRABAJO Y SEGURIDAD SOCIAL / Por: Distritos y Tipo de Proceso / Según: Movimiento Registrado
