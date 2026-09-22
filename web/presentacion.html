@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentación — Congestión judicial en Bolivia</title>
+<meta name="description" content="Presentación del proyecto: los datos del Anuario Estadístico Judicial 2023, el manejo de nulos y outliers, y los hallazgos del análisis exploratorio.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  html, body { height: 100%; }
+  body { overflow: hidden; font-size: clamp(14px, 1.08vw, 21px); }
+  .deck { height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  .slide {
+    min-height: 100vh; scroll-snap-align: start;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4.5rem 7vw 4rem; border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .slide > .in { width: 100%; max-width: 72rem; margin: 0 auto; }
+  .slide h1 { font-size: clamp(2.2rem, 4.4vw, 4rem); margin: 0 0 1rem; }
+  .slide h2 { font-size: clamp(1.6rem, 2.8vw, 2.5rem); border: 0; padding: 0; margin: 0 0 1.2rem; }
+  .slide h3 { font-size: 1.15rem; margin: 1.2rem 0 .5rem; }
+  .slide p, .slide li { font-size: 1.05rem; }
+  .slide .lede { font-size: 1.3rem; max-width: 52rem; }
+  .slide .eyebrow { margin-bottom: .8rem; }
+  .slide table { font-size: .85rem; }
+  .slide th, .slide td { padding: .45rem .7rem; }
+  .slide .kpi b { font-size: 2rem; }
+  .slide.sec { background: var(--accent-soft); }
+  .slide.sec h1 { color: var(--accent-ink); }
+  .slide.titulo { background: var(--paper-sunken); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.2rem; align-items: start; }
+  .grid2.w60 { grid-template-columns: 3fr 2fr; }
+  .grid2.w40 { grid-template-columns: 2fr 3fr; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .slide figure img { max-height: 58vh; width: auto; max-width: 100%; margin: 0 auto; }
+  .big { font: 700 clamp(3rem, 7vw, 6rem) var(--sans); letter-spacing: -.03em; line-height: 1; color: var(--accent); }
+  .big.crit { color: var(--crit); }
+  .muted { color: var(--ink-mute); }
+  .slide .bars .row { grid-template-columns: 16rem 1fr 5rem; }
+  .bars .bar.b2 { background: var(--warn); }
+  .bars .bar.b3 { background: var(--note); }
+  .bars .bar.b4 { background: var(--crit); }
+  .bars .bar.b5 { background: var(--ink-mute); }
+  .flowline { display: flex; gap: .6rem; align-items: stretch; flex-wrap: wrap; font-family: var(--sans); }
+  .flowline .step { flex: 1; min-width: 9rem; background: var(--paper-raised); border: 1px solid var(--rule); border-radius: .6rem; padding: .8rem .9rem; }
+  .flowline .step b { display: block; font-size: 1.4rem; color: var(--accent); }
+  .flowline .step span { font-size: .8rem; color: var(--ink-soft); }
+  .flowline .arrow { align-self: center; color: var(--ink-mute); font-size: 1.3rem; }
+  .nota-pie { position: absolute; bottom: 1.2rem; left: 7vw; right: 7vw; font: .75rem var(--sans); color: var(--ink-mute); }
+  .hud { position: fixed; z-index: 40; right: 1rem; bottom: 1rem; display: flex; gap: .4rem; align-items: center; font: .8rem var(--sans); color: var(--ink-mute); }
+  .hud a, .hud button { font: .8rem var(--sans); }
+  .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 41; width: 0; transition: width .2s; }
+  .vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.2rem; align-items: center; text-align: center; }
+  .vs .x { font: 700 1.5rem var(--sans); color: var(--ink-mute); }
+  .tag { display: inline-block; font: 600 .72rem var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: .15rem .5rem; border-radius: 1rem; background: var(--accent-soft); color: var(--accent-ink); }
+  @media (max-width: 900px) {
+    body { overflow: auto; }
+    .deck { height: auto; overflow: visible; scroll-snap-type: none; }
+    .slide { min-height: auto; padding: 3rem 1rem; }
+    .grid2, .grid2.w60, .grid2.w40, .grid3, .vs { grid-template-columns: 1fr; }
+    .slide .bars .row { grid-template-columns: 8rem 1fr 3.5rem; }
+    .hud { display: none; }
+    .nota-pie { position: static; margin-top: 1.5rem; }
+  }
+  @media print {
+    @page { size: 16in 9in; margin: 0; }
+    body, .deck { overflow: visible; height: auto; }
+    .slide { height: 9in; min-height: 0; page-break-after: always; break-after: page; border: 0; }
+    .hud, .progress { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<main class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide titulo"><div class="in">
+  <p class="eyebrow">Proyecto de Análisis de Datos · Bolivia · gestión 2023</p>
+  <h1>Congestión judicial en Bolivia</h1>
+  <p class="lede">De un PDF de 774 páginas a datos que se pueden defender: extracción, manejo de nulos y outliers, y lo que dicen los datos.</p>
+  <p class="muted" style="font-family:var(--sans);margin-top:2.5rem">Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
+  <p class="muted" style="font-family:var(--sans);font-size:.85rem">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em></p>
+</div></section>
+
+<!-- 2 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">El problema</p>
+  <h2>El dato existe, pero nadie lo puede usar</h2>
+  <div class="grid2 w60">
+    <div>
+      <p>El Consejo de la Magistratura publica cada año las estadísticas de todos los juzgados del país en un <strong>PDF de 774 páginas</strong>: sin Excel, sin CSV, sin datos abiertos.</p>
+      <p>El Índice de Congestión Judicial del <strong>CEJA (2025)</strong> dejó a Bolivia fuera de su ranking por falta de datos posteriores a 2022, y recomendó desagregar por materia y territorio, cosa que el índice no hace.</p>
+      <p>Y la demora importa: una parte muy grande de las personas presas en Bolivia espera una sentencia.</p>
+    </div>
+    <div class="kpis" style="grid-template-columns:1fr 1fr">
+      <div class="kpi"><b>774</b><span>páginas de PDF</span></div>
+      <div class="kpi"><b>176</b><span>cuadros distintos</span></div>
+      <div class="kpi"><b>0</b><span>versiones tabulares</span></div>
+      <div class="kpi"><b>1</b><span>documento fuente</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 3 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Objetivo e hipótesis</p>
+  <h2>¿Dónde y en qué es lenta la justicia?</h2>
+  <div class="grid2">
+    <div class="term">
+      <h4>Objetivo</h4>
+      <p>Construir un dataset abierto, reproducible y verificable del Órgano Judicial, y medir <strong>congestión y duración</strong> por materia, tipo de proceso y territorio.</p>
+    </div>
+    <div class="term">
+      <h4>Hipótesis</h4>
+      <p>La demora <strong>no es homogénea</strong>: el promedio nacional esconde materias rápidas y materias que tardan años. Si es así, «la justicia es lenta» no alcanza: hay que decir dónde y en qué.</p>
+    </div>
+  </div>
+  <div class="callout regla" style="margin-top:1rem">
+    <span class="t">Unidad de análisis</span>
+    <p style="font-size:1.25rem"><code>(ámbito, ciudad o distrito, materia, tipo de proceso)</code> — por ejemplo, «procesos ordinarios, materia civil, ciudad de Sucre».</p>
+    <p>Es lo más fino que publica el Anuario. <strong>No hay datos por juzgado individual</strong>: fue una premisa del proyecto que hubo que corregir.</p>
+  </div>
+</div></section>
+
+<!-- 4 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 1</p>
+  <h1>Los datos</h1>
+  <p class="lede">De dónde salen, cómo se leyeron y cómo se interpretan.</p>
+</div></section>
+
+<!-- 5 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Origen</p>
+  <h2>Qué se extrajo del Anuario</h2>
+  <div class="grid2 w60">
+    <div class="table-wrap"><table>
+      <thead><tr><th>Cuadros</th><th>Qué contienen</th><th class="num">Págs.</th></tr></thead>
+      <tbody>
+        <tr><td>Cap. 5 y 6</td><td><strong>causas por tipo de proceso</strong> (capitales y provincias): la variable que no está en ningún otro lado</td><td class="num">525</td></tr>
+        <tr><td>9.1.x</td><td>movimiento de causas por materia, series 2007–2023</td><td class="num">12</td></tr>
+        <tr><td>4.1.x</td><td>juzgados, tribunales, salas y conciliadores</td><td class="num">10</td></tr>
+        <tr><td>14.1.x</td><td>personal: ítems y remuneración</td><td class="num">5</td></tr>
+        <tr><td>13.1.x</td><td>procesos disciplinarios</td><td class="num">3</td></tr>
+        <tr class="total"><td>Total</td><td>de 774 páginas</td><td class="num">554</td></tr>
+      </tbody></table></div>
+    <div>
+      <p>El resto: 30 gráficas, 10 mapas, 76 páginas sin tabla y 104 páginas de cuadros fuera de alcance (segunda instancia, agroambiental, conciliaciones…).</p>
+      <p>El PDF tiene <strong>capa de texto</strong>: se leyó con <code>pdftotext</code>, sin OCR. Ninguna cifra pasó por reconocimiento de imagen.</p>
+      <p>Toda fila guarda <code>cuadro_origen</code> y <code>pagina_pdf</code>: cualquier número se puede verificar a mano en el PDF.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 6 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Origen</p>
+  <h2>Un PDF de tablas no es una tabla</h2>
+  <div class="grid2">
+    <div>
+      <ul>
+        <li><strong>Punto como separador de miles:</strong> <code>86.285</code> son 86285.</li>
+        <li><strong>Texto impreso en vertical</strong> (ORDINARIO, MONITOREO) que se pega a las filas.</li>
+        <li><strong>Rótulos partidos</strong> en tres líneas con los números en el medio.</li>
+        <li><strong>El mismo número de cuadro</strong> usado para dos cuadros distintos (el 6.3.1.4 es de capitales y de provincias).</li>
+        <li><strong>Llamadas a nota al pie</strong> pegadas al nombre: <code>Yapacani1</code>.</li>
+        <li><strong>Erratas:</strong> <code>INSTRUCCÓN</code>, <code>OTROS VOLUNATRIOS</code>.</li>
+      </ul>
+      <p class="muted">23 trampas documentadas en total.</p>
+    </div>
+    <div class="callout regla">
+      <span class="t">Las reglas del proyecto</span>
+      <ol>
+        <li>El dato de origen <strong>no se sobrescribe</strong>: toda interpretación va en una columna aparte.</li>
+        <li><strong>Nada se interpola</strong>: lo que no se puede leer queda vacío y se registra.</li>
+        <li>Las discrepancias del Anuario <strong>se registran, no se corrigen</strong>.</li>
+        <li>Los encabezados <strong>no se inventan</strong>.</li>
+      </ol>
+    </div>
+  </div>
+</div></section>
+
+<!-- 7 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Interpretación</p>
+  <h2>Cómo leer una fila: las cinco cantidades</h2>
+  <div class="grid2 w40">
+    <div class="table-wrap"><table>
+      <tbody>
+        <tr><td><code>pendientes_inicio</code></td><td>abiertas el 1 de enero</td></tr>
+        <tr><td><code>ingresadas</code></td><td>entraron en el año</td></tr>
+        <tr><td><code>atendidas</code></td><td>todo lo que tuvo en manos</td></tr>
+        <tr><td><code>resueltas</code></td><td>cerradas en el año</td></tr>
+        <tr><td><code>pendientes_fin</code></td><td>abiertas el 31 de diciembre</td></tr>
+      </tbody></table></div>
+    <div>
+      <div class="eq">atendidas = pendientes_inicio + ingresadas
+atendidas = resueltas + pendientes_fin</div>
+      <p><strong>Ejemplo real</strong> (cuadro 5.1.1.1, p. 121): procesos ordinarios civiles de Sucre. 2.397 atendidas, 1.286 resueltas, 1.111 pendientes al cierre. Cerró menos de lo que entró: acumula mora.</p>
+      <div class="callout ojo"><span class="t">Ojo</span><p><code>pct_resueltas</code> del Anuario es resueltas ÷ atendidas. <strong>No es la tasa de resolución</strong>, que es resueltas ÷ ingresadas.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 8 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Los datos</p>
+  <h2>Tres capas: del PDF a la tabla analítica</h2>
+  <div class="flowline">
+    <div class="step"><b>774</b><span>páginas del PDF</span></div><div class="arrow">→</div>
+    <div class="step"><b>85.953</b><span>filas en 12 tablas (<code>data/processed</code>)</span></div><div class="arrow">→</div>
+    <div class="step"><b>1.997</b><span>filas en la tabla analítica, sin totales</span></div><div class="arrow">→</div>
+    <div class="step"><b>115</b><span>columnas en la capa curada: indicadores y outliers</span></div>
+  </div>
+  <div class="grid2" style="margin-top:1.6rem">
+    <div>
+      <h3>Por qué no una sola tabla gigante</h3>
+      <p>Las tablas tienen <strong>grano distinto</strong>. Unir movimiento con apelaciones multiplica las filas por <strong>743</strong>; la columna atendidas pasaría de 1,5 millones a 81 millones. La base solo recibe uniones N:1 verificadas: sigue teniendo 1.997 filas.</p>
+    </div>
+    <div>
+      <h3>Seis auditorías contra el PDF</h3>
+      <ul>
+        <li>Geografía: departamento de 0 % a 100 %.</li>
+        <li>Materias: 11 equivalencias; 4 sin fusionar porque el Anuario <strong>invierte los rótulos</strong>.</li>
+        <li>Juzgados: sumar el cuadro 4.1.1 da 2.422; el real es <strong>846</strong>.</li>
+        <li>95 «duplicados» que eran <strong>etapas penales distintas</strong>.</li>
+        <li>87 rótulos rotos reparados, sin reglas globales.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 9 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Validación</p>
+  <h2>¿Cómo sabemos que la extracción está bien?</h2>
+  <div class="grid2">
+    <div>
+      <p>El Anuario publica <strong>las mismas cifras dos veces</strong>, en capítulos distintos, y las leyeron dos parsers que no se conocen.</p>
+      <div class="eq">Cuadro 5.1.1.1 (tipo de proceso) contra 9.1.1 (materia):
+29.688                      = pendientes_inicio ✓
+243 + 4.398 + 355 + 61.144  = 66.140 = ingresadas ✓
+95.828 · 67.788 · 28.040    = atendidas · resueltas · pendientes ✓</div>
+      <p>La suma de formas de ingreso da <code>atendidas</code> en <strong>2.386 de 2.386</strong> filas.</p>
+    </div>
+    <div>
+      <div class="big crit">117</div>
+      <p>veces que el Anuario <strong>no cierra consigo mismo</strong>. Registradas con cuadro y página, <strong>ninguna corregida</strong>: son un hallazgo sobre la fuente.</p>
+      <p class="muted">Ejemplo: en el 9.1.1 falta una causa (44.992 publicadas, 23.611 + 21.382 = 44.993). Cruzando cuadros se ubica en trabajo de El Alto.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 10 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Alcance del análisis</p>
+  <h2>Qué se analiza: la mitad no penal</h2>
+  <div class="grid2 w60">
+    <div>
+      <div class="bars">
+        <div class="row"><span>Justicia no penal (analizada)</span><div class="bar" style="width:47.5%"></div><span class="val">47,5 %</span></div>
+        <div class="row"><span>Materias penales (fuera)</span><div class="bar b5" style="width:52.5%"></div><span class="val">52,5 %</span></div>
+      </div>
+      <p>Causas atendidas en la tabla analítica: 335.472 de 706.485.</p>
+      <p>Las materias penales <strong>no publican causas resueltas</strong>: publican sobreseimientos, imputaciones, salidas alternativas. Las fórmulas del CEJA no se les pueden aplicar tal cual.</p>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Tipo de fila</th><th class="num">Filas</th></tr></thead>
+      <tbody>
+        <tr><td><code>proceso</code> → se analiza</td><td class="num">1.655</td></tr>
+        <tr><td><code>accion_penal</code></td><td class="num">171</td></tr>
+        <tr><td><code>otro_detalle</code> (encabezados penales)</td><td class="num">171</td></tr>
+        <tr class="total"><td>Total</td><td class="num">1.997</td></tr>
+      </tbody></table></div>
+  </div>
+</div></section>
+
+<!-- 11 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 2</p>
+  <h1>Manejo de nulos</h1>
+  <p class="lede">Cuántos hay, por qué existen y qué se hizo con ellos.</p>
+</div></section>
+
+<!-- 12 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Nulos · el panorama</p>
+  <h2>El 39 % de las celdas están vacías</h2>
+  <div class="grid2 w40">
+    <div>
+      <div class="big">38,9 %</div>
+      <p>67.622 celdas vacías de 173.739 (1.997 filas × 87 columnas).</p>
+      <p><strong>40 de las 87 columnas</strong> tienen al menos un vacío; 47 están completas.</p>
+      <p>A primera vista parece un dataset «sucio». No lo es.</p>
+    </div>
+    <div>
+      <h3>Columnas por causa de la ausencia</h3>
+      <div class="bars">
+        <div class="row"><span>completa</span><div class="bar b5" style="width:54%"></div><span class="val">47</span></div>
+        <div class="row"><span>estructural por materia</span><div class="bar" style="width:39%"></div><span class="val">34</span></div>
+        <div class="row"><span>estructural por recursos</span><div class="bar b3" style="width:3.4%"></div><span class="val">3</span></div>
+        <div class="row"><span>estructural geográfico</span><div class="bar b2" style="width:2.3%"></div><span class="val">2</span></div>
+        <div class="row"><span>estructural por tipo de fila</span><div class="bar b4" style="width:1.2%"></div><span class="val">1</span></div>
+        <div class="row"><span>sin explicación</span><div class="bar" style="width:0"></div><span class="val"><strong>0</strong></span></div>
+      </div>
+      <p class="muted">Clasificación del notebook 09 (<code>matriz_nulos_clasificada.csv</code>).</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 13 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Nulos · por qué</p>
+  <h2>Un vacío casi nunca es un dato perdido: es estructural</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Causa</th><th>Ejemplo</th><th class="num">% de filas vacías</th><th>Por qué está vacío</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag">materia</span></td><td><code>sobreseimiento</code>, <code>terminacion_anticipada</code></td><td class="num">100 %</td><td>son formas de cierre penal; en un divorcio no existen</td></tr>
+      <tr><td><span class="tag">materia</span></td><td><code>merecieron_imputacion_formal</code></td><td class="num">97,1 %</td><td>solo existe en los cuadros de instrucción penal</td></tr>
+      <tr><td><span class="tag">materia</span></td><td><code>readecuadas_ley_439</code></td><td class="num">76,2 %</td><td>creada por el Código Procesal Civil: solo en civil</td></tr>
+      <tr><td><span class="tag">materia</span></td><td><code>pendientes_inicio</code></td><td class="num">24,1 %</td><td>los cuadros civiles publican las readecuadas en su lugar</td></tr>
+      <tr><td><span class="tag">geografía</span></td><td><code>ciudad</code> / <code>distrito</code></td><td class="num">46,4 % / 53,6 %</td><td>capitales se publican por ciudad; provincias por distrito: una u otra, nunca las dos</td></tr>
+      <tr><td><span class="tag">recursos</span></td><td><code>recurso_salas_publicadas</code></td><td class="num">51,8 %</td><td>no existen salas creadas en esa localidad</td></tr>
+      <tr><td><span class="tag">tipo de fila</span></td><td><code>resueltas</code></td><td class="num">14,3 %</td><td>vacía solo en las 285 filas que son encabezados penales, no procesos</td></tr>
+    </tbody></table></div>
+  <p>Cada vacío tiene una explicación verificable contra el PDF. En la jerga estadística <strong>no son faltantes al azar</strong>: faltan por una razón conocida, la estructura del Anuario.</p>
+</div></section>
+
+<!-- 14 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Nulos · diagnóstico</p>
+  <h2>Las columnas con más vacíos, por causa</h2>
+  <figure><img src="img/nb09_1.png" alt="Barras horizontales con las 25 columnas con mayor porcentaje de vacíos, casi todas en 100 % o 97 %, coloreadas por causa estructural."></figure>
+  <p class="muted">Las de arriba llegan al 100 % y ninguna es un error: son columnas de layouts penales o civiles que no aplican al resto del estrato.</p>
+</div></section>
+
+<!-- 15 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Nulos · tratamiento</p>
+  <h2>El tratamiento: clasificar, no imputar</h2>
+  <div class="grid2">
+    <div>
+      <h3>Qué se hizo</h3>
+      <ol>
+        <li><strong>Clasificar</strong> cada columna por la causa de su ausencia (notebook 09).</li>
+        <li><strong>Conservar el vacío</strong>: ningún valor se rellena.</li>
+        <li><strong>Distinguir vacío de cero</strong>: cero es «ninguna causa»; vacío es «no aplica» o «no publicado».</li>
+        <li><strong>Separar filas</strong> que no son procesos (<code>tipo_elemento_analitico</code>) en lugar de borrarlas.</li>
+        <li><strong>Crear <code>territorio</code></strong>: combina ciudad y distrito sin rellenar ninguna.</li>
+      </ol>
+    </div>
+    <div>
+      <h3>Por qué no las alternativas</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Alternativa</th><th>Problema</th></tr></thead>
+        <tbody>
+          <tr><td>imputar con la media</td><td>inventa un «sobreseimiento» en un divorcio: una figura jurídica que no puede existir</td></tr>
+          <tr><td>rellenar con cero</td><td>afirma «ninguna causa» donde el Anuario no publica nada; cambia promedios y tasas</td></tr>
+          <tr><td>borrar filas con vacíos</td><td>casi todas las filas tienen alguno: se perdería el dataset entero</td></tr>
+          <tr><td>borrar columnas vacías</td><td>son las columnas propias de cada materia: se perdería información penal</td></tr>
+        </tbody></table></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 16 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Nulos · en los indicadores</p>
+  <h2>Los vacíos que crean los indicadores</h2>
+  <div class="grid2">
+    <div>
+      <p>Dividir por cero no da un número. En los 1.655 procesos:</p>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Indicador</th><th>Vacío cuando</th><th class="num">Vacíos</th><th class="num">%</th></tr></thead>
+        <tbody>
+          <tr><td>tasa de resolución</td><td>no hubo ingresos</td><td class="num">487</td><td class="num">29,4</td></tr>
+          <tr><td>tasa de congestión</td><td>no hubo resueltas</td><td class="num">533</td><td class="num">32,2</td></tr>
+          <tr><td>duración estimada</td><td>no hubo resueltas</td><td class="num">533</td><td class="num">32,2</td></tr>
+          <tr><td>tasa de pendencia</td><td>(cero atendidas → 0)</td><td class="num">0</td><td class="num">0</td></tr>
+        </tbody></table></div>
+      <p>Se explican con <code>estado_gestion</code>: <strong>415</strong> procesos sin movimiento y <strong>118</strong> en trámite exclusivo (atendieron y no resolvieron nada). 415 + 118 = 533.</p>
+    </div>
+    <div class="callout error">
+      <span class="t">Un error que cometimos</span>
+      <p>La primera versión asignaba <strong>tasa = 1,0</strong> a los procesos sin causas, como «balance neutro».</p>
+      <p>Con 415 filas sin movimiento, eso arrastraba la <strong>mediana de casi todas las materias a exactamente 1,0</strong>: un número que parecía un resultado y era un artefacto de la imputación.</p>
+      <p><strong>Regla:</strong> un cociente sin denominador es indefinido, no 1. Ahora queda vacío.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 17 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 3</p>
+  <h1>Manejo de outliers</h1>
+  <p class="lede">Cómo se detectaron, cuántos hay y por qué no se borró ninguno.</p>
+</div></section>
+
+<!-- 18 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Outliers · método</p>
+  <h2>Regla de Tukey (IQR), por estrato</h2>
+  <div class="grid2">
+    <div>
+      <div class="eq">IQR    = Q3 − Q1
+leve   : valor &gt; Q3 + 1,5 × IQR
+severo : valor &gt; Q3 + 3 × IQR</div>
+      <p><strong>Q1</strong> deja el 25 % de los valores por debajo; <strong>Q3</strong>, el 75 %. Es el criterio de los diagramas de caja: no supone una distribución normal, y estos datos están muy lejos de serlo.</p>
+      <p>Si el IQR es 0 (casi todos iguales), el límite se fija en el máximo entre Q3 + 1 y el percentil 95, para no marcar cualquier valor distinto.</p>
+    </div>
+    <div>
+      <h3>Se aplicó a cuatro variables</h3>
+      <ul>
+        <li><strong>carga atendida</strong> y <strong>nuevas ingresadas</strong> (volumen)</li>
+        <li><strong>tasa de congestión</strong> y <strong>duración estimada</strong> (tasas)</li>
+      </ul>
+      <h3>Dentro de 9 estratos</h3>
+      <p>materia × ámbito: cada proceso se compara solo con los de su materia y su ámbito. Son 9 y no 10 porque coactivo fiscal solo existe en capitales.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 19 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Outliers · por qué estratificar</p>
+  <h2>Un umbral nacional marcaría geografía, no anomalías</h2>
+  <div class="vs">
+    <div class="term">
+      <h4>Umbral nacional único</h4>
+      <p style="font-size:1.4rem;margin:.3rem 0"><strong>195</strong> causas</p>
+      <p>marca 248 procesos: <strong>169 de capital y 79 de provincia</strong> (68 % capital).</p>
+    </div>
+    <div class="x">vs</div>
+    <div class="term">
+      <h4>Umbral por materia × ámbito</h4>
+      <p style="font-size:1.4rem;margin:.3rem 0">de 35 a 901 causas</p>
+      <p>marca 244 procesos: <strong>122 de capital y 122 de provincia</strong>.</p>
+    </div>
+  </div>
+  <p style="margin-top:1.4rem">La mediana de causas atendidas es 18 en capitales y 5 en provincias. Con un umbral único, un juzgado civil normal de Santa Cruz parece anómalo y uno de Pando nunca lo es. Estratificar pregunta lo correcto: <strong>¿es este proceso raro entre los de su tipo y su ámbito?</strong></p>
+</div></section>
+
+<!-- 20 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Outliers · cuántos</p>
+  <h2>Cuántos outliers hay</h2>
+  <div class="grid2 w60">
+    <div class="table-wrap"><table>
+      <thead><tr><th>Variable</th><th class="num">Leves</th><th class="num">%</th><th class="num">Severos</th><th class="num">%</th></tr></thead>
+      <tbody>
+        <tr><td>Carga atendida</td><td class="num">244</td><td class="num">14,7</td><td class="num">184</td><td class="num">11,1</td></tr>
+        <tr><td>Nuevas ingresadas</td><td class="num">246</td><td class="num">14,9</td><td class="num">170</td><td class="num">10,3</td></tr>
+        <tr><td>Tasa de congestión</td><td class="num">97</td><td class="num">5,9</td><td class="num">53</td><td class="num">3,2</td></tr>
+        <tr><td>Duración estimada</td><td class="num">96</td><td class="num">5,8</td><td class="num">53</td><td class="num">3,2</td></tr>
+      </tbody><caption>Sobre 1.655 procesos. Todo severo es también leve.</caption></table></div>
+    <div>
+      <p>Las variables de <strong>volumen</strong> tienen tres veces más outliers que las <strong>tasas</strong>: el volumen no tiene techo (la carga tiene asimetría 6,5), mientras que las tasas están acotadas por la aritmética del propio despacho.</p>
+      <p>Por materia, la carga tiene más outliers en civil (81), niñez (62) y familia (61).</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 21 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Outliers · tratamiento</p>
+  <h2>El tratamiento: marcar y transformar, nunca borrar</h2>
+  <div class="grid3">
+    <div class="term">
+      <h4>1 · Banderas</h4>
+      <p>8 columnas <code>es_outlier_*</code> y <code>es_outlier_severo_*</code>. La fila no se toca.</p>
+      <p class="muted">1.997 filas entran, 1.997 salen.</p>
+    </div>
+    <div class="term">
+      <h4>2 · Winsorización al P95</h4>
+      <p>En congestión y duración, los valores sobre el percentil 95 <strong>de su estrato</strong> bajan a ese percentil, en columnas nuevas.</p>
+      <p class="muted">59 de 1.122 valores topeados (5,3 %). Máximo de congestión: 81 → 15,6; media: 2,24 → 2,03.</p>
+    </div>
+    <div class="term">
+      <h4>3 · log(1 + x)</h4>
+      <p>A los 5 volúmenes, en columnas <code>log_*</code>. Comprime la escala para que un agrupamiento futuro no clasifique solo por tamaño.</p>
+      <p class="muted">Asimetría de la carga: 6,5 → 0,5. El +1 permite los ceros.</p>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:1rem">
+    <div class="callout regla"><span class="t">Por qué no borrarlos</span><p>En estadísticas judiciales oficiales el valor extremo <strong>es el fenómeno</strong>: un juzgado con congestión 15 está desbordado, y eso es justamente lo que se quiere encontrar.</p></div>
+    <div class="callout"><span class="t">Control: ¿se conserva el orden?</span><p>Correlación de Spearman entre original y transformada: log <strong>1,0000</strong>; winsorización <strong>0,9994</strong> (los valores topeados quedan empatados).</p></div>
+  </div>
+</div></section>
+
+<!-- 22 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Outliers · antes y después</p>
+  <h2>El efecto, por materia</h2>
+  <figure><img src="img/02_boxplots_outliers_iqr.png" alt="Cuatro paneles de diagramas de caja por materia: carga cruda, carga en logaritmo, congestión original y congestión winsorizada."></figure>
+  <p class="muted">Ejemplo: la tutela ordinaria de niñez en El Alto atendió 81 causas y resolvió 1 (congestión 81). Topeada queda en 6,08, pero la fila sigue en el dataset y marcada como outlier severo.</p>
+</div></section>
+
+<!-- 23 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 4</p>
+  <h1>Lo que encontramos</h1>
+  <p class="lede">Los hallazgos del análisis exploratorio.</p>
+</div></section>
+
+<!-- 24 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">EDA · balance</p>
+  <h2>La justicia no penal cierra 5 de cada 6 causas</h2>
+  <div class="kpis">
+    <div class="kpi"><b>250.871</b><span>ingresadas</span></div>
+    <div class="kpi"><b>209.197</b><span>resueltas</span></div>
+    <div class="kpi"><b>126.065</b><span>pendientes al cierre</span></div>
+    <div class="kpi"><b>83,4 %</b><span>tasa de resolución</span></div>
+    <div class="kpi"><b>1,60</b><span>tasa de congestión</span></div>
+    <div class="kpi"><b>220</b><span>días de duración estimada</span></div>
+  </div>
+  <div class="grid2">
+    <p><strong>747 de 1.655 procesos (45,1 %)</strong> resuelven menos de lo que reciben: acumulan mora.</p>
+    <div class="callout error"><span class="t">El error que invertía la conclusión</span><p>Dividiendo solo por <code>nuevas_ingresadas</code> daba <strong>103,84 %</strong> («descarga su acumulado»). Con todas las formas de ingreso, verificadas con la identidad del Anuario, da <strong>83,39 %</strong> («acumula mora»).</p></div>
+  </div>
+</div></section>
+
+<!-- 25 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">EDA · por materia</p>
+  <h2>La demora varía 8,7 veces entre materias</h2>
+  <div class="grid2 w60">
+    <div>
+      <h3>Duración estimada (días)</h3>
+      <div class="bars">
+        <div class="row"><span>Coactivo Fiscal y Tributario</span><div class="bar b4" style="width:100%"></div><span class="val">1.417</span></div>
+        <div class="row"><span>Trabajo y Seguridad Social</span><div class="bar b2" style="width:30.6%"></div><span class="val">434</span></div>
+        <div class="row"><span>Familia</span><div class="bar" style="width:13.4%"></div><span class="val">190</span></div>
+        <div class="row"><span>Niñez y Adolescencia</span><div class="bar" style="width:12.5%"></div><span class="val">177</span></div>
+        <div class="row"><span>Civil y Comercial</span><div class="bar" style="width:11.4%"></div><span class="val">162</span></div>
+      </div>
+      <h3>Tasa de congestión</h3>
+      <div class="bars">
+        <div class="row"><span>Coactivo Fiscal y Tributario</span><div class="bar b4" style="width:100%"></div><span class="val">4,96</span></div>
+        <div class="row"><span>Trabajo y Seguridad Social</span><div class="bar b2" style="width:44%"></div><span class="val">2,19</span></div>
+        <div class="row"><span>Familia</span><div class="bar" style="width:30.6%"></div><span class="val">1,52</span></div>
+        <div class="row"><span>Niñez y Adolescencia</span><div class="bar" style="width:30%"></div><span class="val">1,49</span></div>
+        <div class="row"><span>Civil y Comercial</span><div class="bar" style="width:29%"></div><span class="val">1,44</span></div>
+      </div>
+    </div>
+    <div>
+      <p><strong>Coactivo fiscal</strong> (cobro de deudas al Estado) tardaría casi <strong>cuatro años</strong> en vaciar su stock.</p>
+      <p>Y aun así su tasa de resolución es 1,33: en 2023 resolvió más de lo que entró. No es contradictorio: <strong>la tasa mide el flujo del año; la duración mide el stock acumulado</strong>.</p>
+      <p><strong>Civil y familia</strong> concentran el volumen (257.357 causas, 76,7 % de lo analizado) y son de las más rápidas.</p>
+      <p class="muted">La hipótesis se sostiene: la demora no es homogénea.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 26 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">EDA · territorio</p>
+  <h2>Importa más el tipo de caso que el lugar</h2>
+  <div class="grid2">
+    <div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Ámbito</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración</th></tr></thead>
+        <tbody>
+          <tr><td>Capital</td><td class="num">85,1 %</td><td class="num">1,58</td><td class="num">213 días</td></tr>
+          <tr><td>Provincia</td><td class="num">79,3 %</td><td class="num">1,65</td><td class="num">238 días</td></tr>
+        </tbody></table></div>
+      <p>La brecha capital–provincia es de <strong>25 días</strong>: mucho menor que la brecha entre materias (más de 1.200).</p>
+    </div>
+    <div>
+      <h3>Duración por departamento (días)</h3>
+      <div class="bars">
+        <div class="row"><span>Santa Cruz</span><div class="bar b4" style="width:100%"></div><span class="val">294</span></div>
+        <div class="row"><span>La Paz</span><div class="bar b4" style="width:96.4%"></div><span class="val">284</span></div>
+        <div class="row"><span>Beni</span><div class="bar b2" style="width:86.7%"></div><span class="val">255</span></div>
+        <div class="row"><span>Pando</span><div class="bar" style="width:70%"></div><span class="val">206</span></div>
+        <div class="row"><span>Potosí</span><div class="bar" style="width:69%"></div><span class="val">203</span></div>
+        <div class="row"><span>Tarija</span><div class="bar" style="width:55.8%"></div><span class="val">164</span></div>
+        <div class="row"><span>Cochabamba</span><div class="bar" style="width:43.5%"></div><span class="val">128</span></div>
+        <div class="row"><span>Chuquisaca</span><div class="bar" style="width:40.8%"></div><span class="val">120</span></div>
+        <div class="row"><span>Oruro</span><div class="bar" style="width:32.3%"></div><span class="val">95</span></div>
+      </div>
+      <p class="muted">Los dos distritos más grandes son los más lentos, pero Cochabamba, con mucho volumen, es de los más rápidos: el tamaño no lo explica todo.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 27 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">EDA · mapa de calor</p>
+  <h2>Congestión por departamento y materia</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/03_heatmap_congestion_departamento_materia.png" alt="Mapa de calor con la congestión mediana winsorizada por departamento y materia; la celda más oscura es Oruro en coactivo fiscal."></figure>
+    <div>
+      <p>El valor más alto es <strong>Oruro en coactivo fiscal: 15,6</strong>; le sigue Potosí en la misma materia, 10,6.</p>
+      <div class="callout ojo"><span class="t">Nulos y outliers se cruzan</span><p>En esa misma celda está el <strong>único descuadre contable</strong> del dataset: contencioso tributario de Oruro, página 334, con 223 atendidas contra 13 resueltas y 0 pendientes (faltan 210). Antes de reportarlo como hallazgo hay que mirar el PDF: puede ser el mismo fenómeno visto dos veces.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 28 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">EDA · dónde está la mora</p>
+  <h2>Los procesos con más causas pendientes</h2>
+  <div class="grid2 w60">
+    <div class="table-wrap"><table>
+      <thead><tr><th>Materia</th><th>Tipo de proceso</th><th class="num">Pendientes</th><th class="num">Congestión</th></tr></thead>
+      <tbody>
+        <tr><td>Familia</td><td>Asistencia familiar</td><td class="num">18.300</td><td class="num">1,69</td></tr>
+        <tr><td>Civil</td><td>Ordinario</td><td class="num">13.780</td><td class="num">1,68</td></tr>
+        <tr><td>Trabajo</td><td>Infracción a leyes sociales</td><td class="num">11.880</td><td class="num">3,11</td></tr>
+        <tr><td>Familia</td><td>Divorcio / desvinculación</td><td class="num">8.695</td><td class="num">1,36</td></tr>
+        <tr><td>Civil</td><td>Ejecutivo</td><td class="num">6.437</td><td class="num">1,18</td></tr>
+        <tr><td>Coactivo</td><td>Coactivo fiscal</td><td class="num">5.961</td><td class="num">5,19</td></tr>
+        <tr><td>Trabajo</td><td>Coactivo social AFP</td><td class="num">4.696</td><td class="num">3,35</td></tr>
+      </tbody></table></div>
+    <div>
+      <p><strong>Volumen y congestión no coinciden.</strong> La asistencia familiar (pensión de alimentos) acumula el stock más grande con congestión moderada: es simplemente enorme.</p>
+      <p>El coactivo fiscal acumula un tercio de eso con una congestión <strong>tres veces peor</strong>.</p>
+      <p>Esto solo se puede ver gracias al <strong>tipo de proceso</strong>, la variable de las 525 páginas que nadie había tabulado.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 29 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Límites</p>
+  <h2>Lo que estos datos no permiten decir</h2>
+  <div class="grid2">
+    <ul>
+      <li>Es la <strong>mitad no penal</strong> del sistema (47,5 % de las causas).</li>
+      <li>La duración es un <strong>estimador de estado estacionario</strong>, no el seguimiento de expedientes: no hay fechas por causa.</li>
+      <li>Mide <strong>celeridad, no calidad</strong> de las decisiones.</li>
+      <li>La tasa de resolución de <strong>civil</strong> no se compara directamente: no hay stock inicial.</li>
+      <li>No hay <strong>juzgados individuales</strong> y el número de juzgados es nominal.</li>
+    </ul>
+    <div>
+      <h3>Lo que sigue</h3>
+      <ul>
+        <li>Fuentes externas: población (INE, Censo 2024), CEJA 2025, datos penitenciarios, presupuesto.</li>
+        <li>Indicadores propios para las materias penales.</li>
+        <li>Agrupamiento por distrito × materia × tipo de proceso, sin las 47 columnas con riesgo de <em>leakage</em>.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 30 -->
+<section class="slide titulo"><div class="in">
+  <p class="eyebrow">En resumen</p>
+  <h1>Cada número se puede rastrear hasta una página</h1>
+  <div class="grid3" style="margin-top:1.5rem">
+    <div class="term"><h4>Datos</h4><p>85.953 filas extraídas de 554 páginas, verificadas con las identidades del propio Anuario; 117 discrepancias registradas sin corregir.</p></div>
+    <div class="term"><h4>Nulos y outliers</h4><p>39 % de celdas vacías, todas estructurales: se clasificaron, no se imputaron. Outliers por estrato: se marcaron y transformaron, no se borraron.</p></div>
+    <div class="term"><h4>Hallazgos</h4><p>83,4 % de resolución en la justicia no penal y una demora que varía 8,7 veces entre materias.</p></div>
+  </div>
+  <p style="font-family:var(--sans);margin-top:2rem">Documentación completa: <a href="index.html">la web del proyecto</a> · ¿Preguntas?</p>
+</div></section>
+
+</main>
+<div class="hud">
+  <span id="contador">1 / 30</span>
+  <button class="icon-btn" id="ant" aria-label="Diapositiva anterior">←</button>
+  <button class="icon-btn" id="sig" aria-label="Diapositiva siguiente">→</button>
+  <button class="icon-btn" id="tema" aria-label="Cambiar tema">◐</button>
+  <a class="icon-btn" href="index.html" style="text-decoration:none">Web</a>
+</div>
+<script>
+(function () {
+  var deck = document.getElementById("deck");
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var contador = document.getElementById("contador");
+  var barra = document.getElementById("progress");
+  var actual = 0;
+  function ir(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[i].scrollIntoView({ behavior: "smooth" });
+  }
+  function marcar() {
+    var mitad = deck.scrollTop + window.innerHeight / 2;
+    for (var i = 0; i < slides.length; i++) {
+      if (slides[i].offsetTop <= mitad) { actual = i; }
+    }
+    contador.textContent = (actual + 1) + " / " + slides.length;
+    barra.style.width = ((actual + 1) / slides.length * 100) + "%";
+    if (history.replaceState) { history.replaceState(null, "", "#" + (actual + 1)); }
+  }
+  deck.addEventListener("scroll", function () { window.requestAnimationFrame(marcar); });
+  document.addEventListener("keydown", function (e) {
+    if (["ArrowRight", "ArrowDown", "PageDown", " "].indexOf(e.key) >= 0) { e.preventDefault(); ir(actual + 1); }
+    else if (["ArrowLeft", "ArrowUp", "PageUp"].indexOf(e.key) >= 0) { e.preventDefault(); ir(actual - 1); }
+    else if (e.key === "Home") { e.preventDefault(); ir(0); }
+    else if (e.key === "End") { e.preventDefault(); ir(slides.length - 1); }
+    else if (e.key === "f") { if (document.fullscreenElement) { document.exitFullscreen(); } else { document.documentElement.requestFullscreen(); } }
+  });
+  document.getElementById("ant").addEventListener("click", function () { ir(actual - 1); });
+  document.getElementById("sig").addEventListener("click", function () { ir(actual + 1); });
+  document.getElementById("tema").addEventListener("click", function () {
+    var r = document.documentElement;
+    var oscuro = r.getAttribute("data-theme") === "dark" || (!r.hasAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var nuevo = oscuro ? "light" : "dark";
+    r.setAttribute("data-theme", nuevo);
+    try { localStorage.setItem("tema", nuevo); } catch (err) {}
+  });
+  var inicial = parseInt(window.location.hash.slice(1), 10);
+  if (inicial > 1) { deck.style.scrollBehavior = "auto"; deck.scrollTop = slides[Math.min(inicial, slides.length) - 1].offsetTop; deck.style.scrollBehavior = ""; }
+  marcar();
+})();
+</script>
+</body>
+</html>
