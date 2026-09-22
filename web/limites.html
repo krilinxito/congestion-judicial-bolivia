@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Límites y pendientes — Congestión judicial en Bolivia</title>
+<meta name="description" content="Lo que los datos no permiten concluir, las advertencias antes de calcular cualquier indicador, las decisiones que quedaron abiertas y lo que falta para la fase siguiente.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="limites">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Resultados · 12</p>
+<h1>Límites y pendientes</h1>
+<p class="lede">Lo que no se hizo es tan importante como lo que sí. Suponer lo contrario lleva a conclusiones incorrectas. Esta página lista todo lo que los datos no permiten, lo que quedó abierto y lo que falta.</p>
+
+<h2>Límites de la fuente</h2>
+<ol>
+  <li><strong>No hay juzgados individuales.</strong> El Anuario desagrega hasta ciudad o distrito × materia × tipo de proceso. El número de juzgados es un dato de la página, válido para toda la ciudad.</li>
+  <li><strong>La duración es un estimador de estado estacionario</strong>, no la medición de expedientes: el sistema judicial no publica fechas de inicio y cierre por causa.</li>
+  <li><strong>Mide celeridad, no calidad.</strong> Resolver rápido no es resolver bien, y el Anuario solo publica lo primero. Es la misma advertencia que hace el CEJA sobre su índice.</li>
+  <li><strong><code>num_juzgados</code> es nominal:</strong> un juzgado mixto cuenta una vez por materia. Además, los capítulos 5 y 9 declaran cantidades distintas para la misma materia.</li>
+  <li><strong>El costo salarial cubre solo el personal</strong>, no el presupuesto total del Órgano Judicial, y la remuneración es mensual.</li>
+  <li><strong>El Anuario no cierra consigo mismo</strong> en 117 casos, y las series históricas tienen gestiones que no cumplen sus identidades.</li>
+  <li><strong>Las materias penales no publican causas resueltas</strong>, así que los indicadores cubren el 47,5 % de las causas.</li>
+  <li><strong>En civil no se publica el stock inicial</strong>, así que su tasa de resolución no se compara directamente con la de otras materias.</li>
+  <li><strong>Es una sola gestión.</strong> El planteo original del proyecto trabajaba sobre 2022; los números preliminares de esa edición no son comparables fila a fila con estos: cambian los valores y, en algunos cuadros, los nombres de las materias.</li>
+</ol>
+
+<h2>Advertencias antes de calcular cualquier cosa</h2>
+<div class="callout ojo">
+  <span class="t">Lista de control</span>
+  <ol>
+    <li><code>pct_resueltas</code> <strong>no</strong> es la tasa de resolución: es resueltas ÷ atendidas.</li>
+    <li><code>ingresadas</code> es la suma de todas las formas de ingreso, no <code>nuevas_ingresadas</code>.</li>
+    <li>Excluir las filas de total (<code>tipo_fila_derivado == "total"</code>, <code>es_total_nacional</code>) antes de sumar. La tabla analítica ya lo hace.</li>
+    <li>Cero resueltas rompe la congestión y la duración: el indicador queda vacío, no se inventa.</li>
+    <li>No sumar las 37 filas de 4.1.1: hay subtotales. Y los 846 órganos no son todos juzgados.</li>
+    <li>No sumar informes de inicio con imputaciones formales: son dos etapas del mismo expediente.</li>
+    <li>No unir tablas de grano distinto sin comprobar que la clave es única del otro lado.</li>
+    <li>No usar como predictor una columna marcada con riesgo de leakage.</li>
+    <li>Las fórmulas exactas deben confirmarse contra el documento del CEJA 2025, que no está en este repositorio, en especial el denominador de la congestión y el factor de días de la duración.</li>
+  </ol>
+</div>
+
+<h2>Decisiones que quedaron abiertas</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Pendiente</th><th>Dónde</th><th>Por qué sigue abierto</th></tr></thead>
+<tbody>
+<tr><td>4 conjuntos de materias Anticorrupción / Violencia (9 variantes)</td><td><code>materia_homologada</code> conserva <code>materia_norm</code></td><td>el Anuario invierte los rótulos entre cuadros; elegir una forma común sería inventar</td></tr>
+<tr><td>4.1.7 <code>col_09</code> (Tarija)</td><td><code>juzgados</code>, rótulo y código vacíos</td><td>«JUZGADO SENTENCIA / ANTI.VIOLENCIA» no se desarrolla en ninguna parte del PDF</td></tr>
+<tr><td>5 variaciones editoriales de tipo de proceso</td><td>conservadas literales</td><td>son erratas del Anuario; decisión editorial aparte</td></tr>
+<tr><td>Un número de juzgados «real»</td><td>no existe</td><td>hay que decidir antes qué cuenta: ¿tribunales? ¿salas? ¿conciliadores?</td></tr>
+<tr><td>Una dimensión de tipos de proceso</td><td>no existe</td><td>el dominio mezcla procesos, acciones penales e incidentes</td></tr>
+<tr><td>Indicadores para las 8 materias penales</td><td>no existen</td><td>no publican resueltas: hacen falta fórmulas propias (con sobreseimientos, imputaciones, salidas alternativas)</td></tr>
+<tr><td>104 páginas de cuadros de otros capítulos</td><td>solo en el catálogo</td><td>fuera de alcance: segunda instancia, agroambiental, disciplina, conciliaciones, registros</td></tr>
+</tbody></table></div>
+
+<h2>Lo que no se hizo, a propósito</h2>
+<ul>
+  <li>No se imputó ningún vacío.</li>
+  <li>No se eliminó ninguna fila ni se usó <code>drop_duplicates</code> para cambiar cantidades.</li>
+  <li>No se corrigió ninguna discrepancia contable para que cierre.</li>
+  <li>No se sumaron los componentes de recursos ni se repartieron órganos mixtos o personal por materia.</li>
+  <li>No se ejecutó ningún modelo, agrupamiento (clustering) ni serie de tiempo.</li>
+  <li><strong>No se incorporó ninguna fuente externa.</strong></li>
+</ul>
+
+<h2>Lo que falta: la fase siguiente</h2>
+<p>Sin fuentes externas quedan sin insumo varios objetivos:</p>
+<ul>
+  <li>validar la extracción contra otras fuentes;</li>
+  <li><strong>población</strong> como variable explicativa y tasas por cien mil habitantes (INE, Censo 2024);</li>
+  <li>situación penitenciaria (Defensoría del Pueblo);</li>
+  <li>comparación con el índice del <strong>CEJA 2025</strong>, con sus fórmulas exactas;</li>
+  <li>presupuesto del Órgano Judicial.</li>
+</ul>
+<div class="callout ojo">
+  <span class="t">Para cuando se incorpore población</span>
+  <p>La columna <code>col_01</code> de los cuadros 4.1.2 a 4.1.10 es <strong>población proyectada al 2022</strong>, no el Censo 2024. Hay que distinguir tres años: el de observación (2023), el de la edición del Anuario y el de referencia de la variable externa. Mezclarlos produce tasas inconsistentes.</p>
+</div>
+
+<h3>Lo que sí está listo para modelar</h3>
+<p><code>data/curated/features/dataset_analitico_curado.parquet</code>: 1.997 filas × 115 columnas, con la unidad de análisis del proyecto, los indicadores, las banderas de outlier, las transformaciones logarítmicas para agrupamiento y el riesgo de leakage documentado columna por columna. El paso natural siguiente es un <strong>agrupamiento por distrito × materia × tipo de proceso</strong> que use solo variables estructurales y excluya las 47 columnas marcadas como resultado.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preguntas frecuentes — Congestión judicial en Bolivia</title>
+<meta name="description" content="Las preguntas difíciles sobre el proyecto, con sus respuestas: sirven para defender el trabajo y como autoevaluación.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="preguntas">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Referencia · 15</p>
+<h1>Preguntas frecuentes</h1>
+<p class="lede">Las preguntas que más probablemente le hagan a este proyecto, con sus respuestas. Sirven para prepararse para defenderlo y como autoevaluación: si se pueden contestar sin abrir la respuesta, se entendió el proyecto.</p>
+
+<h2>Sobre la fuente y la extracción</h2>
+<details><summary>¿Por qué no usaron Excel o un conversor de PDF?</summary><div class="body"><p>Porque un PDF de tablas no es una tabla. Tiene encabezados rotados 90°, rótulos partidos con los números en el medio y el mismo número de cuadro usado para dos cuadros distintos. Un conversor genérico produce filas corridas y columnas mezcladas sin avisar. Acá se escribieron parsers por familia de cuadro y se verificó cada uno con identidades contables. Ver <a href="extraccion.html">técnicas de extracción</a>.</p></div></details>
+<details><summary>¿Cómo saben que la extracción no tiene errores?</summary><div class="body"><p>Porque el Anuario publica las mismas cifras dos veces, en capítulos distintos, y cada una la lee un parser que no conoce al otro. El cuadro 5.1.1.1 cierra exacto contra el 9.1.1 en las cinco columnas. Además, la suma de formas de ingreso da <code>atendidas</code> en 2.386 de 2.386 filas y la última columna de los cuadros de juzgados es la suma de las demás en 205 de 205. Donde no cierra está documentado con su página: son 117 casos y son de la fuente, no del código.</p></div></details>
+<details><summary>¿Por qué no corrigieron las 117 discrepancias?</summary><div class="body"><p>Porque no son ruido: son un hallazgo sobre la fuente oficial. Corregirlas sería inventar cuál de las dos cifras publicadas es la buena y perder la evidencia de que el Anuario no cierra consigo mismo. Están todas listadas con cuadro y página.</p></div></details>
+<details><summary>¿Qué significa que una celda esté vacía? ¿Por qué nunca es cero?</summary><div class="body"><p>Que el dato no se publica o no aplica a esa fila (una forma de resolución penal en una causa civil). Nunca es cero porque cero es un valor con significado, «ninguna causa», distinto de «no publicado». Rellenar vacíos con cero cambiaría promedios y tasas.</p></div></details>
+<details><summary>¿Por qué no hay datos por juzgado?</summary><div class="body"><p>Porque el Anuario no los publica. Lo más fino es ciudad o distrito × materia × tipo de proceso. El número de juzgados aparece una vez por página («SUCRE 14») y vale para toda la ciudad. El planteo original suponía otra cosa y hubo que corregir la premisa.</p></div></details>
+<details><summary>¿Qué es la «A» que se restituye en el notebook 07?</summary><div class="body"><p>La versión 25 de poppler, el programa que lee el PDF, descarta una letra superpuesta en «HACIA LA ACCIÓN» en diez filas de las páginas 362 a 364 y deja «LA CCIÓN». Las versiones anteriores la conservaban. El notebook la restituye explícitamente para que el resultado no dependa de la versión instalada.</p></div></details>
+
+<h2>Sobre las auditorías</h2>
+<details><summary>¿Por qué una tabla va ancha y cuatro van largas?</summary><div class="body"><p>Los 17 cuadros de la familia de causas comparten vocabulario de columnas y se pueden apilar en formato ancho. Las otras cuatro familias traen un juego distinto de formas de resolución según la materia (las de familia no existen en penal): en formato ancho quedarían cientos de columnas casi todas vacías.</p></div></details>
+<details><summary>Si sumo las 37 filas del cuadro 4.1.1 me da 2.422. ¿Está mal el dato?</summary><div class="body"><p>Está mal la suma. El cuadro mezcla filas de detalle con subtotales y un total general. Sumando solo las 31 hojas da 846, que coincide con el total publicado. El exceso de 1.576 es doble conteo. Y 846 tampoco son juzgados: incluye tribunales, salas y 95 conciliadores, que son personas.</p></div></details>
+<details><summary>Había 95 claves repetidas. ¿Por qué no borraron los duplicados?</summary><div class="body"><p>Porque no eran duplicados. 57 grupos eran el mismo territorio y materia en dos cuadros que miden etapas distintas del proceso penal: informes de inicio de investigación e imputaciones formales. Los otros 38 eran la misma acción penal repetida bajo tres encabezados padre (penal común, anticorrupción, violencia). Se verificó contra el PDF: cero duplicados técnicos. Un <code>drop_duplicates()</code> habría borrado 210 filas reales, y sumarlas habría contado dos veces el mismo expediente.</p></div></details>
+<details><summary>¿Por qué cuatro materias no se unificaron, si se parecen?</summary><div class="body"><p>Porque el Anuario invierte los rótulos entre cuadros: los mismos números aparecen con los nombres de Anticorrupción y Violencia intercambiados según el cuadro. Unificarlas exigiría afirmar cuál es cuál, y la fuente no lo permite. Es preferible una decisión no tomada a una mal tomada.</p></div></details>
+<details><summary>¿Cómo decidieron qué nombres de materia son equivalentes?</summary><div class="body"><p>No por parecido de texto. Se compararon pares de cuadros que publican lo mismo: la materia tenía que estar en la misma posición y tener el mismo número de causas resueltas en 2023. Por ejemplo, «EJECUCIÓN PENAL» y «Ejecución Penal» tienen 8.992, 76 y 9.068 en capitales, provincias y consolidado.</p></div></details>
+<details><summary>¿Qué es un mapa cerrado y por qué lo usan?</summary><div class="body"><p>Una lista explícita y exhaustiva de casos permitidos. Si aparece uno que no está, el programa se detiene en lugar de asignarle un valor por defecto. Así, un cuadro nuevo o una materia rara no pasan desapercibidos.</p></div></details>
+
+<h2>Sobre la capa analítica</h2>
+<details><summary>¿Por qué no hicieron una sola tabla con todo?</summary><div class="body"><p>Porque las doce tablas no comparten grano. Se midió: unir movimiento con apelaciones multiplica las filas por 743; causas con juzgados, por 57. La columna <code>atendidas</code> pasaría de 1.477.682 a 80.966.966. Una relación 1:N se representa con dos tablas relacionadas, no aplanándola.</p></div></details>
+<details><summary>¿Cómo saben que las uniones no inflaron nada?</summary><div class="body"><p>La base tiene 1.997 filas antes y después de cada unión, su clave es única, las sumas de las cinco columnas principales son idénticas antes y después, y las 65 columnas de origen se comparan fila por fila. Además, el notebook comprueba con SHA-256 que no se modificó ninguno de los 24 archivos originales.</p></div></details>
+<details><summary>Quiero predecir la duración. ¿Puedo usar <code>pendientes_fin</code>? ¿Y el gasto en personal?</summary><div class="body"><p><code>pendientes_fin</code> no: la duración se calcula con él, sería leakage directo. El gasto en personal sí para predecir duración, porque es un recurso estructural; pero no si el objetivo es el costo por caso, porque ese costo se construye con esas mismas remuneraciones. El diccionario analítico marca las 47 columnas con riesgo.</p></div></details>
+
+<h2>Sobre los indicadores y los resultados</h2>
+<details><summary>¿Cuál es el denominador correcto de la tasa de resolución?</summary><div class="body"><p>La suma de todas las formas de ingreso publicadas, no solo <code>nuevas_ingresadas</code>. Se verifica con la identidad del Anuario: ingresadas = atendidas − pendientes_inicio, y las dos vías dan 250.871 sin una diferencia. Usar solo las nuevas daba 103,84 % en vez de 83,39 % e invertía la conclusión.</p></div></details>
+<details><summary>¿Por qué <code>pct_resueltas</code> no sirve como tasa de resolución?</summary><div class="body"><p>Porque el Anuario la calcula como resueltas ÷ atendidas (verificado en 72 de 72 filas), y la tasa de resolución estándar es resueltas ÷ ingresadas. En civil de capitales una da 70,7 % y la otra más de 100 %. Solo la segunda es comparable con el índice del CEJA.</p></div></details>
+<details><summary>Un proceso tiene 0 ingresos y 0 resueltas. ¿Cuál es su tasa de resolución?</summary><div class="body"><p>Ninguna: queda vacía. Un cociente sin denominador es indefinido, no 1. El código original le asignaba 1,0 y, con 415 filas sin movimiento sobre 1.655, eso arrastraba la mediana de casi todas las materias a exactamente 1,0: un número que parecía un resultado y era un artefacto.</p></div></details>
+<details><summary>El reporte dice 83,4 % de tasa de resolución. ¿Sobre qué universo?</summary><div class="body"><p>Sobre la justicia no penal: 1.655 de 1.997 filas, el 47,5 % de las causas atendidas del dataset analítico. Las ocho materias penales quedan fuera porque no publican causas resueltas.</p></div></details>
+<details><summary>¿Por qué el IQR se calcula por materia y ámbito?</summary><div class="body"><p>Porque una capital y una provincia tienen volúmenes incomparables. Con un umbral nacional, media capital quedaría marcada como anómala solo por tener más causas. Estratificar pregunta lo correcto: ¿es este proceso raro entre los de su tipo y su ámbito?</p></div></details>
+<details><summary>¿Por qué no eliminaron los outliers?</summary><div class="body"><p>Porque en estadísticas judiciales oficiales un valor extremo no es un error de medición: es un juzgado realmente saturado, que es lo que se quiere encontrar. Se marcan con banderas y hay una versión winsorizada en columna aparte, pero las 1.997 filas siguen intactas.</p></div></details>
+<details><summary>Coactivo fiscal tiene tasa de resolución 1,33 y la peor duración. ¿No es una contradicción?</summary><div class="body"><p>No. La tasa de resolución mide el flujo del año: resolvió más de lo que entró. La duración mide el stock: partía de tantas causas acumuladas que, a ese ritmo, tardaría unos cuatro años en vaciarlo. Hay que mirar los dos indicadores.</p></div></details>
+<details><summary>¿Se confirma la hipótesis del proyecto?</summary><div class="body"><p>Parcialmente, para la justicia no penal: la duración estimada varía por un factor de 8,7 entre materias (de 162 a 1.417 días), mucho más que entre capital y provincia (213 contra 238 días). Importa más qué tipo de caso es que dónde se tramita. Para las materias penales no se puede decir nada con estas fórmulas.</p></div></details>
+
+<h2>Sobre el proyecto</h2>
+<details><summary>¿Por qué todo el código está en notebooks?</summary><div class="body"><p>Para que se lea de arriba abajo con sus resultados y gráficos a la vista, sin tener que ejecutar nada ni saltar entre archivos. Al pasar de scripts a notebooks se verificó que cada notebook reproduce byte a byte los archivos que producía el script original.</p></div></details>
+<details><summary>¿Qué le falta al proyecto?</summary><div class="body"><p>Las fuentes externas: población del INE para tasas por cien mil habitantes, el documento del CEJA 2025 para confirmar fórmulas y comparar con la región, datos penitenciarios y presupuesto. También indicadores propios para las materias penales, y el modelado (agrupamiento y regresión). Ver <a href="limites.html">límites y pendientes</a>.</p></div></details>
+<details><summary>¿Cuáles fueron los errores del proyecto?</summary><div class="body"><p>Dos errores del parser que detectaron las identidades contables; el ámbito deducido del número de cuadro, que clasificó mal 528 filas; y el denominador de la tasa de resolución, que invirtió la conclusión del reporte. Los tres tienen la misma forma: una suposición razonable que nadie contrastó contra una fuente independiente. Ver <a href="decisiones.html">decisiones y errores</a>.</p></div></details>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

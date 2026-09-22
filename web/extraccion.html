@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Técnicas de extracción — Congestión judicial en Bolivia</title>
+<meta name="description" content="Cómo se lee una tabla de un PDF con pdftotext: modo texto, coordenadas, tokens, posición, bloques, texto rotado, firmas de encabezado y programación dinámica, con los números medidos en este Anuario.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="extraccion">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Cómo se hizo · 06</p>
+<h1>Técnicas de extracción</h1>
+<p class="lede">Un PDF no guarda tablas: guarda letras con una posición en la página. Reconstruir la tabla es trabajo del programa. Esta página explica, técnica por técnica, cómo se hizo, con los números medidos en este documento.</p>
+
+<h2>La herramienta: pdftotext</h2>
+<p>Como el PDF tiene capa de texto, alcanza con <code>pdftotext</code>, un programa libre del paquete <strong>poppler</strong>. No se usó OCR ni bibliotecas especializadas en tablas (camelot, tabula, pdfplumber): las tablas de esta edición tienen bordes que harían parecer útil a camelot, pero pdftotext resuelve el problema sin agregar dependencias y dando control total sobre cada decisión.</p>
+<p>Se usan dos modos del mismo programa:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Modo</th><th>Qué devuelve</th><th>Dónde se usa</th></tr></thead>
+<tbody>
+<tr><td><code>pdftotext -layout</code></td><td>la página como texto de ancho fijo, con espacios que imitan las columnas: un dibujo de la tabla hecho con caracteres</td><td>cuadros 9.1, 13.1 y 14.1, inventario</td></tr>
+<tr><td><code>pdftotext -bbox-layout</code></td><td>un HTML con cada palabra y su caja: <code>xMin, yMin, xMax, yMax</code> en puntos, agrupadas en <code>&lt;line&gt;</code> y <code>&lt;block&gt;</code></td><td>cuadros 4.1 y capítulos 5 y 6</td></tr>
+</tbody></table></div>
+<p>Un <strong>punto</strong> es 1/72 de pulgada: unos 0,35 mm. Todas las distancias que siguen están en puntos.</p>
+<pre><code>&lt;block xMin="205.1" yMin="200.4" xMax="306.3" yMax="211.4"&gt;
+  &lt;line ...&gt;
+    &lt;word xMin="205.100164" yMin="200.362084" xMax="221.206956" yMax="204.301687"&gt;ACCIÓN&lt;/word&gt;
+    &lt;word xMin="223.567997" ...&gt;PENAL&lt;/word&gt;</code></pre>
+<p>El texto completo del PDF en modo <code>-layout</code> se guarda en <code>data/interim/texto_crudo.txt</code> la primera vez: extraerlo tarda unos segundos y todos los pasos lo leen. Para forzar una relectura del PDF basta con borrar ese archivo. Las coordenadas de los capítulos 5 y 6 se piden en un solo volcado por tramo de páginas y se guardan en memoria: una llamada por página costaría unos 70 ms, 525 veces.</p>
+
+<h2>Técnica A: por tokens</h2>
+<p>Para tablas sin celdas vacías. Se parte cada línea del texto <code>-layout</code> donde hay dos o más espacios seguidos; los trozos numéricos del final son los valores y lo que queda a la izquierda es el rótulo.</p>
+<pre><code>toks = re.split(r"\s{2,}", linea.strip())
+valores = []
+while len(toks) &gt; 0 and RE_NUMERO.match(toks[-1]):
+    valores.insert(0, toks.pop())
+etiqueta = " ".join(" ".join(toks).split())</code></pre>
+<p>Es transparente y <strong>falla ruidosamente</strong>: si la cantidad de valores no es la esperada, la fila se registra como problema en vez de colarse mal alineada. Se usa en 9.1 (movimiento, histórico) y 13.1.</p>
+
+<h2>Técnica B: por posición de columna</h2>
+<p>Cuando hay celdas vacías en medio de la fila, contar tokens desalinea todo lo que sigue. Entonces:</p>
+<ol class="steps">
+  <li>Se toman todos los números de la tabla con su rango horizontal <code>[inicio, fin)</code>.</li>
+  <li>Se ordenan y se <strong>fusionan los que se solapan</strong>: dos números que se pisan horizontalmente están en la misma columna (<code>agrupar_por_x</code>).</li>
+  <li>Cada número de cada fila se asigna a la columna con la que más se solapa. Las columnas sin número quedan vacías.</li>
+</ol>
+<p>Si la fusión no da la cantidad de columnas esperada (porque una columna a veces está alineada a la derecha y a veces centrada), se usa la envolvente de las filas completas, donde la i-ésima posición es con seguridad la i-ésima columna.</p>
+<div class="callout simple">
+  <span class="t">Ejemplo real</span>
+  <p>En el cuadro 9.1.6, Ejecución Penal solo tiene dato en una de las cinco gestiones. Contando tokens, ese 76 caería en 2019; por posición queda en 2023, donde está impreso, y los otros cuatro años quedan <strong>vacíos, no en cero</strong>.</p>
+</div>
+<p>Se usa en 9.1 gestiones, 14.1 y 4.1.</p>
+
+<h2>Reconstruir filas desde coordenadas</h2>
+<p>En modo <code>-bbox-layout</code> la fila de la tabla no existe: hay palabras sueltas. Se reconstruye así (<code>agrupar_por_y</code>):</p>
+<ul>
+  <li>Se ordenan las palabras por su <strong>centro vertical</strong>.</li>
+  <li>Una palabra se suma a la fila actual si su centro está a menos de <strong>3,5 puntos</strong> del centro de la fila. El paso entre filas de estos cuadros ronda los 8,4 puntos, así que 3,5 separa filas vecinas sin riesgo.</li>
+  <li>El centro de la fila es el <strong>promedio</strong> de sus palabras y se recalcula al agregar cada una.</li>
+</ul>
+<div class="callout ojo">
+  <span class="t">Por qué el promedio</span>
+  <p>Las llamadas a nota al pie son voladitas: su centro queda unos 2,4 puntos más arriba que el resto de la fila. Si el grupo se anclara en su primera palabra, la voladita abriría una fila propia y se llevaría media fila con ella.</p>
+</div>
+
+<h2>Las llamadas a nota al pie</h2>
+<p>En los cuadros de juzgados los rótulos traen llamadas pegadas: <code>Yapacani1</code>, <code>TARIJA2</code>, <code>Camiri2</code>. Si ese dígito se toma por un valor, inventa una columna a la izquierda y corre toda la fila. Se reconocen porque el borde izquierdo del número <strong>toca</strong> el borde derecho de la palabra anterior: el hueco es menor a 0,5 puntos (medido entre −0,2 y 0,1), mientras que el espacio normal entre palabras nunca baja de 1,3. El dígito se excluye del cálculo de columnas pero <strong>se queda en el rótulo</strong>, tal como está en el PDF.</p>
+
+<h2>Filas de datos y notas al pie</h2>
+<p>Las notas del cuadro («El juzgado de Sentencia 5º de Cochabamba tiene competencia en…») traen números. Se descartan con una regla geométrica: <strong>en una fila de datos, todo el texto está a la izquierda de todos los números</strong>. Una nota intercala texto entre cifras. Además se filtran las líneas que empiezan con FUENTE, NOTA, ELABORACIÓN o «(1)», y los membretes institucionales («Órgano Judicial de Bolivia», pies «Anuario Estadístico»). «Consejo de la Magistratura» se descarta solo si la línea tiene menos de dos números, porque en 14.1.x es un ente con datos.</p>
+
+<h2>Celdas combinadas</h2>
+<p>En 14.1.1 el distrito aparece una sola vez por bloque, <strong>centrado verticalmente</strong>, a veces en una línea propia sin números. Copiar el último valor hacia abajo le asignaría las primeras filas del bloque al distrito anterior. La solución es rellenar por bloque: el bloque termina en la fila SUB TOTAL y todas sus filas reciben el distrito que apareció dentro de él. Quedan marcadas con <code>distrito_derivado_del_bloque = True</code>.</p>
+<p>En los cuadros provinciales de juzgados (4.1.2 a 4.1.10) la provincia es también una celda combinada. Cada fila recibe la etiqueta de provincia <strong>más cercana en vertical</strong>, que sobre una recta siempre produce bloques contiguos. Marca: <code>rotulo_1_derivado_del_bloque</code>.</p>
+
+<h2>Capítulos 5 y 6: las técnicas nuevas</h2>
+
+<h3>Texto rotado</h3>
+<p>Una palabra impresa en vertical tiene una caja mucho más alta que ancha: <code>EXTRAORDI</code> mide 4,3 de ancho por 26,3 de alto; <code>ORDIN</code>, 3,0 por 10,6; la más cuadrada, <code>ARIO</code>, 3,0 por 8,0. La regla: es rotada si su alto supera 2,2 veces su ancho, mide al menos 7,5 de alto y tiene tres letras o más.</p>
+<div class="callout error">
+  <span class="t">Por qué 2,2 y no 1,5</span>
+  <p>En los cuadros de letra grande (páginas 298 y 505) un dígito suelto mide 4 por 7,5: proporción 1,9. Con el umbral en 1,5 esos dígitos se tomaban por texto rotado y las filas perdían la mitad de sus valores sin avisar.</p>
+</div>
+<p>El texto rotado cumple dos papeles según <strong>dónde está</strong>: arriba de la primera fila es un rótulo de columna; al costado, dentro de la tabla, es una etiqueta de grupo (ORDINARIO, MONITOREO…).</p>
+<p>Las palabras verticales se juntan en etiquetas. En texto rotado el <strong>ancho</strong> de la caja es el tamaño de la letra, y cada etiqueta tiene el suyo (3,0 puntos «ORDIN», 4,3 «EXTRAORDI»): así se separan dos etiquetas pegadas que pdftotext junta en una línea. Un fragmento de una o dos letras («O» junto a «PROCES», página 132) vuelve a la etiqueta vecina. El texto queda literal, con los cortes («EXTRAORDI NARIO»); se limpia en el 04 contra la lista cerrada <code>GRUPOS_PROCESO</code>.</p>
+
+<h3>Asignar grupos con programación dinámica</h3>
+<p>La etiqueta vertical está <strong>centrada en su grupo</strong>, pero su caja solo cubre el largo del texto. ORDINARIO tiene una fila y MONITOREO ocho: por contención quedan filas sin grupo, y por cercanía el punto medio entre dos etiquetas no cae en el borde entre los grupos.</p>
+<p>Lo que sí vale siempre: cada etiqueta está centrada en <em>su</em> grupo. Entonces se busca cómo cortar las filas en tramos consecutivos, uno por etiqueta, de modo que <strong>el centro de cada tramo quede lo más cerca posible de su etiqueta</strong>. Con 26 filas y 6 etiquetas es un problema chico que se resuelve exacto por programación dinámica (<code>asignar_grupos</code>): se prueban todos los cortes posibles reutilizando los resultados parciales. En la página 121 el ajuste queda a menos de 2,5 puntos por grupo y reproduce la clasificación procesal de la Ley 439.</p>
+<div class="callout simple">
+  <span class="t">Programación dinámica, en simple</span>
+  <p>Para saber la mejor forma de repartir las primeras 10 filas en 3 grupos, alcanza con saber la mejor forma de repartir las primeras <em>k</em> filas en 2 grupos, para cada <em>k</em>, y sumarle el costo del último tramo. Se llena una tabla desde los casos chicos a los grandes y se reconstruye la solución al final.</p>
+</div>
+
+<h3>Rótulos partidos con los números en el medio</h3>
+<pre class="flow">INSCRIPCIÓN, MODIFICACIÓN, CANCELACIÓN O FUSIÓN DE PARTIDAS EN EL
+REGISTRO DE DERECHOS REALES, ASI COMO EN OTROS      21  0  0  0  267 …
+PÚBLICOS</pre>
+<p>pdftotext agrupa las líneas de <strong>una misma celda</strong> del PDF en un <code>&lt;block&gt;</code>: esas tres líneas son un bloque, y los números son bloques aparte. La regla: <strong>si un bloque de texto toca una sola fila, es el rótulo entero de esa fila</strong>. Pero el agrupamiento no es fiable siempre: en la página 304 pdftotext mete la cabecera de ciudad y trece rótulos en un bloque. Si el bloque toca varias filas, se baja al nivel de línea y cada línea va a la fila con la que más se solapa verticalmente; eso alcanza porque el paso entre filas (8,4) es mayor que la distancia de una línea a su continuación (7,3).</p>
+
+<h3>Filas partidas en dos por la altura</h3>
+<p>Cuando el rótulo ocupa dos o tres líneas, la fila se hace más alta y el Anuario centra el último valor mientras el resto queda arriba. La diferencia llega a 6 puntos y parte la fila en dos grupos (pasa tres veces en la página 410). Subir la tolerancia no sirve: en otros cuadros el paso entre filas es de 8,1. Lo que decide es la aritmética de la página (<code>unir_filas_partidas</code>): dos grupos consecutivos se vuelven a pegar si</p>
+<ul>
+  <li>están cerca: menos de ¾ del paso típico entre filas;</li>
+  <li>ocupan columnas distintas: no se solapan horizontalmente;</li>
+  <li>juntos suman exactamente el ancho de fila más frecuente de la página, que ninguno alcanza solo.</li>
+</ul>
+<p>Sin el límite de ¾, la cabecera «TARIJA 1» de la página 376 se pegaba a la fila «TOTAL POTOSÍ», a la que justo le faltaba un valor.</p>
+
+<h3>Números que son parte del rótulo</h3>
+<p><code>DIVORCIO -DESVINCULACION Art. 207</code> o <code>Por los Num. 1; 2 y 3 del Art. 26 CPP</code> traen números que no son datos. Se reconocen por el hueco: entre palabras de un rótulo el Anuario deja de 1,3 a 3,0 puntos, y del rótulo a la primera columna hay decenas. Un número a menos de 3,0 puntos de un texto es parte del rótulo, y arrastra a los números pegados a él («ART. 415 Y SGTES.»); se repite hasta que no cambia nada (<code>numeros_del_rotulo</code>).</p>
+
+<h3>La firma de encabezado</h3>
+<p>El Anuario numera mal algunos cuadros (dos cuadros distintos se llaman 5.3.3.1; uno de capitales se llama 6.3.1.4), así que el formato de cada página <strong>no se busca por número de cuadro</strong>. Se busca por su <strong>firma</strong>: las palabras de la banda de encabezado (entre el membrete y la primera fila), sin tildes, sin palabras de enlace, sin números y sin nombres de ciudad, <strong>ordenadas alfabéticamente</strong>. El orden alfabético hace que dos páginas del mismo cuadro con los rótulos leídos en distinto orden den la misma firma.</p>
+<p>Para usarla como clave se la resume con SHA-1 en 10 caracteres (<code>20d3125560</code> es el formato de causas civiles). Sobre las 525 páginas hay <strong>95 firmas</strong>; solo cuatro cubren a la vez un cuadro de capitales y su par de provincias. Cada firma tiene su declaración en <code>LAYOUTS_PROCESOS</code>: familia, cuadros, páginas y nombres de columnas en orden. Una firma sin declarar no rompe la extracción: sus columnas salen como <code>col_NN</code> y se anota. <code>auditoria/firmas_procesos.csv</code> muestra, firma por firma, el rótulo que el PDF imprime sobre cada una de sus 871 columnas.</p>
+<div class="callout">
+  <span class="t">Nombres escritos a mano y nombres derivados</span>
+  <p>Los 20 formatos de la familia de causas llevan nombres <strong>escritos a mano</strong> con un vocabulario único, verificados aritméticamente, para que las tablas se puedan apilar. Los otros 75 llevan el rótulo impreso normalizado (minúsculas, sin tildes), y cada valor viaja además con <code>rotulo_columna_pdf</code>. El campo <code>a_mano</code> de cada formato dice cuál es cuál. Ninguna columna de estas cinco tablas quedó como <code>col_NN</code>.</p>
+</div>
+
+<h3>Páginas corridas</h3>
+<p>Dentro de un mismo cuadro, el Anuario a veces mueve el bloque entero algunos puntos (hasta 20 entre las páginas 375 y 378). Si una página resuelve una cantidad de columnas distinta a la de su formato, se mide su <strong>desplazamiento</strong> respecto de la página de referencia (la mediana de la diferencia de posición de los rótulos de encabezado que aparecen una sola vez en cada una) y se usan los cortes de columna de la referencia, corridos.</p>
+<p>Para ubicar cada número se usan <strong>cortes</strong>: el punto medio entre el fin de una columna y el inicio de la siguiente. Un número va a la columna en la que cae el centro de su caja.</p>
+
+<h3>Tres formas de página</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Forma</th><th>Cómo se reconoce</th><th><code>unidad_fila</code></th></tr></thead>
+<tbody>
+<tr><td>Corriente: cabecera «SUCRE 14» y filas por tipo de proceso</td><td>hay filas de clase entidad</td><td><code>tipo_proceso</code></td></tr>
+<tr><td>Una fila por ciudad (cuadros de una página, como 5.1.3.1)</td><td>todas las filas de datos tienen nombre de ciudad</td><td><code>entidad</code></td></tr>
+<tr><td>Mixta (5.3.1.5): la fila de la ciudad es cabecera y total</td><td>algunas filas tienen nombre de ciudad y no hay cabecera</td><td><code>tipo_proceso</code>, con la fila de la ciudad marcada como total</td></tr>
+</tbody></table></div>
+
+<h3>La página 362</h3>
+<p>En la cabecera de La Paz de la página 362 la capa de texto trae dos fragmentos: <code>LA PAZ</code> y <code>L APAZ</code>. La versión anterior del extractor exigía que todos los fragmentos fueran idénticos; al fallar, no abría el bloque y diez filas de La Paz quedaban asignadas a Sucre. Ahora se acepta <strong>la única entidad válida</strong> del renglón (<code>resolver_nombre_entidad</code>).</p>
+
+<h2>Cómo se sabe que un parser está bien</h2>
+<p>La regla es tener una igualdad que el propio documento deba cumplir, calculada por un camino independiente del parser:</p>
+<ul>
+  <li>4.1.x: la última columna de cada fila es el total: <strong>205 de 205 filas</strong> cierran.</li>
+  <li>14.1.x: mujer + varón + acefalías = total, en las 85 filas; los SUB TOTAL de 14.1.1 coinciden con 14.1.3.</li>
+  <li>9.1.x: las dos identidades contables, y capitales + provincias = consolidado.</li>
+  <li>Capítulos 5 y 6: la suma de formas de ingreso da <code>atendidas</code> en <strong>2.386 de 2.386</strong> filas; el total nacional de 5.1.1.1 coincide exacto con el 9.1.1.</li>
+</ul>
+<p>Sin un invariante así, un parser desalineado produce números verosímiles y nadie se entera. Así se encontraron dos errores que el ojo no vio: la fila «DIRECCION ADMINISTRATIVA FINANCIERA» del 13.1.3 que faltaba (11 sanciones de 106) y las dos filas «Penal» de 4.1.1 que se mezclaban. Ver <a href="validacion.html">validación</a>.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

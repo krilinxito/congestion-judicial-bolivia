@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decisiones y errores — Congestión judicial en Bolivia</title>
+<meta name="description" content="Las reglas del proyecto, cada decisión importante con la alternativa descartada y su justificación, y los errores que se cometieron, cómo se detectaron y cómo se corrigieron.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="decisiones">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Resultados · 11</p>
+<h1>Decisiones y errores</h1>
+<p class="lede">Un proyecto de datos se defiende por sus decisiones: qué se hizo, qué se descartó y por qué. Esta página las reúne, junto con los errores que el proyecto cometió. Contarlos muestra que el sistema de verificación funciona.</p>
+
+<h2>Las reglas que no se rompen</h2>
+<div class="callout regla">
+  <span class="t">1 · El dato de origen no se sobrescribe nunca</span>
+  <p>Toda interpretación va en una columna aparte. Los rótulos son el literal del PDF, con erratas y llamadas a nota al pie incluidas (<code>Yapacani1</code>, <code>Camiri2</code>).</p>
+</div>
+<div class="callout regla">
+  <span class="t">2 · Nada se interpola</span>
+  <p>Una celda que no se pudo resolver queda vacía, nunca en cero, y se anota en un archivo de problemas. Un cero es un dato; un vacío es la ausencia de dato. Confundirlos cambia los promedios.</p>
+</div>
+<div class="callout regla">
+  <span class="t">3 · Las discrepancias se registran, no se corrigen</span>
+  <p>Las 117 veces que el Anuario no cierra consigo mismo están listadas con su página. Son un hallazgo sobre la fuente.</p>
+</div>
+<div class="callout regla">
+  <span class="t">4 · Los encabezados no se inventan</span>
+  <p>Si el PDF no rotula una columna, se llama <code>col_sin_rotulo_N</code>. El orden de columnas de cada cuadro se declara a mano y se verifica aritméticamente, en lugar de adivinarlo desde encabezados partidos en diez líneas.</p>
+</div>
+<div class="callout regla">
+  <span class="t">5 · Una decisión auditada nunca borra el valor anterior</span>
+  <p>Cada corrección vive al lado del literal: <code>materia_homologada</code> junto a <code>materia_cruda</code>, <code>tipo_proceso</code> junto a <code>tipo_proceso_extraido</code>, los rótulos de juzgados junto a <code>col_NN</code>.</p>
+</div>
+<div class="callout regla">
+  <span class="t">6 · Ningún tratamiento estadístico elimina o pisa</span>
+  <p>En el EDA, cada paso agrega columnas: banderas en lugar de borrar outliers, versiones winsorizadas y logarítmicas al lado de las originales.</p>
+</div>
+<div class="callout regla">
+  <span class="t">7 · Cada fase tiene prohibido hacer el trabajo de la siguiente</span>
+  <div class="table-wrap"><table>
+  <thead><tr><th>Fase</th><th>Puede</th><th>No puede</th></tr></thead>
+  <tbody>
+  <tr><td>1 · ETL</td><td>extraer, tipar, derivar lo determinístico</td><td>interpretar, homologar, decidir</td></tr>
+  <tr><td>2 · Auditoría</td><td>verificar contra el PDF, homologar lo comprobado, relacionar tablas</td><td>calcular indicadores, imputar, modelar</td></tr>
+  <tr><td>3 · EDA</td><td>calcular indicadores, describir, marcar outliers</td><td>modificar fases anteriores, borrar filas</td></tr>
+  </tbody></table></div>
+  <p>No es burocracia: cuando la tasa de resolución salió mal, en minutos se supo que el problema estaba en la Fase 3 y no en los datos, porque las fases 1 y 2 seguían pasando sus propias verificaciones.</p>
+</div>
+
+<h2>Las decisiones, una por una</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Decisión</th><th>Alternativa descartada</th><th>Por qué</th></tr></thead>
+<tbody>
+<tr><td>Leer el PDF con <code>pdftotext</code> (poppler)</td><td>OCR; camelot, tabula, pdfplumber</td><td>el PDF tiene capa de texto: OCR agregaría errores; pdftotext da control total sin dependencias pesadas</td></tr>
+<tr><td>Extraer todo como texto y convertir a número en un paso aparte</td><td>convertir al leer</td><td>el punto es separador de miles; convertir mal destruye datos sin avisar. Los crudos quedan como evidencia</td></tr>
+<tr><td>Coordenadas reales para 4.1 y capítulos 5 y 6</td><td>el modo texto para todo</td><td>el modo texto desalinea la página 116 y desparrama el texto vertical</td></tr>
+<tr><td>Reconocer el formato de página por su firma de encabezado</td><td>por número de cuadro</td><td>el Anuario repite números para cuadros distintos</td></tr>
+<tr><td>Declarar a mano el orden de columnas de cada formato</td><td>reconstruir los encabezados por programa</td><td>los encabezados están partidos y rotados; reconstruirlos es adivinar</td></tr>
+<tr><td>Derivar el ámbito del título de la página</td><td>del primer dígito del cuadro</td><td>el 6.3.1.4 aparece dos veces, una de capitales y otra de provincias</td></tr>
+<tr><td>Una tabla ancha (causas) y cuatro largas</td><td>cinco anchas</td><td>cada materia publica su propio juego de formas de resolución: las anchas tendrían cientos de columnas vacías</td></tr>
+<tr><td>Parquet como copia de referencia</td><td>solo CSV</td><td>el CSV pierde los enteros con vacíos y los booleanos al releerse</td></tr>
+<tr><td>Homologar solo 11 materias</td><td>homologar las 15 por parecido de texto</td><td>el Anuario invierte los rótulos de anticorrupción y violencia entre cuadros: afirmar cuál es cuál sería inventar</td></tr>
+<tr><td>No calcular un número único de juzgados</td><td>sumar juzgados, tribunales, salas y conciliadores</td><td>mezcla personas con oficinas; qué cuenta como órgano es una decisión metodológica que debe tomarse explícitamente</td></tr>
+<tr><td>No repartir juzgados mixtos ni personal por materia</td><td>dividirlos proporcionalmente</td><td>duplica unidades físicas e inventa una precisión que la fuente no tiene</td></tr>
+<tr><td>Agregar etapa y contexto penal a la clave</td><td>borrar los 95 «duplicados» o desempatar con el número de fila</td><td>no eran duplicados: eran etapas y bloques distintos, verificados en el PDF</td></tr>
+<tr><td>87 reglas de corrección acotadas por cuadro</td><td>sustituciones globales de texto</td><td>una regla global podría alterar rótulos que no se auditaron</td></tr>
+<tr><td>No corregir las cinco erratas del Anuario</td><td>corregirlas junto con los errores de extracción</td><td>son errores de la fuente, no del programa: decisión editorial aparte</td></tr>
+<tr><td>Mapas cerrados que fallan ante lo desconocido</td><td>valores por defecto</td><td>un cuadro nuevo que recibe <code>no_aplica</code> por defecto pasa desapercibido; uno que detiene el pipeline, no</td></tr>
+<tr><td>Una base de 1.997 filas y tablas auxiliares</td><td>una mega-tabla con todo</td><td>fan-out de hasta ×743 y sumas multiplicadas</td></tr>
+<tr><td>Unir solo relaciones N:1 verificadas</td><td>unir las métricas largas a la base</td><td>la unión multiplicaría la base por 29,8</td></tr>
+<tr><td>Tasa de resolución con la suma de todas las formas de ingreso</td><td>con <code>nuevas_ingresadas</code></td><td>la identidad del Anuario lo exige; el otro denominador invierte la conclusión</td></tr>
+<tr><td>Tasa vacía cuando no hay denominador</td><td>tasa = 1 («balance neutro»)</td><td>un cociente sin denominador es indefinido; imputar 1 arrastraba las medianas a 1,0</td></tr>
+<tr><td>Excluir las materias penales de los indicadores</td><td>aplicarles las mismas fórmulas</td><td>no publican <code>resueltas</code>: necesitan indicadores propios</td></tr>
+<tr><td>Outliers por estrato materia × ámbito</td><td>un umbral nacional</td><td>marcaría a media capital como anómala solo por tamaño</td></tr>
+<tr><td>Marcar outliers, no borrarlos</td><td>eliminarlos</td><td>en estadísticas judiciales oficiales, el valor extremo es el fenómeno que se estudia</td></tr>
+<tr><td>Winsorizar al P95 del estrato y agregar log(1+x)</td><td>solo el valor crudo</td><td>que un caso extremo no domine un promedio y que un futuro agrupamiento no clasifique solo por tamaño; siempre en columnas aparte</td></tr>
+<tr><td>Ninguna fuente externa en esta etapa</td><td>incorporar población, CEJA, datos penitenciarios</td><td>primero había que tener un dataset propio verificado; las fuentes externas son la fase siguiente</td></tr>
+<tr><td>Todo el código en notebooks simples</td><td>scripts de Python con módulos importables</td><td>que el código se lea de arriba abajo con sus resultados y gráficos a la vista; se verificó que los notebooks reproducen byte a byte lo que producían los scripts</td></tr>
+<tr><td>Restituir la «A» que poppler 25 descarta en las pp. 362–364</td><td>depender de la versión instalada</td><td>el resultado no puede cambiar según la versión del programa; la corrección es explícita y está en el notebook 07</td></tr>
+</tbody></table></div>
+
+<h2>Los errores que el proyecto cometió</h2>
+<p>Uno por fase, más uno de documentación. Los tres primeros tienen la misma forma: <strong>una suposición razonable que nadie contrastó contra una fuente independiente</strong>. Y los tres se detectaron igual: comparando dos caminos que deberían dar el mismo número.</p>
+
+<h3>Fase 1 — Dos errores del parser que el ojo no vio</h3>
+<div class="callout error">
+  <span class="t">Qué pasó</span>
+  <p>En el cuadro 13.1.3 faltaba el ente DIRECCION ADMINISTRATIVA FINANCIERA: su rótulo está partido en dos líneas y los números en una tercera, y la fila se perdía. Faltaban 11 sanciones de 106. En el 4.1.1, las dos filas llamadas «Penal» (una de instrucción y otra de salas) se mezclaban al pasar a formato largo.</p>
+</div>
+<p><strong>Cómo se detectó:</strong> las identidades contables independientes (suma de faltas = total de sanciones; la última columna = suma de las demás) no cerraban. Si la validación hubiera estado pegada a la extracción, se habrían confundido con las discrepancias reales de la fuente. <strong>Arreglo:</strong> reconstrucción del rótulo con los fragmentos vecinos, y la columna <code>fila_en_cuadro</code>.</p>
+
+<h3>Fase 2 — El 6.3.1.4 duplicado</h3>
+<div class="callout error">
+  <span class="t">Qué pasó</span>
+  <p>El ámbito se deducía del primer dígito del número de cuadro: 5 capital, 6 provincia. Pero el Anuario imprime el 6.3.1.4 dos veces: en las páginas 357–359 para capitales y en las 616–618 para provincias. 528 filas quedaron mal clasificadas. Junto con eso, el departamento estaba vacío en 76.279 filas por comparar <code>SUCRE</code> con <code>Sucre</code>.</p>
+</div>
+<p><strong>Cómo se detectó:</strong> revisando los artefactos contra el PDF. <strong>Técnica:</strong> no confiar en convenciones de la fuente: verificar contra el encabezado real. <strong>Arreglo:</strong> ver <a href="auditorias.html#auditoria-1-geografia">auditoría 1</a>.</p>
+
+<h3 id="el-error-del-denominador">Fase 3 — El error del denominador</h3>
+<div class="callout error">
+  <span class="t">Qué pasó</span>
+  <p>La tasa de resolución dividía las causas resueltas por <code>nuevas_ingresadas</code>, que es solo una de las formas de ingreso. El reporte decía <strong>103,84 %</strong>: «el sistema cierra más de lo que recibe, está descargando su acumulado». Con el denominador correcto da <strong>83,39 %</strong>: «el sistema cierra 5 de cada 6 causas, está acumulando mora». <strong>La conclusión opuesta</strong>, y era el titular del informe.</p>
+</div>
+<div class="eq">mismo numerador:              209.197 resueltas
+denominador incorrecto:       201.455 nuevas_ingresadas    → 103,84 %
+denominador correcto:         250.871 todas las formas     →  83,39 %
+comprobación:                 atendidas − pendientes_inicio = 250.871</div>
+<p>Lo más incómodo: el dato correcto <strong>ya estaba documentado</strong> en la Fase 1, que había verificado contra el cuadro 9.1.1 que <code>ingresadas</code> es la suma de las formas de ingreso. No hacía falta información nueva: solo consultar lo que la fase anterior ya había probado.</p>
+<p>Ese mismo repaso encontró cuatro problemas más en la Fase 3:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>Problema</th><th>Arreglo</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>la tasa dividía por <code>nuevas_ingresadas</code></td><td>divide por <code>ingresos_totales</code>; la variante vieja se conserva con nombre honesto, <code>tasa_resolucion_solo_nuevas</code></td></tr>
+<tr><td>2</td><td>la lista de formas de ingreso no incluía <code>readecuadas_ley_439</code>: 43.062 causas fuera del denominador</td><td>agregada</td></tr>
+<tr><td>3</td><td>a los procesos sin causas se les asignaba tasa = 1,0; con 415 filas sin movimiento, la mediana de casi todas las materias quedaba en 1,0 exacto</td><td>ahora quedan vacíos: un cociente sin denominador es indefinido</td></tr>
+<tr><td>4</td><td>la tasa ponderada por materia daba 0,5 en cuatro de cinco materias</td><td>su fórmula se anulaba sola (ver abajo); ahora divide por los ingresos totales y da entre 0,69 y 1,33</td></tr>
+<tr><td>5</td><td>el reporte se titulaba «Balance General del Sistema Judicial» cubriendo el 47,5 % de las causas, y decía que civil y familia eran «más del 80 % de la carga nacional» cuando son el 36,4 % del universo</td><td>se titula «justicia no penal», abre con una sección de cobertura y lista las materias excluidas</td></tr>
+</tbody></table></div>
+<p>La fórmula que se anulaba es un buen ejemplo:</p>
+<div class="eq">denominador = atendidas − pendientes_fin + resueltas
+            = (resueltas + pendientes_fin) − pendientes_fin + resueltas    ← por la identidad del Anuario
+            = 2 × resueltas
+tasa        = resueltas ÷ (2 × resueltas) = 0,5   siempre</div>
+<div class="callout ojo">
+  <span class="t">La lección</span>
+  <p>Un número sospechosamente redondo y repetido es una alarma: cuatro materias muy distintas no pueden dar exactamente el mismo valor. Y había un control que faltaba: se verificaba el lado de salida (<code>atendidas = resueltas + pendientes_fin</code>) pero nadie verificaba el de entrada (<code>atendidas = pendientes_inicio + ingresadas</code>). Ahora el notebook 10 se detiene si la suma de formas de ingreso no lo reproduce.</p>
+</div>
+<div class="table-wrap"><table>
+<thead><tr><th>Medida</th><th>Antes</th><th>Después</th></tr></thead>
+<tbody>
+<tr><td>tasa de resolución global</td><td class="num">103,84 %</td><td class="num">83,39 %</td></tr>
+<tr><td>procesos que acumulan mora</td><td class="num">577</td><td class="num">747</td></tr>
+<tr><td>tasa ponderada por materia</td><td>0,5 constante</td><td>0,69 a 1,33</td></tr>
+<tr><td>cobertura declarada en el reporte</td><td>no</td><td>sí, 47,5 %</td></tr>
+</tbody></table></div>
+<p>El tratamiento de outliers no cambió: esa parte estaba bien, y sus resultados idénticos sirvieron de control de que la corrección no rompió nada más.</p>
+
+<h3>Documentación — cifras que se habían desactualizado</h3>
+<p>Al rehacer esta documentación contra los archivos regenerados aparecieron tres afirmaciones de los documentos anteriores que no coincidían con los datos, y que acá se corrigieron:</p>
+<ul>
+  <li>Las discrepancias son 116 numéricas y 1 no comparable (se decía 114 y 3).</li>
+  <li>Las discrepancias de número de juzgados son 6, con diferencias de 4 a 24 (se decía «siete cuadros más, de 2 a 104»).</li>
+  <li>Las 220 páginas no extraídas incluyen 104 páginas de cuadros de otros capítulos (se decía que eran solo gráficas, mapas y texto).</li>
+</ul>
+
+<h2>El patrón común</h2>
+<div class="callout regla">
+  <span class="t">Si podés calcular algo de dos maneras distintas, hacelo</span>
+  <p>Y si no podés, construí la segunda manera. Todos los errores de este proyecto se encontraron así: el cruce entre capítulos, las identidades contables, la comparación contra el PDF, la reproducción byte a byte al pasar de scripts a notebooks.</p>
+</div>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

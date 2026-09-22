@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El Anuario Estadístico Judicial 2023 — la fuente</title>
+<meta name="description" content="Qué es el PDF de origen, cómo está organizado en capítulos y cuadros, qué se extrajo, qué quedó fuera y las 23 trampas que tiene para quien quiera leerlo con un programa.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="anuario">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Empezar · 02</p>
+<h1>El Anuario, la fuente</h1>
+<p class="lede">Todo el proyecto sale de un único documento. Entender cómo está armado —sus capítulos, su numeración y sus trampas— explica la mitad de las decisiones del código.</p>
+
+<h2>El documento</h2>
+<div class="table-wrap"><table>
+<tbody>
+<tr><th>Documento</th><td><em>Anuario Estadístico Judicial 2023</em></td></tr>
+<tr><th>Publica</th><td>Consejo de la Magistratura de Bolivia · Jefatura Nacional de Estudios Técnicos y Estadísticos</td></tr>
+<tr><th>Descarga oficial</th><td><code>https://magistratura.organojudicial.gob.bo/wp-content/uploads/2024/06/ANUARIO-ESTADISTICO-JUDICIAL-2023.pdf</code></td></tr>
+<tr><th>Páginas</th><td>774</td></tr>
+<tr><th>Tamaño</th><td>42.905.977 bytes</td></tr>
+<tr><th>SHA-256</th><td><code>8B860105762A5987509C65AA4482B240FA21FDE2E6E6EC5C0902022AC243F851</code></td></tr>
+<tr><th>Generado con</th><td>PDF24 sobre Ghostscript 9.56.1, con capa de texto y fuentes embebidas</td></tr>
+</tbody></table></div>
+<div class="callout simple">
+  <span class="t">¿Qué es un SHA-256?</span>
+  <p>Una huella digital del archivo: una cadena que cambia por completo si el archivo cambia aunque sea en un byte. Publicarla permite verificar que dos personas trabajaron sobre <em>exactamente</em> el mismo PDF. Si alguien usa otra descarga, las referencias de página de este proyecto pueden no coincidir.</p>
+</div>
+<div class="callout simple">
+  <span class="t">¿Qué es la «capa de texto»?</span>
+  <p>Un PDF puede guardar las letras como caracteres (texto) o como una foto de la página (imagen). Este Anuario guarda texto, así que las cifras se leen tal cual están escritas. Si fuera imagen habría que usar OCR (reconocimiento óptico de caracteres), que confunde un 3 con un 8. Ninguna cifra de este proyecto pasó por OCR.</p>
+</div>
+
+<h2>Qué hay en las 774 páginas</h2>
+<p>El notebook <a href="pipeline.html#02-inventario">02</a> clasifica cada página del PDF:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tipo de página</th><th class="num">Páginas</th><th>Qué es</th></tr></thead>
+<tbody>
+<tr><td>Cuadro</td><td class="num">658</td><td>una tabla con número de cuadro</td></tr>
+<tr><td>Gráfica</td><td class="num">30</td><td>gráficos del capítulo 9, numerados igual que los cuadros</td></tr>
+<tr><td>Vacía</td><td class="num">10</td><td>mapas departamentales como imagen (páginas 3 y 751 a 759)</td></tr>
+<tr><td>Sin etiqueta</td><td class="num">76</td><td>tapas, índices, presentaciones, carátulas de capítulo</td></tr>
+<tr class="total"><td>Total</td><td class="num">774</td><td></td></tr>
+</tbody></table></div>
+<figure><img src="img/nb01_1.png" alt="Gráfico de barras con la cantidad de caracteres de texto de cada una de las 774 páginas; las páginas casi vacías aparecen en rojo."><figcaption>Caracteres de texto por página (notebook 01). Las barras rojas son las páginas sin texto: mapas guardados como imagen.</figcaption></figure>
+<p>Esas 658 páginas contienen <strong>176 cuadros distintos</strong>. 101 ocupan más de una página, repitiendo su número, y algunos llegan a <strong>once páginas seguidas</strong> (una por ciudad).</p>
+
+<h2>Los capítulos</h2>
+<figure><img src="img/nb02_1.png" alt="Dos gráficos de barras: páginas por tipo y páginas de cuadros por capítulo."><figcaption>Páginas por tipo y por capítulo (notebook 02). Los capítulos 5 y 6 son dos tercios del documento.</figcaption></figure>
+<div class="table-wrap"><table>
+<thead><tr><th>Capítulo</th><th>Contenido</th><th class="num">Págs. de cuadros</th><th>¿Se extrajo?</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Tribunal Supremo de Justicia: causas por sala</td><td class="num">1</td><td><span class="badge">no</span></td></tr>
+<tr><td>2</td><td>Tribunal y juzgados agroambientales</td><td class="num">21</td><td><span class="badge">no</span></td></tr>
+<tr><td>3</td><td>Salas de los Tribunales Departamentales (segunda instancia)</td><td class="num">53</td><td><span class="badge">no</span></td></tr>
+<tr><td>4</td><td><strong>Número de juzgados, tribunales y conciliadores</strong> (4.1.1 a 4.1.10)</td><td class="num">10</td><td><span class="badge ok">sí</span> tabla <code>juzgados</code></td></tr>
+<tr><td>5</td><td><strong>Causas por tipo de proceso, ciudades capitales</strong></td><td class="num">270</td><td><span class="badge ok">sí</span> cinco tablas por tipo de proceso</td></tr>
+<tr><td>6</td><td><strong>Causas por tipo de proceso, provincias</strong></td><td class="num">255</td><td><span class="badge ok">sí</span> ídem</td></tr>
+<tr><td>7</td><td>Juzgados y Sala Disciplinaria</td><td class="num">4</td><td><span class="badge">no</span></td></tr>
+<tr><td>8</td><td>Conciliaciones previas</td><td class="num">12</td><td><span class="badge">no</span></td></tr>
+<tr><td>9</td><td><strong>Movimiento de causas por materia</strong> y series históricas (9.1.1 a 9.1.12)</td><td class="num">12</td><td><span class="badge ok">sí</span> tres tablas <code>causas_*</code></td></tr>
+<tr><td>10</td><td>Oficinas gestoras de procesos (recepción, audiencias, notificaciones)</td><td class="num">3</td><td><span class="badge">no</span></td></tr>
+<tr><td>11</td><td>Derechos Reales: trámites y recaudaciones</td><td class="num">6</td><td><span class="badge">no</span></td></tr>
+<tr><td>12</td><td>Certificados de no violencia y de antecedentes penales</td><td class="num">3</td><td><span class="badge">no</span></td></tr>
+<tr><td>13</td><td><strong>Autoridad sumariante</strong> (13.1.1 a 13.1.3)</td><td class="num">3</td><td><span class="badge ok">sí</span> tabla <code>autoridad_sumariante</code></td></tr>
+<tr><td>14</td><td><strong>Personal</strong> (14.1.1 a 14.1.3; 14.1.4 son dos gráficos de torta)</td><td class="num">5</td><td><span class="badge ok">sí</span> <code>personal</code> y <code>personal_jurisdiccional</code></td></tr>
+</tbody></table></div>
+
+<h3>Qué se extrajo y qué no</h3>
+<p>Se extrajeron <strong>554 de las 774 páginas</strong>: las familias 9.1.x, 4.1.x, 13.1.x y 14.1.x (29 páginas) más los capítulos 5 y 6 (525 páginas). Las 220 restantes son 30 gráficas, 10 mapas, 76 páginas sin tabla y <strong>104 páginas de cuadros de otros capítulos</strong> que quedaron fuera del alcance porque no miden el movimiento de causas de primera instancia que interesa al proyecto: segunda instancia, justicia agroambiental, disciplina, conciliación, registros y certificados. Están inventariados en <code>auditoria/catalogo_cuadros.csv</code> y se podrían extraer con las mismas técnicas.</p>
+
+<h3>Por qué los capítulos 5 y 6 son el corazón</h3>
+<p>Son 525 de las 554 páginas útiles y aportan la única variable que no está en ningún otro lado: el <strong>tipo de proceso</strong>. Sin ellos, lo más fino que se puede decir es «la materia civil tarda tanto». Con ellos se puede decir «los procesos ejecutivos civiles de las provincias de Santa Cruz tardan tanto», que es el nivel en el que la hipótesis del proyecto se puede probar o refutar.</p>
+<p>Son 97 cuadros numerados organizados en cinco familias temáticas:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Familia</th><th class="num">Cuadros</th><th class="num">Págs.</th><th>Qué publica</th><th>Tabla</th></tr></thead>
+<tbody>
+<tr><td>Causas (movimiento)</td><td class="num">17</td><td class="num">109</td><td>pendientes, formas de ingreso, atendidas, resueltas, pendientes al cierre</td><td><code>causas_por_tipo_proceso</code></td></tr>
+<tr><td>Causas resueltas</td><td class="num">17</td><td class="num">106</td><td>cómo terminó cada causa: sentencia, auto definitivo, finalización de competencia</td><td><code>resueltas_por_tipo_proceso</code></td></tr>
+<tr><td>Recursos de apelación</td><td class="num">27</td><td class="num">181</td><td>apelaciones en efecto suspensivo y devolutivo, y cómo las resolvió la sala</td><td><code>apelaciones_por_tipo_proceso</code></td></tr>
+<tr><td>Ejecución de sentencia</td><td class="num">11</td><td class="num">85</td><td>causas en etapa de ejecución</td><td><code>ejecucion_por_tipo_proceso</code></td></tr>
+<tr><td>Otros</td><td class="num">25</td><td class="num">44</td><td>sentencias, medidas cautelares, permisos de viaje y otros cuadros sueltos, casi todos de una página</td><td><code>otros_tramites_por_tipo_proceso</code></td></tr>
+</tbody></table></div>
+
+<h2>Cómo leer un número de cuadro</h2>
+<p>Un número como <code>5.1.1.1</code> se lee por niveles:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Nivel</th><th>En 5.1.1.1</th><th>Significa</th></tr></thead>
+<tbody>
+<tr><td>1.º</td><td><code>5</code></td><td>capítulo: 5 = capitales, 6 = provincias</td></tr>
+<tr><td>2.º y 3.º</td><td><code>1.1</code></td><td>sección = materia: 1.1 civil y comercial, 1.2 familia, 1.3 niñez, 2.1 trabajo, 2.2 coactivo fiscal, 3.1 instrucción penal, 3.2 sentencia penal, 3.3 tribunales de sentencia, 3.4 ejecución penal</td></tr>
+<tr><td>4.º</td><td><code>1</code></td><td>tipo de cuadro dentro de la materia: causas, resueltas, apelación suspensiva, devolutiva, ejecución…</td></tr>
+</tbody></table></div>
+<p>Así, <code>6.1.2.1</code> son las causas de familia de las provincias. El notebook 04 usa esta regla para asignar la materia (<code>materia_de_cuadro</code> en el módulo procesos).</p>
+
+<h3>Cómo es una página de los capítulos 5 y 6</h3>
+<ul>
+  <li>Arriba, un <strong>título de página</strong>: «Juzgados Públicos en Materia Civil y Comercial de Ciudades Capitales y El Alto».</li>
+  <li>El <strong>membrete</strong>: «Cuadro Nro. 5.1.1.1 / CAUSAS / Por: Ciudades y Tipo de Proceso / Según: Movimiento Registrado».</li>
+  <li>Una <strong>banda de encabezado</strong> con los nombres de las columnas, muchas veces partidos en varias líneas o impresos en vertical.</li>
+  <li>Una <strong>cabecera de ciudad</strong>, por ejemplo <code>SUCRE 14</code>: la ciudad y el número de juzgados de esa materia en esa ciudad.</li>
+  <li>Una fila por <strong>tipo de proceso</strong>, a veces agrupadas por un rótulo vertical en el margen (ORDINARIO, MONITOREO…).</li>
+  <li>Una fila <code>TOTAL SUCRE</code> que suma la sección.</li>
+  <li>La última página de cada cuadro es el <code>TOTAL NACIONAL</code>.</li>
+</ul>
+<div class="callout ojo">
+  <span class="t">No hay juzgados individuales</span>
+  <p>El número de juzgados (<code>SUCRE 14</code>) aparece <strong>una vez por página</strong> y vale para toda la ciudad. No hay ninguna tabla del Anuario con una fila por juzgado. El planteo original del proyecto suponía que sí, y hubo que corregir la premisa: la unidad más fina es <code>(ámbito, ciudad o distrito, materia, tipo de proceso)</code>.</p>
+</div>
+
+<h2>Las 23 trampas del documento</h2>
+<p>Un PDF de tablas no es una tabla. Estas son las dificultades reales que hubo que resolver; explican por qué el código es tan largo. Las técnicas con que se resolvió cada una están en <a href="extraccion.html">técnicas de extracción</a>.</p>
+
+<h3>Las del texto (capítulos 4, 9, 13 y 14)</h3>
+<ol>
+  <li><strong>El separador de miles es el punto.</strong> <code>86.285</code> son 86285, no 86 coma 285. Una conversión ingenua a número destruye los datos sin avisar. La coma es el decimal: <code>70,7%</code>.</li>
+  <li><strong>El separador de miles no es consistente.</strong> El 9.1.1 escribe <code>29.688</code>; el 9.1.7 escribe <code>22391</code>, sin punto.</li>
+  <li><strong>Hay cinco formas de rotular un cuadro.</strong> Buscar solo «Cuadro Nro.» deja fuera 54 páginas, incluida toda la Parte IV de juzgados:
+    <div class="table-wrap"><table><thead><tr><th>Variante</th><th class="num">Páginas</th><th>Dónde</th></tr></thead><tbody>
+    <tr><td><code>Cuadro Nro.</code></td><td class="num">604</td><td>la mayoría</td></tr>
+    <tr><td><code>Cuadro No</code></td><td class="num">33</td><td>familia 5.x</td></tr>
+    <tr><td><code>CUADRO Nº</code></td><td class="num">10</td><td>cuadros 4.1.x</td></tr>
+    <tr><td><code>Cuadro Nro</code> (sin punto)</td><td class="num">10</td><td>dispersas</td></tr>
+    <tr><td><code>Cuadro 14.1.4</code> (sin «Nro»)</td><td class="num">1</td><td>página 747</td></tr>
+    </tbody></table></div></li>
+  <li><strong>Las gráficas se numeran igual que los cuadros.</strong> Existe una «Gráfica Nro. 9.1.1» y un «Cuadro Nro. 9.1.1» en páginas distintas. La página 747 se llama «Cuadro 14.1.4» pero son dos gráficos de torta.</li>
+  <li><strong>Un cuadro puede ocupar muchas páginas.</strong> 101 de los 176 lo hacen, y algunos llegan a once. Parsear solo la primera página perdería el 90 % de esas tablas.</li>
+  <li><strong>Hay una errata persistente:</strong> <code>INSTRUCCÓN CONTRA LA VIOLENCIA HACIA LA MUJER</code>, sin la I, en los cuadros 9.1.1, 9.1.5 y 9.1.9.</li>
+  <li><strong>Los nombres de materia cambian entre cuadros</strong> de la misma edición: el 9.1.1 usa mayúsculas y el 9.1.2 caja de título y abreviaturas. Y hay pares peligrosamente parecidos que <strong>no</strong> son lo mismo: un juzgado y un tribunal de sentencia contra la violencia.</li>
+  <li><strong>Hay columnas sin encabezado.</strong> El PDF imprime cifras bajo un título vacío. Se llaman <code>col_sin_rotulo_N</code>.</li>
+  <li><strong>Las celdas combinadas están centradas verticalmente.</strong> En el 14.1.1 el distrito aparece una sola vez por bloque y <em>no</em> en la primera fila. Copiar el valor hacia abajo le asigna las primeras filas al distrito anterior.</li>
+  <li><strong>Las llamadas a nota al pie son «voladitas» pegadas al texto</strong> (<code>Yapacani1</code>, <code>Camiri2</code>). Si el dígito se toma por valor, inventa una columna y corre toda la fila. Además están 2,4 puntos más arriba que el resto de la fila.</li>
+  <li><strong>El modo de texto desalinea la página 116.</strong> En el cuadro de Santa Cruz la fila de totales sale corrida veinte caracteres: 27 de 28 filas fallaban la suma.</li>
+  <li><strong>Hay una tabla sin número de cuadro,</strong> al pie de la página 746, debajo del 14.1.3. Sus tres filas se acomodaban a la fuerza en las columnas del 14.1.3.</li>
+  <li><strong>«Consejo de la Magistratura» es membrete y dato a la vez.</strong> Es el encabezado institucional de casi todas las páginas, pero en los cuadros 14.1.x es un ente con fila propia. Filtrarlo como ruido borraba diez filas reales.</li>
+  <li><strong>Los rótulos largos se parten en varias líneas</strong> con los números en la del medio (<code>Tribunales Departamentales de</code> / cifras / <code>Justicia</code>).</li>
+  <li><strong>Las notas al pie traen números:</strong> «FUENTE: Planillas… al 31 de Diciembre de 2023» aporta un 31 que desplaza toda la tabla si entra al cálculo de columnas.</li>
+  <li><strong>Diez páginas vuelven vacías</strong> y no es un fallo: son mapas como imagen.</li>
+</ol>
+
+<h3>Las de la geometría (capítulos 5 y 6)</h3>
+<p>Estas no se ven en el texto plano: aparecen recién al mirar las coordenadas de cada palabra.</p>
+<ol start="17">
+  <li><strong>Hay texto impreso en vertical, con dos papeles.</strong> En el margen izquierdo, el grupo de procesos (ORDINARIO, MONITOREO…) va rotado 90°. Y en los cuadros de resueltas y apelaciones casi todo el encabezado de columna va rotado: en el 5.1.1.2, once de trece columnas.</li>
+  <li><strong>La etiqueta vertical está centrada en su grupo, no lo cubre.</strong> ORDINARIO tiene una fila y MONITOREO ocho: ni la contención ni la cercanía asignan bien las filas.</li>
+  <li><strong>Los rótulos de fila se parten en hasta tres líneas con los números en el medio,</strong> y pdftotext a veces junta en un solo bloque la ciudad y trece rótulos (página 304).</li>
+  <li><strong>Una fila puede quedar partida en dos por la altura:</strong> cuando el rótulo ocupa varias líneas, el último valor se centra y queda hasta 6 puntos más abajo (página 410).</li>
+  <li><strong>Hay números que son parte del rótulo:</strong> <code>DIVORCIO -DESVINCULACION Art. 207</code>, <code>Por los Num. 1; 2 y 3 del Art. 26 CPP</code>.</li>
+  <li><strong>El Anuario numera mal sus cuadros.</strong> El bloque de la página 357 se llama <code>6.3.1.4</code> en medio del capítulo 5 y es de capitales, mientras que el <code>6.3.1.4</code> de las páginas 616 a 618 es de provincias. El <code>5.1.1.4</code> está impreso como «5.1.1.» con el 4 suelto. Las páginas 375–377 y 378–380 llevan las dos el número <code>5.3.3.1</code> y son dos cuadros distintos.</li>
+  <li><strong>Hay tres formas de página:</strong> una ciudad por sección con filas por tipo de proceso (la corriente); una fila por ciudad sin tipo de proceso (cuadros de una página como 5.1.3.1); y una mezcla en la que la fila de la ciudad es a la vez cabecera y total (5.3.1.5). Una página puede traer hasta cuatro ciudades.</li>
+</ol>
+
+<h3>Erratas que no son del programa</h3>
+<p>Estas formas están impresas así en el PDF. Se conservan tal cual y quedan registradas en <code>auditoria/propuesta_variaciones_editoriales_tipo_proceso.csv</code>:</p>
+<ul>
+  <li><code>OTROS VOLUNATRIOS</code> por «voluntarios» (página 437).</li>
+  <li><code>PENAL COMUN</code> sin tilde y <code>ACCIÓN PENAL PÙBLICA</code> con acento grave (páginas 348, 362 y siguientes).</li>
+  <li><code>ANTICORRUPCIÒN</code> con acento grave.</li>
+  <li>La renuncia de autoridad para adopción, con la aclaración «(ADOPCION NACIONAL E INTERNACIONAL)» en la página 516 y sin ella desde la 517, dentro del mismo cuadro.</li>
+  <li><code>Adolscencia</code> en una fila del cuadro 4.1.1.</li>
+</ul>
+
+<h2>Dónde el Anuario no cierra consigo mismo</h2>
+<p>El Anuario publica varias veces las mismas cifras con distintos cortes, y no siempre coinciden. El proyecto encontró <strong>117 discrepancias</strong> y no corrigió ninguna. Dos ejemplos:</p>
+<ul>
+  <li>En el 9.1.1, Partido de Trabajo y Seguridad Social publica 44.992 atendidas, pero 23.611 + 21.382 = 44.993. Falta una causa, y cruzando cuadros se puede ubicar: en El Alto.</li>
+  <li>El cuadro 5.1.1.1 declara 153 juzgados civiles en capitales y el 9.1.1 declara 163 para la misma materia y el mismo ámbito.</li>
+</ul>
+<p>El detalle está en <a href="validacion.html">validación y discrepancias</a>.</p>
+
+<h2>Si se quiere extender a otra edición</h2>
+<p>Las trampas son del documento, no del año: es razonable esperarlas en otras ediciones. Lo que hay que rehacer sí o sí es el diagnóstico (01) y el inventario (02), porque las páginas cambian de un año a otro, y revisar las declaraciones de columnas (<code>LAYOUTS_PROCESOS</code> y las del notebook 03), que están verificadas contra la edición 2023. La edición 2022, por ejemplo, trunca los nombres de materia.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

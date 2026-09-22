@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validación y discrepancias — Congestión judicial en Bolivia</title>
+<meta name="description" content="Cómo se sabe que la extracción está bien: las doce identidades contables, el cruce entre capítulos, las 117 discrepancias del Anuario, los controles técnicos y el notebook de verificación final.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="validacion">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Cómo se hizo · 07</p>
+<h1>Validación y discrepancias</h1>
+<p class="lede">La pregunta más importante que se le puede hacer a este proyecto es «¿cómo saben que los números están bien?». La respuesta no es «los revisamos»: es que el propio Anuario ofrece caminos independientes para calcular lo mismo, y el proyecto los recorre todos.</p>
+
+<h2>Dos tipos de problema, dos tratamientos</h2>
+<div class="cards">
+  <div class="card"><span class="k">Discrepancia</span><h4>El Anuario no cierra consigo mismo</h4><p>Es un hallazgo sobre la fuente. <strong>Se registra y no se corrige nunca.</strong> Corregirla sería elegir cuál de dos cifras publicadas es la buena, sin evidencia.</p></div>
+  <div class="card"><span class="k">Inconsistencia técnica</span><h4>El código hizo algo mal</h4><p>Es un error del proyecto. <strong>Detiene el pipeline.</strong> El notebook 05 levanta un error y no se exporta nada hasta arreglarlo.</p></div>
+</div>
+
+<h2>La prueba más fuerte: el cruce entre capítulos</h2>
+<p>El Anuario publica <strong>las mismas cifras dos veces</strong>: el capítulo 9 da el movimiento por materia, y los capítulos 5 y 6 lo dan desglosado por tipo de proceso. Son capítulos distintos, con formatos distintos, leídos por dos parsers que no se conocen (notebooks 03 y 07). Si coinciden, los dos leyeron bien.</p>
+<p>Total nacional del cuadro 5.1.1.1 (civil y comercial, capitales), leído por coordenadas:</p>
+<div class="eq">29.688 │ 243 │ 4.398 │ 355 │ 61.144 │ 95.828 │ 67.788 │ 28.040</div>
+<p>Contra el cuadro 9.1.1, materia PÚBLICO CIVIL Y COMERCIAL:</p>
+<div class="eq">29.688                         = pendientes_inicio   ✓
+243 + 4.398 + 355 + 61.144     = 66.140 = ingresadas ✓
+95.828 = atendidas · 67.788 = resueltas · 28.040 = pendientes_fin   ✓</div>
+<p>Cierra exacto, y de paso aclara algo que no era obvio: la columna <code>ingresadas</code> del capítulo 9 es la <strong>suma de cuatro formas de ingreso</strong> que el capítulo 5 publica por separado. Ese detalle resultó decisivo para calcular bien la tasa de resolución.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Cuadro</th><th>Contra</th><th>Resultado</th></tr></thead>
+<tbody>
+<tr><td>5.1.1.1 y 6.1.1.1 — civil y comercial</td><td>9.1.1 / 9.1.5</td><td><span class="badge ok">cierra exacto</span> las cinco columnas</td></tr>
+<tr><td>5.1.2.1 y 6.1.2.1 — familia</td><td>9.1.1 / 9.1.5</td><td><span class="badge ok">cierra exacto</span></td></tr>
+<tr><td>6.2.1.1 — trabajo, provincias</td><td>9.1.5</td><td><span class="badge ok">cierra exacto</span></td></tr>
+<tr><td>5.2.2.1 — coactivo fiscal</td><td>9.1.1</td><td><span class="badge ok">cierra exacto</span></td></tr>
+<tr><td>5.3.3.1 y 6.3.3.1 — tribunales de sentencia</td><td>9.1.1 / 9.1.5</td><td><span class="badge warn">4 de 5</span> <code>resueltas</code> difiere</td></tr>
+<tr><td>5.2.1.1 — trabajo, capitales</td><td>9.1.1</td><td><span class="badge warn">difiere en 1</span> la causa que falta en el 9.1.1</td></tr>
+<tr><td>5.1.3.2 y 6.1.3.2 — niñez</td><td>9.1.1 / 9.1.5</td><td><span class="badge crit">difiere</span> el cuadro cubre menos causas que la materia</td></tr>
+<tr><td>5.3.1.1 y 6.3.1.1 — instrucción penal</td><td>9.1.1 / 9.1.5</td><td><span class="badge crit">difiere</span> cuenta informes de inicio, no causas</td></tr>
+<tr><td>5.3.2.1 y 6.3.2.1 — sentencia penal</td><td>9.1.1 / 9.1.5</td><td><span class="badge crit">difiere</span></td></tr>
+</tbody></table></div>
+<p>Donde no cierra, la diferencia es <strong>de la fuente</strong>: se verificó que dentro de cada página las filas de detalle suman su propio total y que el balance de cada fila cierra. Lo que no coincide es el recorte de lo que cada capítulo cuenta.</p>
+
+<h2>Las doce identidades del notebook 05</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>Identidad</th><th>Dónde</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>atendidas = pendientes_inicio + ingresadas</code></td><td>9.1 movimiento e histórico</td></tr>
+<tr><td>2</td><td><code>atendidas = resueltas + pendientes_fin</code></td><td>ídem</td></tr>
+<tr><td>3</td><td>la fila de total = suma de las filas de dato</td><td>9.1 y 13.1</td></tr>
+<tr><td>4</td><td>la última columna = suma de las demás (sin población)</td><td>4.1.x</td></tr>
+<tr><td>5</td><td>mujer + varón + acefalías = total</td><td>14.1.x, ítems y remuneración</td></tr>
+<tr><td>6</td><td>cada SUB TOTAL del 14.1.1 = su fila del 14.1.3</td><td>14.1.x</td></tr>
+<tr><td>7</td><td>atendidas = pendientes + recibidas; faltas = total de sanciones</td><td>13.1.x</td></tr>
+<tr><td>8</td><td>capitales (9.1.1) + provincias (9.1.5) = consolidado (9.1.9), materia por materia</td><td>9.1.x</td></tr>
+<tr><td>9</td><td>suma de formas de ingreso = atendidas</td><td>cap. 5 y 6</td></tr>
+<tr><td>10</td><td>atendidas = formas de salida + pendientes</td><td>cap. 5 y 6</td></tr>
+<tr><td>11</td><td><code>TOTAL &lt;ciudad&gt;</code> = suma de sus tipos de proceso</td><td>cap. 5 y 6, las cinco familias</td></tr>
+<tr><td>12</td><td>total nacional del cuadro = su materia en el 9.1.1 o 9.1.5</td><td>cap. 5 y 6 contra cap. 9</td></tr>
+</tbody></table></div>
+<p>Resultados destacados: la identidad 9 cierra en <strong>2.386 de 2.386</strong> filas; la 10, en 2.379; la 11, en <strong>731 de 759</strong> bloques; la 4, en 205 de 205 filas; la 8, sin una sola diferencia en las cinco columnas de conteo.</p>
+
+<h2>Las 117 discrepancias</h2>
+<p>Están en <code>auditoria/discrepancias.csv</code>, cada una con su identidad, cuadro, página, entidad, valor calculado, valor publicado y diferencia. Son 116 diferencias numéricas y un caso no comparable; 22 del capítulo 9 y 95 de los capítulos 5 y 6.</p>
+<figure><img src="img/nb05_1.png" alt="Barras con la cantidad de discrepancias por identidad."><figcaption>Discrepancias por identidad (notebook 05).</figcaption></figure>
+<div class="table-wrap"><table>
+<thead><tr><th>Familia de identidad</th><th class="num">Registros</th><th>Qué dice</th></tr></thead>
+<tbody>
+<tr><td>total nacional de 5.x / 6.x = 9.1.x</td><td class="num">54</td><td>el cruce entre capítulos, en los cuadros donde cada capítulo recorta distinto</td></tr>
+<tr><td><code>TOTAL &lt;entidad&gt;</code> = suma de tipos de proceso</td><td class="num">28</td><td>una fila de total de los cap. 5 y 6 que no suma sus filas</td></tr>
+<tr><td>atendidas = pendientes_inicio + ingresadas</td><td class="num">15</td><td>sobre todo la serie histórica</td></tr>
+<tr><td>atendidas = formas de salida + pendientes</td><td class="num">7</td><td>el balance de una fila de causas que no cierra</td></tr>
+<tr><td>atendidas = resueltas + pendientes_fin</td><td class="num">6</td><td>serie histórica</td></tr>
+<tr><td>num_juzgados de 5.x = 9.1.x</td><td class="num">6</td><td>los dos capítulos declaran distinta cantidad de juzgados</td></tr>
+<tr><td>9.1.1 + 9.1.5 = 9.1.9</td><td class="num">1</td><td>el caso no comparable</td></tr>
+<tr class="total"><td>Total</td><td class="num">117</td><td></td></tr>
+</tbody></table></div>
+
+<h3>La causa que falta en 2023</h3>
+<p>En el cuadro 9.1.1, Partido de Trabajo y Seguridad Social publica 44.992 atendidas, cuando 23.611 + 21.382 = 44.993. El error se arrastra al total (523.953 publicado contra 523.954 calculado). Cruzando cuadros se puede <strong>ubicar</strong>:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Cuadro</th><th>Eje</th><th>Fila que falla</th></tr></thead>
+<tbody>
+<tr><td>9.1.1</td><td>materia</td><td>Partido de Trabajo y Seguridad Social</td></tr>
+<tr><td>9.1.3</td><td>ciudad</td><td>El Alto</td></tr>
+<tr><td>9.1.11</td><td>departamento</td><td>La Paz</td></tr>
+</tbody></table></div>
+<p>Los cuadros de provincias cierran perfecto: la causa faltante está en <strong>trabajo de El Alto</strong>. Es irrelevante para cualquier agregado, pero es una prueba de que el parser lee bien: reproduce exactamente la inconsistencia impresa y ninguna otra.</p>
+
+<h3>Las series históricas no cierran</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Cuadro</th><th>Gestión</th><th>Diferencias</th></tr></thead>
+<tbody>
+<tr><td>9.1.4 (capitales)</td><td>2019 · 2022 · 2023</td><td class="num">−76 · −2 y −1 · +1</td></tr>
+<tr><td>9.1.8 (provincias)</td><td>2018 · 2019</td><td class="num">+28 · +6 y −5</td></tr>
+<tr><td>9.1.12 (nacional)</td><td>2018 · 2019 · 2022 · 2023</td><td class="num">+28 · −70 y −5 · −2 y −1 · +1</td></tr>
+</tbody></table></div>
+<p><strong>Recomendación:</strong> no usar <code>causas_serie_historica</code> como serie confiable sin contrastarla con los anuarios de esos años. Para modelos de series de tiempo es un punto de partida, no una fuente cerrada.</p>
+
+<h3>El número de juzgados no coincide entre capítulos</h3>
+<p>La cabecera de la página de total nacional de cada cuadro de los capítulos 5 y 6 declara cuántos juzgados hay; el 9.1.1 declara otro número para la misma materia y el mismo ámbito:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Cuadro</th><th>Materia</th><th class="num">Cap. 5</th><th class="num">9.1.1</th><th class="num">Diferencia</th></tr></thead>
+<tbody>
+<tr><td>5.1.1.1</td><td>Público Civil y Comercial</td><td class="num">153</td><td class="num">163</td><td class="num">−10</td></tr>
+<tr><td>5.1.2.1</td><td>Público de Familia</td><td class="num">99</td><td class="num">106</td><td class="num">−7</td></tr>
+<tr><td>5.2.2.1</td><td>Coactivo Fiscal y Tributario</td><td class="num">26</td><td class="num">13</td><td class="num">+13</td></tr>
+<tr><td>5.3.1.1</td><td>Instrucción (las tres materias)</td><td class="num">108</td><td class="num">112</td><td class="num">−4</td></tr>
+<tr><td>5.3.1.2</td><td>Instrucción (las tres materias)</td><td class="num">108</td><td class="num">112</td><td class="num">−4</td></tr>
+<tr><td>5.3.2.1</td><td>Sentencia penal y anticorrupción</td><td class="num">118</td><td class="num">94</td><td class="num">+24</td></tr>
+</tbody></table></div>
+<p>No se corrigió ninguno. Refuerza que <code>num_juzgados</code> y <code>num_juzgados_pagina</code> son conteos nominales que no sirven como medida física de recursos.</p>
+
+<h3>El caso no comparable</h3>
+<p>Partido Administrativo, Coactivo Fiscal y Tributario existe en capitales y en el consolidado, pero no en provincias: no hay juzgados de esa materia fuera de las capitales. No es un error; queda registrado para que nadie lo lea como dato faltante.</p>
+
+<h3>Un ejemplo de los capítulos 5 y 6</h3>
+<p>El <code>TOTAL LA PAZ</code> del cuadro 5.1.1.4 publica un <strong>0</strong> en su primera columna cuando sus filas suman 970. Se verificó que eso es lo que está impreso en la página 155: no es un error de lectura.</p>
+
+<h2>Los controles técnicos</h2>
+<p>Estos sí detienen el pipeline si fallan. Todos se regeneran en cada corrida y dan OK:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Archivo</th><th class="num">Controles</th><th>Qué controla</th></tr></thead>
+<tbody>
+<tr><td><code>validacion_geografia.csv</code></td><td class="num">5 tablas</td><td>cobertura de departamento en las filas territoriales: 100 % en las cinco tablas de procesos</td></tr>
+<tr><td><code>inconsistencias_geografia.csv</code></td><td class="num">0 filas</td><td>departamentos fuera de dominio, entidades incompatibles con su ámbito, totales que cierran el bloque equivocado. <strong>Debe estar vacío</strong></td></tr>
+<tr><td><code>validacion_juzgados.csv</code></td><td class="num">12</td><td>130 encabezados, 37 filas, 1 indeterminado, 55/55 subtotales, 11/11 total general, 2.422 contra 846</td></tr>
+<tr><td><code>validacion_contexto_procesos.csv</code></td><td class="num">18</td><td>95 cuadros inventariados, sin nulos, 57 grupos por etapa, 38 por contexto penal, 1.997 claves únicas</td></tr>
+<tr><td><code>validacion_correcciones_tipo_proceso.csv</code></td><td class="num">54</td><td>87 reglas, ninguna general, cada una aplicada exactamente una vez, 635 filas fuente y 4.280 físicas, dominio final de 147 rótulos</td></tr>
+<tr><td><code>validacion_integracion_interna.csv</code></td><td class="num">25</td><td>24 archivos originales intactos, 1.997 filas, clave única, fan-out 1,0, sumas conservadas</td></tr>
+</tbody></table></div>
+
+<h2 id="el-notebook-13">El notebook 13</h2>
+<p>El último paso vuelve a comprobar todo desde afuera, con <code>assert</code>: si algo no se cumple, se detiene y dice qué. Reemplaza a la antigua batería de pruebas automáticas.</p>
+<ol class="steps">
+  <li><strong>Las doce tablas:</strong> la cantidad de filas de cada una, 85.953 en total, y que el CSV y el Parquet tengan las mismas columnas.</li>
+  <li><strong>Geografía:</strong> normalización de nombres, vacíos que siguen siendo vacíos, El Alto en La Paz, la excepción del 6.3.1.4 (528 filas de capitales), la página 362 (diez filas por ciudad), los alias de total solo donde se verificaron.</li>
+  <li><strong>Materias:</strong> el mapa del código es idéntico a la auditoría aprobada; la errata se corrige sin tocar el literal; las nueve variantes indeterminadas siguen separadas; 11 materias comunes entre movimiento y gestión.</li>
+  <li><strong>Juzgados:</strong> las 130 decisiones de encabezado y las 37 filas de 4.1.1 son idénticas a los CSV de auditoría; Tarija sigue indeterminada; 2.422 contra 846.</li>
+  <li><strong>Contexto y correcciones:</strong> 18 etapas y 54 contextos iguales a la auditoría; las 87 reglas iguales al contrato; dominios antes y después; el contexto constante dentro de cada fila fuente.</li>
+  <li><strong>Integración:</strong> 1.997 filas y 87 columnas, clave única, 1.655 procesos, sumas conservadas, 19 recursos, 9 distritos, 32/12/12 en movimiento y gestión, 192 columnas en el diccionario analítico.</li>
+  <li><strong>Capa analítica:</strong> la identidad de ingresos, la tasa de resolución calculada con el denominador correcto, vacía cuando no hubo ingresos, tasas en rango, winsorización que solo baja valores, logaritmo que conserva el orden.</li>
+</ol>
+<div class="callout regla">
+  <span class="t">El patrón</span>
+  <p>Las comprobaciones de las auditorías no verifican que el código haga «algo razonable»: verifican que el código <strong>coincide exactamente con el CSV de la decisión auditada</strong>. Si alguien cambia una regla sin actualizar la evidencia que la respalda, el notebook falla.</p>
+</div>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

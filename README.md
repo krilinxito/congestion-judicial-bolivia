@@ -1,187 +1,64 @@
-# Congestión judicial en Bolivia — dataset del Anuario Estadístico Judicial 2023
+# Congestión judicial en Bolivia — Anuario Estadístico Judicial 2023
 
-El *Anuario Estadístico Judicial 2023* del Consejo de la Magistratura de Bolivia
-publica 774 páginas de tablas en un PDF, sin versión tabular ni datos abiertos.
-Este repositorio lo convierte en **doce tablas, 85.953 filas**, cada una con su
-cuadro y su página de origen para poder verificarla a mano.
+El Consejo de la Magistratura de Bolivia publica cada año las estadísticas de
+todos los juzgados del país en un PDF de 774 páginas, sin datos abiertos. Este
+proyecto lo convierte en **doce tablas (85.953 filas)**, cada fila con su cuadro
+y su página de origen; las verifica contra las identidades contables del propio
+Anuario; las organiza en una capa analítica sin multiplicar datos, y calcula
+indicadores de congestión judicial por materia, tipo de proceso y territorio.
 
-Es el componente ETL e integración interna de un proyecto de análisis de
-congestión judicial: extrae, normaliza y organiza granos compatibles, **no**
-calcula indicadores finales ni modela.
+**Toda la documentación está en la web del proyecto (`web/`)**: conceptos
+jurídicos, la fuente, cada tabla y cada columna, cada notebook, las técnicas de
+extracción, las auditorías, los resultados, las decisiones y los errores.
 
-## Por dónde empezar
-
-| Si querés… | Leé |
-|---|---|
-| **estudiar el proyecto completo, las tres fases** | [`docs/guia_tres_fases.md`](docs/guia_tres_fases.md) |
-| la Fase 2 en detalle, todo consolidado | [`docs/documentacion_unificada.md`](docs/documentacion_unificada.md) |
-| los resultados del EDA | [`docs/reporte_eda_congestion_2023.md`](docs/reporte_eda_congestion_2023.md) |
-| entender los datos antes de usarlos | [`docs/guia_de_estudio_anuario_2023.md`](docs/guia_de_estudio_anuario_2023.md) |
-| saber qué significa una columna | [`docs/diccionario_de_datos.md`](docs/diccionario_de_datos.md) |
-| revisar la corrección geográfica del ETL | [`docs/correccion_geografia_etl.md`](docs/correccion_geografia_etl.md) |
-| revisar la auditoría de materias | [`docs/auditoria_equivalencias_materias.md`](docs/auditoria_equivalencias_materias.md) |
-| revisar los encabezados auditados de juzgados | [`docs/auditoria_encabezados_juzgados.md`](docs/auditoria_encabezados_juzgados.md) |
-| revisar la jerarquía auditada del cuadro 4.1.1 | [`docs/auditoria_filas_4_1_1.md`](docs/auditoria_filas_4_1_1.md) |
-| revisar el contexto auditado de tipos de proceso | [`docs/verificacion_pdf_contexto_tipo_proceso.md`](docs/verificacion_pdf_contexto_tipo_proceso.md) |
-| revisar las correcciones auditadas de extracción de tipo de proceso | [`docs/auditoria_fragmentos_tipo_proceso_completa.md`](docs/auditoria_fragmentos_tipo_proceso_completa.md) |
-| usar la integración interna final | [`data/processed/analitico/`](data/processed/analitico/) |
-| revisar su diseño y cardinalidades | [`docs/integracion_interna_final.md`](docs/integracion_interna_final.md) |
-| los datos | [`data/processed/`](data/processed/) — CSV y Parquet |
-| dónde el anuario no cierra consigo mismo | [`data/processed/auditoria/discrepancias.csv`](data/processed/auditoria/) |
-
-## Las tablas
-
-| Tabla | Filas | Qué contiene |
-|---|---|---|
-| `causas_movimiento` | 78 | movimiento de causas 2023 por materia, ciudad y departamento |
-| `causas_por_gestion` | 235 | causas resueltas por materia, 2019-2023 |
-| `causas_serie_historica` | 51 | carga procesal por gestión, 2007-2023 |
-| `juzgados` | 1.148 | juzgados, tribunales y conciliadores por ciudad y provincia |
-| `personal` | 85 | ítems y remuneración por distrito, ente y género |
-| `personal_jurisdiccional` | 3 | reparto jurisdiccional / administrativo |
-| `autoridad_sumariante` | 27 | procesos disciplinarios internos |
-| `causas_por_tipo_proceso` | 2.419 | movimiento de causas por ciudad o distrito, materia y **tipo de proceso** |
-| `resueltas_por_tipo_proceso` | 27.993 | formas de resolución, por tipo de proceso |
-| `apelaciones_por_tipo_proceso` | 37.871 | recursos de apelación, suspensivo y devolutivo |
-| `ejecucion_por_tipo_proceso` | 10.015 | causas en ejecución de sentencia |
-| `otros_tramites_por_tipo_proceso` | 6.028 | sentencias, medidas cautelares y demás |
-
-Las cinco últimas salen de los capítulos 5 y 6 —525 páginas, 97 cuadros, 95
-formatos de tabla distintos— y aportan la variable que no estaba en ninguna otra
-parte: el tipo de proceso.
-
-El Parquet es la copia de referencia porque conserva los tipos (entero con
-nulos, booleano); el CSV es de conveniencia y los pierde al releerse.
-
-## Las cuatro reglas
-
-1. **El dato de origen no se sobrescribe nunca.** Toda decisión interpretativa
-   vive en una columna aparte. Los rótulos son el literal del PDF, llamadas a
-   nota al pie incluidas (`Yapacani1`, `Camiri2`).
-2. **Nada se interpola.** Una celda que no se pudo resolver queda nula y
-   registrada en `auditoria/problemas_extraccion*.csv`.
-3. **Las discrepancias se registran, no se corrigen.** Las 117 que el anuario
-   tiene consigo mismo están en `auditoria/discrepancias.csv` con su página.
-4. **Los encabezados no se inventan.** Cuando el PDF no rotula una columna, se
-   llama `col_sin_rotulo_N`.
-
-Las tablas que contienen materia conservan el literal en `materia_cruda`, la
-errata documentada en `materia_norm` y las once equivalencias aprobadas en una
-clave separada, `materia_homologada`. Los cuatro conjuntos indeterminados de la
-auditoría siguen sin fusionarse.
-
-`juzgados` conserva `col_NN` y los rótulos del PDF, y agrega la interpretación
-auditada de cada combinación cuadro + columna. En 4.1.1 también mantiene por
-separado ciudad, categoría de fila y jerarquía. El único encabezado pendiente
-es 4.1.7/col_09 de Tarija; no se calculó `numero_juzgados_real`.
-
-Las cinco tablas por tipo de proceso incorporan `etapa_proceso_fuente` y
-`contexto_accion_penal`, derivados mediante mapas y reglas cerradas verificadas
-contra el PDF. Además conservan el resultado geométrico anterior en
-`tipo_proceso_extraido` y recuperan en `tipo_proceso` el literal fiel al PDF
-mediante 87 correcciones cerradas. Estas reparan extracción, no aplican las
-cinco variaciones editoriales ni homologan tipos de proceso.
-
-El Paso 3.3 consume estas doce tablas sin modificarlas y publica un paquete
-analítico relacional en `data/processed/analitico/`. El dataset principal tiene
-1.997 filas territoriales por tipo de proceso; las métricas longitudinales y
-los agregados movimiento/gestión quedan en hechos auxiliares para no introducir
-*fan-out*. No se utilizó ninguna fuente externa.
-
-## Cómo se validó
-
-La prueba más fuerte es que **las mismas cifras están publicadas dos veces**, en
-capítulos distintos, con desgloses distintos, y las lee cada una un parser que no
-conoce al otro. El total nacional del cuadro 5.1.1.1 (civil, capitales) da
-`29.688 | 243 | 4.398 | 355 | 61.144 | 95.828 | 67.788 | 28.040`, y contra el
-cuadro 9.1.1 eso es `pendientes_inicio = 29.688`,
-`243 + 4.398 + 355 + 61.144 = 66.140 = ingresadas`, y `atendidas`, `resueltas` y
-`pendientes_fin` idénticas. Cierra exacto.
-
-Además, en las 2.386 filas de la familia de causas la suma de las formas de
-ingreso da `atendidas` en **2.386 de 2.386**, y la fila `TOTAL <ciudad>` coincide
-con la suma de sus tipos de proceso en 731 de 759 bloques. Lo que no cierra está
-en `auditoria/discrepancias.csv`, sin tocar.
-
-El paso 05 también verifica la cobertura, dominio y coherencia territorial de
-las cinco tablas de los capítulos 5 y 6. El resumen reproducible queda en
-`auditoria/validacion_geografia.csv` y las inconsistencias técnicas deben ser
-cero para que el pipeline termine.
-
-Para `juzgados`, el mismo paso verifica las 130 claves auditadas, las 37 filas
-de 4.1.1, sus cinco subtotales y el total general. El resultado reproducible se
-publica en `auditoria/validacion_juzgados.csv`.
-
-Para los cuadros de procesos, también verifica los 57 grupos diferenciados por
-etapa, los 38 grupos diferenciados por contexto penal y la unicidad de las
-1.997 filas del estrato territorial auditado. El resumen queda en
-`auditoria/validacion_contexto_procesos.csv`.
-
-Las 87 correcciones de extracción se revalidan por regla, fila fuente y fila
-física en `auditoria/validacion_correcciones_tipo_proceso.csv`. El control exige
-635 filas fuente y 4.280 filas físicas corregidas, sin doble aplicación ni
-cambios editoriales.
-
-## Correr el pipeline
-
-Requiere Python 3 con `pandas` y `pyarrow`, y `pdftotext` (paquete
-`poppler-utils`). `pytest` es necesario solo para ejecutar las pruebas. Poné el
-PDF en `data/raw/` (ver [`data/raw/README.md`](data/raw/README.md)). En
-Linux/macOS:
+Para verla localmente:
 
 ```bash
-python3 src/01_diagnostico.py          # solo reporta; no escribe
-python3 src/02_inventario.py
-python3 src/03_extraccion.py
-python3 src/07_extraccion_procesos.py  # capítulos 5 y 6
-python3 src/04_normalizacion.py
-python3 src/05_validacion.py
-python3 src/06_export.py
-python3 src/08_integracion_interna.py  # capa derivada; no requiere el PDF
+cd web && python -m http.server 8000     # abrir http://localhost:8000
 ```
 
-En Windows PowerShell se recomienda forzar UTF-8 para evitar errores de
-codificación en la salida del pipeline:
+## Qué hay
 
-```powershell
-python -X utf8 src/01_diagnostico.py
-python -X utf8 src/02_inventario.py
-python -X utf8 src/03_extraccion.py
-python -X utf8 src/07_extraccion_procesos.py
-python -X utf8 src/04_normalizacion.py
-python -X utf8 src/05_validacion.py
-python -X utf8 src/06_export.py
-python -X utf8 src/08_integracion_interna.py  # capa derivada; no requiere el PDF
+```
+notebooks/        todo el código, en notebooks ejecutados (se leen sin correr nada)
+  01 … 08         extracción, normalización, validación, exportación, integración
+  09 … 12         nulos, indicadores, outliers, reporte
+  13              verificación final
+  modulos/        funciones y tablas compartidas, cargadas con %run -i
+data/processed/   las 12 tablas en CSV y Parquet (el Parquet es la referencia)
+  auditoria/      evidencia de cada decisión y cada validación
+  analitico/      capa analítica: 5 tablas relacionadas + diccionario
+data/curated/     tabla analítica con indicadores y tratamientos del EDA
+reports/          tablas resumen y figuras
+web/              la documentación
 ```
 
-Las pruebas formales se reproducen con:
+## Resultados principales
 
-```powershell
-python -X utf8 -m pytest tests -q -p no:cacheprovider
+La justicia **no penal** (47,5 % de las causas: las materias penales no publican
+causas resueltas) cerró en 2023 el **83,4 %** de lo que recibió. Coactivo Fiscal
+y Tributario tardaría unos 1.417 días en vaciar su stock; Civil y Comercial,
+unos 162. La brecha entre capitales y provincias es moderada (213 contra 238
+días).
+
+## Reproducir
+
+```bash
+python -m venv .venv
+.venv/bin/pip install -r requirements.txt       # Windows: .venv\Scripts\pip
+# poppler (pdftotext) solo para los notebooks 01, 02, 03 y 07
+# el PDF va en data/raw/anuario_2023.pdf (ver data/raw/README.md)
 ```
 
-En Linux/macOS, el comando equivalente es
-`python3 -m pytest tests -q -p no:cacheprovider`.
-
-El paso 07 lleva ese número porque se escribió después, pero corre antes del 04.
-`data/interim/` no está versionado: lo regeneran los pasos 02 a 05.
-
-## Advertencias antes de calcular nada
-
-- **No hay juzgado individual, y no lo hay en el anuario.** El desglose más fino
-  que publica es ciudad o distrito × materia × tipo de proceso. El número de
-  juzgados viene de la línea de cabecera de cada página (`num_juzgados_pagina`) y
-  vale para la ciudad entera, no por fila.
-- **`num_juzgados` es nominal, no real.** Un juzgado mixto cuenta una vez por
-  cada materia que atiende.
-- **`pct_resueltas` no es la tasa de resolución.** El anuario la calcula como
-  `resueltas / atendidas`, no como `resueltas / ingresadas`.
-- **Esto mide celeridad, no calidad** de las decisiones judiciales.
-
-El §8 de la guía de estudio tiene la lista completa.
+Orden de ejecución: `01 → 02 → 03 → 07 → 04 → 05 → 06 → 08 → 09 → 10 → 11 →
+12 → 13`. Desde el 08 no hace falta el PDF. Detalle en la página «Cómo
+reproducir» de la web.
 
 ## Fuente
 
 Consejo de la Magistratura de Bolivia, *Anuario Estadístico Judicial 2023*,
-Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos;
-este repositorio solo los tabula.
+Jefatura Nacional de Estudios Técnicos y Estadísticos. SHA-256 del PDF:
+`8B860105762A5987509C65AA4482B240FA21FDE2E6E6EC5C0902022AC243F851`.
+
+Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés
+Gabriel Maydana García · Maximiliano Gómez Mallo.

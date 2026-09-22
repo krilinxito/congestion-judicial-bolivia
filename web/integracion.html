@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La capa analítica — Congestión judicial en Bolivia</title>
+<meta name="description" content="Por qué no hay una sola tabla gigante: grano, fan-out, claves, las cinco tablas de la capa analítica, las uniones que se hicieron y las que se rechazaron, y el riesgo de leakage.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="integracion">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Cómo se hizo · 09</p>
+<h1>La capa analítica</h1>
+<p class="lede">Doce tablas correctas no alcanzan: para analizar hay que cruzarlas, y cruzar mal multiplica los números sin avisar. El notebook 08 organiza todo en cinco tablas relacionadas que se pueden usar sin ese riesgo.</p>
+
+<h2>El problema: el fan-out</h2>
+<div class="callout simple">
+  <span class="t">En simple</span>
+  <p>Unir dos tablas es como el BUSCARV de Excel: para cada fila de la tabla A se buscan las filas de la tabla B con la misma clave. Si a una fila de A le corresponden 15 de B, la fila de A aparece <strong>15 veces</strong> en el resultado. Si después se suma una columna de A, da 15 veces el valor real. Eso es el <strong>fan-out</strong>, y el síntoma es siempre el mismo: después de unir, una suma cambió.</p>
+</div>
+<p>Las doce tablas no comparten grano: las de procesos son hechos por territorio y tipo de proceso; las cuatro largas agregan una dimensión de métrica; movimiento y gestión son agregados por materia; juzgados y personal son recursos a un nivel geográfico más grueso. Se simularon las uniones posibles <strong>sin guardarlas</strong>, solo para medirlas:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Unión simulada</th><th class="num">Filas antes</th><th class="num">Después</th><th class="num">Factor</th></tr></thead>
+<tbody>
+<tr><td>movimiento ↔ causas por proceso</td><td class="num">44</td><td class="num">2.047</td><td class="num">×46,5</td></tr>
+<tr><td>movimiento ↔ resueltas</td><td class="num">44</td><td class="num">23.511</td><td class="num">×534</td></tr>
+<tr><td>movimiento ↔ apelaciones</td><td class="num">44</td><td class="num">32.696</td><td class="num">×743</td></tr>
+<tr><td>movimiento ↔ ejecución</td><td class="num">44</td><td class="num">8.618</td><td class="num">×196</td></tr>
+<tr><td>movimiento ↔ otros trámites</td><td class="num">44</td><td class="num">4.825</td><td class="num">×110</td></tr>
+<tr><td>causas ↔ resueltas</td><td class="num">1.997</td><td class="num">25.516</td><td class="num">×12,8</td></tr>
+<tr><td>resueltas ↔ apelaciones</td><td class="num">23.403</td><td class="num">349.161</td><td class="num">×14,9</td></tr>
+<tr><td>causas ↔ juzgados en crudo</td><td class="num">2.027</td><td class="num">116.169</td><td class="num">×57,3</td></tr>
+<tr><td>causas de provincia ↔ personal 14.1.1</td><td class="num">927</td><td class="num">4.635</td><td class="num">×5</td></tr>
+</tbody></table></div>
+<p>El efecto sobre las cifras: en el cruce movimiento ↔ causas, <code>atendidas</code> pasa de 1.477.682 a <strong>80.966.966</strong>; en causas ↔ juzgados, de 710.393 a 41.387.542. Un informe hecho así sería absurdo, pero nada lo delataría: las filas simplemente se ven repetidas.</p>
+<div class="callout regla">
+  <span class="t">El principio</span>
+  <p>Una relación 1:N se representa con <strong>dos tablas relacionadas</strong>, no copiando el lado N dentro de la base. El notebook 08 no usa <code>drop_duplicates</code> para esconder repeticiones, no rellena vacíos y rechaza con error cualquier tabla auxiliar cuya clave no sea única antes de unir.</p>
+</div>
+
+<h2>Cardinalidad, en simple</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Relación</th><th>Significa</th><th>Unir es…</th></tr></thead>
+<tbody>
+<tr><td>1:1</td><td>a cada fila de A le corresponde una de B</td><td>seguro</td></tr>
+<tr><td>N:1</td><td>muchas filas de A comparten una de B (muchos procesos, un departamento)</td><td>seguro si la clave de B es única: A no crece</td></tr>
+<tr><td>1:N</td><td>a cada fila de A le corresponden varias de B</td><td>A crece: fan-out</td></tr>
+<tr><td>N:M</td><td>varias con varias</td><td>explota</td></tr>
+</tbody></table></div>
+
+<h2>Clave técnica y clave semántica</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Tipo</th><th>Cuál es</th><th>Para qué sirve</th></tr></thead>
+<tbody>
+<tr><td>Técnica</td><td><code>cuadro_origen + pagina_pdf + orden_fila</code> (+ <code>columna</code> en las largas)</td><td>volver al PDF y verificar a mano</td></tr>
+<tr><td>Semántica</td><td><code>ambito + territorio + materia_homologada + tipo_proceso + etapa_proceso_fuente + contexto_accion_penal</code></td><td>identificar qué representa la fila</td></tr>
+</tbody></table></div>
+<p>La técnica no sustituye a la semántica: usar <code>orden_fila</code> para desempatar filas repetidas es esconder que no se entendió el dato, que es exactamente lo que la <a href="auditorias.html#auditoria-5-contexto-de-tipo-de-proceso">auditoría 5</a> se negó a hacer.</p>
+
+<h2>El estudio previo: grano, claves y tiempo de cada tabla</h2>
+<p>Antes de unir nada se midió cada tabla (<code>auditoria/auditoria_uniones_internas.csv</code>). La clave técnica candidata de cada una, comprobada sobre los datos:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tabla</th><th>Clave técnica</th><th class="num">Combinaciones</th><th class="num">Filas con vacíos en la clave</th></tr></thead>
+<tbody>
+<tr><td><code>causas_movimiento</code></td><td><code>cuadro_origen + etiqueta_fila</code></td><td class="num">78</td><td class="num">0</td></tr>
+<tr><td><code>causas_por_gestion</code></td><td><code>cuadro_origen + etiqueta_fila + gestion</code></td><td class="num">235</td><td class="num">0</td></tr>
+<tr><td><code>causas_serie_historica</code></td><td><code>cuadro_origen + gestion</code></td><td class="num">51</td><td class="num">0</td></tr>
+<tr><td><code>juzgados</code></td><td><code>cuadro_origen + fila_en_cuadro + columna</code></td><td class="num">1.148</td><td class="num">0</td></tr>
+<tr><td><code>personal</code></td><td><code>cuadro_origen + distrito + ente</code></td><td class="num">85</td><td class="num">22</td></tr>
+<tr><td><code>personal_jurisdiccional</code></td><td><code>personal</code></td><td class="num">3</td><td class="num">0</td></tr>
+<tr><td><code>autoridad_sumariante</code></td><td><code>cuadro_origen + etiqueta_fila</code></td><td class="num">27</td><td class="num">0</td></tr>
+<tr><td><code>causas_por_tipo_proceso</code></td><td><code>cuadro_origen + pagina_pdf + orden_fila</code></td><td class="num">2.419</td><td class="num">0</td></tr>
+<tr><td>las cuatro largas</td><td><code>cuadro_origen + pagina_pdf + orden_fila + orden_columna</code></td><td class="num">todas únicas</td><td class="num">0</td></tr>
+</tbody></table></div>
+<p>Los 22 vacíos de <code>personal</code> son estructurales: unos cuadros publican por ente sin distrito y otros por distrito sin ente. La combinación es única, pero no sirve como clave para unir.</p>
+<p>En cuanto al tiempo: <code>causas_por_gestion</code> cubre 2019–2023 y <code>causas_serie_historica</code> 2007–2023; el resto es 2023. <code>ejecucion_por_tipo_proceso</code> no tiene columna de gestión porque el cuadro no la imprime, y no se inventó. La columna de población de los cuadros de juzgados refiere a una proyección 2022. Una futura dimensión de tiempo debe distinguir año de observación, edición del Anuario y año de referencia de las variables auxiliares.</p>
+<p>Relaciones que resultaron seguras (1:1 con filtros explícitos): movimiento por materia ↔ gestión 2023 en las 32 claves emparejadas; totales de movimiento 2023 ↔ serie histórica 2023 por ámbito; totales de gestión 2019–2023 ↔ serie histórica por ámbito y año (15 de 15).</p>
+
+<h2>La arquitectura</h2>
+<pre class="flow">dataset_analitico_interno  (1.997 filas, 87 columnas) ← LA BASE
+        │
+        ├── 1:N lógica, NO se une ─────→ metricas_tipo_proceso_long  (81.907)
+        ├── N:1 por ambito + territorio → recursos_judiciales_geografia (19)
+        └── N:1 por departamento ───────→ personal_geografia (9)
+
+movimiento_gestion_2023  (56) ← hecho agregado, aparte</pre>
+
+<h3>El papel de cada una de las doce tablas</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Tabla</th><th>Rol</th><th>¿Se une a la base?</th></tr></thead>
+<tbody>
+<tr><td><code>causas_por_tipo_proceso</code></td><td>base analítica</td><td><strong>es la base</strong></td></tr>
+<tr><td><code>juzgados</code></td><td>enriquecimiento N:1</td><td>sí, después de prepararla en 19 claves</td></tr>
+<tr><td><code>personal</code></td><td>enriquecimiento N:1</td><td>sí, solo las 9 filas del 14.1.3</td></tr>
+<tr><td><code>causas_movimiento</code>, <code>causas_por_gestion</code></td><td>hecho auxiliar</td><td>no; se cruzan entre sí en <code>movimiento_gestion_2023</code></td></tr>
+<tr><td>las cuatro largas</td><td>hecho auxiliar</td><td>no; se apilan en <code>metricas_tipo_proceso_long</code></td></tr>
+<tr><td><code>causas_serie_historica</code></td><td>control histórico</td><td>no</td></tr>
+<tr><td><code>personal_jurisdiccional</code></td><td>recurso auxiliar</td><td>no</td></tr>
+<tr><td><code>autoridad_sumariante</code></td><td>no necesaria</td><td>no</td></tr>
+</tbody></table></div>
+
+<h2>La tabla base: dataset_analitico_interno</h2>
+<p>Son las filas de <code>causas_por_tipo_proceso</code> que cumplen <strong>las tres</strong> condiciones:</p>
+<ul>
+  <li><code>tipo_fila_derivado == "detalle"</code>: no es una fila de total;</li>
+  <li><code>es_total_nacional == False</code>: no es la página de total nacional;</li>
+  <li><code>tipo_proceso</code> no está vacío.</li>
+</ul>
+<p>Resultado: <strong>1.997 filas</strong>, 1.070 de capitales y El Alto y 927 de provincias. Como excluye los totales, no hay doble conteo posible al sumar. Conserva las 65 columnas de la fuente y agrega 22: <code>territorio</code>, <code>tipo_elemento_analitico</code> y los recursos y el personal del territorio.</p>
+<div class="term">
+  <h4>territorio</h4>
+  <p>La ciudad para las filas de capital, el distrito judicial para las de provincia, normalizada. Es la clave geográfica comparable: La Paz ciudad, El Alto y el distrito La Paz son tres territorios distintos.</p>
+</div>
+<div class="term">
+  <h4>tipo_elemento_analitico</h4>
+  <p>No todas las filas son procesos. Esta columna, que existe solo en la capa analítica, las separa usando las auditorías:</p>
+  <div class="table-wrap"><table>
+  <thead><tr><th>Valor</th><th class="num">Filas</th><th>Qué es</th></tr></thead>
+  <tbody>
+  <tr><td><code>proceso</code></td><td class="num">1.655</td><td>un tipo de proceso real, comparable con otros</td></tr>
+  <tr><td><code>accion_penal</code></td><td class="num">171</td><td>una acción penal (pública, a instancia de parte, privada)</td></tr>
+  <tr><td><code>otro_detalle</code></td><td class="num">171</td><td>encabezados padre penales (penal común, anticorrupción, violencia) que la fuente conserva como fila</td></tr>
+  </tbody></table></div>
+  <p>Ninguna se eliminó; el EDA trabaja sobre las 1.655 filas <code>proceso</code>.</p>
+</div>
+<p>La clave semántica es única en las 1.997 filas, sin vacíos. Las sumas se conservan exactas antes y después de las uniones:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Columna</th><th class="num">Antes</th><th class="num">Después</th></tr></thead>
+<tbody>
+<tr><td><code>nuevas_ingresadas</code></td><td class="num">378.684</td><td class="num">378.684</td></tr>
+<tr><td><code>atendidas</code></td><td class="num">706.485</td><td class="num">706.485</td></tr>
+<tr><td><code>resueltas</code></td><td class="num">212.499</td><td class="num">212.499</td></tr>
+<tr><td><code>pendientes_fin</code></td><td class="num">311.478</td><td class="num">311.478</td></tr>
+<tr><td><code>pendientes_inicio</code></td><td class="num">252.037</td><td class="num">252.037</td></tr>
+</tbody></table></div>
+<p>Además el notebook compara fila por fila las 65 columnas de origen y calcula la huella SHA-256 de los 24 archivos originales antes y después: si alguno cambió, falla.</p>
+
+<h2>Las tablas auxiliares</h2>
+<h3>recursos_judiciales_geografia (19 filas)</h3>
+<p>Los órganos publicados por territorio: 10 capitales y 9 provincias.</p>
+<ul>
+  <li><strong>Capitales:</strong> se suman solo las <strong>hojas</strong> de la jerarquía de 4.1.1, por tipo de entidad. Los subtotales y el total general no entran. El resultado se compara contra el total general publicado de cada ciudad.</li>
+  <li><strong>Provincias:</strong> se toma la fila TOTALES de cada cuadro 4.1.2–4.1.10, después de comprobar que sus <strong>119 combinaciones</strong> de cuadro y columna reproducen exactamente la suma de localidades. Población y total no se cuentan como órganos.</li>
+</ul>
+<p>Los componentes quedan <strong>separados</strong>: <code>juzgados_publicados</code>, <code>tribunales_publicados</code>, <code>salas_publicadas</code>, <code>conciliadores_publicados</code>, <code>otros_organos_publicados</code>. No se suman en una variable final: <strong>no existe <code>numero_juzgados_real</code></strong>. La columna indeterminada de Tarija conserva su total publicado (4) aparte y marca <code>clasificacion_recursos_completa = False</code> para Tarija provincia.</p>
+<figure><img src="img/nb08_1.png" alt="Barras apiladas con juzgados, tribunales, salas, conciliadores y otros órganos por territorio."><figcaption>Componentes de recursos por territorio (notebook 08).</figcaption></figure>
+<h3>personal_geografia (9 filas)</h3>
+<p>Las nueve filas por distrito del cuadro 14.1.3. No suma 14.1.1 ni 14.1.2, que se solapan con él. Se une a la base como <strong>atributo del distrito</strong>: el personal no se reparte entre materias ni procesos, porque el Anuario no lo publica así.</p>
+<h3>metricas_tipo_proceso_long (81.907 filas)</h3>
+<p>Las cuatro tablas largas apiladas una debajo de otra, con <code>familia_metrica</code> (resueltas 27.993, apelaciones 37.871, ejecución 10.015, otros trámites 6.028) y <code>territorio</code>. Sin uniones ni pivotes. Su clave <code>familia_metrica + cuadro_origen + pagina_pdf + orden_fila + columna</code> es única.</p>
+<p>Se midió su relación con la base: 1.712 de las 1.997 claves tienen métricas (85,7 %), 285 no tienen y 586 claves de métricas no tienen fila en la base. Una unión plana daría 59.540 filas, <strong>factor 29,8</strong>. Por eso la relación se documenta y no se guarda.</p>
+<h3>movimiento_gestion_2023 (56 filas)</h3>
+<p>Une movimiento y gestión 2023 por <code>ambito + materia_homologada + gestion</code>, conservando las filas sin pareja (unión externa): 32 con pareja, 12 solo en movimiento y 12 solo en gestión. Las 24 sin pareja son las materias Anticorrupción/Violencia que la auditoría 2 dejó separadas.</p>
+
+<h2>Las uniones que se hicieron y las que no</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Origen</th><th>Destino</th><th>Clave</th><th>Tipo</th><th class="num">Filas</th></tr></thead>
+<tbody>
+<tr><td>base</td><td>recursos</td><td><code>ambito + territorio</code></td><td>N:1</td><td class="num">1.997 → 1.997</td></tr>
+<tr><td>base</td><td>personal 14.1.3</td><td><code>departamento_derivado</code></td><td>N:1</td><td class="num">1.997 → 1.997</td></tr>
+<tr><td>movimiento</td><td>gestión 2023</td><td><code>ambito + materia_homologada + gestion</code></td><td>1:1 externa</td><td class="num">44 + 44 → 56</td></tr>
+</tbody></table></div>
+<p><strong>Rechazadas a propósito:</strong></p>
+<ul>
+  <li>unir la base con las 81.907 métricas;</li>
+  <li>repetir movimiento y gestión dentro de cada tipo de proceso;</li>
+  <li>cruzar juzgados por materia o repartir órganos mixtos;</li>
+  <li>cruzar las 85 filas de personal, que tienen disposiciones solapadas;</li>
+  <li>unir personal jurisdiccional, autoridad sumariante o la serie histórica a la base;</li>
+  <li>cualquier relación N:M guardada.</li>
+</ul>
+
+<h2 id="el-diccionario-analitico-y-el-leakage">El diccionario analítico y el leakage</h2>
+<div class="term">
+  <h4>Leakage (fuga de información)</h4>
+  <p>Usar como variable explicativa algo que <strong>es, o se deriva de, el resultado que se quiere explicar</strong>. El modelo parece perfecto y no sirve para nada, porque en la realidad esa variable no se conoce antes del resultado.</p>
+  <p class="ej">La duración estimada se calcula con <code>pendientes_fin ÷ resueltas</code>. Un modelo que predice la duración usando <code>resueltas</code> «acierta» siempre: se le está dando la respuesta.</p>
+</div>
+<p><code>diccionario_analitico.csv</code> describe las 192 columnas de las cinco tablas con su rol (trazabilidad, resultado, recurso, geografía, proceso, materia, identificador, no usar como predictor) y marca <strong>47 columnas con <code>riesgo_leakage = True</code></strong>: los conteos de movimiento, resolución y pendencia, las celdas de métricas, y <code>pct_resueltas</code>, <code>pct_pendientes</code> y <code>promedio_por_juzgado</code>, que son transformaciones directas de resultados.</p>
+<ul>
+  <li><code>num_juzgados</code> y <code>num_juzgados_pagina</code> están marcados «no usar como predictor»: son conteos nominales, no una medida física.</li>
+  <li>Las remuneraciones sirven como recurso para explicar la celeridad, pero <strong>no</strong> para predecir un costo por caso construido con esas mismas remuneraciones.</li>
+</ul>
+<p>El diccionario completo está en <a href="diccionario.html#columnas-de-la-capa-analitica">el diccionario</a>.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

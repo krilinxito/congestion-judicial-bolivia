@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Las seis auditorías — Congestión judicial en Bolivia</title>
+<meta name="description" content="Geografía, materias, encabezados de juzgados, jerarquía del cuadro 4.1.1, contexto de tipo de proceso y fragmentos de extracción: qué estaba roto, cómo se investigó contra el PDF, qué se decidió y qué quedó pendiente.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="auditorias">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Cómo se hizo · 08</p>
+<h1>Las seis auditorías</h1>
+<p class="lede">La Fase 1 dejó doce tablas correctas pero que no se podían usar juntas. Las auditorías las hicieron utilizables, verificando cada decisión contra el PDF. Esta es la parte que distingue al proyecto de un conversor de PDF.</p>
+
+<h2>Qué estaba roto</h2>
+<ul>
+  <li>El departamento estaba vacío en las <strong>76.279 filas territoriales</strong> de las tablas de procesos: no había geografía utilizable en la mitad más importante del dataset.</li>
+  <li>Una tabla escribía <code>EJECUCIÓN PENAL</code> y otra <code>Ejecución Penal</code>: al cruzarlas, <strong>cero coincidencias</strong>.</li>
+  <li>La tabla <code>juzgados</code> tenía columnas llamadas <code>col_01</code>, <code>col_02</code>… sin significado.</li>
+  <li>La clave natural de la tabla base producía <strong>95 grupos de filas que parecían duplicadas</strong>.</li>
+  <li><strong>87 rótulos de tipo de proceso</strong> estaban rotos por la geometría del PDF.</li>
+</ul>
+
+<h2>El protocolo</h2>
+<p>Las seis auditorías siguieron el mismo camino. Es lo que hace el trabajo defendible:</p>
+<ol class="steps">
+  <li><strong>Propuesta.</strong> Se investiga y se publica un CSV con la decisión propuesta en <code>data/processed/auditoria/</code>, <strong>sin tocar los datos</strong>.</li>
+  <li><strong>Verificación.</strong> Se contrasta contra el PDF oficial, declarando su SHA-256.</li>
+  <li><strong>Aprobación.</strong> Se decide qué se aplica y qué queda pendiente por falta de evidencia.</li>
+  <li><strong>Incorporación.</strong> Se codifica en un módulo como un <strong>mapa cerrado</strong>: una lista explícita y exhaustiva que ante un caso no previsto falla en vez de adivinar.</li>
+  <li><strong>Validación.</strong> El notebook 05 publica controles que deben dar OK, y el 13 comprueba que el código coincide exactamente con el CSV de la propuesta.</li>
+</ol>
+<div class="callout regla">
+  <span class="t">Una decisión auditada nunca borra el valor anterior</span>
+  <p><code>materia_homologada</code> convive con <code>materia_norm</code> y <code>materia_cruda</code>; <code>tipo_proceso</code> corregido convive con <code>tipo_proceso_extraido</code>; los rótulos de juzgados conviven con <code>col_NN</code>. Siempre se puede volver a ver qué decía el PDF.</p>
+</div>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>Auditoría</th><th>Resultado</th><th>Estado</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Geografía</td><td>cobertura de departamento de 0 % a 100 % en las 5 tablas de procesos</td><td><span class="badge ok">cerrada</span></td></tr>
+<tr><td>2</td><td>Materias</td><td>11 equivalencias aprobadas; 4 conjuntos sin resolver</td><td><span class="badge warn">parcial</span></td></tr>
+<tr><td>3</td><td>Juzgados, columnas</td><td>130 encabezados interpretados; 1 indeterminado</td><td><span class="badge warn">parcial</span></td></tr>
+<tr><td>4</td><td>Juzgados, filas</td><td>jerarquía de las 37 filas de 4.1.1; 2.422 contra 846</td><td><span class="badge ok">cerrada</span></td></tr>
+<tr><td>5</td><td>Contexto de tipo de proceso</td><td>las 95 claves repetidas pasan a 1.997 únicas</td><td><span class="badge ok">cerrada</span></td></tr>
+<tr><td>6</td><td>Fragmentos de tipo de proceso</td><td>87 correcciones; de 206 a 147 rótulos</td><td><span class="badge ok">cerrada</span></td></tr>
+</tbody></table></div>
+
+<h2 id="auditoria-1-geografia">Auditoría 1 — Geografía</h2>
+<h3>El problema</h3>
+<ol>
+  <li><code>departamento_derivado</code> estaba vacío en las 76.279 filas territoriales de las cinco tablas de procesos.</li>
+  <li>528 filas del cuadro 6.3.1.4, páginas 357 a 359, estaban marcadas como provincia aunque su encabezado dice «Ciudades Capitales y El Alto».</li>
+  <li>Diez filas del bloque de La Paz de la página 362 heredaban <code>entidad = SUCRE</code>.</li>
+</ol>
+<h3>La causa</h3>
+<ol>
+  <li>El código comparaba <code>SUCRE</code> con <code>Sucre</code>: mayúsculas contra capitalizado. Además usaba el valor de verdad de un vacío (<code>NaN</code>) para elegir entre ciudad y distrito, y en pandas un <code>NaN</code> no prueba que exista una ciudad.</li>
+  <li>El ámbito se deducía del primer dígito del cuadro: 5 capital, 6 provincia. Pero el Anuario imprime el número 6.3.1.4 <strong>dos veces</strong>: en las páginas 357–359 para capitales y en las 616–618 para provincias.</li>
+  <li>La cabecera de La Paz de la página 362 trae dos fragmentos, <code>LA PAZ</code> y <code>L APAZ</code>; el parser exigía que fueran idénticos y, al fallar, no abría el bloque nuevo.</li>
+</ol>
+<h3>La solución</h3>
+<ul>
+  <li>Una clave de comparación única (<code>normalizar_geografia</code>) que trata <code>None</code>, <code>NaN</code>, <code>pd.NA</code> y textos vacíos como vacíos, y compara sin mayúsculas, tildes ni puntuación. Los literales originales se conservan en las tablas.</li>
+  <li>El departamento sale de <code>ciudad</code> en capitales y de <code>distrito</code> en provincias; los totales nacionales no reciben departamento.</li>
+  <li>El ámbito se deduce del <strong>título real de la página</strong> y, si la capa de texto lo deja vacío, de las entidades que solo pueden ser capital (Sucre, El Alto, Trinidad, Cobija) o solo provincia (Chuquisaca, Beni, Pando). El número de cuadro ya no participa.</li>
+  <li>Se acepta la única entidad válida del renglón: <code>LA PAZ</code> gana frente a <code>L APAZ</code>, sin editar el PDF ni parchear el CSV.</li>
+</ul>
+<h3>Las excepciones del Anuario</h3>
+<p>El Anuario cierra algunos bloques con rótulos que no repiten el nombre de la entidad: Trinidad cierra con <code>TOTAL BENI</code>, Cobija con <code>TOTAL PANDO</code>, Chuquisaca con <code>TOTAL SUCRE</code>, Pando con <code>TOTAL COBIJA</code>. Son 99 filas en 12 contextos, verificados uno por uno. Cada alias vale solo en su cuadro, página y ámbito. <strong>La Paz y El Alto no son intercambiables</strong>: cada bloque debe cerrar con su propio nombre.</p>
+<h3>Resultado</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Tabla</th><th class="num">Filas territoriales</th><th class="num">Con departamento antes</th><th class="num">Después</th></tr></thead>
+<tbody>
+<tr><td><code>causas_por_tipo_proceso</code></td><td class="num">2.189</td><td class="num">0</td><td class="num">2.189</td></tr>
+<tr><td><code>resueltas_por_tipo_proceso</code></td><td class="num">25.318</td><td class="num">0</td><td class="num">25.318</td></tr>
+<tr><td><code>apelaciones_por_tipo_proceso</code></td><td class="num">34.273</td><td class="num">0</td><td class="num">34.273</td></tr>
+<tr><td><code>ejecucion_por_tipo_proceso</code></td><td class="num">9.064</td><td class="num">0</td><td class="num">9.064</td></tr>
+<tr><td><code>otros_tramites_por_tipo_proceso</code></td><td class="num">5.435</td><td class="num">0</td><td class="num">5.435</td></tr>
+</tbody></table></div>
+<p>Cobertura 100 %, ningún valor fuera de los nueve departamentos, cero inconsistencias técnicas.</p>
+
+<h2 id="auditoria-2-materias">Auditoría 2 — Materias</h2>
+<h3>La pregunta</h3>
+<p><code>causas_movimiento</code> tiene 15 materias distintas y <code>causas_por_gestion</code> 16. La coincidencia literal entre ambas es <strong>cero</strong>: una escribe <code>EJECUCIÓN PENAL</code> y la otra <code>Ejecución Penal</code>. ¿Cuáles son la misma materia?</p>
+<h3>El método</h3>
+<p>Se compararon tres pares de cuadros que publican lo mismo con distinto rótulo: 9.1.1 con 9.1.2 (capitales), 9.1.5 con 9.1.6 (provincias) y 9.1.9 con 9.1.10 (consolidado). En cada par se contrastaron el título, el ámbito, <strong>la posición de la materia en el cuadro</strong> y <strong>el número de causas resueltas en 2023</strong>, que tiene que ser el mismo. La similitud del texto se usó solo como pista, nunca como prueba.</p>
+<h3>El resultado</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Decisión</th><th class="num">Grupos</th><th class="num">Variantes</th></tr></thead>
+<tbody>
+<tr><td>equivalente confirmada</td><td class="num">7</td><td class="num">14</td></tr>
+<tr><td>equivalente con variación editorial</td><td class="num">4</td><td class="num">8</td></tr>
+<tr><td>no equivalente</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td>indeterminada</td><td class="num">4</td><td class="num">9</td></tr>
+<tr class="total"><td>Total</td><td class="num">15</td><td class="num">31</td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead><tr><th>Materia homologada</th><th>Evidencia: resueltas 2023 en capitales, provincias y consolidado</th></tr></thead>
+<tbody>
+<tr><td>Ejecución Penal</td><td class="num">8.992 · 76 · 9.068</td></tr>
+<tr><td>Instrucción Anticorrupción</td><td class="num">1.940 · 252 · 2.192</td></tr>
+<tr><td>Instrucción Penal</td><td class="num">60.894 · 25.350 · 86.244</td></tr>
+<tr><td>Público Civil y Comercial</td><td class="num">67.788 · 26.981 · 94.769</td></tr>
+<tr><td>Público de Familia</td><td class="num">52.523 · 26.687 · 79.210</td></tr>
+<tr><td>Público Niñez y Adolescencia</td><td class="num">8.368 · 3.344 · 11.712</td></tr>
+<tr><td>Sentencia Penal</td><td class="num">12.737 · 3.720 · 16.457</td></tr>
+<tr><td>Instrucción Contra la Violencia hacia las Mujeres <span class="badge">editorial</span></td><td class="num">30.983 · 15.780 · 46.763 (incluye la errata INSTRUCCÓN y singular/plural)</td></tr>
+<tr><td>Partido Administrativo Coactivo Fiscal y Tributario <span class="badge">editorial</span></td><td class="num">2.671 en capitales y consolidado; no existe en provincias</td></tr>
+<tr><td>Partido de Trabajo y Seguridad Social <span class="badge">editorial</span></td><td class="num">20.797 · 2.644 · 23.441</td></tr>
+<tr><td>Tribunales de Sentencia Penal <span class="badge">editorial</span></td><td class="num">1.189 · 622 · 1.811</td></tr>
+</tbody></table></div>
+<p>Las 11 aprobadas se aplican en la columna <code>materia_homologada</code>. Si una materia no está en el mapa, <code>materia_homologada</code> conserva <code>materia_norm</code>: nunca queda vacía.</p>
+<h3>Los cuatro conjuntos indeterminados</h3>
+<p>El hallazgo más delicado: <strong>el Anuario invierte los rótulos de Anticorrupción y Violencia entre cuadros</strong>.</p>
+<ul>
+  <li>En el 9.1.1 (p. 673), Sentencia contra la Violencia tiene 4.347 causas resueltas y Sentencia Anticorrupción 370. En el 9.1.2 (p. 677) <strong>esos mismos valores están rotulados al revés</strong>.</li>
+  <li>En provincias (9.1.5 y 9.1.6) los rótulos sí coinciden: 1.258 violencia y 56 anticorrupción.</li>
+  <li>En el consolidado (9.1.9 publica 5.605 y 426) el 9.1.10 vuelve a invertir, y usa la abreviatura «Sentencia Violencia C M.» para 426.</li>
+  <li>Lo mismo pasa con los Tribunales de Sentencia: 1.060 y 203 invertidos en capitales; 673 y 28 alineados en provincias; 1.733 y 231 invertidos en el consolidado.</li>
+</ul>
+<p>Por eso Sentencia Anticorrupción, Sentencia contra la Violencia, Tribunal de Sentencia Anticorrupción y Tribunal de Sentencia contra la Violencia <strong>quedan sin homologar</strong>. No se rechazó que sean equivalentes: se rechazó <em>afirmar cuál es cuál</em>, porque la fuente no lo permite. Y se rechazó expresamente juntar Anticorrupción con Violencia: son materias distintas.</p>
+<div class="callout regla">
+  <span class="t">Una decisión no tomada es mejor que una mal tomada</span>
+  <p>Las 12 filas sin pareja de cada lado del cruce movimiento–gestión son exactamente esas cuatro variantes en los tres ámbitos. Están documentadas y se conservan.</p>
+</div>
+<h3>Efecto</h3>
+<p>Materias comunes entre las dos tablas: de 0 a <strong>11</strong>. Pares de filas de 2023 cruzables por ámbito: de 0 de 44 a <strong>32 de 44</strong>.</p>
+
+<h2 id="auditoria-3-encabezados-de-juzgados">Auditoría 3 — Encabezados de juzgados</h2>
+<h3>La pregunta</h3>
+<p>¿Qué es cada <code>col_NN</code> de los cuadros 4.1.x? Los encabezados están en vertical y partidos en varias líneas, y <strong>4.1.1 está orientado distinto</strong>: sus columnas son ciudades, mientras que en los otros nueve son tipos de órgano. Una misma <code>col_NN</code> no tiene significado global.</p>
+<h3>El método</h3>
+<p>Para cada combinación <code>cuadro + columna</code> se contrastó el fragmento de encabezado que conservó la extracción, el encabezado visible en el PDF, la posición horizontal, el título del cuadro, los cuadros comparables y la <strong>identidad aritmética con la columna TOTAL</strong>: en los cuadros provinciales se excluyó la población y se sumaron todas las demás columnas; en 4.1.1 se sumaron las diez ciudades. <strong>205 filas, 205 coincidencias, 0 discrepancias.</strong></p>
+<h3>El resultado</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Cuadro</th><th class="num">Pág.</th><th>Territorio</th><th class="num">Columnas</th><th class="num">Confirmadas</th><th class="num">Editorial</th><th class="num">Indeterminadas</th></tr></thead>
+<tbody>
+<tr><td>4.1.1</td><td class="num">109</td><td>Capitales y El Alto</td><td class="num">11</td><td class="num">11</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td>4.1.2</td><td class="num">110</td><td>Chuquisaca</td><td class="num">13</td><td class="num">12</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>4.1.3</td><td class="num">111</td><td>La Paz</td><td class="num">12</td><td class="num">12</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td>4.1.4</td><td class="num">112</td><td>Cochabamba</td><td class="num">19</td><td class="num">18</td><td class="num">1</td><td class="num">0</td></tr>
+<tr><td>4.1.5</td><td class="num">113</td><td>Oruro</td><td class="num">9</td><td class="num">9</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td>4.1.6</td><td class="num">114</td><td>Potosí</td><td class="num">12</td><td class="num">12</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td>4.1.7</td><td class="num">115</td><td>Tarija</td><td class="num">16</td><td class="num">15</td><td class="num">0</td><td class="num">1</td></tr>
+<tr><td>4.1.8</td><td class="num">116</td><td>Santa Cruz</td><td class="num">18</td><td class="num">18</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td>4.1.9</td><td class="num">117</td><td>Beni</td><td class="num">15</td><td class="num">15</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td>4.1.10</td><td class="num">118</td><td>Pando</td><td class="num">5</td><td class="num">5</td><td class="num">0</td><td class="num">0</td></tr>
+<tr class="total"><td>Total</td><td></td><td></td><td class="num">130</td><td class="num">127</td><td class="num">2</td><td class="num">1</td></tr>
+</tbody></table></div>
+<p>Las dos variaciones editoriales: «EJECUCION PENAL» sin tilde (4.1.2) y «JUZGADO SENTENCIA» sin «de» (4.1.4). No se expandieron abreviaturas dudosas: «SS» y «Juzgado Partido Mixto Sentencia» se conservan tal cual.</p>
+<h3>Tres hallazgos</h3>
+<ol>
+  <li><strong><code>col_01</code> es población proyectada al 2022</strong> en los nueve cuadros provinciales (168 valores), y <strong>no</strong> en 4.1.1, donde es Sucre. No debe sumarse como juzgados: en Chuquisaca, <code>col_01</code> vale 9.081 habitantes.</li>
+  <li><strong>Los conciliadores se clasifican como <code>conciliador</code>, no como órgano judicial</strong>: son personas, aunque el Anuario los incluya en el TOTAL.</li>
+  <li><strong>El TOTAL publicado excluye la población e incluye a los conciliadores.</strong> Se verificó cuadro por cuadro.</li>
+</ol>
+<h3>El caso indeterminado</h3>
+<p><strong>4.1.7 <code>col_09</code>, Tarija, página 115.</strong> El encabezado visible es «JUZGADO SENTENCIA / ANTI.VIOLENCIA». Ni la página ni el resto del Anuario desarrollan esa abreviatura, así que no se puede afirmar el nombre completo. Rótulo y código quedan vacíos, con confianza baja. La columna tiene 3 valores y forma parte del TOTAL publicado; su identidad numérica no se usó para inventarle nombre.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tipo de columna</th><th class="num">Celdas</th></tr></thead>
+<tbody>
+<tr><td>población</td><td class="num">168</td></tr>
+<tr><td>órgano judicial</td><td class="num">460</td></tr>
+<tr><td>conciliador</td><td class="num">64</td></tr>
+<tr><td>total</td><td class="num">205</td></tr>
+<tr><td>indeterminado</td><td class="num">3</td></tr>
+<tr><td>otro: las ciudades de 4.1.1</td><td class="num">248</td></tr>
+<tr class="total"><td>Total</td><td class="num">1.148</td></tr>
+</tbody></table></div>
+
+<h2 id="auditoria-4-la-jerarquia-del-cuadro-4-1-1">Auditoría 4 — La jerarquía del cuadro 4.1.1</h2>
+<h3>La pregunta</h3>
+<p>Las 37 filas de 4.1.1 mezclan categorías de órgano, subtotales y el total general. Sin separar la jerarquía, cualquier suma duplica. El cuadro usa rótulos <strong>centrados</strong>, así que no hay sangría medible: la jerarquía se reconstruyó combinando negrita, separadores de bloque, orden, contenido del rótulo y coincidencias numéricas.</p>
+<h3>El criterio</h3>
+<p>Para aceptar un subtotal se exigieron cuatro condiciones a la vez: rótulo en negrita con separación de bloque, filas de detalle inmediatamente dentro, coherencia semántica, e <strong>igualdad entre el subtotal y la suma de sus hijos en las diez ciudades y el total</strong>.</p>
+<pre class="flow">f037 TOTAL GENERAL
+├── f001 JUZGADOS DE INSTRUCCIÓN [subtotal]           → f002–f005 (4 hijos)
+├── f006 JUZGADOS DE PARTIDO Y TRIBUNALES [subtotal]  → f007–f020 (14 hijos)
+├── f021 JUZGADOS PUBLICOS [subtotal]                 → f022–f024 (3 hijos)
+├── f025 JUZGADOS MIXTOS [subtotal]                   → f026–f028 (3 hijos)
+├── f029 SALAS [subtotal]                             → f030–f034 (5 hijos)
+├── f035 JUZGADOS DISCIPLINARIOS [detalle independiente]
+└── f036 CONCILIADORES [detalle independiente]</pre>
+<p>Los cinco subtotales cerraron en <strong>55 de 55</strong> comparaciones (5 × 11 columnas) y el total general en <strong>11 de 11</strong>. <code>f006</code> se tipó como «otro» porque mezcla juzgados y tribunales.</p>
+<h3>El doble conteo</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Ciudad</th><th class="num">Suma de las 37 filas</th><th class="num">Solo las 31 hojas</th><th class="num">Exceso</th></tr></thead>
+<tbody>
+<tr><td>Sucre</td><td class="num">188</td><td class="num">65</td><td class="num">123</td></tr>
+<tr><td>La Paz</td><td class="num">470</td><td class="num">165</td><td class="num">305</td></tr>
+<tr><td>El Alto</td><td class="num">219</td><td class="num">76</td><td class="num">143</td></tr>
+<tr><td>Cochabamba</td><td class="num">358</td><td class="num">126</td><td class="num">232</td></tr>
+<tr><td>Oruro</td><td class="num">184</td><td class="num">64</td><td class="num">120</td></tr>
+<tr><td>Potosí</td><td class="num">151</td><td class="num">52</td><td class="num">99</td></tr>
+<tr><td>Tarija</td><td class="num">159</td><td class="num">55</td><td class="num">104</td></tr>
+<tr><td>Santa Cruz</td><td class="num">499</td><td class="num">176</td><td class="num">323</td></tr>
+<tr><td>Trinidad</td><td class="num">116</td><td class="num">40</td><td class="num">76</td></tr>
+<tr><td>Cobija</td><td class="num">78</td><td class="num">27</td><td class="num">51</td></tr>
+<tr class="total"><td>Total</td><td class="num">2.422</td><td class="num">846</td><td class="num">1.576</td></tr>
+</tbody></table></div>
+<div class="callout simple">
+  <span class="t">En simple</span>
+  <p>En Sucre, «Juzgados de Instrucción» vale 8, y sus hijos valen 4 y 4. Si se suman los tres se cuentan 16 juzgados donde hay 8. Sumando las filas de Sucre da 188; sumando solo las de detalle da 65, que es lo que dice el total general.</p>
+</div>
+<h3>Y 846 tampoco son «juzgados»</h3>
+<p>Incluye 3 tipos de tribunal, 5 de sala y <strong>95 conciliadores</strong> (Sucre 5, La Paz 22, El Alto 9, Cochabamba 17, Oruro 6, Potosí 3, Tarija 4, Santa Cruz 26, Trinidad 2, Cobija 1). Por eso el proyecto <strong>no calcula un número único de juzgados</strong>: publica los componentes por separado y deja la decisión de qué cuenta a quien analice.</p>
+<h3>Dos rótulos recuperados</h3>
+<p>La extracción había cortado dos rótulos largos. La página 109 confirma las formas completas: la fila 27 termina en «Plan 3000)» y la 28 en «(C. Integrado) y EPI Norte». El extractor los recupera con una corrección acotada a ese cuadro y esas dos filas (EPI = Estación Policial Integral).</p>
+<h3>Riesgos documentados</h3>
+<ul>
+  <li>Sumar un subtotal con sus hijos duplica ese bloque; sumar <code>f037</code> con cualquier componente vuelve a contar el total.</li>
+  <li><strong>Repartir un juzgado mixto entre sus materias duplica una unidad física</strong>: un «Juzgado Público Mixto, Partido e Instrucción Penal» es un juzgado, no tres.</li>
+  <li>Incluir <code>f036</code> cuenta personas junto con órganos.</li>
+  <li>Las notas del cuadro documentan competencias adicionales de algunos órganos; esas competencias no crean unidades nuevas.</li>
+</ul>
+
+<h2 id="auditoria-5-contexto-de-tipo-de-proceso">Auditoría 5 — Contexto de tipo de proceso</h2>
+<h3>La pregunta</h3>
+<p>La clave natural de la tabla base, <code>ámbito + territorio + materia + tipo_proceso</code>, produce <strong>1.882 combinaciones para 1.997 filas</strong>: 95 grupos repetidos, 210 filas, hasta 3 repeticiones. ¿Son duplicados del ETL (habría que borrarlos) o registros distintos (falta información en la clave)?</p>
+<h3>Lo que se descartó</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Columna agregada a la clave</th><th class="num">Claves únicas</th><th class="num">Grupos repetidos</th><th class="num">Filas con vacíos en la clave</th></tr></thead>
+<tbody>
+<tr><td>ninguna</td><td class="num">1.882</td><td class="num">95</td><td class="num">0</td></tr>
+<tr><td><code>grupo_proceso_norm</code></td><td class="num">1.882</td><td class="num">95</td><td class="num">1.760</td></tr>
+<tr><td><code>tipo_accion_penal</code></td><td class="num">1.882</td><td class="num">95</td><td class="num">1.796</td></tr>
+<tr><td>etapa del cuadro</td><td class="num">1.939</td><td class="num">38</td><td class="num">0</td></tr>
+<tr><td>bloque padre de acción</td><td class="num">1.940</td><td class="num">57</td><td class="num">0</td></tr>
+<tr><td><strong>etapa + bloque padre</strong></td><td class="num"><strong>1.997</strong></td><td class="num"><strong>0</strong></td><td class="num">0</td></tr>
+</tbody></table></div>
+<p>Las columnas existentes no ayudan: las 210 filas repetidas tienen <code>grupo_proceso_norm</code> vacío, y rellenarlo sería inventar.</p>
+<h3>El diagnóstico</h3>
+<div class="table-wrap"><table>
+<thead><tr><th>Causa</th><th class="num">Grupos</th><th class="num">Filas</th><th>Qué pasa</th></tr></thead>
+<tbody>
+<tr><td>distinta etapa</td><td class="num">57</td><td class="num">114</td><td>mismo territorio y rótulo penal, pero un cuadro cuenta <strong>informes de inicio de investigación</strong> y otro <strong>imputaciones formales</strong></td></tr>
+<tr><td>distinto bloque padre</td><td class="num">38</td><td class="num">96</td><td>el mismo texto «ACCIÓN PENAL PÙBLICA» aparece tres veces en la página, bajo penal común, anticorrupción y violencia</td></tr>
+<tr><td>duplicado técnico</td><td class="num">0</td><td class="num">0</td><td>ni un solo error del ETL</td></tr>
+</tbody></table></div>
+<h3>La verificación contra el PDF</h3>
+<p>Se revisaron las páginas 122, 131, 177–178, 201, 301–302, 305, 348–353, 362–364, 399, 408, 419, 437, 516–517, 607–612 y 622–627. Los seis cuadros publican su etapa en el título:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Cuadro</th><th>Páginas</th><th>Ámbito</th><th>Etapa impresa</th><th><code>etapa_proceso_fuente</code></th></tr></thead>
+<tbody>
+<tr><td>5.3.1.1</td><td>348–350</td><td>capital</td><td>Informes de Inicio de Investigación</td><td><code>informes_inicio_investigacion</code></td></tr>
+<tr><td>5.3.1.2</td><td>351–353</td><td>capital</td><td>Imputaciones Formales</td><td><code>imputaciones_formales</code></td></tr>
+<tr><td>5.3.2.1</td><td>362–364</td><td>capital</td><td>CAUSAS</td><td><code>causas</code></td></tr>
+<tr><td>6.3.1.1</td><td>607–609</td><td>provincia</td><td>Informes de Inicio de Investigación</td><td><code>informes_inicio_investigacion</code></td></tr>
+<tr><td>6.3.1.2</td><td>610–612</td><td>provincia</td><td>Imputaciones Formales</td><td><code>imputaciones_formales</code></td></tr>
+<tr><td>6.3.2.1</td><td>625–627</td><td>provincia</td><td>CAUSAS</td><td><code>causas</code></td></tr>
+</tbody></table></div>
+<p>En 5.3.2.1 y 6.3.2.1 cada ciudad o distrito presenta <strong>tres bloques de tres filas</strong>: una celda padre (penal común, anticorrupción, violencia) que abarca las tres acciones (pública, pública a instancia de parte, privada). Se verificó para las diez capitales y los nueve distritos: todos tienen nueve filas en orden 3×3, y los saltos de página ocurren entre entidades, nunca dentro de un bloque. <strong>57 de 57 y 38 de 38 grupos confirmados, 0 contradichos.</strong></p>
+<div class="table-wrap"><table>
+<thead><tr><th>Cuadro</th><th>Página</th><th>Ciudad</th><th>tipo_proceso</th><th>etapa_proceso_fuente</th><th class="num">atendidas</th></tr></thead>
+<tbody>
+<tr><td>5.3.1.1</td><td>350</td><td>COBIJA</td><td>ANTICORRUPCIÓN</td><td>informes_inicio_investigacion</td><td class="num">45</td></tr>
+<tr><td>5.3.1.2</td><td>353</td><td>COBIJA</td><td>ANTICORRUPCIÓN</td><td>imputaciones_formales</td><td class="num">16</td></tr>
+</tbody></table><caption>Mismo territorio, materia y tipo: 45 investigaciones iniciadas, 16 llegaron a imputación. Son dos etapas del mismo camino.</caption></div>
+<h3>La implementación</h3>
+<ul>
+  <li><code>etapa_proceso_fuente</code> se resuelve por cuadro con un inventario de los <strong>95 cuadros</strong>: 6 con etapa auditada y 89 con <code>no_aplica</code> explícito. Un cuadro desconocido <strong>detiene el pipeline</strong>, no recibe <code>no_aplica</code> por defecto.</li>
+  <li><code>contexto_accion_penal</code> (<code>penal_comun</code>, <code>anticorrupcion</code>, <code>violencia_mujeres</code>, <code>no_aplica</code>): en los cuadros de instrucción sale del rótulo de la fila; en los de sentencia, del bloque padre, <strong>después de validar la estructura 3×3</strong> de cada entidad.</li>
+</ul>
+<div class="callout ojo">
+  <span class="t">Regla rechazada</span>
+  <p>No se aceptó derivar el contexto contando filas de a tres (<code>fila % 3</code>), por parecido de texto o por posición sin verificar el encabezado. Si la estructura cambia, esas reglas asignan mal sin avisar.</p>
+</div>
+<p>Resultado: la clave <code>ámbito + territorio + materia + tipo_proceso + etapa + contexto</code> es <strong>única en 1.997 de 1.997 filas</strong>. Borrar los «duplicados» con <code>drop_duplicates()</code> habría eliminado 210 filas reales; sumarlos habría contado dos veces el mismo expediente.</p>
+
+<h2 id="auditoria-6-fragmentos-de-tipo-de-proceso">Auditoría 6 — Fragmentos de tipo de proceso</h2>
+<h3>La pregunta</h3>
+<p>La auditoría anterior marcó <strong>87 rótulos de tipo de proceso</strong> como sospechosos de estar rotos por la extracción, con 635 apariciones en filas del PDF.</p>
+<h3>El método</h3>
+<p>Se contrastaron las <strong>240 páginas</strong> involucradas, 418 combinaciones rótulo–página, sin usar similitud de texto. Resultado: 87 de 87 revisados, 0 pendientes.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Clasificación</th><th class="num">Rótulos</th><th class="num">Apariciones</th><th>Qué pasaba</th></tr></thead>
+<tbody>
+<tr><td>fragmento</td><td class="num">46</td><td class="num">278</td><td>letras del texto vertical pegadas a la fila: <code>O</code>, <code>DE</code>, <code>CON CUR SAL ES</code> vienen de ORDINARIO, PROCESOS DE…, CONCURSALES</td></tr>
+<tr><td>concatenación</td><td class="num">39</td><td class="num">354</td><td>una acción penal pegada a su encabezado padre (25); el encabezado del artículo 415 pegado a incidentes de familia (12); dos filas registrales unidas (2)</td></tr>
+<tr><td>reordenamiento</td><td class="num">2</td><td class="num">3</td><td>palabras intercaladas: «DEMANDA DE BENEFICIOS SOCIALES Y DERECHOS ADQUIRIDOS»</td></tr>
+<tr><td>indeterminado</td><td class="num">0</td><td class="num">0</td><td></td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead><tr><th>Pág.</th><th>tipo_proceso_extraido (lo que salió)</th><th>tipo_proceso (corregido)</th></tr></thead>
+<tbody>
+<tr><td>131</td><td>O ORDINARIO</td><td>ORDINARIO</td></tr>
+<tr><td>177</td><td>DE CONSTITUCIÓN DEL PATRIMONIO FAMILIAR</td><td>CONSTITUCIÓN DEL PATRIMONIO FAMILIAR</td></tr>
+<tr><td>431</td><td>CON CUR SAL ES CONCURSALES</td><td>CONCURSALES</td></tr>
+<tr><td>362</td><td>ANTICORRUPCIÒN ACCIÓN PENAL PÙBLICA A INSTANCIA DE PARTE</td><td>ACCIÓN PENAL PÙBLICA A INSTANCIA DE PARTE</td></tr>
+</tbody></table></div>
+<h3>El contrato de corrección</h3>
+<p><strong>Ninguna regla es global.</strong> 80 están acotadas a su tabla y cuadros, y 7 (los casos multilínea o reordenados) además a sus páginas. Cada regla declara cuántas filas debe tocar; si toca otra cantidad, el pipeline se detiene. Ninguna fila recibe dos reglas.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tabla</th><th class="num">Filas físicas que cambian</th><th class="num">Rótulos distintos antes</th><th class="num">Después</th></tr></thead>
+<tbody>
+<tr><td><code>apelaciones_por_tipo_proceso</code></td><td class="num">1.194</td><td class="num">137</td><td class="num">121</td></tr>
+<tr><td><code>causas_por_tipo_proceso</code></td><td class="num">151</td><td class="num">130</td><td class="num">107</td></tr>
+<tr><td><code>ejecucion_por_tipo_proceso</code></td><td class="num">255</td><td class="num">113</td><td class="num">106</td></tr>
+<tr><td><code>otros_tramites_por_tipo_proceso</code></td><td class="num">1.194</td><td class="num">49</td><td class="num">34</td></tr>
+<tr><td><code>resueltas_por_tipo_proceso</code></td><td class="num">1.486</td><td class="num">125</td><td class="num">109</td></tr>
+</tbody></table></div>
+<p>En total cambian <strong>4.280 filas físicas</strong> (las 635 filas del PDF, multiplicadas por sus columnas en las tablas largas) y el dominio combinado pasa de <strong>206 a 147</strong> rótulos. El valor anterior queda en <code>tipo_proceso_extraido</code>.</p>
+<div class="callout ojo">
+  <span class="t">Corregir el rótulo no lo convierte en un proceso</span>
+  <p>De los 87, 50 son procesos, 25 son acciones penales y 12 son incidentes. Una futura dimensión de tipos de proceso tiene que excluir o modelar aparte las acciones y los incidentes.</p>
+</div>
+<h3>Las cinco erratas que no se corrigieron</h3>
+<p>Son errores <strong>del Anuario</strong>, no de la extracción, y se mantienen separados: <code>OTROS VOLUNATRIOS</code>, <code>PENAL COMUN</code>, <code>ACCIÓN PENAL PÙBLICA</code> y las dos formas de la renuncia de autoridad para adopción. Viven en <code>propuesta_variaciones_editoriales_tipo_proceso.csv</code> y esperan una decisión editorial aparte.</p>
+
+<h2>Antes de las auditorías: el estudio de uniones</h2>
+<p>Antes de la integración se midió el grano, las claves y la cardinalidad de las doce tablas, y el efecto de cada unión posible (<code>auditoria_uniones_internas.csv</code>). De ahí salió la arquitectura de la capa analítica y la recomendación de no aplanar. Se explica en <a href="integracion.html">la capa analítica</a>.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

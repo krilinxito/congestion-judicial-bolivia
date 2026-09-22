@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo reproducir — Congestión judicial en Bolivia</title>
+<meta name="description" content="Instalación, descarga del PDF, orden de ejecución de los notebooks, verificación y dónde mirar cuando algo no cuadra.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="reproducir">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Referencia · 13</p>
+<h1>Cómo reproducir</h1>
+<p class="lede">Todo el proyecto se regenera desde el PDF con los notebooks. Nada se hizo a mano en una planilla: otra persona, con el mismo PDF y el mismo código, obtiene los mismos archivos.</p>
+
+<h2>Requisitos</h2>
+<ul>
+  <li><strong>Python 3</strong> (probado con 3.14).</li>
+  <li><strong>poppler</strong>, que trae <code>pdftotext</code> y <code>pdfinfo</code>. Solo lo necesitan los notebooks 01, 02, 03 y 07.
+    <ul>
+      <li>Debian / Ubuntu: <code>sudo apt install poppler-utils</code></li>
+      <li>Fedora: <code>sudo dnf install poppler-utils</code></li>
+      <li>macOS: <code>brew install poppler</code></li>
+      <li>Windows: descargar los binarios de poppler y agregarlos al PATH, o usar WSL.</li>
+    </ul>
+  </li>
+  <li>Las bibliotecas de <code>requirements.txt</code>: pandas 2.3, numpy, pyarrow, matplotlib, scipy, jupyterlab, nbconvert.</li>
+</ul>
+<div class="callout">
+  <span class="t">¿Por qué pandas 2 y no 3?</span>
+  <p>Con pandas 3 el pipeline corre, pero las columnas de texto se graban en el Parquet como <code>str</code> en lugar de <code>object</code>, y el Parquet es la copia de referencia justamente porque conserva los tipos.</p>
+</div>
+
+<h2>Instalación</h2>
+<pre><code># Linux / macOS
+python -m venv .venv
+.venv/bin/pip install -r requirements.txt
+
+# Windows
+python -m venv .venv
+.venv\Scripts\pip install -r requirements.txt</code></pre>
+
+<h2>El PDF</h2>
+<p>No está en el repositorio: pesa 43 MB y es una publicación pública. Hay que descargarlo del sitio del Consejo de la Magistratura y guardarlo como <code>data/raw/anuario_2023.pdf</code>:</p>
+<pre><code>curl -L -o data/raw/anuario_2023.pdf \
+  https://magistratura.organojudicial.gob.bo/wp-content/uploads/2024/06/ANUARIO-ESTADISTICO-JUDICIAL-2023.pdf
+sha256sum data/raw/anuario_2023.pdf
+# 8b860105762a5987509c65aa4482b240fa21fde2e6e6ec5c0902022ac243f851</code></pre>
+<p>Si el hash no coincide, es otra edición o una descarga distinta, y las páginas pueden no corresponder. El notebook 01 verifica que tenga 774 páginas y capa de texto.</p>
+
+<h2>Correr los notebooks</h2>
+<h3>Uno por uno, mirando</h3>
+<pre><code>.venv/bin/jupyter lab</code></pre>
+<p>Abrir <code>notebooks/</code> y ejecutar en orden. Los notebooks se ejecutan desde su propia carpeta: las rutas se calculan como <code>Path.cwd().parent</code>.</p>
+<h3>Todo de corrido</h3>
+<pre><code>cd notebooks
+for n in 01_diagnostico 02_inventario 03_extraccion 07_extraccion_procesos \
+         04_normalizacion 05_validacion 06_export 08_integracion_interna \
+         09_nulos_estados 10_indicadores_congestion 11_tratamiento_outliers \
+         12_reporte_eda 13_verificacion; do
+  ../.venv/bin/jupyter nbconvert --to notebook --execute --inplace $n.ipynb
+done</code></pre>
+<p>La corrida completa tarda unos pocos minutos; el 07, que lee 525 páginas con coordenadas, es el más largo (unos 30 segundos).</p>
+<div class="callout ojo">
+  <span class="t">El orden importa</span>
+  <p>El 07 corre antes del 04. Del 08 en adelante no hace falta el PDF: si <code>data/processed/</code> está completo (lo está, porque se versiona), se puede empezar directamente en el 08.</p>
+</div>
+<h3>Una corrida limpia desde cero</h3>
+<p>Borrar <code>data/interim/</code> (no se versiona) y correr todo. Para forzar que el PDF se vuelva a leer basta con borrar <code>data/interim/texto_crudo.txt</code>. <code>data/raw/</code> no se toca nunca.</p>
+
+<h2>Cómo saber que salió bien</h2>
+<ul>
+  <li>El notebook <strong>05</strong> se detiene si falla un control técnico (geografía, juzgados, contexto, correcciones).</li>
+  <li>El <strong>06</strong> se detiene si una columna exportada no está documentada.</li>
+  <li>El <strong>08</strong> se detiene si una unión multiplica filas o si se modificó alguna tabla original.</li>
+  <li>El <strong>10</strong> se detiene si la suma de formas de ingreso no reproduce la identidad del Anuario.</li>
+  <li>El <strong>13</strong> termina con «bloques verificados: todo OK» o se detiene en la comprobación que falló.</li>
+  <li>Con <code>git status</code>, los CSV deberían quedar idénticos a los versionados. Los Parquet pueden cambiar en bytes si la versión de pyarrow es otra (la metadata graba la versión), sin cambios en los datos.</li>
+</ul>
+
+<h2>Dónde mirar cuando algo no cuadra</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Síntoma</th><th>Archivo</th></tr></thead>
+<tbody>
+<tr><td>un número parece raro</td><td><code>data/interim/crudo_*.csv</code>: el texto tal como salió del PDF, sin convertir</td></tr>
+<tr><td>una celda está vacía</td><td><code>auditoria/problemas_extraccion*.csv</code>, <code>problemas_normalizacion.csv</code></td></tr>
+<tr><td>una identidad no cierra</td><td><code>auditoria/discrepancias.csv</code>, con cuadro y página</td></tr>
+<tr><td>una columna no se entiende</td><td><a href="diccionario.html">el diccionario</a> o <code>diccionario_de_datos.csv</code></td></tr>
+<tr><td>qué rótulo imprime el PDF sobre cada columna de los cap. 5 y 6</td><td><code>auditoria/firmas_procesos.csv</code></td></tr>
+<tr><td>en qué página está cada cuadro</td><td><code>auditoria/catalogo_cuadros.csv</code></td></tr>
+<tr><td>filas del cuadro que no son datos de la serie</td><td><code>data/interim/filas_complementarias.csv</code></td></tr>
+<tr><td>un indicador no se entiende</td><td><code>analitico/diccionario_analitico.csv</code> y <a href="eda.html">EDA</a></td></tr>
+</tbody></table></div>
+
+<h2>Extender el proyecto</h2>
+<h3>A otros cuadros del Anuario</h3>
+<ol class="steps">
+  <li>Buscar el cuadro en <code>auditoria/catalogo_cuadros.csv</code>: página, título y primeras líneas.</li>
+  <li>Mirar la forma real de la tabla: cuántas columnas, si hay celdas vacías, si los rótulos se parten o giran.</li>
+  <li>Elegir la técnica: tokens si no hay huecos, posición si los hay, coordenadas si hay texto rotado o filas partidas.</li>
+  <li>Declarar el orden de columnas y verificarlo aritméticamente contra el PDF. No reconstruir encabezados.</li>
+  <li>Agregar la normalización en el 04, una identidad en el 05 y la descripción en el módulo <code>diccionario</code> (el 06 falla si falta).</li>
+</ol>
+<h3>A otra edición</h3>
+<p>Rehacer el 01 y el 02 (las páginas cambian), revisar las páginas declaradas en el 03 y las firmas de <code>LAYOUTS_PROCESOS</code>, y las reglas acotadas por página de las auditorías. Las trampas del documento probablemente se repitan.</p>
+
+<h2>Esta documentación</h2>
+<p>La web está en <code>web/</code>: HTML estático, un <code>styles.css</code> y un <code>app.js</code>, sin paso de compilación. Se publica tal cual en Netlify (<code>netlify.toml</code>). Para verla localmente hace falta un servidor, porque el buscador lee las páginas:</p>
+<pre><code>cd web && python -m http.server 8000
+# abrir http://localhost:8000</code></pre>
+<p>El menú, el índice lateral y el buscador los arma <code>app.js</code>; para agregar una página hay que sumarla a la lista <code>PAGINAS</code> al principio de ese archivo.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Los datos, tabla por tabla — Congestión judicial en Bolivia</title>
+<meta name="description" content="Las doce tablas extraídas del Anuario, la capa analítica y la capa curada: qué contiene cada una, su grano, su clave, filas de ejemplo reales, cómo se relacionan y qué trampas tienen.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="datos">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Los datos · 03</p>
+<h1>Los datos, tabla por tabla</h1>
+<p class="lede">El proyecto produce tres capas de datos. Las doce tablas de <code>data/processed/</code> son lo que publica el Anuario, sin interpretar. La capa analítica, en <code>data/processed/analitico/</code>, las organiza para poder cruzarlas. La capa curada, en <code>data/curated/</code>, agrega los indicadores. Esta página recorre todas con ejemplos reales. El significado de cada columna está en el <a href="diccionario.html">diccionario completo</a>.</p>
+
+<h2>Antes de abrir un archivo: cinco ideas</h2>
+<div class="term">
+  <h4>1. Grano</h4>
+  <p>El grano es <em>qué representa una fila</em>. En <code>causas_por_tipo_proceso</code>, una fila es «un tipo de proceso de una materia en una ciudad o distrito, en una página del Anuario». En <code>personal</code>, una fila es «un ente de un distrito». Unir tablas de grano distinto sin cuidado multiplica los números. Es el concepto más importante de todo el proyecto.</p>
+</div>
+<div class="term">
+  <h4>2. Trazabilidad</h4>
+  <p>Toda fila trae <code>cuadro_origen</code> y <code>pagina_pdf</code>. Con esas dos columnas se abre el PDF en esa página y se verifica la cifra a mano. <code>pagina_pdf</code> es la página física del archivo, contada desde 1, que no siempre coincide con el número impreso al pie. La columna <code>revisado_manual</code> viene en <code>False</code> y existe para marcar lo que se audite a mano.</p>
+</div>
+<div class="term">
+  <h4>3. Fuente, derivada, trazabilidad</h4>
+  <p>Cada columna tiene un <strong>origen</strong>, y el diccionario lo dice:</p>
+  <ul>
+    <li><strong>fuente:</strong> está impresa en el PDF.</li>
+    <li><strong>derivada:</strong> la dedujo el proyecto con una regla documentada. Se puede descartar sin perder ningún dato. Los nombres con <code>_derivado</code>, <code>_derivada</code> o <code>_derivado_del_bloque</code> son de este tipo.</li>
+    <li><strong>trazabilidad:</strong> sirve para auditar, no es un dato del Anuario.</li>
+  </ul>
+</div>
+<div class="term">
+  <h4>4. Vacío no es cero</h4>
+  <p>Una celda vacía (nulo, <code>NaN</code>, <code>&lt;NA&gt;</code>) significa «no publicado» o «no aplica». Un cero significa «ninguna causa». El proyecto nunca rellena un vacío con cero: sería inventar un dato.</p>
+</div>
+<div class="term">
+  <h4>5. Parquet es la copia de referencia</h4>
+  <p>Cada tabla se publica dos veces. El <strong>Parquet</strong> conserva los tipos: entero con vacíos (<code>Int64</code>), booleano, texto. El <strong>CSV</strong> es texto plano: al releerlo, un entero con vacíos vuelve como decimal y un booleano como texto. Para analizar, usar el Parquet.</p>
+</div>
+<pre><code>import pandas as pd
+causas = pd.read_parquet("data/processed/causas_por_tipo_proceso.parquet")
+base = pd.read_parquet("data/processed/analitico/dataset_analitico_interno.parquet")</code></pre>
+
+<h2>Las doce tablas</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Tabla</th><th class="num">Filas</th><th class="num">Cols.</th><th>Grano: una fila es…</th><th>Cuadros</th></tr></thead>
+<tbody>
+<tr><td><code>causas_movimiento</code></td><td class="num">78</td><td class="num">26</td><td>una materia, ciudad o departamento en un cuadro</td><td>9.1.1, 9.1.3, 9.1.5, 9.1.7, 9.1.9, 9.1.11</td></tr>
+<tr><td><code>causas_por_gestion</code></td><td class="num">235</td><td class="num">15</td><td>una materia en un año (2019 a 2023) y un ámbito</td><td>9.1.2, 9.1.6, 9.1.10</td></tr>
+<tr><td><code>causas_serie_historica</code></td><td class="num">51</td><td class="num">17</td><td>un año (2007 a 2023) en un ámbito</td><td>9.1.4, 9.1.8, 9.1.12</td></tr>
+<tr><td><code>juzgados</code></td><td class="num">1.148</td><td class="num">26</td><td>una celda: fila × columna de un cuadro</td><td>4.1.1 a 4.1.10</td></tr>
+<tr><td><code>personal</code></td><td class="num">85</td><td class="num">17</td><td>un ente, un distrito o un ente de un distrito, según el cuadro</td><td>14.1.1, 14.1.2, 14.1.3</td></tr>
+<tr><td><code>personal_jurisdiccional</code></td><td class="num">3</td><td class="num">11</td><td>jurisdiccional, administrativo o total</td><td>sin número, p. 746</td></tr>
+<tr><td><code>autoridad_sumariante</code></td><td class="num">27</td><td class="num">21</td><td>un distrito o un ente</td><td>13.1.1, 13.1.2, 13.1.3</td></tr>
+<tr><td><code>causas_por_tipo_proceso</code></td><td class="num">2.419</td><td class="num">65</td><td>un tipo de proceso en una ciudad o distrito, en una página</td><td>17 cuadros de causas de los cap. 5 y 6</td></tr>
+<tr><td><code>resueltas_por_tipo_proceso</code></td><td class="num">27.993</td><td class="num">33</td><td>una celda: fila del PDF × columna</td><td>17 cuadros</td></tr>
+<tr><td><code>apelaciones_por_tipo_proceso</code></td><td class="num">37.871</td><td class="num">31</td><td>ídem</td><td>27 cuadros</td></tr>
+<tr><td><code>ejecucion_por_tipo_proceso</code></td><td class="num">10.015</td><td class="num">30</td><td>ídem</td><td>11 cuadros</td></tr>
+<tr><td><code>otros_tramites_por_tipo_proceso</code></td><td class="num">6.028</td><td class="num">33</td><td>ídem</td><td>25 cuadros</td></tr>
+<tr class="total"><td>Total</td><td class="num">85.953</td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<figure><img src="img/nb06_1.png" alt="Barras horizontales con la cantidad de filas de cada una de las doce tablas, en escala logarítmica."><figcaption>Filas por tabla (notebook 06), en escala logarítmica: de 3 filas a casi 38.000.</figcaption></figure>
+
+<h2>Las tablas del capítulo 9: el resumen del sistema</h2>
+<h3>causas_movimiento</h3>
+<p>El movimiento de causas de 2023. Seis cuadros que son la misma realidad vista desde tres ámbitos y tres ejes:</p>
+<pre class="flow">                 eje: materia    eje: ciudad    eje: departamento
+  capitales         9.1.1           9.1.3
+  provincias        9.1.5                            9.1.7
+  consolidado       9.1.9                            9.1.11</pre>
+<p>La columna <code>eje</code> dice qué es cada fila, y según eso se llena <code>ciudad</code>, <code>departamento</code> o las columnas de materia. Las filas de total («NACIONAL CAPITAL», «Total general») tienen <code>tipo_fila_derivado = total</code>.</p>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>pagina_pdf</th><th>etiqueta_fila</th><th>num_juzgados</th><th>pendientes_inicio</th><th>ingresadas</th><th>atendidas</th><th>resueltas</th><th>pendientes_fin</th><th>pct_resueltas</th></tr></thead><tbody><tr><td>9.1.1</td><td>673</td><td>PÚBLICO CIVIL Y COMERCIAL</td><td>163</td><td>29.688</td><td>66.140</td><td>95.828</td><td>67.788</td><td>28.040</td><td>70,70</td></tr><tr><td>9.1.1</td><td>673</td><td>PÚBLICO DE FAMILIA</td><td>106</td><td>24.149</td><td>50.600</td><td>74.749</td><td>52.523</td><td>22.226</td><td>70,30</td></tr><tr><td>9.1.1</td><td>673</td><td>PÚBLICO NIÑEZ Y ADOLESCENCIA</td><td>26</td><td>3.846</td><td>8.549</td><td>12.395</td><td>8.368</td><td>4.027</td><td>67,50</td></tr><tr><td>9.1.1</td><td>673</td><td>PARTIDO DE TRABAJO Y SEGURIDAD SOCIAL</td><td>51</td><td>23.611</td><td>21.382</td><td>44.992</td><td>20.797</td><td>24.195</td><td>46,20</td></tr></tbody><caption>causas_movimiento · cuadro 9.1.1, primeras 4 filas</caption></table></div>
+<div class="callout ojo">
+  <span class="t">Los porcentajes del Anuario</span>
+  <p><code>pct_resueltas</code> es <code>resueltas ÷ atendidas × 100</code> (72 de 72 filas), <code>pct_pendientes</code> es <code>pendientes_fin ÷ atendidas × 100</code> (65 de 72) y <code>promedio_por_juzgado</code> es <code>ingresadas ÷ num_juzgados</code> (24 de 25). Vienen impresos: el proyecto solo verificó cómo los calcula el Anuario. Ninguno es la tasa de resolución.</p>
+</div>
+
+<h3>causas_por_gestion</h3>
+<p>Causas resueltas por materia en cada año de 2019 a 2023, más el porcentaje. Es la tabla que usa nombres de materia distintos a <code>causas_movimiento</code> (caja de título, abreviaturas), y por eso hizo falta <a href="auditorias.html#auditoria-2-materias">la auditoría de materias</a>. Tiene celdas vacías legítimas: materias que no existían en provincias en algunos años.</p>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>ambito</th><th>etiqueta_fila</th><th>gestion</th><th>resueltas</th><th>pct_resueltas</th><th>materia_homologada</th></tr></thead><tbody><tr><td>9.1.2</td><td>capital</td><td>Público Civil y Comercial</td><td>2.019</td><td>61.635</td><td>69,60</td><td>Público Civil y Comercial</td></tr><tr><td>9.1.2</td><td>capital</td><td>Público Civil y Comercial</td><td>2.020</td><td>38.356</td><td>66,70</td><td>Público Civil y Comercial</td></tr><tr><td>9.1.2</td><td>capital</td><td>Público Civil y Comercial</td><td>2.021</td><td>52.219</td><td>66,70</td><td>Público Civil y Comercial</td></tr><tr><td>9.1.2</td><td>capital</td><td>Público Civil y Comercial</td><td>2.022</td><td>58.647</td><td>67,90</td><td>Público Civil y Comercial</td></tr><tr><td>9.1.2</td><td>capital</td><td>Público Civil y Comercial</td><td>2.023</td><td>67.788</td><td>70,70</td><td>Público Civil y Comercial</td></tr></tbody><caption>causas_por_gestion · cuadro 9.1.2</caption></table></div>
+
+<h3>causas_serie_historica</h3>
+<p>La carga procesal total, por año, desde 2007. Sin materia. Sirve como control y como serie larga, pero <strong>varias gestiones anteriores no cierran sus identidades contables</strong> (por ejemplo, 9.1.4 en 2019 difiere en 76 causas). No usarla como serie confiable sin contrastarla con los anuarios de esos años.</p>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>ambito</th><th>gestion</th><th>pendientes_inicio</th><th>ingresadas</th><th>atendidas</th><th>resueltas</th><th>pendientes_fin</th></tr></thead><tbody><tr><td>9.1.12</td><td>nacional</td><td>2.020</td><td>345.916</td><td>263.437</td><td>609.353</td><td>261.748</td><td>347.605</td></tr><tr><td>9.1.12</td><td>nacional</td><td>2.021</td><td>327.424</td><td>349.998</td><td>677.422</td><td>333.279</td><td>344.143</td></tr><tr><td>9.1.12</td><td>nacional</td><td>2.022</td><td>337.816</td><td>378.093</td><td>715.911</td><td>351.230</td><td>364.680</td></tr><tr><td>9.1.12</td><td>nacional</td><td>2.023</td><td>337.394</td><td>401.448</td><td>738.841</td><td>382.333</td><td>356.508</td></tr></tbody><caption>causas_serie_historica · cuadro 9.1.12, últimos años</caption></table></div>
+<div class="callout">
+  <span class="t">Las columnas sin rótulo</span>
+  <p>El PDF imprime columnas sin título. Se llaman <code>col_sin_rotulo_N</code> y no se les inventó nombre. Sí se investigó qué reproducen: en 9.1.12 las tres son la variación interanual de pendientes al inicio, ingresadas y atendidas (16 de 16 años cada una); en 9.1.8, de pendientes, ingresadas y resueltas (16, 15 y 15 de 16); la primera de 9.1.4 es la variación de ingresadas; la de 9.1.5 es la participación de cada materia en el total de ingresadas (14 de 14, suma 100,00). Las otras dos de 9.1.4 no coinciden con nada. Que una columna reproduzca un cálculo no prueba que sea eso, así que el nombre no cambió.</p>
+</div>
+
+<h2>juzgados: los órganos de cada territorio</h2>
+<p>Los cuadros 4.1.x dicen cuántos juzgados, tribunales, salas y conciliadores hay y dónde. La tabla está en <strong>formato largo</strong>: una fila por cada celda con valor, con <code>columna</code> (el número de columna del PDF, <code>col_01</code>, <code>col_02</code>…) y <code>valor</code>.</p>
+<p>La trampa: <strong>4.1.1 está orientado al revés que los otros nueve</strong>. En 4.1.1 las columnas son las diez ciudades capitales más el total y las filas son los tipos de órgano. En 4.1.2 a 4.1.10 (uno por departamento) las filas son localidades y las columnas, tipos de órgano; <code>col_01</code> es la población proyectada al 2022, no un juzgado. Una misma <code>col_NN</code> no tiene un significado global: la clave es siempre <code>cuadro_origen + columna</code>.</p>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>provincia_o_grupo</th><th>localidad_o_subtipo</th><th>columna</th><th>columna_rotulo_canonico</th><th>tipo_columna</th><th>valor</th></tr></thead><tbody><tr><td>4.1.2</td><td>Oropeza</td><td>Yotala</td><td>col_01</td><td>Población proyectada al 2022</td><td>poblacion</td><td>9.081</td></tr><tr><td>4.1.2</td><td>Oropeza</td><td>Poroma</td><td>col_01</td><td>Población proyectada al 2022</td><td>poblacion</td><td>15.777</td></tr><tr><td>4.1.2</td><td>Azurduy</td><td>Azurduy</td><td>col_01</td><td>Población proyectada al 2022</td><td>poblacion</td><td>11.166</td></tr><tr><td>4.1.2</td><td>Azurduy</td><td>Tarvita</td><td>col_01</td><td>Población proyectada al 2022</td><td>poblacion</td><td>13.876</td></tr><tr><td>4.1.2</td><td>Zudañez</td><td>Zudañez</td><td>col_01</td><td>Población proyectada al 2022</td><td>poblacion</td><td>7.640</td></tr></tbody><caption>juzgados · cuadro 4.1.2 (Chuquisaca), formato largo</caption></table></div>
+<p>La auditoría agregó al lado de <code>col_NN</code> el significado de cada columna (<code>columna_rotulo_canonico</code>, <code>columna_codigo_canonico</code>, <code>tipo_columna</code>: poblacion, organo_judicial, conciliador, total, indeterminado u otro) y, solo para 4.1.1, la jerarquía de sus 37 filas (<code>fila_id</code>, <code>estructura_fila</code>, <code>fila_padre_id</code>, <code>nivel_jerarquia</code>, <code>es_hoja_jerarquia</code>, <code>tipo_entidad</code>).</p>
+<div class="callout error">
+  <span class="t">No sumes la tabla entera</span>
+  <p>Sumando las 37 filas de 4.1.1 da 2.422; el número correcto es 846, porque hay subtotales mezclados con su detalle. Y 846 tampoco son «juzgados»: incluye tribunales, salas y 95 conciliadores. No existe una columna <code>numero_juzgados_real</code> a propósito. Ver <a href="auditorias.html#auditoria-4-la-jerarquia-del-cuadro-4-1-1">auditoría 4</a>.</p>
+</div>
+
+<h2>personal y personal_jurisdiccional</h2>
+<p>Ítems (puestos presupuestados) y remuneración <strong>mensual</strong> en bolivianos, separados por mujer, varón y acefalías (vacantes). Tres cuadros con tres disposiciones que <strong>se solapan</strong>:</p>
+<ul>
+  <li><strong>14.1.1:</strong> distrito × ente. El distrito es una celda combinada; se asigna a cada fila y queda marcado <code>distrito_derivado_del_bloque = True</code>. Cada bloque cierra con una fila SUB TOTAL.</li>
+  <li><strong>14.1.2:</strong> por ente, a nivel nacional.</li>
+  <li><strong>14.1.3:</strong> por distrito. Es la vista que usa la capa analítica: una fila por distrito, sin solapamientos.</li>
+</ul>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>distrito</th><th>items_mujer</th><th>items_varon</th><th>items_acefalias</th><th>items_total</th><th>remun_total</th><th>departamento_derivado</th></tr></thead><tbody><tr><td>14.1.3</td><td>OFICINA NACIONAL</td><td>265</td><td>291</td><td>5</td><td>561</td><td>5.224.212</td><td><span style="color:var(--ink-mute)">—</span></td></tr><tr><td>14.1.3</td><td>CHUQUISACA</td><td>316</td><td>216</td><td>33</td><td>565</td><td>3.666.867</td><td>Chuquisaca</td></tr><tr><td>14.1.3</td><td>LA PAZ</td><td>797</td><td>683</td><td>80</td><td>1.560</td><td>9.940.921</td><td>La Paz</td></tr><tr><td>14.1.3</td><td>COCHABAMBA</td><td>624</td><td>453</td><td>35</td><td>1.112</td><td>7.269.348</td><td>Cochabamba</td></tr></tbody><caption>personal · cuadro 14.1.3</caption></table></div>
+<p>Identidad verificada: <code>mujer + varón + acefalías = total</code>, en ítems y en remuneración, en las 85 filas; y los SUB TOTAL de 14.1.1 coinciden uno por uno con 14.1.3. <code>personal_jurisdiccional</code> es la tabla sin número al pie de la página 746:</p>
+<div class="table-wrap"><table><thead><tr><th>personal</th><th>items</th><th>items_pct</th><th>remuneracion</th><th>remuneracion_pct</th></tr></thead><tbody><tr><td>JURISDICCIONAL</td><td>5.758</td><td>79</td><td>39.674.700</td><td>81</td></tr><tr><td>ADMINISTRATIVO</td><td>1.569</td><td>21</td><td>9.467.800</td><td>19</td></tr><tr><td>TOTAL</td><td>7.327</td><td>100</td><td>49.142.500</td><td>100</td></tr></tbody><caption>personal_jurisdiccional · tabla sin número, p. 746</caption></table></div>
+
+<h2>autoridad_sumariante</h2>
+<p>Procesos disciplinarios internos del Órgano Judicial. 13.1.1: movimiento de procesos por distrito. 13.1.2 y 13.1.3: sanciones (amonestación, multa, suspensión, destitución) por distrito y por ente. No tiene relación con el movimiento de causas y no se une a la capa analítica.</p>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>etiqueta_fila</th><th>amonestacion</th><th>multa</th><th>suspension</th><th>destitucion</th><th>total_sanciones</th></tr></thead><tbody><tr><td>13.1.2</td><td>OFICINA NACIONAL</td><td>11</td><td>8</td><td>10</td><td>5</td><td>34</td></tr><tr><td>13.1.2</td><td>CHUQUISACA</td><td>0</td><td>5</td><td>2</td><td>0</td><td>7</td></tr><tr><td>13.1.2</td><td>LA PAZ</td><td>0</td><td>0</td><td>7</td><td>0</td><td>7</td></tr><tr><td>13.1.2</td><td>COCHABAMBA</td><td>3</td><td>3</td><td>22</td><td>3</td><td>31</td></tr></tbody><caption>autoridad_sumariante · cuadro 13.1.2</caption></table></div>
+
+<h2>Las cinco tablas por tipo de proceso (capítulos 5 y 6)</h2>
+<h3>Una ancha y cuatro largas</h3>
+<p><strong><code>causas_por_tipo_proceso</code> va en formato ancho</strong>: una columna por variable, como una planilla. Se puede porque sus 17 cuadros comparten vocabulario: <code>pendientes_inicio</code> significa lo mismo en civil que en penal. Los nombres de sus columnas se escribieron a mano y se verificaron contra el PDF y contra el capítulo 9.</p>
+<p><strong>Las otras cuatro van en formato largo</strong>: una fila por celda, con <code>columna</code> (nombre corto), <code>orden_columna</code>, <code>valor</code> y <code>rotulo_columna_pdf</code> (el encabezado tal como está impreso, con « / » donde el PDF lo parte en líneas). La razón es de la fuente: cada materia publica su propio juego de formas de resolución, y lado a lado darían cientos de columnas casi todas vacías.</p>
+<div class="callout simple">
+  <span class="t">Ancho y largo, en simple</span>
+  <p>Ancho: una fila «Sucre, ordinario» con columnas <em>ingresadas = 1.424, atendidas = 2.397, resueltas = 1.286</em>. Largo: tres filas «Sucre, ordinario, ingresadas, 1.424», «Sucre, ordinario, atendidas, 2.397», «Sucre, ordinario, resueltas, 1.286». Misma información, otra forma.</p>
+</div>
+
+<h3>causas_por_tipo_proceso</h3>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>pagina_pdf</th><th>entidad</th><th>grupo_proceso_norm</th><th>tipo_proceso</th><th>readecuadas_ley_439</th><th>nuevas_ingresadas</th><th>atendidas</th><th>resueltas</th><th>pendientes_fin</th></tr></thead><tbody><tr><td>5.1.1.1</td><td>121</td><td>SUCRE</td><td>ORDINARIO</td><td>ORDINARIO</td><td>770</td><td>1.424</td><td>2.397</td><td>1.286</td><td>1.111</td></tr><tr><td>5.1.1.1</td><td>121</td><td>SUCRE</td><td>EXTRAORDINARIO</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>8</td><td>12</td><td>20</td><td>6</td><td>14</td></tr><tr><td>5.1.1.1</td><td>121</td><td>SUCRE</td><td>EXTRAORDINARIO</td><td>INTERDICTOS</td><td>32</td><td>44</td><td>79</td><td>37</td><td>42</td></tr><tr><td>5.1.1.1</td><td>121</td><td>SUCRE</td><td>EXTRAORDINARIO</td><td>DESALOJO DE VIVIENDA</td><td>5</td><td>28</td><td>34</td><td>20</td><td>14</td></tr><tr><td>5.1.1.1</td><td>121</td><td>SUCRE</td><td>MONITOREO</td><td>EJECUTIVO</td><td>60</td><td>2.019</td><td>2.483</td><td>2.356</td><td>127</td></tr></tbody><caption>causas_por_tipo_proceso · cuadro 5.1.1.1, página 121 (Sucre)</caption></table></div>
+<p>Las columnas se agrupan así:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Grupo</th><th>Columnas</th></tr></thead>
+<tbody>
+<tr><td>Trazabilidad</td><td><code>cuadro_origen</code>, <code>pagina_pdf</code>, <code>orden_fila</code>, <code>firma</code> (el formato de tabla), <code>familia</code>, <code>n_columnas</code>, <code>titulo_pagina</code></td></tr>
+<tr><td>Quién es la fila</td><td><code>ambito</code>, <code>entidad</code> (la ciudad o distrito literal), <code>ciudad</code>, <code>distrito</code>, <code>departamento_derivado</code>, <code>es_total_nacional</code>, <code>unidad_fila</code> (<code>tipo_proceso</code> o <code>entidad</code>), <code>tipo_fila_derivado</code> (detalle o total)</td></tr>
+<tr><td>Qué proceso</td><td><code>tipo_proceso</code> (literal del PDF, corregido de defectos de extracción), <code>tipo_proceso_extraido</code> (lo que salió antes de corregir), <code>grupo_proceso</code> y <code>grupo_proceso_norm</code> (el rótulo vertical), <code>etapa_proceso_fuente</code>, <code>contexto_accion_penal</code>, <code>tipo_accion_penal</code></td></tr>
+<tr><td>Qué materia</td><td><code>materia_seccion</code> (de la numeración), <code>materia_norm</code>, <code>materia_homologada</code>, <code>materia_cruda</code> (el título de la página)</td></tr>
+<tr><td>Juzgados</td><td><code>num_juzgados_pagina</code> (la cifra de la cabecera «SUCRE 14», vale para toda la ciudad), <code>num_juzgados</code> (cuando un cuadro lo publica como columna)</td></tr>
+<tr><td>Formas de ingreso</td><td><code>pendientes_inicio</code>, <code>readecuadas_ley_439</code>, <code>recibidas_excusa_recusacion</code>, <code>preliminares_formalizados</code>, <code>cautelares_formalizados</code>, <code>nuevas_ingresadas</code>, <code>recibidas_otros_juzgados</code>, <code>ingresadas_conversion_acciones</code>, <code>ingresadas_reenvio</code>, <code>otras_formas_ingreso</code>…</td></tr>
+<tr><td>Totales</td><td><code>atendidas</code>, <code>resueltas</code>, <code>pendientes_fin</code></td></tr>
+<tr><td>Formas de salida penales</td><td><code>sobreseimiento</code>, <code>terminacion_anticipada</code>, <code>merecieron_imputacion_formal</code>, <code>merecieron_acusacion</code>, <code>concluidas_rechazo_denuncia</code>, <code>procesos_rebeldia</code>… (solo en cuadros penales)</td></tr>
+</tbody></table></div>
+<div class="callout ojo">
+  <span class="t">Tres advertencias sobre esta tabla</span>
+  <ul>
+    <li><strong>Las filas de total ya están sumadas.</strong> Excluir <code>tipo_fila_derivado == "total"</code> y <code>es_total_nacional</code> antes de agregar, o se cuenta todo dos veces. La tabla analítica ya lo hace.</li>
+    <li><strong><code>pendientes_inicio</code> está vacío en toda la materia civil:</strong> los cuadros 5.1.1.1 y 6.1.1.1 publican <code>readecuadas_ley_439</code> en esa posición.</li>
+    <li><strong>Los cuadros penales no publican <code>resueltas</code></strong>: publican formas de salida propias. Por eso las fórmulas de congestión solo se aplican a las materias no penales.</li>
+  </ul>
+</div>
+
+<h3>Las cuatro tablas largas</h3>
+<p>Así se ve una fila del PDF (un tipo de proceso de la página 132) convertida en varias filas, una por columna del cuadro:</p>
+<div class="table-wrap"><table><thead><tr><th>cuadro_origen</th><th>pagina_pdf</th><th>orden_fila</th><th>entidad</th><th>tipo_proceso</th><th>columna</th><th>rotulo_columna_pdf</th><th>valor</th></tr></thead><tbody><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>formas_resolucion_causas_sentencia</td><td>FORMAS DE / RESOLUCIÓN DE / CAUSAS CON / SENTENCIA</td><td>2</td></tr><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>desistimiento</td><td>DESISTIMIENTO</td><td>0</td></tr><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>retiro_demanda</td><td>FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / DE L…</td><td>1</td></tr><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>extincion_inactividad</td><td>FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / EXTI…</td><td>0</td></tr><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>acuerdo_transaccional</td><td>FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / ACUE…</td><td>0</td></tr><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>conciliacion_intraprocesal</td><td>FORMAS DE RESOLUCIÓN DE CAUSAS CON AUTO DEFINITIVO / CONC…</td><td>0</td></tr><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>presentado_no</td><td>POR PRESENTADO / NO</td><td>2</td></tr><tr><td>5.1.1.2</td><td>132</td><td>2</td><td>SUCRE</td><td>REGULARIZACIÓN DE DERECHO PROPIETARIO SOBRE BIENES INMUEB…</td><td>excusa</td><td>EXCUSA</td><td>0</td></tr></tbody><caption>resueltas_por_tipo_proceso · una fila del PDF convertida en varias filas</caption></table></div>
+<p>Por esta razón el proyecto distingue <strong>filas fuente</strong> (filas del PDF) de <strong>filas físicas</strong> (filas del archivo). La clave de una fila física es <code>cuadro_origen + pagina_pdf + orden_fila + orden_columna</code>.</p>
+<ul>
+  <li><strong><code>resueltas_por_tipo_proceso</code>:</strong> cómo terminaron las causas: con sentencia, con auto definitivo (desistimiento, extinción por inactividad, acuerdo…), por finalización de competencia (excusa, recusación, acumulación…).</li>
+  <li><strong><code>apelaciones_por_tipo_proceso</code>:</strong> recursos de apelación en efecto suspensivo y devolutivo: interpuestos, remitidos y devueltos según la resolución de la sala (confirmatoria, revocatoria total o parcial, anulatoria, inadmisible).</li>
+  <li><strong><code>ejecucion_por_tipo_proceso</code>:</strong> causas en ejecución de sentencia. Es la única sin columna <code>gestion</code>: el cuadro no la imprime y no se inventó.</li>
+  <li><strong><code>otros_tramites_por_tipo_proceso</code>:</strong> 25 cuadros heterogéneos: sentencias por número de demandados, medidas cautelares, permisos de viaje, entre otros.</li>
+</ul>
+
+<h2>Las columnas que agregaron las auditorías</h2>
+<p>Ninguna auditoría borró un valor: cada una agregó columnas al lado de las originales.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Columna nueva</th><th>Convive con</th><th>Qué agrega</th></tr></thead>
+<tbody>
+<tr><td><code>departamento_derivado</code></td><td><code>ciudad</code>, <code>distrito</code>, <code>entidad</code></td><td>el departamento, para poder unir tablas por territorio</td></tr>
+<tr><td><code>materia_norm</code>, <code>materia_homologada</code></td><td><code>materia_cruda</code></td><td>la errata corregida y las 11 equivalencias aprobadas entre nombres de materia</td></tr>
+<tr><td><code>columna_rotulo_canonico</code>, <code>tipo_columna</code>…</td><td><code>columna</code> (<code>col_NN</code>)</td><td>qué significa cada columna de los cuadros de juzgados</td></tr>
+<tr><td><code>fila_id</code>, <code>estructura_fila</code>, <code>es_hoja_jerarquia</code>…</td><td><code>provincia_o_grupo</code></td><td>la jerarquía de las 37 filas de 4.1.1</td></tr>
+<tr><td><code>etapa_proceso_fuente</code>, <code>contexto_accion_penal</code></td><td><code>tipo_proceso</code></td><td>la etapa penal y el bloque padre que distinguen filas que parecían duplicadas</td></tr>
+<tr><td><code>tipo_proceso</code> (corregido)</td><td><code>tipo_proceso_extraido</code></td><td>el rótulo tal como está en el PDF, reparando 87 defectos de extracción</td></tr>
+</tbody></table></div>
+<p>Así se ven las tres columnas de materia:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>materia_cruda (literal del PDF)</th><th>materia_norm (errata corregida)</th><th>materia_homologada (clave común)</th></tr></thead>
+<tbody>
+<tr><td>PÚBLICO CIVIL Y COMERCIAL</td><td>PÚBLICO CIVIL Y COMERCIAL</td><td>Público Civil y Comercial</td></tr>
+<tr><td>Público Civil y Comercial</td><td>Público Civil y Comercial</td><td>Público Civil y Comercial</td></tr>
+<tr><td>INSTRUCCÓN CONTRA LA VIOLENCIA HACIA LA MUJER</td><td>INSTRUCCIÓN CONTRA LA VIOLENCIA HACIA LA MUJER</td><td>Instrucción Contra la Violencia hacia las Mujeres</td></tr>
+</tbody></table></div>
+
+<h2>La capa analítica (<code>data/processed/analitico/</code>)</h2>
+<p>El notebook 08 organiza las doce tablas en cinco, sin aplanar nada. Se explica a fondo en <a href="integracion.html">la capa analítica</a>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tabla</th><th class="num">Filas</th><th class="num">Cols.</th><th>Grano</th></tr></thead>
+<tbody>
+<tr><td><code>dataset_analitico_interno</code></td><td class="num">1.997</td><td class="num">87</td><td>ámbito × territorio × materia × tipo de proceso × etapa × contexto penal. <strong>La tabla para analizar.</strong></td></tr>
+<tr><td><code>metricas_tipo_proceso_long</code></td><td class="num">81.907</td><td class="num">35</td><td>las cuatro tablas largas apiladas, con <code>familia_metrica</code></td></tr>
+<tr><td><code>movimiento_gestion_2023</code></td><td class="num">56</td><td class="num">39</td><td>ámbito × materia en 2023, cruzando movimiento y gestión</td></tr>
+<tr><td><code>recursos_judiciales_geografia</code></td><td class="num">19</td><td class="num">16</td><td>ámbito × territorio: órganos publicados por tipo</td></tr>
+<tr><td><code>personal_geografia</code></td><td class="num">9</td><td class="num">15</td><td>un distrito judicial</td></tr>
+</tbody></table></div>
+<p>Más <code>diccionario_analitico.csv</code>: las 192 columnas de estas tablas, con su rol y su riesgo de <em>leakage</em> (ver <a href="integracion.html#el-diccionario-analitico-y-el-leakage">leakage</a>).</p>
+
+<h2>La capa curada (<code>data/curated/</code>)</h2>
+<p>Los notebooks 09 a 11 le agregan columnas a la tabla analítica, sin borrar ni pisar ninguna. El detalle está en <a href="eda.html">EDA e indicadores</a>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Archivo</th><th class="num">Cols.</th><th>Qué agrega</th></tr></thead>
+<tbody>
+<tr><td><code>features/dataset_analitico_indicadores</code></td><td class="num">100</td><td><code>estado_gestion</code> y 12 indicadores y banderas</td></tr>
+<tr><td><code>features/dataset_analitico_curado</code></td><td class="num">115</td><td>además: 8 banderas de outlier, 2 columnas winsorizadas, 5 <code>log_</code></td></tr>
+<tr><td><code>eda/matriz_nulos_clasificada.csv</code></td><td></td><td>las 87 columnas con su porcentaje de nulos y la causa</td></tr>
+<tr><td><code>eda/resumen_dinamica_procesal.csv</code></td><td></td><td>estado de gestión × materia</td></tr>
+<tr><td><code>eda/resumen_indicadores_materia.csv</code></td><td></td><td>indicadores por materia</td></tr>
+<tr><td><code>eda/resumen_outliers_estratificado.csv</code></td><td></td><td>umbrales IQR de cada estrato</td></tr>
+</tbody></table></div>
+<p>Y en <code>reports/</code>: las tablas resumen por departamento, materia y ámbito, el top 20 de procesos con más stock pendiente, y las figuras.</p>
+
+<h2>La carpeta de auditoría (<code>data/processed/auditoria/</code>)</h2>
+<p>Es la evidencia de cada decisión. Tres tipos de archivo:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Tipo</th><th>Archivos</th><th>Quién los escribe</th></tr></thead>
+<tbody>
+<tr><td>Inventarios y registros de la extracción</td><td><code>catalogo_cuadros</code>, <code>firmas_procesos</code>, <code>columnas_4_1_encabezados</code>, <code>filas_complementarias</code>, <code>problemas_extraccion</code>, <code>problemas_extraccion_procesos</code>, <code>problemas_normalizacion</code>, <code>discrepancias</code>, <code>equivalencias_candidatas</code></td><td>notebooks 02 a 06, en cada corrida</td></tr>
+<tr><td>Validaciones reproducibles (deben dar OK)</td><td><code>validacion_geografia</code>, <code>inconsistencias_geografia</code> (debe estar vacío), <code>validacion_juzgados</code>, <code>validacion_contexto_procesos</code>, <code>validacion_correcciones_tipo_proceso</code>, <code>validacion_integracion_interna</code>, <code>cobertura_integracion_interna</code></td><td>notebooks 05 y 08</td></tr>
+<tr><td>Decisiones de auditoría (entradas fijas)</td><td><code>propuesta_equivalencias_materias</code>, <code>propuesta_encabezados_juzgados</code>, <code>propuesta_filas_4_1_1</code>, <code>propuesta_contexto_tipo_proceso</code>, <code>propuesta_contexto_accion_penal</code>, <code>propuesta_etapas_tipo_proceso</code>, <code>propuesta_correcciones_extraccion_tipo_proceso</code>, <code>propuesta_variaciones_editoriales_tipo_proceso</code>, <code>claves_repetidas_tipo_proceso</code>, <code>auditoria_uniones_internas</code>, <code>auditoria_fragmentos_tipo_proceso</code>, <code>auditoria_fragmentos_tipo_proceso_completa</code></td><td>las auditorías, a mano; ningún notebook los reescribe. Los notebooks 05, 08 y 13 los leen para verificar que el código coincide con ellos</td></tr>
+</tbody></table></div>
+
+<h2>Cómo se relacionan las tablas</h2>
+<p>Todas se pueden ubicar en el territorio, pero a niveles distintos:</p>
+<ul>
+  <li>Las cinco tablas de procesos tienen <code>ciudad</code> en capitales y <code>distrito</code> en provincias. <code>departamento_derivado</code> sale del que corresponda; los totales nacionales quedan vacíos.</li>
+  <li><code>personal</code> y <code>autoridad_sumariante</code> tienen <code>distrito</code>, que coincide con el departamento salvo OFICINA NACIONAL.</li>
+  <li><code>juzgados</code> tiene <code>departamento</code>.</li>
+  <li><code>causas_movimiento</code> tiene <code>departamento</code> en los cuadros por departamento y <code>departamento_derivado</code> en los de ciudades.</li>
+</ul>
+<p><code>departamento_derivado</code> es la columna pensada para unir. La comparación ignora mayúsculas, tildes y espacios, pero no modifica ningún literal del PDF.</p>
+<div class="callout error">
+  <span class="t">Antes de unir dos tablas</span>
+  <p>Mirá si la clave es única del otro lado. Si no lo es, las filas se multiplican y las sumas se inflan sin que nada avise. Unir movimiento con apelaciones multiplica las filas por 743. Por eso existe la capa analítica: ya hizo las uniones seguras.</p>
+</div>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

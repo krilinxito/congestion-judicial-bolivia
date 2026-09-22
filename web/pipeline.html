@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El pipeline, notebook por notebook — Congestión judicial en Bolivia</title>
+<meta name="description" content="Qué hace cada uno de los trece notebooks y los once módulos del proyecto: qué lee, qué escribe, qué decide y qué gráfico produce.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js" defer></script>
+</head>
+<body data-page="pipeline">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Cómo se hizo · 05</p>
+<h1>El pipeline, notebook por notebook</h1>
+<p class="lede">Todo el código está en notebooks de Jupyter, guardados ya ejecutados: se pueden leer con sus tablas y gráficos sin correr nada. Son trece pasos numerados y once módulos de apoyo. Esta página explica qué hace cada uno.</p>
+
+<h2>Cómo está armado el código</h2>
+<div class="term">
+  <h4>Pasos y módulos</h4>
+  <p>Los <strong>pasos</strong> (<code>notebooks/01_…</code> a <code>13_…</code>) hacen el trabajo: leen algo, lo transforman y escriben un archivo. Los <strong>módulos</strong> (<code>notebooks/modulos/</code>) solo definen constantes y funciones que varios pasos comparten. Cada paso empieza cargando los módulos que necesita:</p>
+<pre><code>%run -i modulos/comun.ipynb
+%run -i modulos/geografia.ipynb</code></pre>
+  <p><code>%run -i</code> ejecuta el notebook del módulo dentro del mismo espacio de nombres: después de esa línea, las funciones del módulo se usan directamente, como si estuvieran escritas en el paso.</p>
+</div>
+<div class="term">
+  <h4>Cada paso lee archivos y escribe archivos</h4>
+  <p>No hay estado compartido en memoria entre pasos: todo pasa por <code>data/</code>. Por eso se puede mirar el resultado de un paso antes de seguir, y los intermedios (<code>data/interim/crudo_*.csv</code>) son la evidencia de qué salió del PDF antes de interpretarlo.</p>
+</div>
+<div class="term">
+  <h4>El orden</h4>
+  <p>El 07 lleva ese número porque se escribió después, pero es un extractor como el 03 y corre <strong>antes</strong> del 04. El orden de ejecución es:</p>
+<pre class="flow">01 → 02 → 03 → 07 → 04 → 05 → 06 → 08 → 09 → 10 → 11 → 12 → 13
+└──── necesitan el PDF ────┘                └── solo leen data/processed/ ──┘</pre>
+  <p>Del 08 en adelante no hace falta el PDF: la integración y el EDA leen las tablas versionadas en <code>data/processed/</code>.</p>
+</div>
+<div class="term">
+  <h4>El estilo del código</h4>
+  <p>El código es deliberadamente simple: bucles <code>for</code> en lugar de construcciones compactas, funciones cortas, sin clases, nombres en español. Se priorizó que cualquiera pueda seguirlo línea por línea. Al pasar de scripts a notebooks, <strong>cada paso se verificó reproduciendo byte a byte los archivos del pipeline original</strong>.</p>
+</div>
+
+<h2>Mapa de entradas y salidas</h2>
+<pre class="flow">data/raw/anuario_2023.pdf
+  │
+  01_diagnostico ........ (no escribe: solo reporta)
+  02_inventario ......... interim/catalogo_cuadros.csv
+  03_extraccion ......... interim/crudo_9_1_*, crudo_4_1_juzgados, crudo_13_1_*, crudo_14_1_*,
+  │                       crudo_p746_*, columnas_4_1_encabezados, filas_complementarias,
+  │                       problemas_extraccion
+  07_extraccion_procesos  interim/crudo_procesos_{causas,resueltas,apelacion,ejecucion,otros},
+  │                       firmas_procesos, problemas_extraccion_procesos
+  04_normalizacion ...... interim/norm_*.csv, equivalencias_candidatas, problemas_normalizacion
+  05_validacion ......... interim/discrepancias.csv + 6 archivos de validación
+  06_export ............. processed/*.csv + *.parquet, diccionarios, processed/auditoria/
+  08_integracion_interna  processed/analitico/ (5 tablas + diccionario), 2 validaciones
+  09_nulos_estados ...... curated/eda/matriz_nulos_clasificada, resumen_dinamica_procesal
+  10_indicadores ........ curated/features/dataset_analitico_indicadores, eda/resumen_indicadores_materia
+  11_outliers ........... curated/features/dataset_analitico_curado, eda/resumen_outliers_estratificado
+  12_reporte_eda ........ reports/tables/*.csv, reports/figures/*.png
+  13_verificacion ....... (no escribe: verifica todo lo anterior)</pre>
+
+<h2>Los módulos</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Módulo</th><th>Qué contiene</th><th>Lo usan</th></tr></thead>
+<tbody>
+<tr><td><code>comun</code></td><td>Rutas del proyecto (<code>RAIZ</code>, <code>INTERIM</code>, <code>PROCESSED</code>…). Lectura del PDF: <code>paginas()</code> devuelve el texto de cada página y lo guarda en <code>data/interim/texto_crudo.txt</code> para no releer el PDF; <code>es_ruido()</code> reconoce membretes y pies; <code>palabras_bbox()</code>, <code>bloques_bbox()</code>, <code>celdas_bbox()</code> devuelven palabras, líneas y bloques con coordenadas; <code>agrupar_por_y()</code> y <code>agrupar_por_x()</code> arman filas y columnas desde coordenadas.</td><td>todos</td></tr>
+<tr><td><code>geografia</code></td><td>Tablas cerradas ciudad → departamento y distrito → departamento, ciudades y distritos inequívocos, los 12 alias de total verificados. <code>normalizar_geografia()</code> compara sin tildes ni mayúsculas; <code>ambito_de_contexto()</code> decide capital o provincia desde el título de la página.</td><td>04, 05, 07, 08, 13</td></tr>
+<tr><td><code>materias</code></td><td>La errata <code>INSTRUCCÓN</code>, el mapa cerrado de las 11 equivalencias de materia, prefijos de instancia, rótulos de total. <code>describir_materia()</code> produce las tres versiones de la materia.</td><td>04, 13</td></tr>
+<tr><td><code>juzgados</code></td><td>Las 130 decisiones de encabezado de los cuadros 4.1.x y la jerarquía de las 37 filas de 4.1.1, transcriptas de la auditoría. Dos correcciones de rótulos truncados.</td><td>03, 04, 05, 13</td></tr>
+<tr><td><code>procesos</code></td><td>Las entidades (10 capitales, 9 provincias, TOTAL NACIONAL) y <code>LAYOUTS_PROCESOS</code>: el orden y el nombre de las columnas de cada una de las 95 firmas de tabla de los capítulos 5 y 6. Mapas de materia por sección y de grupos de proceso.</td><td>04, 05, 07</td></tr>
+<tr><td><code>contexto_procesos</code></td><td>El inventario cerrado de los 95 cuadros y las reglas de <code>etapa_proceso_fuente</code> y <code>contexto_accion_penal</code>. Falla ante un cuadro desconocido.</td><td>04, 05, 13</td></tr>
+<tr><td><code>correcciones_tipo_proceso</code></td><td>Las 87 reglas de corrección de rótulos de tipo de proceso, cada una con tabla, cuadros, páginas, literal y cantidad esperada de filas.</td><td>04, 05, 13</td></tr>
+<tr><td><code>diccionario</code></td><td>La descripción de cada tabla, columna y valor. Es la fuente del diccionario de datos.</td><td>06</td></tr>
+<tr><td><code>nulos</code></td><td>Clasificación de columnas por causa de ausencia y de filas por estado de gestión.</td><td>09, 10</td></tr>
+<tr><td><code>metricas</code></td><td>Las fórmulas de los indicadores y la verificación de la identidad de ingresos.</td><td>10</td></tr>
+<tr><td><code>outliers</code></td><td>IQR estratificado, winsorización y <code>log(1 + x)</code>.</td><td>11</td></tr>
+</tbody></table></div>
+
+<h2 id="fase-1">Fase 1 — El ETL</h2>
+<p>Extraer el dato del PDF <strong>sin interpretarlo</strong>. Si una celda es ambigua queda vacía y se anota; si el Anuario se contradice, se registra.</p>
+
+<h3 id="01-diagnostico">01 · Diagnóstico</h3>
+<p><strong>Lee:</strong> el PDF. <strong>Escribe:</strong> nada. <strong>Para qué:</strong> verificar los supuestos antes de escribir un solo parser.</p>
+<ul>
+  <li>Metadatos con <code>pdfinfo</code>: 774 páginas.</li>
+  <li>Que haya capa de texto: más de 100.000 caracteres extraídos → no hace falta OCR.</li>
+  <li>Qué páginas vuelven casi vacías (menos de 60 caracteres): las 10 de mapas.</li>
+  <li>Cuántas páginas dicen «Cuadro Nro.» y cuántas «Gráfica Nro.», y que no haya páginas con ambos.</li>
+  <li>Muestras del texto crudo de las páginas 673 (cuadro 9.1.1) y 737 (13.1.1).</li>
+</ul>
+<figure><img src="img/nb01_1.png" alt="Caracteres de texto por página."><figcaption>El gráfico del notebook 01.</figcaption></figure>
+
+<h3 id="02-inventario">02 · Inventario</h3>
+<p><strong>Lee:</strong> el PDF. <strong>Escribe:</strong> <code>catalogo_cuadros.csv</code>, una fila por página.</p>
+<p>Clasifica cada página como cuadro, gráfica, vacía o sin etiqueta, reconociendo las cinco variantes de «Cuadro Nro.». Captura el número de cuadro, la sección (línea anterior a la etiqueta) y el título (hasta cuatro líneas siguientes, antes de la grilla de números). Después recorre las páginas en orden y agrupa las consecutivas con el mismo número: <code>orden_pagina</code>, <code>paginas_del_cuadro</code> y <code>rango_paginas</code> dicen que 5.1.1.1 ocupa 121–131. Con este catálogo se decidió qué extraer.</p>
+<figure><img src="img/nb02_1.png" alt="Páginas por tipo y por capítulo."><figcaption>El gráfico del notebook 02.</figcaption></figure>
+
+<h3 id="03-extraccion">03 · Extracción de los cuadros 9.1, 13.1, 14.1 y 4.1</h3>
+<p><strong>Lee:</strong> el texto del PDF y sus coordenadas. <strong>Escribe:</strong> los <code>crudo_*.csv</code>, con <strong>todos los valores como texto</strong>. La conversión a número se hace en el 04, para que el punto de miles no se pierda acá.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Familia</th><th>Técnica</th><th>Lo particular</th></tr></thead>
+<tbody>
+<tr><td>9.1 movimiento (6 cuadros)</td><td>por tokens</td><td>si una fila trae más valores que las columnas declaradas, las sobrantes se llaman <code>col_sin_rotulo_N</code>; si trae menos, se anota como problema y no entra</td></tr>
+<tr><td>9.1 gestiones (3)</td><td>por posición</td><td>5 años × (cantidad, porcentaje) = 10 columnas; las filas huecas se asignan por posición y los años vacíos quedan nulos</td></tr>
+<tr><td>9.1 histórico (3)</td><td>por tokens</td><td>solo las filas que empiezan con un año; un «&gt;» pegado a una celda del 9.1.8 se limpia y se registra</td></tr>
+<tr><td>13.1 sumariante (3)</td><td>por tokens</td><td>un rótulo partido en líneas (DIRECCION ADMINISTRATIVA / FINANCIERA) se reconstruye con los fragmentos de alrededor</td></tr>
+<tr><td>14.1 personal (3)</td><td>por posición</td><td>el distrito es una celda combinada centrada: se asigna a todo el bloque hasta el SUB TOTAL; la tabla sin número de la p. 746 se corta y se extrae aparte</td></tr>
+<tr><td>4.1 juzgados (10)</td><td>por coordenadas</td><td>las columnas salen como <code>col_NN</code>; las llamadas a nota al pie se excluyen del cálculo de columnas pero quedan en el rótulo; la provincia se asigna por cercanía vertical</td></tr>
+</tbody></table></div>
+<p>Además guarda <code>filas_complementarias.csv</code> (filas reales del cuadro que están en otra unidad, como «VARIACIÓN ABSOLUTA», que no se mezclan con los datos pero tampoco se tiran) y <code>problemas_extraccion.csv</code> (69 registros, 63 de ellos avisos de columnas sin rótulo).</p>
+<figure><img src="img/nb03_1.png" alt="Filas extraídas por cuadro."><figcaption>Filas extraídas por cuadro (notebook 03).</figcaption></figure>
+
+<h3 id="07-extraccion-procesos">07 · Extracción de los capítulos 5 y 6</h3>
+<p><strong>Lee:</strong> el catálogo y las 525 páginas, con coordenadas. <strong>Escribe:</strong> <code>crudo_procesos_{familia}.csv</code>, <code>firmas_procesos.csv</code> y <code>problemas_extraccion_procesos.csv</code> (vacío de problemas sin resolver).</p>
+<p>Es el paso más complejo. Por cada página:</p>
+<ol class="steps">
+  <li>Separa el texto vertical (etiquetas de grupo y rótulos de columna rotados) del horizontal, palabra por palabra.</li>
+  <li>Separa los números de los textos; los números que son parte de un rótulo («Art. 207») se quedan en el rótulo.</li>
+  <li>Arma las filas desde los números, agrupándolos por altura, y vuelve a pegar las filas que la altura partió en dos.</li>
+  <li>Le asigna a cada fila su rótulo: el bloque de texto que la toca, o la línea más cercana si el bloque toca varias.</li>
+  <li>Encuentra dónde empieza la tabla (la primera fila que es una ciudad o distrito) y clasifica cada fila: encabezado, entidad (cabecera «SUCRE 14»), datos o suelta.</li>
+  <li>Calcula la <strong>firma de encabezado</strong>: las palabras de la banda de encabezado, normalizadas y ordenadas. Dos páginas con la misma firma son la misma tabla.</li>
+</ol>
+<p>Después agrupa las páginas por firma (95 firmas), busca el nombre de sus columnas en <code>LAYOUTS_PROCESOS</code> y asigna cada número a su columna. Si una página resuelve otra cantidad de columnas que su formato, la alinea contra la página de referencia de la firma, corrigiendo el desplazamiento. Las etiquetas de grupo verticales se reparten entre las filas con programación dinámica. El resultado son 11.732 filas en cinco familias.</p>
+<div class="callout">
+  <span class="t">Una compensación por versión de software</span>
+  <p>poppler 25 (el programa que trae <code>pdftotext</code>) descarta una «A» superpuesta en «HACIA LA ACCIÓN» del cuadro 5.3.2.1 (páginas 362 a 364) y deja «LA CCIÓN». Las versiones anteriores la conservaban. El notebook la restituye explícitamente en esas 10 filas, para que el resultado no dependa de la versión instalada. Sin eso, la regla de corrección R028 no encuentra sus filas y el paso 04 se detiene.</p>
+</div>
+<figure><img src="img/nb07_1.png" alt="Filas por familia y número de columnas de las 95 firmas."><figcaption>Filas por familia y columnas por firma (notebook 07). El detalle de cada técnica está en <a href="extraccion.html">técnicas de extracción</a>.</figcaption></figure>
+
+<h3 id="04-normalizacion">04 · Normalización</h3>
+<p><strong>Lee:</strong> los crudos de 03 y 07. <strong>Escribe:</strong> <code>norm_*.csv</code>, <code>equivalencias_candidatas.csv</code>, <code>problemas_normalizacion.csv</code>.</p>
+<ul>
+  <li><strong>Texto a número</strong> con la convención boliviana: <code>texto_a_numero("86.285")</code> da 86285 y <code>"70,7%"</code> da 70,7. Lo que no es un número limpio queda vacío y se anota; nunca se convierte en cero. Los conteos quedan como entero con vacíos (<code>Int64</code>): un número de juzgados no es 163,0.</li>
+  <li><strong>Movimiento:</strong> la etiqueta de fila se abre en <code>ciudad</code>, <code>departamento</code> o materia según el eje; las filas de total no son ninguna de las tres.</li>
+  <li><strong>Materias:</strong> <code>materia_cruda</code>, <code>materia_norm</code> (solo la errata), <code>materia_homologada</code> (las 11 equivalencias), <code>instancia_derivada</code>, <code>tipo_fila_derivado</code>, <code>errata_corregida</code>.</li>
+  <li><strong>Juzgados:</strong> a formato largo, con número de fila dentro del cuadro (4.1.1 tiene dos filas «Penal»), la interpretación auditada de cada columna y la jerarquía de 4.1.1. Si aparece una combinación no auditada o un rótulo distinto del esperado, se detiene.</li>
+  <li><strong>Tipos de proceso:</strong> la materia desde la numeración del cuadro, afinada por el tipo de acción penal; <code>ciudad</code> o <code>distrito</code> según el ámbito; el grupo de proceso contra la lista cerrada; el contexto auditado (etapa y acción penal) y las 87 correcciones de rótulo. Causas queda ancha; las otras cuatro pasan a formato largo con el rótulo literal de cada columna.</li>
+  <li><strong>Equivalencias candidatas:</strong> una lista de nombres de materia que se parecen, para revisión humana. No se aplica: la decisión la tomó la auditoría de materias.</li>
+</ul>
+<figure><img src="img/nb04_1.png" alt="Filas de cada tabla normalizada."><figcaption>Tablas normalizadas (notebook 04).</figcaption></figure>
+
+<h3 id="05-validacion">05 · Validación</h3>
+<p><strong>Lee:</strong> los <code>norm_*.csv</code> y las decisiones de auditoría. <strong>Escribe:</strong> <code>discrepancias.csv</code> y seis archivos de validación.</p>
+<p>Verifica doce identidades contables que el Anuario debería cumplir y registra cada incumplimiento con su cuadro y página: 117 discrepancias, <strong>ninguna corregida</strong>. Además corre controles técnicos (geografía, juzgados, contexto y correcciones de tipo de proceso) que <strong>sí detienen el pipeline</strong> si fallan: esos son errores del código, no de la fuente. Todo el detalle en <a href="validacion.html">validación y discrepancias</a>.</p>
+<figure><img src="img/nb05_1.png" alt="Discrepancias por identidad."><figcaption>Discrepancias por identidad (notebook 05).</figcaption></figure>
+
+<h3 id="06-export">06 · Exportación</h3>
+<p><strong>Lee:</strong> los <code>norm_*.csv</code>. <strong>Escribe:</strong> las 12 tablas en CSV y Parquet, <code>diccionario_de_datos.csv</code>, <code>diccionario_de_valores.csv</code> y copia a <code>processed/auditoria/</code> los registros de extracción y validación.</p>
+<p>Fija los tipos finales (enteros, decimales, booleanos) y verifica que <strong>toda columna exportada esté descrita</strong> en el módulo <code>diccionario</code>; si falta una, se detiene. Es lo que mantiene el diccionario sincronizado con los datos.</p>
+
+<h2 id="fase-2">Fase 2 — Integración</h2>
+<p>Las seis auditorías de la Fase 2 no son notebooks: son decisiones tomadas contra el PDF, publicadas como CSV en <code>auditoria/</code> y codificadas en los módulos. Ver <a href="auditorias.html">las seis auditorías</a>. El notebook de esta fase es el 08.</p>
+
+<h3 id="08-integracion-interna">08 · Integración interna</h3>
+<p><strong>Lee:</strong> los 12 Parquet y las auditorías. <strong>Escribe:</strong> <code>processed/analitico/</code> (5 tablas y su diccionario) y dos validaciones.</p>
+<ol class="steps">
+  <li>Guarda la huella SHA-256 de los 24 archivos originales para comprobar al final que no se tocaron.</li>
+  <li>Arma los <strong>recursos judiciales</strong> por territorio (19 claves): en capitales suma solo las hojas de la jerarquía de 4.1.1; en provincias toma la fila TOTALES de cada cuadro, después de verificar que sus 119 columnas cierran.</li>
+  <li>Selecciona el <strong>personal</strong> por distrito: las 9 filas del 14.1.3.</li>
+  <li>Construye la <strong>tabla principal</strong>: las 1.997 filas de detalle territorial de <code>causas_por_tipo_proceso</code>, con <code>territorio</code> y <code>tipo_elemento_analitico</code> (proceso, acción penal u otro detalle).</li>
+  <li>Le une recursos y personal con uniones <strong>N:1</strong> verificadas: siguen siendo 1.997 filas.</li>
+  <li>Apila las cuatro tablas largas en <code>metricas_tipo_proceso_long</code> y mide, sin hacerla, cuánto multiplicaría la principal unirlas (×29,8).</li>
+  <li>Cruza movimiento y gestión 2023 por materia (32 parejas y 24 sin pareja).</li>
+  <li>Exporta, comprueba que CSV y Parquet dicen lo mismo, escribe el diccionario analítico y corre 25 controles.</li>
+</ol>
+<figure><img src="img/nb08_1.png" alt="Órganos publicados por territorio, por tipo."><figcaption>Recursos judiciales por territorio (notebook 08). Detalle en <a href="integracion.html">la capa analítica</a>.</figcaption></figure>
+
+<h2 id="fase-3">Fase 3 — EDA</h2>
+<p>Calcular y describir. Ninguno de estos notebooks borra o modifica una columna existente: solo agregan.</p>
+
+<h3 id="09-nulos-estados">09 · Nulos y estado de gestión</h3>
+<p>Clasifica las 87 columnas por la causa de sus vacíos (por materia, geografía, recursos, tipo de fila) y cada proceso por cómo cerró el año. Controla <code>atendidas = resueltas + pendientes_fin</code>. Agrega <code>estado_gestion</code>.</p>
+<figure><img src="img/nb09_1.png" alt="Las 25 columnas con más nulos, coloreadas por causa."><figcaption>Las columnas con más vacíos y su causa (notebook 09).</figcaption></figure>
+
+<h3 id="10-indicadores-congestion">10 · Indicadores de congestión</h3>
+<p>Calcula los indicadores y las banderas. Antes, verifica que la suma de las formas de ingreso reproduzca <code>atendidas − pendientes_inicio</code> en todos los procesos: si no, se detiene. Agrega 12 columnas.</p>
+<figure><img src="img/nb10_2.png" alt="Distribución de la tasa de resolución con dos denominadores."><figcaption>El denominador cambia el resultado (notebook 10).</figcaption></figure>
+
+<h3 id="11-tratamiento-outliers">11 · Outliers</h3>
+<p>Detecta valores extremos con IQR dentro de cada estrato materia × ámbito, winsoriza las tasas y agrega logaritmos. Verifica con Spearman que las transformaciones conservan el orden. Agrega 15 columnas.</p>
+<figure><img src="img/nb11_1.png" alt="Outliers leves y severos por variable."><figcaption>Outliers detectados (notebook 11).</figcaption></figure>
+
+<h3 id="12-reporte-eda">12 · Reporte</h3>
+<p>Resume por departamento, materia y ámbito, arma el top 20 de procesos con más stock pendiente y produce las figuras del reporte. Los resultados están en <a href="eda.html">EDA e indicadores</a>.</p>
+
+<h3 id="13-verificacion">13 · Verificación final</h3>
+<p>Siete bloques de comprobaciones independientes sobre todo lo que produjeron los pasos anteriores. Cada una es un <code>assert</code>: si algo no se cumple, el notebook se detiene y dice qué. Ver <a href="validacion.html#el-notebook-13">validación</a>.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>
