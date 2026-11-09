@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de la ampliación, paso a paso — Congestión judicial en Bolivia</title>
+<meta name="description" content="La ampliación explicada sin tecnicismos: qué problema había, qué idea simple hay detrás, qué se hizo, qué salió y qué no se puede concluir, con enlaces a las páginas anteriores.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=4e419cfa">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js?v=1ee6d8fb" defer></script>
+</head>
+<body data-page="guia-ampliacion">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <a class="present-btn" href="presentacion.html" title="Abrir la presentación"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M10 8l4 2-4 2z"/></svg><span>Presentar</span></a>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Resultados · 11</p>
+<h1>Guía de la ampliación, paso a paso</h1>
+<p class="lede">Esta página explica todo lo que se agregó después del primer análisis <strong>como si no supieras estadística ni cómo funciona la justicia</strong>: qué problema había, qué idea simple hay detrás, qué se hizo, qué salió y qué <em>no</em> se puede concluir. Cuando aparece algo que ya se explicó antes, lleva un enlace a la página donde está.</p>
+
+<div class="callout simple">
+  <span class="t">Cómo usar esta guía</span>
+  <p>Léela en orden la primera vez. Cada paso tiene el mismo formato: <strong>la idea en simple</strong>, <strong>qué se hizo</strong>, <strong>qué salió</strong> y <strong>cuidado con…</strong>. Si necesitas el detalle técnico (tablas completas, controles, archivos), cada paso termina con el enlace a <a href="ampliacion.html">la página técnica de la ampliación</a>.</p>
+</div>
+
+<h2>Antes de empezar: cinco ideas que se usan todo el tiempo</h2>
+
+<h3>1 · Una causa y sus cinco números</h3>
+<p>Piensa en el <strong>historial de una cuenta bancaria</strong>. Al empezar el año hay un saldo (las causas que ya estaban pendientes). Durante el año entran depósitos (causas nuevas) y salen retiros (causas resueltas). Al terminar queda otro saldo. Con las causas pasa igual:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Número</th><th>En cuenta bancaria</th><th>En justicia</th></tr></thead>
+<tbody>
+<tr><td><code>pendientes_inicio</code></td><td>saldo del 1 de enero</td><td>causas que venían del año anterior (el <strong>stock</strong>)</td></tr>
+<tr><td><code>ingresadas</code></td><td>depósitos</td><td>causas nuevas del año</td></tr>
+<tr><td><code>atendidas</code></td><td>todo el dinero con el que se trabajó</td><td>stock inicial + ingresadas</td></tr>
+<tr><td><code>resueltas</code></td><td>retiros</td><td>causas que se terminaron</td></tr>
+<tr><td><code>pendientes_fin</code></td><td>saldo del 31 de diciembre</td><td>causas que siguen abiertas</td></tr>
+</tbody></table></div>
+<p>Si algo no cuadra (por ejemplo, <em>atendidas</em> no es igual a <em>resueltas + pendientes al cierre</em>), es como una cuenta que no concilia: algo está mal. Más detalle en <a href="conceptos.html#las-cinco-cantidades">las cinco cantidades</a>.</p>
+
+<h3>2 · Dos indicadores: resolución y congestión</h3>
+<ul>
+  <li><strong>Tasa de resolución</strong> = resueltas ÷ ingresadas del año. Responde: <em>¿se resuelve al menos lo que entra?</em> Si es 1 o más, el sistema no se atrasa más; si es menor que 1, se acumula trabajo.</li>
+  <li><strong>Tasa de congestión</strong> = atendidas ÷ resueltas. Responde: <em>¿cuántas causas hay por cada una que se resuelve?</em> Cuanto más alta, más trabado.</li>
+  <li><strong>Duración estimada</strong> = pendientes al cierre ÷ resueltas × 365. Responde: <em>si se siguiera resolviendo al mismo ritmo y no entrara nada más, ¿cuántos días tardaría en vaciarse el stock?</em> Es una estimación propia del proyecto, no un dato publicado.</li>
+</ul>
+<p>Cómo se calculan y por qué el denominador importa: <a href="eda.html#paso-10-los-indicadores">paso 10 del análisis exploratorio</a> y <a href="conceptos.html#la-congestion-judicial-y-como-se-mide">la congestión judicial y cómo se mide</a>.</p>
+
+<h3>3 · De dónde salen los datos</h3>
+<p>Todo sale de un solo documento: el <strong>Anuario Estadístico Judicial 2023</strong>, un PDF de 774 páginas del Consejo de la Magistratura. El proyecto lo convirtió en tablas. Qué trae el PDF está en <a href="anuario.html#que-hay-en-las-774-paginas">qué hay en las 774 páginas</a> y cómo quedaron las tablas en <a href="datos.html">los datos, tabla por tabla</a>. La ampliación usa sobre todo el <strong>capítulo 9</strong>, que es el resumen de todo el sistema (<a href="datos.html#las-tablas-del-capitulo-9-el-resumen-del-sistema">las tablas del capítulo 9</a>).</p>
+
+<h3>4 · La regla de oro: no se inventa y no se borra</h3>
+<p>Si un dato falta, <strong>se deja vacío</strong>; no se rellena con un promedio. Si un valor es raro, <strong>se marca</strong>; no se elimina. Si algo no cuadra, <strong>se anota</strong>; no se corrige a escondidas. Es la razón de que haya tantos archivos de control. Las reglas completas: <a href="decisiones.html#las-reglas-que-no-se-rompen">las reglas que no se rompen</a> y <a href="eda.html#la-regla-nada-se-sobrescribe-ni-se-borra">nada se sobrescribe ni se borra</a>.</p>
+
+<h3>5 · El CEJA</h3>
+<p>El <strong>CEJA</strong> es un centro regional que publica un índice de congestión judicial de varios países. Sirve como <strong>regla de medir</strong>: si nuestras cuentas coinciden con las suyas, el método es confiable. Sus fórmulas son las de la sección 2.</p>
+
+<h2>El mapa de la ampliación</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Paso</th><th>La pregunta, en una frase</th><th>Detalle técnico</th></tr></thead>
+<tbody>
+<tr><td>1 · Corrección (notebook 10)</td><td>¿Un número de civil era un ingreso o el saldo inicial?</td><td><a href="decisiones.html#las-readecuadas">las readecuadas</a></td></tr>
+<tr><td>2 · Capítulo 9 (notebook 14)</td><td>¿Cómo está <em>todo</em> el sistema, incluido lo penal?</td><td><a href="ampliacion.html#1-todas-las-materias-el-capitulo-9">ampliación, sección 1</a></td></tr>
+<tr><td>3 · Serie 2007-2023 (notebook 15)</td><td>¿Cómo evolucionó en 17 años y coincide con el CEJA?</td><td><a href="ampliacion.html#2-la-serie-2007-2023-y-el-ceja">ampliación, sección 2</a></td></tr>
+<tr><td>4 · Diagnóstico (notebook 16)</td><td>¿Dónde está el rezago y qué explica la demora?</td><td><a href="ampliacion.html#3-donde-esta-el-problema">ampliación, sección 3</a></td></tr>
+<tr><td>5 · Técnicas de la clase (notebook 17)</td><td>¿Qué enseñó la clase y cómo se ve en este proyecto?</td><td><a href="ampliacion.html#relacion-con-la-clase-de-preprocesamiento">relación con la clase</a></td></tr>
+<tr><td>6 · Personal (notebook 18)</td><td>¿Cuánta gente hay para atender las causas?</td><td><a href="ampliacion.html#7-recursos-y-carga-por-departamento-notebook-18">ampliación, sección 7</a></td></tr>
+</tbody></table></div>
+
+<h2>Paso 1 · La corrección: un número de civil estaba mal clasificado</h2>
+<div class="callout simple"><span class="t">La idea en simple</span>
+<p>Imagina que al calcular cuánto depositaste este año sumas por error el <strong>saldo con el que empezaste</strong>. Parecería que depositaste muchísimo más de lo real, y que retiraste poco en comparación. Eso pasaba con civil.</p></div>
+<p><strong>Qué se hizo.</strong> En civil, el Anuario tiene una columna llamada <em>readecuadas Ley 439</em>. El proyecto la había tratado como si fueran causas <em>nuevas</em> (ingresos). Se comprobó, por cuatro caminos independientes, que en realidad son el <strong>stock inicial</strong>: ocupan el lugar de «pendientes de la gestión anterior» en el cuadro, su valor es igual al saldo inicial del capítulo 9, el CEJA define la tasa sin contar el stock, y en los 1.655 procesos nunca aparecen junto al stock publicado (1.180 publican el stock inicial; 475 lo tienen como «readecuadas»).</p>
+<p><strong>Qué salió.</strong> La tasa de resolución de civil pasó de <strong>0,69 a 1,01</strong> y la de toda la justicia no penal de <strong>0,83 a 1,01</strong>. Los procesos que acumulan atraso bajaron de 747 a 608. El titular cambió: civil <em>no</em> estaba tan atrasada.</p>
+<p><strong>Cuidado con…</strong> no confundir «error del proyecto» con «error de la justicia»: el error era nuestro y se corrigió. Cómo se descubrió y qué se tocó: <a href="decisiones.html#las-readecuadas">las readecuadas no son un ingreso</a>, y el error anterior parecido en <a href="decisiones.html#el-error-del-denominador">el error del denominador</a>.</p>
+
+<h2>Paso 2 · El capítulo 9: ahora se mira todo el sistema</h2>
+<div class="callout simple"><span class="t">La idea en simple</span>
+<p>El primer análisis tenía una <strong>ficha detallada</strong> de media justicia (la no penal). El capítulo 9 es un <strong>resumen</strong>, menos detallado, pero de <strong>toda</strong> la justicia, incluyendo lo penal, que antes quedaba fuera.</p></div>
+<p><strong>Por qué antes quedaba fuera.</strong> En los capítulos 5 y 6 (<a href="anuario.html#por-que-los-capitulos-5-y-6-son-el-corazon">el corazón del análisis</a>), las materias penales no publican cuántas causas se resolvieron. El capítulo 9 sí publica los cinco números para las 13 materias y para los 9 departamentos. Con eso el análisis pasó de cubrir el 47,5 % de las causas a cubrir el <strong>100 %</strong> (738.841 causas atendidas en 2023).</p>
+<p><strong>Qué se hizo.</strong> Se calcularon las dos tasas del CEJA para cada materia y cada departamento. Antes de mirar ningún resultado se hicieron <strong>controles</strong>, como conciliar una cuenta: que los cinco números de cada fila cuadren entre sí (68 de 72 filas cuadran; las 4 restantes difieren en 1 causa), que capital + provincia dé el nacional (0 diferencias), y que el mismo total salga de otro cuadro. Es la misma idea de <a href="validacion.html#la-prueba-mas-fuerte-el-cruce-entre-capitulos">el cruce entre capítulos</a>.</p>
+<p><strong>Tres cuidados con lo penal</strong> (se explican en lenguaje llano):</p>
+<ul>
+  <li><strong>Etiquetas cambiadas.</strong> El Anuario intercambia los rótulos de anticorrupción y de violencia contra la mujer entre cuadros. Como no se puede saber cuál es cuál, se <strong>suman las dos juntas</strong> y así el resultado no depende de la etiqueta. Es el mismo problema de <a href="auditorias.html#auditoria-2-materias">la auditoría de materias</a>.</li>
+  <li><strong>Ejecución penal es distinta.</strong> Esos juzgados vigilan el cumplimiento de condenas y, según el propio Anuario, <em>no resuelven</em>. Se muestran aparte porque compararlos con los demás sería injusto.</li>
+  <li><strong>Etapas, no expedientes.</strong> Instrucción, sentencia y tribunales son pasos de un mismo proceso: una causa puede aparecer en más de una. Sumarlas sin cuidado cuenta la misma causa dos veces (la lógica de <a href="auditorias.html#auditoria-4-la-jerarquia-del-cuadro-4-1-1">el doble conteo</a>). Para entender las etapas: <a href="conceptos.html#el-proceso-penal-etapa-por-etapa">el proceso penal, etapa por etapa</a>.</li>
+</ul>
+<p><strong>Qué salió.</strong></p>
+<ul>
+  <li>Solo tres grupos resuelven más de lo que reciben: coactivo fiscal, familia y civil.</li>
+  <li><strong>Los tribunales de sentencia penal</strong> tardarían unos <strong>1.953 días</strong> (más de 5 años) en vaciar su stock, mucho más que civil (162 días).</li>
+  <li>Dentro de 2023 el stock total subió <strong>19.114 causas</strong>: la justicia no penal lo <em>redujo</em> en 1.379 y el aumento está en lo penal (+13.134) y en ejecución penal (+7.359).</li>
+  <li>Por departamento, solo Potosí tiene una resolución óptima y Beni es el único en nivel crítico (0,85).</li>
+</ul>
+<figure><img src="img/nb14_2.png" alt="Tasa de resolución y días para vaciar el stock por materia."><figcaption>Tasa de resolución y días para vaciar el stock, por materia.</figcaption></figure>
+<p><strong>Cuidado con…</strong> los 19.114 son una variación <em>dentro del año</em>; el paso siguiente explica por qué no se puede leer como «el sistema se atrasó 19.114 causas». Detalle: <a href="ampliacion.html#1-todas-las-materias-el-capitulo-9">sección 1 de la ampliación</a>.</p>
+
+<h2>Paso 3 · La serie 2007-2023: el tiempo y la regla del CEJA</h2>
+<div class="callout simple"><span class="t">La idea en simple</span>
+<p>Hasta aquí se miraba una foto de 2023. La serie es una <strong>película de 17 años</strong>: sirve para saber si 2023 es normal o excepcional.</p></div>
+<p><strong>Qué se hizo.</strong> Se armó la serie de capitales, provincias y total nacional desde 2007 y se calcularon, año a año, cuánto subió o bajó cada número (variación interanual) y un <strong>promedio móvil de tres años</strong>, que suaviza los saltos para ver la tendencia.</p>
+<p><strong>Qué salió.</strong></p>
+<ul>
+  <li>En 2023 la resolución es <strong>0,95</strong> y la congestión <strong>1,93</strong>: «mejorable» y «en riesgo» según las bandas del CEJA.</li>
+  <li>2020 fue un año extraño (la pandemia): entraron un 27 % menos de causas y se resolvieron un 22 % menos; en 2021 todo rebotó.</li>
+  <li>Desde 2015 la resolución anda alrededor de 1: un año no predice el siguiente.</li>
+  <li><strong>Comparación con el CEJA:</strong> de 2019 a 2022 nuestros números casi coinciden con los suyos (diferencias de 0,02 y 0,10). Es como comparar tu calculadora con la de un laboratorio y ver que da lo mismo: el método es confiable. En 2018 hay una diferencia grande que no se puede explicar con estos datos. Y 2023, que el CEJA no tiene, ahora sí tiene cifra.</li>
+</ul>
+<figure><img src="img/nb15_1.png" alt="Stock, ingresadas y resueltas 2007-2023 y comparación con el CEJA."><figcaption>Stock, ingresadas y resueltas, 2007-2023, y comparación con el CEJA.</figcaption></figure>
+<div class="callout error"><span class="t">El hallazgo incómodo: el saldo final no es el saldo inicial</span>
+<p>Si hablamos de cuentas, el saldo del <strong>31 de diciembre</strong> debería ser el del <strong>1 de enero</strong> siguiente. En el Anuario <strong>no lo es</strong>: en 15 de 16 cambios de año, el saldo inicial es <em>menor</em> que el final del año anterior. En 2023 faltan 27.286 causas entre un año y otro. No se sabe por qué (¿se depuraron expedientes? ¿se archivaron?) y <strong>no se corrige ni se inventa</strong>. Consecuencia práctica: el stock no se puede reconstruir sumando entradas y salidas, y cualquier comparación de stock entre años hay que leerla con reserva. Es el mismo tipo de problema de <a href="validacion.html#las-series-historicas-no-cierran">las series históricas que no cierran</a> y de <a href="anuario.html#donde-el-anuario-no-cierra-consigo-mismo">donde el Anuario no cierra consigo mismo</a>.</p></div>
+<p><strong>Cuidado con…</strong> usar este hallazgo para acusar a alguien: solo muestra que <em>los datos publicados</em> tienen una inconsistencia. Detalle: <a href="ampliacion.html#2-la-serie-2007-2023-y-el-ceja">sección 2 de la ampliación</a>.</p>
+
+<h2>Paso 4 · El diagnóstico: dónde está el problema</h2>
+<div class="callout simple"><span class="t">La idea en simple</span>
+<p>Cuando algo está atrasado, la pregunta útil no es «¿cuánto?» sino <strong>«¿dónde?»</strong>. Si el atraso se reparte parejo, hay que cambiar todo; si está concentrado en pocos lugares, basta atacar esos.</p></div>
+<p><strong>Qué se hizo, en dos preguntas.</strong></p>
+<ol class="steps">
+  <li><strong>¿Qué tan concentrado está el atraso?</strong> Se ordenaron los 1.655 procesos de más a menos causas pendientes y se sumó cuánto del total acumulan los primeros. Es la idea del «80/20»: pocas piezas explican casi todo.</li>
+  <li><strong>¿Qué explica que unos procesos tarden más que otros?</strong> Se midió qué parte de las diferencias de duración explica cada factor: capital o provincia, departamento, materia y tipo de proceso. El número que se obtiene (R², «cuánto de las diferencias explica») va de 0 % (no explica nada) a 100 % (lo explica todo).</li>
+</ol>
+<p><strong>Qué salió.</strong></p>
+<ul>
+  <li>El <strong>6 %</strong> de los procesos (100 de 1.655) reúne el <strong>73 %</strong> del atraso. Y 566 procesos ni siquiera tienen causas pendientes.</li>
+  <li>10 tipos de proceso (de 87) reúnen el 66 % del atraso. La Paz y Santa Cruz juntas, el 67 %.</li>
+  <li><strong>Ser capital o provincia explica menos del 1 %</strong> de la duración. El departamento explica entre el 10 % y el 14 %. La materia, entre el 5 % y el 39 % según cómo se pese. Y <strong>lo que más explica es el tipo de proceso</strong> (21 % a 57 %).</li>
+</ul>
+<figure><img src="img/nb16_1.png" alt="Curva de concentración del rezago y los 10 tipos de proceso con más pendientes."><figcaption>El atraso está concentrado en pocas celdas.</figcaption></figure>
+<p><strong>Una prueba que no funcionó (y se dice).</strong> Se intentó agrupar los procesos en «familias parecidas» con un método llamado <em>K-Means</em>, como separar clientes en perfiles. Para saber si los grupos eran reales se usó el índice de <em>silhouette</em>: cerca de 0,5 o más significa grupos claros. Salió <strong>0,425</strong>: los procesos no forman grupos naturales, forman una nube continua. Por eso <strong>no se adoptó</strong>. Mostrar lo que no funcionó también es un resultado.</p>
+<p><strong>Cuidado con…</strong> «explica» no significa «causa». Dice dónde mirar, no por qué pasa. Detalle: <a href="ampliacion.html#3-donde-esta-el-problema">sección 3 de la ampliación</a>.</p>
+
+<h2>Paso 5 · Las técnicas de la clase de preprocesamiento</h2>
+<div class="callout simple"><span class="t">La idea en simple</span>
+<p>«Preprocesar» es <strong>preparar los datos antes de analizarlos</strong>, como lavar y cortar los ingredientes antes de cocinar. La clase enseñó un recetario de técnicas; aquí se muestra cuáles se usaron, para qué sirven y qué pasó. La tabla completa tema por tema está en <a href="ampliacion.html#relacion-con-la-clase-de-preprocesamiento">la relación con la clase</a>.</p></div>
+
+<h3>Datos faltantes: no rellenar lo que no existe</h3>
+<p>Cuando falta un dato, una opción es «rellenarlo» con un promedio. Aquí <strong>no</strong>: la mayoría de los vacíos significan «esto no aplica» (por ejemplo, una forma de resolución penal en una causa civil), no «se perdió». Rellenarlos inventaría información. Cómo se clasificaron: <a href="eda.html#paso-09-los-vacios-no-son-todos-iguales">los vacíos no son todos iguales</a>.</p>
+
+<h3>Valores atípicos y asimetría: las colas largas</h3>
+<p>Imagina el sueldo de un barrio donde casi todos ganan parecido y uno gana 50 veces más. El promedio se distorsiona: es una <strong>cola larga</strong>, y a eso se le llama <em>asimetría</em>. Para medirla hay un número: menos de 0,5 es casi simétrico, de 0,5 a 1 moderado, más de 1 fuerte. Una forma de achatar la cola es usar el <strong>logaritmo</strong> (<code>log1p</code>), que comprime los valores enormes.</p>
+<p><strong>Qué salió:</strong> en las causas atendidas la asimetría bajó de 6,5 (fuerte) a 0,54 (moderada): el logaritmo funciona. Pero en la duración pasó de 16,6 a −1,13: se corrigió <strong>de más</strong>. Moraleja de la clase: <strong>transformar no garantiza mejorar, hay que medirlo</strong>. El tratamiento de extremos del proyecto: <a href="eda.html#paso-11-outliers-sin-borrar-nada">outliers sin borrar nada</a>.</p>
+<figure><img src="img/nb17_1.png" alt="Asimetría de cinco variables, original, winsorizada y con log1p."><figcaption>Asimetría antes y después de transformar.</figcaption></figure>
+
+<h3>Cortar en categorías: <code>cut</code> y <code>qcut</code></h3>
+<p>Hay dos maneras de repartir números en categorías. <strong><code>cut</code></strong>: tú pones los cortes (como «menos de 0,90 es crítico», que es la regla del CEJA). <strong><code>qcut</code></strong>: el programa reparte en partes <em>iguales</em> (tres grupos con la misma cantidad de procesos: duración corta, media, larga). Después se mira qué materias aparecen de más en cada grupo con el <strong>índice contra la base</strong>: 1,0 es «lo esperado», 2,0 es «el doble de lo esperado».</p>
+<p><strong>Qué salió:</strong> civil aparece de más en la banda crítica (1,15) aunque su tasa total es 1,01; coactivo (2,06) y trabajo (1,70) se amontonan en la duración larga.</p>
+
+<h3>Comparar cada proceso con su propio grupo</h3>
+<p>Un proceso que tarda 300 días no es lento si <em>toda</em> su materia tarda 300. Se calculó la <strong>mediana</strong> (el valor del medio) de cada materia y ámbito, y se comparó cada proceso con la suya. Resultado: 198 de 1.122 procesos tardan más del triple que la mediana de su grupo; entre los grandes (100 o más causas) son 53 de 360. Esto separa lo que es lento <em>por sí mismo</em> de lo que es lento <em>por su contexto</em>.</p>
+
+<h3>Correlación: cosas que suben juntas</h3>
+<p>Dos números están <em>correlacionados</em> si cuando uno sube el otro suele subir. Es útil, pero tiene dos trampas. Primera: <strong>correlación no es causa</strong>. Segunda: algunos números están ligados <em>por definición</em> (si <em>atendidas = resueltas + pendientes</em>, es obvio que van juntos). De 28 pares comparados, 7 pasan de 0,90 y 4 son de esos «ligados por definición». La clase dice que una correlación alta no es motivo para borrar una columna, y <strong>no se borró ninguna</strong>.</p>
+
+<h3>PCA: resumir varias columnas en pocas</h3>
+<p>Imagina describir a una persona con estatura, peso, talla de zapato y largo de brazo; en el fondo casi todo se resume en «es grande o pequeña». El <strong>PCA</strong> hace eso: reemplaza varias columnas parecidas por unas pocas «resumen». Aquí, cuatro indicadores se resumen bien con dos componentes (79,6 % de la información) o tres (97,8 %). Y al dibujar los procesos en ese resumen se ve una nube continua, sin grupos separados: coincide con el K-Means que no encontró grupos.</p>
+<figure><img src="img/nb17_3.png" alt="Varianza explicada por componente y procesos sobre los dos primeros componentes."><figcaption>PCA: cuánta información conserva cada componente y cómo se reparten los procesos.</figcaption></figure>
+
+<h3>Raros en conjunto: la distancia de Mahalanobis</h3>
+<p>Una persona de 1,90 m es alta; una de 50 kg es delgada; ambas cosas a la vez pueden ser <em>normales</em> o no, según cómo se relacionen. Un valor raro «en conjunto» es una <strong>combinación</strong> rara aunque cada dato por separado parezca común. La distancia de Mahalanobis mide eso. Marcó 20 de 1.082 procesos; 14 de ellos no tenían ninguna de las banderas severas anteriores. Son filas pequeñas, no errores: <strong>se marcan, no se eliminan</strong>.</p>
+
+<h2>Paso 6 · El personal: ¿cuánta gente hay para tanta causa?</h2>
+<div class="callout simple"><span class="t">La idea en simple</span>
+<p>Un restaurante con 100 clientes por mozo anda distinto a uno con 30. Se calculó lo equivalente: <strong>cuántas causas entran por cada puesto de trabajo</strong> en cada departamento.</p></div>
+<p><strong>Qué se hizo.</strong> El Anuario publica los <em>ítems</em> (puestos presupuestados) de personal por departamento (<a href="conceptos.html#personal-y-disciplina">qué es un ítem</a>), con los vacantes separados, y los órganos judiciales por territorio (<a href="datos.html#personal-y-personal-jurisdiccional">los datos de personal</a>). Se unieron al movimiento de causas de cada departamento (la unión se hizo con las precauciones de <a href="integracion.html#cardinalidad-en-simple">cardinalidad en simple</a>, para no multiplicar filas). Se usaron los puestos <em>ocupados</em> (sin vacantes), porque un puesto vacío no trabaja.</p>
+<p><strong>Qué salió.</strong></p>
+<ul>
+  <li>La carga por puesto varía <strong>2,6 veces</strong>: de 33 causas nuevas por puesto en Pando a 85 en Santa Cruz.</li>
+  <li>El personal sigue a la demanda: los departamentos con más causas tienen más puestos (correlación 0,90).</li>
+  <li><strong>Dos clases de problema.</strong> <em>Saturación</em> en Santa Cruz: la mayor carga por puesto, la remuneración por causa resuelta más baja del país y 422 días para vaciar su stock. <em>Rendimiento bajo con carga ligera</em> en Beni: 38 causas nuevas por puesto, se resuelven 33, y es el único con resolución crítica (0,85). No es el mismo problema ni se arregla igual.</li>
+</ul>
+<figure><img src="img/nb18_1.png" alt="Carga por puesto, tasa de resolución contra carga y brecha de personal."><figcaption>Carga por puesto, resolución y brecha respecto a la carga mediana.</figcaption></figure>
+<div class="callout error"><span class="t">Lo que NO se puede concluir</span>
+<ul>
+  <li><strong>No se puede decir que más personal resuelve más.</strong> De 15 relaciones probadas, ninguna fue significativa. Con solo 9 departamentos y un año, eso no prueba que no haya relación: solo que estos datos no la detectan.</li>
+  <li>Un «ítem» incluye personal administrativo y de apoyo, y no se sabe cuántos puestos son jueces.</li>
+  <li><strong>Falta la población.</strong> Con causas por 100.000 habitantes se separaría «hay más litigio» de «hay menos acceso». No se usaron cifras de prensa porque estaban incompletas y eran preliminares.</li>
+</ul></div>
+
+<h2>Lo que NO se puede decir con la ampliación</h2>
+<ul>
+  <li><strong>No se puede decir por qué</strong>. Todo es descripción de un solo año (más una serie): dice dónde y cuánto, no la causa.</li>
+  <li><strong>No se puede decir que la justicia penal «funciona peor»</strong>. Sus indicadores son de flujo (resueltas contra ingresadas) y cuentan etapas, no expedientes; los indicadores propios para penal siguen pendientes.</li>
+  <li><strong>No se puede reconstruir el stock sumando años</strong>, porque el stock publicado no se conserva entre años.</li>
+  <li><strong>No se mide calidad</strong>, solo rapidez: resolver rápido no es resolver bien.</li>
+</ul>
+<p>Los límites completos: <a href="limites.html#limites-de-la-fuente">límites de la fuente</a> y <a href="limites.html#lo-que-no-se-hizo-a-proposito">lo que no se hizo, a propósito</a>.</p>
+
+<h2>Mini-glosario de la ampliación</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Palabra</th><th>En simple</th><th>Dónde está más</th></tr></thead>
+<tbody>
+<tr><td>Stock</td><td>causas que siguen abiertas; el «saldo»</td><td><a href="conceptos.html#las-cinco-cantidades">las cinco cantidades</a></td></tr>
+<tr><td>Readecuadas Ley 439</td><td>el stock inicial de civil, que el Anuario llama distinto</td><td><a href="decisiones.html#las-readecuadas">decisiones</a></td></tr>
+<tr><td>Tasa de resolución</td><td>resueltas ÷ ingresadas: ¿se resuelve lo que entra?</td><td><a href="eda.html#paso-10-los-indicadores">paso 10</a></td></tr>
+<tr><td>Tasa de congestión</td><td>causas atendidas por cada una resuelta</td><td><a href="conceptos.html#la-congestion-judicial-y-como-se-mide">congestión</a></td></tr>
+<tr><td>Duración estimada</td><td>días que tardaría en vaciarse el stock al ritmo actual</td><td><a href="eda.html#el-denominador">el denominador</a></td></tr>
+<tr><td>Identidad contable</td><td>una igualdad que debe cumplirse siempre (como que el saldo cuadre)</td><td><a href="validacion.html#las-doce-identidades-del-notebook-05">las doce identidades</a></td></tr>
+<tr><td>Outlier</td><td>valor raro; se marca, no se borra</td><td><a href="eda.html#paso-11-outliers-sin-borrar-nada">outliers</a></td></tr>
+<tr><td>Asimetría</td><td>qué tan larga es la cola de una distribución</td><td><a href="glosario.html">glosario</a></td></tr>
+<tr><td>Índice contra la base</td><td>1,0 = lo esperado; 2,0 = el doble</td><td><a href="glosario.html">glosario</a></td></tr>
+<tr><td>R² ajustado</td><td>qué porcentaje de las diferencias explica un factor</td><td><a href="glosario.html">glosario</a></td></tr>
+<tr><td>Silhouette</td><td>qué tan separados están los grupos (cerca de 0,5 o más = claros)</td><td><a href="glosario.html">glosario</a></td></tr>
+<tr><td>PCA</td><td>resumir varias columnas en pocas</td><td><a href="glosario.html">glosario</a></td></tr>
+<tr><td>Ítem</td><td>un puesto de trabajo presupuestado, no una persona</td><td><a href="conceptos.html#personal-y-disciplina">personal</a></td></tr>
+<tr><td>Capa curada</td><td>la tabla final de análisis, con indicadores y marcas de outliers</td><td><a href="datos.html#la-capa-curada-data-curated">capa curada</a></td></tr>
+</tbody></table></div>
+
+<h2>Dónde seguir</h2>
+<ul>
+  <li>El detalle técnico, con todas las tablas: <a href="ampliacion.html">la ampliación</a>.</li>
+  <li>Para exponer: el menú <strong>Presentar</strong> (arriba) abre la <a href="presentacion-ampliacion.html">presentación de la ampliación</a>.</li>
+  <li>Cómo está armado el código: <a href="pipeline.html#fase-4">Fase 4 del pipeline</a>.</li>
+  <li>Cómo se sabe que todo está bien: <a href="validacion.html#el-notebook-13">el notebook 13</a>.</li>
+  <li>Para practicar: <a href="preguntas.html">las preguntas frecuentes</a> sirven de autoevaluación.</li>
+</ul>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>
