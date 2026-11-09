@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Presentación: ampliación — Congestión judicial en Bolivia</title>
-<meta name="description" content="Segunda presentación: la corrección de las readecuadas, el capítulo 9 con todas las materias, la serie 2007-2023 y dónde está concentrado el rezago.">
+<meta name="description" content="Segunda presentación: la corrección de las readecuadas, el capítulo 9 con todas las materias, la serie 2007-2023, dónde está concentrado el rezago y la relación de cada paso con la clase de preprocesamiento.">
 <script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -64,6 +64,14 @@
   .tree { font: .82rem/1.55 var(--mono); white-space: pre; background: var(--paper-raised); border: 1px solid var(--rule); border-radius: .6rem; padding: 1rem 1.1rem; overflow-x: auto; }
   .badge.ok { background: var(--ok-soft); color: var(--ok); }
   .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .slide.compacta h2 { font-size: clamp(1.4rem, 2.4vw, 2.1rem); }
+  .quecomo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin: .1rem 0 1.1rem; padding: .75rem 1rem; background: var(--paper-raised); border: 1px solid var(--rule); border-radius: .6rem; }
+  .quecomo p { margin: .35rem 0 0; font-size: .95rem; }
+  .eyebrow .tema { display: inline-block; margin-left: .7rem; padding: .12rem .6rem; border-radius: 1rem; background: var(--accent-soft); color: var(--accent-ink); text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .slide figure img { max-height: 42vh; }
+  .slide ul { margin: .4rem 0; }
+  .slide li { margin-bottom: .3rem; }
+  @media (max-width: 900px) { .quecomo { grid-template-columns: 1fr; } }
   @media (max-width: 900px) {
     body { overflow: auto; }
     .deck { height: auto; overflow: visible; scroll-snap-type: none; }
@@ -88,8 +96,8 @@
 <!-- 1 -->
 <section class="slide titulo"><div class="in">
   <p class="eyebrow">Proyecto de Análisis de Datos · Bolivia · gestión 2023 · segunda presentación</p>
-  <h1>Ampliación: del análisis no penal a todas las materias y 17 años</h1>
-  <p class="lede">Corregimos un denominador, usamos el capítulo 9 del Anuario para cubrir también lo penal, miramos la serie 2007-2023, comprobamos dónde está el problema y mostramos cómo cada técnica de la clase de preprocesamiento aparece en el proyecto.</p>
+  <h1>Ampliación del análisis y relación con la clase de preprocesamiento</h1>
+  <p class="lede">Qué se hizo después de la primera presentación, cómo se hizo y qué tema de la clase aplica en cada paso.</p>
   <p class="muted" style="font-family:var(--sans);margin-top:2.5rem">Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
   <p class="muted" style="font-family:var(--sans);font-size:.85rem">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em> · informe CEJA 2025</p>
 </div></section>
@@ -99,20 +107,21 @@
   <p class="eyebrow">Agenda</p>
   <h2>La exposición, en tres partes</h2>
   <div class="agenda">
-    <div class="term"><span class="n">1</span><h4>La corrección y la clase de preprocesamiento</h4><p>Las «readecuadas» de civil son stock inicial; qué enseñó la clase, dónde está en el proyecto y las técnicas de preprocesamiento aplicadas.</p></div>
-    <div class="term"><span class="n">2</span><h4>Todas las materias y 17 años</h4><p>El capítulo 9 cubre también lo penal; la serie 2007-2023, el hallazgo sobre la fuente y la comparación con el CEJA.</p></div>
-    <div class="term"><span class="n">3</span><h4>Dónde está el problema</h4><p>Concentración del rezago, qué explica la duración, recursos por departamento, correlación, PCA y outliers multivariados.</p></div>
+    <div class="term"><span class="n">1</span><h4>Corrección y preprocesamiento</h4><p>Se corrigió el denominador de civil y se aplicaron técnicas de preprocesamiento: vacíos sin imputar, asimetría, discretización, contexto de grupo y outliers multivariados.</p></div>
+    <div class="term"><span class="n">2</span><h4>Todas las materias y 17 años</h4><p>Se integró el capítulo 9 del Anuario, se construyó la serie 2007-2023 y se comparó con el CEJA.</p></div>
+    <div class="term"><span class="n">3</span><h4>Dónde está el problema</h4><p>Se midió la concentración del rezago, qué explica la duración, la carga por personal de cada departamento, la correlación y el PCA.</p></div>
   </div>
+  <p class="muted">En cada diapositiva se indica <strong>qué se hizo</strong>, <strong>cómo se hizo</strong> y, cuando corresponde, el <strong>tema de la clase</strong> que se aplicó. Al final hay una tabla que reúne los temas y dónde aparece cada uno.</p>
 </div></section>
 
 <!-- 3 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">De dónde partimos</p>
-  <h2>Una limitación que resultó ser parcial</h2>
+  <h2>El primer análisis cubría solo la mitad no penal</h2>
   <div class="grid2">
     <div>
-      <p>El análisis anterior cubría solo la <strong>justicia no penal</strong> (47,5 % de las causas): los capítulos 5 y 6, que dan el detalle por tipo de proceso, no publican causas resueltas para las materias penales.</p>
-      <p>Pero el Anuario tiene un <strong>capítulo 9</strong> que resume el movimiento de <em>todas</em> las materias: pendientes al inicio, ingresadas, atendidas, resueltas y pendientes al cierre. Y lo hace para 17 años.</p>
+      <p>Los capítulos 5 y 6 del Anuario dan el detalle por tipo de proceso, pero para las materias penales <strong>no publican causas resueltas</strong>. Por eso el primer análisis cubría el 47,5 % de las causas.</p>
+      <p>El <strong>capítulo 9</strong> resume el movimiento de <em>todas</em> las materias (pendientes al inicio, ingresadas, atendidas, resueltas y pendientes al cierre) para 17 años.</p>
     </div>
     <div class="kpis" style="grid-template-columns:1fr 1fr">
       <div class="kpi"><b>100 %</b><span>de las causas ahora cubiertas</span></div>
@@ -121,174 +130,129 @@
       <div class="kpi"><b>17</b><span>años de serie (2007-2023)</span></div>
     </div>
   </div>
-  <p class="muted">Cinco notebooks nuevos (14 a 18) y una corrección al 10. Todo son archivos agregados nuevos: ninguna tabla anterior se modificó.</p>
+  <p class="muted">Cinco notebooks nuevos (14 a 18) y una corrección al 10. Todo es archivo nuevo: ninguna tabla anterior se modificó.</p>
 </div></section>
 
 <!-- 4 -->
 <section class="slide sec"><div class="in">
   <p class="eyebrow">Parte 1 de 3</p>
-  <h1>La corrección y la clase de preprocesamiento</h1>
-  <p class="lede">Qué enseñó la clase y dónde está en el proyecto, la corrección de las readecuadas de civil y las técnicas de preprocesamiento aplicadas (notebooks 10 y 17).</p>
+  <h1>Corrección y preprocesamiento</h1>
+  <p class="lede">Se corrigió un error de cálculo en civil y se aplicaron técnicas de preprocesamiento sobre los 1.655 procesos no penales (notebooks 10 y 17).</p>
 </div></section>
 
 <!-- 5 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · La clase de preprocesamiento · 1 de 2</p>
-  <h2>Qué enseñó la clase y dónde está en el proyecto</h2>
-  <div class="table-wrap"><table><thead><tr><th>Tema de la clase</th><th>Estado</th><th>Qué se hizo</th><th>Notebook</th></tr></thead><tbody><tr><td><strong>1 · Documentar y verificar</strong></td><td><span class="badge ok">aplicado</span></td><td>Cada resultado pasa por una identidad o un cruce; todo queda en CSV nuevos; el notebook 13 lo vuelve a comprobar.</td><td>14 a 17, 13</td></tr><tr><td><strong>2 · Datos faltantes</strong></td><td><span class="badge ok">aplicado</span></td><td>No se imputa: el 2023 del CEJA queda «sin dato», la duración solo existe donde hay resueltas, la columna de 2019 inconsistente se registra y no se usa.</td><td>14, 15, 16</td></tr><tr><td><strong>3 · Outliers: no borrar sin entender</strong></td><td><span class="badge ok">aplicado</span></td><td>Ejecución penal se separa (no resuelve), 2020 es un extremo válido, 2018 y 2019 son inconsistencias registradas. Más asimetría y Mahalanobis.</td><td>14, 15, 17</td></tr><tr><td><strong>4 · Estandarización</strong></td><td><span class="badge warn">parcial</span></td><td>z-score antes del agrupamiento, el PCA y Mahalanobis. Sin train/test: no se ajusta ningún modelo predictivo.</td><td>16, 17</td></tr><tr><td><strong>5 · Conversión de tipos</strong></td><td><span class="badge warn">parcial</span></td><td>Heredada de los notebooks 04 y 06; las identidades detectarían una cifra leída como texto.</td><td>04, 06</td></tr><tr><td><strong>6 · Discretización y codificación</strong></td><td><span class="badge ok">aplicado</span></td><td><code>cut</code> con bandas del CEJA y <code>qcut</code> en terciles; las categorías entran como indicadoras, no como números.</td><td>16, 17</td></tr></tbody></table></div>
-  <p class="muted">Aplicado: hay código, resultado y archivo. Parcial: una parte o heredado de un notebook anterior. No aplica: la técnica necesita algo que este proyecto no tiene.</p>
+  <p class="eyebrow">Parte 1<span class="tema">Tema de la clase: 1 · Documentar y verificar</span></p>
+  <h2>Se auditó el denominador de civil: las readecuadas son stock inicial</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se comprobó si «readecuadas Ley 439» es un ingreso o el stock con el que empieza el año.</p></div><div><span class="tag">Cómo se hizo</span><p>Cuatro verificaciones independientes, sin que ninguna dependa de las otras.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Verificación</th><th>Resultado</th></tr></thead><tbody><tr><td>Posición en el cuadro del PDF</td><td>ocupa el lugar de «pendientes de la gestión anterior»</td></tr><tr><td>Definición del CEJA 2025</td><td>tasa de resolución = resueltas ÷ ingresadas <em>del año</em>, sin el stock</td></tr><tr><td>Capítulo 9 (cuadros 9.1.1 y 9.1.5)</td><td>readecuadas = pendientes al inicio</td></tr><tr><td>Los 1.655 procesos</td><td>1.180 publican el stock inicial; 475 lo tienen como readecuadas; nunca ambos</td></tr></tbody></table></div>
 </div></section>
 
 <!-- 6 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · La clase de preprocesamiento · 2 de 2</p>
-  <h2>Qué enseñó la clase y dónde está en el proyecto</h2>
-  <div class="table-wrap"><table><thead><tr><th>Tema de la clase</th><th>Estado</th><th>Qué se hizo</th><th>Notebook</th></tr></thead><tbody><tr><td><strong>7 · Duplicados</strong></td><td><span class="badge warn">parcial</span></td><td>Pares anticorrupción + violencia sumados una vez y capital + provincia = nacional: cada causa aparece una vez. La depuración de las 95 claves ya se hizo en la Fase 2.</td><td>14, 15</td></tr><tr><td><strong>8 · Feature engineering</strong></td><td><span class="badge ok">aplicado</span></td><td>Razones, <code>transform</code> y <code>merge</code> con sufijos, <code>shift</code>, <code>pct_change</code> y <code>rolling</code>. Seno/coseno no aplica: la serie es anual.</td><td>14, 15, 17</td></tr><tr><td><strong>9 · Balanceo de clases</strong></td><td><span class="badge">no aplica</span></td><td>No hay clasificación ni clase minoritaria.</td><td>—</td></tr><tr><td><strong>10 · Correlación y PCA</strong></td><td><span class="badge ok">aplicado</span></td><td>Correlación sin eliminar columnas y PCA estandarizado. <code>chi²</code>, RFE y SFS necesitan variable objetivo: no aplican.</td><td>16, 17</td></tr><tr><td><strong>11 · Integración y fusión</strong></td><td><span class="badge ok">aplicado</span></td><td><code>merge</code> <code>m:1</code> validado, capital + provincia = nacional y capítulo 9 contra capítulos 5 y 6 (0 diferencias).</td><td>10, 14, 15, 17</td></tr><tr><td><strong>Parte B · Clustering</strong></td><td><span class="badge ok">aplicado</span></td><td>K-Means con <em>k-means++</em>, k = 2 a 7 y silhouette: máximo 0,425. No hay grupos naturales; no se adopta.</td><td>16, 17</td></tr></tbody></table></div>
-  <div class="callout simple"><span class="t">Una diferencia con la clase</span><p>La clase trabaja con problemas que <strong>tienen variable objetivo</strong>. Este proyecto es <strong>descriptivo</strong>: por eso balanceo, selección supervisada y <em>train/test</em> no tienen a qué aplicarse, y el resto se usa para describir y controlar la calidad.</p></div>
+  <p class="eyebrow">Parte 1<span class="tema">Tema de la clase: 1 · Verificar al terminar</span></p>
+  <h2>Se corrigió el cálculo: la resolución de civil pasa de 0,69 a 1,01</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se recalcularon los indicadores con el stock inicial fuera del denominador.</p></div><div><span class="tag">Cómo se hizo</span><p>Función <code>calcular_stock_inicial</code> en el módulo de métricas; el notebook 10 se detiene si la identidad no cierra en los 1.655 procesos.</p></div></div>
+  <div class="grid2">
+    <div class="vs">
+      <div class="term"><span class="tag">antes</span><p class="big crit" style="margin:.4rem 0">0,69</p><p>civil</p></div>
+      <div class="x">→</div>
+      <div class="term"><span class="tag">ahora</span><p class="big" style="margin:.4rem 0">1,01</p><p>civil</p></div>
+    </div>
+    <ul><li>Total no penal: de <strong>0,83</strong> a <strong>1,01</strong>.</li><li>Procesos que acumulan mora: de <strong>747</strong> a <strong>608</strong>.</li><li>Las demás materias no cambian: ya publicaban el stock aparte.</li></ul>
+  </div>
 </div></section>
 
 <!-- 7 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · La hipótesis</p>
-  <h2>Cómo se llegó a la corrección</h2>
-  <div class="grid2">
-    <div>
-      <p>En civil, el Anuario publica cinco formas de ingreso, una de ellas «readecuadas Ley 439». El proyecto las había sumado como ingreso.</p>
-      <p>Pero esa columna ocupa en el cuadro <strong>la misma posición que «pendientes de la gestión anterior»</strong> en las demás materias, y sus valores son iguales al stock inicial del capítulo 9.</p>
-    </div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Camino independiente</th><th>Resultado</th></tr></thead>
-      <tbody>
-        <tr><td>Posición en el cuadro del PDF</td><td>la del stock inicial</td></tr>
-        <tr><td>Definición del CEJA 2025</td><td>tasa de resolución = resueltas ÷ ingresadas <em>del año</em>, sin el stock</td></tr>
-        <tr><td>Capítulo 9 (9.1.1 y 9.1.5)</td><td>readecuadas = pendientes de inicio</td></tr>
-        <tr><td>Los 1.655 procesos</td><td>1.180 publican stock inicial; 475 lo tienen como readecuadas; nunca ambos</td></tr>
-      </tbody>
-    </table></div>
-  </div>
-  <div class="callout regla"><span class="t">Regla del proyecto</span><p>Verificar por dos caminos independientes. Aquí fueron cuatro, y coinciden.</p></div>
+  <p class="eyebrow">Parte 1<span class="tema">Tema de la clase: 2 · Datos faltantes</span></p>
+  <h2>No se imputó ningún vacío: se dejó marcado qué falta y por qué</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Los datos que no existen se dejaron vacíos o se apartaron, en lugar de rellenarlos.</p></div><div><span class="tag">Cómo se hizo</span><p>Cada caso queda registrado en un archivo; no se usa <code>KNNImputer</code> ni <code>interpolate</code> porque los vacíos son estructurales, no datos perdidos.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Caso</th><th>Qué se hizo en lugar de imputar</th></tr></thead><tbody><tr><td>Proceso sin ingresos en el año</td><td>la tasa de resolución queda vacía (no se divide por cero)</td></tr><tr><td>Proceso sin causas resueltas</td><td>la duración existe solo en los 1.122 procesos de 1.655 que resolvieron algo</td></tr><tr><td>Año 2023 en el informe del CEJA</td><td>se muestra «sin dato», no se estima</td></tr><tr><td>Columna de 2019 de la tabla 9.1.10</td><td>no coincide con 9.1.2 + 9.1.6 (hasta 34.671 causas): se registra en un CSV y no se usa</td></tr></tbody></table></div>
 </div></section>
 
 <!-- 8 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · El efecto</p>
-  <h2>Civil pasa de «crítica» a óptima</h2>
+  <p class="eyebrow">Parte 1<span class="tema">Tema de la clase: 3 · Valores atípicos y transformaciones</span></p>
+  <h2>Se midió la asimetría antes y después de log1p: corrige las cantidades, no las razones</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió si la transformación logarítmica corrige las colas largas de cada indicador.</p></div><div><span class="tag">Cómo se hizo</span><p><code>scipy.stats.skew</code> sobre cada variable, leída con la tabla de la clase: menos de 0,5 simétrica, de 0,5 a 1 moderada, más de 1 fuerte.</p></div></div>
   <div class="grid2">
-    <div>
-      <div class="vs">
-        <div class="term"><span class="tag">antes</span><p class="big crit" style="margin:.4rem 0">0,69</p><p>tasa de resolución de civil</p></div>
-        <div class="x">→</div>
-        <div class="term"><span class="tag">ahora</span><p class="big" style="margin:.4rem 0">1,01</p><p>tasa de resolución de civil</p></div>
-      </div>
-    </div>
-    <div>
-      <ul>
-        <li>Total no penal: de <strong>0,83</strong> a <strong>1,01</strong>.</li>
-        <li>Procesos que acumulan mora (tasa de resolución &lt; 1): de <strong>747</strong> a <strong>608</strong>.</li>
-        <li>Las demás materias no cambian: ya publicaban el stock aparte.</li>
-        <li>Tasa de resolución y tasa de congestión usan ahora los mismos denominadores que el CEJA.</li>
-      </ul>
-    </div>
+    <figure><img src="img/nb17_1.png" alt="Asimetría de cinco variables antes y después de transformar."></figure>
+    <ul><li>Atendidas: de 6,5 a <strong>0,54</strong> (fuerte → moderada). Igual en resueltas y pendientes.</li><li>Tasa de congestión: 2,26, sigue fuerte. Duración: <strong>−1,13</strong>, el logaritmo corrige de más.</li><li>La winsorización reduce menos que el logaritmo. Transformar no garantiza mejorar: se mide.</li></ul>
   </div>
-  <p class="muted">Tabla: <code>efecto_correccion_readecuadas.csv</code> (notebook 10). Documentado en las páginas Decisiones y Límites de la web.</p>
 </div></section>
 
 <!-- 9 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · Outliers y transformaciones · asimetría</p>
-  <h2>El logaritmo arregla las cantidades, no las razones</h2>
-  <div class="grid2">
-    <figure><img src="img/nb17_1.png" alt="Asimetría de cinco variables antes y después de transformar."></figure>
-    <div>
-      <ul>
-        <li>Atendidas: de 6,5 a <strong>0,54</strong> con <code>log1p</code> (fuerte → moderada). Igual en resueltas y pendientes.</li>
-        <li>Tasa de congestión: 2,26, sigue fuerte. Duración: <strong>−1,13</strong>, el logaritmo corrige de más.</li>
-        <li>La winsorización reduce menos que el logaritmo.</li>
-      </ul>
-      <p class="muted">Regla 5 de la clase: transformar no garantiza mejorar; hay que medirlo.</p>
-    </div>
-  </div>
+  <p class="eyebrow">Parte 1<span class="tema">Tema de la clase: 6 · Discretización</span></p>
+  <h2>Se agruparon los procesos con cut y qcut y se calculó el índice contra la base</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se clasificó cada proceso por banda de resolución (CEJA) y por tercil de duración, y se cruzó con la materia.</p></div><div><span class="tag">Cómo se hizo</span><p><code>pd.cut</code> con las bandas del CEJA y <code>pd.qcut</code> en terciles; en cada celda, el índice contra la base (1,0 = lo esperado si la materia no importara).</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Materia</th><th class="num">Crítica</th><th class="num">Mejorable</th><th class="num">Óptima</th><th class="num">Duración corta</th><th class="num">Media</th><th class="num">Larga</th></tr></thead><tbody><tr><td>Coactivo Fiscal y Tributario</td><td class="num">1,04</td><td class="num">0,29</td><td class="num">1,14</td><td class="num">0,96</td><td class="num">0,19</td><td class="num">2,06</td></tr><tr><td>Trabajo y Seguridad Social</td><td class="num">0,96</td><td class="num">0,59</td><td class="num">1,13</td><td class="num">0,58</td><td class="num">0,82</td><td class="num">1,70</td></tr><tr><td>Civil y Comercial</td><td class="num">1,15</td><td class="num">1,22</td><td class="num">0,83</td><td class="num">0,82</td><td class="num">1,10</td><td class="num">1,08</td></tr><tr><td>Niñez y Adolescencia</td><td class="num">0,98</td><td class="num">0,75</td><td class="num">1,08</td><td class="num">1,50</td><td class="num">0,69</td><td class="num">0,83</td></tr><tr><td>Familia</td><td class="num">0,86</td><td class="num">1,20</td><td class="num">1,06</td><td class="num">0,93</td><td class="num">1,30</td><td class="num">0,70</td></tr></tbody></table></div><ul><li>Civil está sobrerrepresentada en la banda crítica (1,15) aunque su tasa agregada es 1,01.</li><li>Coactivo (2,06) y trabajo (1,70) se concentran en la duración larga.</li></ul>
 </div></section>
 
 <!-- 10 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · Discretización · cut y qcut</p>
-  <h2>Qué materias se concentran en lo crítico y en lo largo</h2>
-  <div class="table-wrap"><table><thead><tr><th>Materia</th><th class="num">Crítica</th><th class="num">Mejorable</th><th class="num">Óptima</th><th class="num">Duración corta</th><th class="num">Media</th><th class="num">Larga</th></tr></thead><tbody><tr><td>Coactivo Fiscal y Tributario</td><td class="num">1,04</td><td class="num">0,29</td><td class="num">1,14</td><td class="num">0,96</td><td class="num">0,19</td><td class="num">2,06</td></tr><tr><td>Trabajo y Seguridad Social</td><td class="num">0,96</td><td class="num">0,59</td><td class="num">1,13</td><td class="num">0,58</td><td class="num">0,82</td><td class="num">1,70</td></tr><tr><td>Civil y Comercial</td><td class="num">1,15</td><td class="num">1,22</td><td class="num">0,83</td><td class="num">0,82</td><td class="num">1,10</td><td class="num">1,08</td></tr><tr><td>Niñez y Adolescencia</td><td class="num">0,98</td><td class="num">0,75</td><td class="num">1,08</td><td class="num">1,50</td><td class="num">0,69</td><td class="num">0,83</td></tr><tr><td>Familia</td><td class="num">0,86</td><td class="num">1,20</td><td class="num">1,06</td><td class="num">0,93</td><td class="num">1,30</td><td class="num">0,70</td></tr></tbody></table></div>
-  <ul>
-    <li><code>cut</code> con las bandas del CEJA y <code>qcut</code> en terciles de duración. Cada celda es el <strong>índice contra la base</strong>: 1,0 es lo esperado si la materia no importara.</li>
-    <li>Civil está sobrerrepresentada en lo crítico (1,15) aunque su tasa agregada es 1,01. Coactivo (2,06) y trabajo (1,70) se concentran en lo largo.</li>
-  </ul>
+  <p class="eyebrow">Parte 1<span class="tema">Tema de la clase: 8 · Creación de variables</span></p>
+  <h2>Se comparó cada proceso con la mediana de su materia y ámbito</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se separó lo que es lento por sí mismo de lo que es lento porque toda su materia lo es.</p></div><div><span class="tag">Cómo se hizo</span><p><code>groupby().transform('median')</code> devuelve la mediana de cada grupo a cada fila; se comprobó con un <code>merge</code> <code>m:1</code> con sufijos.</p></div></div>
+  <div class="kpis">
+    <div class="kpi"><b>198</b><span>de 1.122 procesos tardan más del triple de la mediana de su grupo</span></div>
+    <div class="kpi"><b>53</b><span>de 360 entre los de 100 o más causas atendidas</span></div>
+  </div>
+  <p>Caso más extremo con volumen: «Otros con procedimiento especial» (niñez) en La Paz: 5.475 días, 58 veces la mediana de su grupo.</p>
 </div></section>
 
 <!-- 11 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · Feature engineering · contexto de grupo y tiempo</p>
-  <h2>Lento por sí mismo o lento por su contexto</h2>
-  <div class="grid2">
-    <div class="term"><h4><code>groupby().transform</code> y <code>merge</code></h4>
-      <p>Cada proceso contra la <strong>mediana de su materia y ámbito</strong>: 198 de 1.122 tardan más del triple; entre los de 100 o más causas, 53 de 360.</p>
-      <p>El caso más extremo con volumen: «Otros con procedimiento especial» (niñez) en La Paz, 5.475 días: 58 veces la mediana de su grupo.</p></div>
-    <div class="term"><h4><code>shift</code>, <code>pct_change</code>, <code>rolling</code></h4>
-      <p>Las ingresadas saltan más de 15 % en <strong>2013, 2016, 2020, 2021</strong>; 2020 y 2021 son la pandemia y el rebote.</p>
-      <p>Desde 2015 la tasa de resolución no tiene memoria entre años (autocorrelación −0,17): oscila alrededor de 1. Seno/coseno no aplica: la serie es anual.</p></div>
+  <p class="eyebrow">Parte 1<span class="tema">Tema de la clase: 3 · Valores atípicos</span></p>
+  <h2>Se marcaron los procesos atípicos en conjunto con la distancia de Mahalanobis</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se buscaron combinaciones raras de valores que ninguna variable muestra sola.</p></div><div><span class="tag">Cómo se hizo</span><p>Distancia de Mahalanobis sobre cuatro variables estandarizadas, con umbral chi-cuadrado al 99,9 %. LOF y DBSCAN necesitan <code>scikit-learn</code>, que el proyecto no usa.</p></div></div>
+  <div class="kpis">
+    <div class="kpi"><b>20</b><span>procesos atípicos en conjunto de 1.082 (1,8 %)</span></div>
+    <div class="kpi"><b>6</b><span>ya tenían bandera severa univariada</span></div>
+    <div class="kpi"><b>14</b><span>solo se ven en conjunto</span></div>
   </div>
+  <ul><li>Son filas pequeñas con tasa de resolución cortada en 3 y sin pendientes: atípicas, no erróneas. <strong>Se marcan, no se eliminan.</strong></li><li>Mahalanobis supone normalidad que estos datos no cumplen: es una marca para revisar, no una conclusión.</li></ul>
 </div></section>
 
 <!-- 12 -->
-<section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1 · Las reglas de la profe</p>
-  <h2>Cómo se cumplen en el proyecto</h2>
-  <div class="table-wrap"><table><thead><tr><th>Regla</th><th>Cómo se cumple</th></tr></thead><tbody><tr><td><strong>Separar train/test y ajustar solo con entrenamiento</strong></td><td>No se ajusta ningún modelo; se mantiene <code>riesgo_leakage</code> y el R² es descriptivo.</td></tr><tr><td><strong>No eliminar un outlier sin entender su origen</strong></td><td>Ninguna fila eliminada; cada caso extraño tiene explicación o queda como marca.</td></tr><tr><td><strong>Correlación no es causalidad; no borrar por |r| alta</strong></td><td>Las 7 correlaciones altas se explican y se dejan.</td></tr><tr><td><strong>Transformar no garantiza mejorar: comprobar</strong></td><td><code>log1p</code> sirve en cantidades y no en razones; el agrupamiento se descartó.</td></tr><tr><td><strong>Documentar qué se transformó y por qué</strong></td><td>Página de decisiones, controles y 20 CSV nuevos.</td></tr><tr><td><strong>Guardar en columna nueva y preservar la original</strong></td><td>Todo en archivos nuevos; la capa curada sigue con 118 columnas.</td></tr><tr><td><strong>Verificar al terminar</strong></td><td>Notebook 13: 12 bloques.</td></tr></tbody></table></div>
-</div></section>
-
-<!-- 13 -->
 <section class="slide sec"><div class="in">
   <p class="eyebrow">Parte 2 de 3</p>
   <h1>Todas las materias y 17 años</h1>
-  <p class="lede">Notebooks 14 y 15: el capítulo 9 del Anuario, con controles y sus advertencias.</p>
+  <p class="lede">Notebooks 14 y 15: se integró el capítulo 9 del Anuario, se calcularon los indicadores del CEJA y se construyó la serie 2007-2023.</p>
+</div></section>
+
+<!-- 13 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Tema de la clase: 11 · Integración y fusión</span></p>
+  <h2>Se integró el capítulo 9 y se cruzó contra otros cuadros del Anuario</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calcularon los indicadores del CEJA para 13 materias y 9 departamentos con los cuadros 9.1.x.</p></div><div><span class="tag">Cómo se hizo</span><p>Antes de interpretar, cada cuadro se verificó contra otro camino independiente.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Control</th><th>Resultado</th></tr></thead><tbody><tr><td>Atendidas = inicio + ingresadas y = resueltas + finales</td><td>68 de 72 filas cierran; las 4 restantes difieren en 1 causa (ya registradas)</td></tr><tr><td>Capital + provincia = nacional (15 materias × 5 columnas)</td><td>0 diferencias</td></tr><tr><td>Capitales + provincias = nacional (9 departamentos)</td><td>0 diferencias</td></tr><tr><td>Total del 9.1.9 contra la serie 9.1.12 de 2023</td><td>iguales</td></tr></tbody></table></div>
 </div></section>
 
 <!-- 14 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Capítulo 9 · Controles</p>
-  <h2>Antes de interpretar, comprobar</h2>
-  <div class="grid2 w60">
-    <div class="table-wrap"><table>
-      <thead><tr><th>Control</th><th>Resultado</th></tr></thead>
-      <tbody>
-        <tr><td>Identidades atendidas = inicio + ingresadas y = resueltas + finales</td><td>68 de 72 filas cierran; las 4 restantes difieren en 1 causa (ya registradas)</td></tr>
-        <tr><td>Capital + provincia = nacional (15 materias × 5 columnas)</td><td>0 diferencias</td></tr>
-        <tr><td>Capitales + provincias = nacional (9 departamentos)</td><td>0 diferencias</td></tr>
-        <tr><td>Total por otro camino: 9.1.9 contra la serie 9.1.12 de 2023</td><td>iguales</td></tr>
-      </tbody>
-    </table></div>
-    <div class="callout error"><span class="t">Tres cuidados con lo penal</span>
-      <ul>
-        <li><strong>Rótulos invertidos</strong> entre anticorrupción y violencia contra la mujer: se suman en pares; el mapa es cerrado y falla con un rótulo nuevo.</li>
-        <li><strong>Ejecución penal</strong> no resuelve (Anuario, p. 673): aparte, fuera de rankings.</li>
-        <li><strong>Etapas, no expedientes</strong>: la misma causa puede contar en más de una etapa.</li>
-      </ul>
-    </div>
+  <p class="eyebrow">Parte 2<span class="tema">Tema de la clase: 7 · Duplicados</span></p>
+  <h2>Se evitó el doble conteo de las materias penales</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se trataron tres riesgos de contar dos veces o de comparar lo que no es comparable.</p></div><div><span class="tag">Cómo se hizo</span><p>Mapa cerrado que se detiene ante un rótulo nuevo; ejecución penal fuera de los rankings; las etapas no se suman entre sí.</p></div></div>
+  <div class="callout error"><span class="t">Tres cuidados con lo penal</span>
+    <ul><li><strong>Rótulos invertidos</strong> entre anticorrupción y violencia contra la mujer: se suman en pares, sin decidir cuál es cuál.</li><li><strong>Ejecución penal</strong> no resuelve (Anuario, p. 673): se muestra aparte, no se borra.</li><li><strong>Etapas, no expedientes</strong>: instrucción, sentencia y tribunales cuentan etapas distintas de una misma causa.</li></ul>
   </div>
 </div></section>
 
 <!-- 15 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Capítulo 9 · Materias</p>
-  <h2>Quién resuelve y quién tardaría años en vaciarse</h2>
-  <figure><img src="img/nb14_2.png" alt="Tasa de resolución y días para vaciar el stock por materia, nacional 2023."></figure>
-  <ul>
-    <li>Con tasa <strong>óptima</strong> solo están Coactivo (1,33), Familia (1,01) y Civil (1,01).</li>
-    <li>Coactivo resuelve más de lo que recibe, pero tardaría 1.446 días: <strong>flujo y stock miden cosas distintas</strong>.</li>
-    <li>Los tribunales de sentencia penal tardarían <strong>1.953 días</strong> (≈ 5,3 años): la mayor entre las materias comparables.</li>
-  </ul>
+  <p class="eyebrow">Parte 2</p>
+  <h2>Resultado: tasa de resolución y días para vaciar el stock por materia</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calcularon la tasa de resolución y los días para vaciar el stock de cada materia en 2023.</p></div><div><span class="tag">Cómo se hizo</span><p>Fórmulas del CEJA sobre las cinco cantidades del cuadro 9.1.9; duración = pendientes al cierre ÷ resueltas × 365.</p></div></div>
+  <figure><img src="img/nb14_2.png" alt="Tasa de resolución y días para vaciar el stock por materia, nacional 2023."></figure><ul><li>Con tasa <strong>óptima</strong> solo están Coactivo (1,33), Familia (1,01) y Civil (1,01).</li><li>Los tribunales de sentencia penal tardarían <strong>1.953 días</strong> (≈ 5,3 años): la mayor entre las materias comparables.</li></ul>
 </div></section>
 
 <!-- 16 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Capítulo 9 · El stock en 2023</p>
-  <h2>El stock subió 19.114 causas, y casi todo es penal</h2>
+  <p class="eyebrow">Parte 2</p>
+  <h2>Resultado: el stock subió 19.114 causas en 2023 y casi todo es penal</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calculó la variación del stock dentro de 2023 por tipo de materia.</p></div><div><span class="tag">Cómo se hizo</span><p>Pendientes al cierre menos pendientes al inicio del cuadro 9.1.9, sumados por tipo.</p></div></div>
   <div class="grid2 w40">
     <div class="kpis" style="grid-template-columns:1fr 1fr">
       <div class="kpi"><b>−1.379</b><span>no penal</span></div>
@@ -298,249 +262,174 @@
     </div>
     <figure><img src="img/nb14_1.png" alt="Variación del stock en 2023 por materia."></figure>
   </div>
-  <p><strong>La justicia no penal redujo su stock.</strong> La acumulación está en lo penal, justo la parte que el análisis anterior no podía medir.</p>
+  <p>La justicia no penal redujo su stock. <span class="muted">Es una variación <em>dentro del año</em>; entre cierres el stock no se conserva (diapositiva 20).</span></p>
 </div></section>
 
 <!-- 17 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Capítulo 9 · Territorio</p>
-  <h2>Por departamento, con todas las materias</h2>
-  <figure><img src="img/nb14_3.png" alt="Tasa de resolución y variación del stock por departamento."></figure>
-  <ul>
-    <li>Solo <strong>Potosí</strong> tiene tasa óptima (1,02). <strong>Beni</strong> es el único en banda crítica (0,85) y su stock creció 18,9 %.</li>
-    <li><strong>Santa Cruz</strong> suma +7.627 causas en el año, el mayor aumento absoluto, y tiene 33,4 % del stock.</li>
-  </ul>
+  <p class="eyebrow">Parte 2</p>
+  <h2>Resultado: por departamento, solo Potosí tiene resolución óptima y Beni es el único crítico</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calcularon los mismos indicadores por departamento, con todas las materias.</p></div><div><span class="tag">Cómo se hizo</span><p>Cuadros 9.1.3, 9.1.7 y 9.1.11 (ciudades capitales, provincias y total departamental).</p></div></div>
+  <figure><img src="img/nb14_3.png" alt="Tasa de resolución y variación del stock por departamento."></figure><ul><li><strong>Potosí</strong> 1,02; <strong>Beni</strong> 0,85 y su stock creció 18,9 %.</li><li><strong>Santa Cruz</strong> suma +7.627 causas en el año, el mayor aumento absoluto, y tiene 33,4 % del stock nacional.</li></ul>
 </div></section>
 
 <!-- 18 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Capítulo 9 · Capacidad</p>
-  <h2>Cuántas resoluciones más harían falta</h2>
+  <p class="eyebrow">Parte 2<span class="tema">Tema de la clase: 8 · Creación de variables</span></p>
+  <h2>Se calculó cuántas resoluciones más harían falta para frenar el stock</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se estimó el esfuerzo adicional necesario para que el stock deje de crecer y para vaciarlo en tres años.</p></div><div><span class="tag">Cómo se hizo</span><p>Aritmética, no un modelo: <code>max(0, ingresadas − resueltas)</code>, y esa cifra más <code>stock ÷ 3</code>.</p></div></div>
   <div class="kpis">
     <div class="kpi"><b>19.115</b><span>más al año para que el stock deje de crecer (5,0 % más que hoy)</span></div>
     <div class="kpi"><b>137.951</b><span>más al año para vaciar el stock en 3 años (36 % más)</span></div>
   </div>
-  <p>Es aritmética, no un modelo: <code>max(0, ingresadas − resueltas)</code> y esa cifra más <code>stock ÷ 3</code>. Es un orden de magnitud, no una proyección, porque el stock publicado no se conserva entre años (diapositiva 21).</p>
+  <p class="muted">Es un orden de magnitud, no una proyección: el stock publicado no se conserva entre años.</p>
 </div></section>
 
 <!-- 19 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Serie 2007-2023</p>
-  <h2>Diecisiete años en una sola serie</h2>
-  <figure><img src="img/nb15_1.png" alt="Stock, ingresadas y resueltas 2007-2023 y comparación con el CEJA."></figure>
-  <ul>
-    <li>Tasa de resolución: 0,74 en 2007, ≈ 1 desde 2015 y <strong>0,95</strong> en 2023.</li>
-    <li>Congestión casi igual: 1,98 (2007) y 1,93 (2023). El problema es estable, no empeora.</li>
-    <li><strong>2020</strong>: ingresadas −27 % y resueltas −22 % por la pandemia; en 2021 volvieron.</li>
-  </ul>
+  <p class="eyebrow">Parte 2<span class="tema">Tema de la clase: 8 · Variables temporales</span></p>
+  <h2>Se construyó la serie 2007-2023 con variaciones interanuales y medias móviles</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se armó la serie histórica de capitales, provincias y nacional y se calcularon sus variaciones.</p></div><div><span class="tag">Cómo se hizo</span><p>Cuadros 9.1.4, 9.1.8 y 9.1.12; <code>pct_change</code> para la variación interanual, <code>shift</code> para el rezago y <code>rolling(3)</code> para la media móvil.</p></div></div>
+  <div class="grid2">
+    <figure><img src="img/nb15_1.png" alt="Stock, ingresadas y resueltas 2007-2023 y comparación con el CEJA."></figure>
+    <ul><li>Tasa de resolución: 0,74 en 2007, ≈ 1 desde 2015 y <strong>0,95</strong> en 2023.</li><li>Las ingresadas saltan más de 15 % en <strong>2013, 2016, 2020, 2021</strong>; 2020 y 2021 son la pandemia y el rebote.</li><li>Desde 2015 la tasa de resolución no tiene memoria entre años (autocorrelación −0,17): oscila alrededor de 1.</li><li>Congestión casi igual: 1,98 (2007) y 1,93 (2023).</li></ul>
+  </div>
 </div></section>
 
 <!-- 20 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Serie 2007-2023</p>
-  <h2>Capitales y provincias no se separan tanto</h2>
-  <figure><img src="img/nb15_2.png" alt="Stock al cierre y tasa de resolución de capitales y provincias."></figure>
-  <p class="muted">Stock al cierre (2007 = 100) y tasa de resolución de cada ámbito. La comparación capital contra provincia, la más mostrada en el primer análisis, es la que menos explica la duración (ver parte 3).</p>
+  <p class="eyebrow">Parte 2<span class="tema">Tema de la clase: 1 · Documentar sin corregir</span></p>
+  <h2>Se detectó que el stock publicado no se conserva entre años</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se comparó el cierre de cada año con la apertura del siguiente.</p></div><div><span class="tag">Cómo se hizo</span><p>Cuadro 9.1.12 nacional: pendientes al cierre del año anterior contra pendientes al inicio. No se corrige ni se interpola.</p></div></div>
+  <div class="grid2">
+    <div>
+      <p>La apertura es <strong>menor</strong> que el cierre previo en <strong>15 de 16</strong> transiciones. Ejemplo: cierre 2022 = 364.680, apertura 2023 = 337.394, diferencia <strong>−27.286</strong>.</p>
+      <p>Suma de las diferencias 2008-2023: −546.074 causas.</p>
+    </div>
+    <div class="callout error"><span class="t">Qué significa</span><ul><li>No se sabe la causa: depuración, archivo o cambios de registro son solo hipótesis.</li><li>El stock no se puede reconstruir sumando flujos.</li><li>Las tasas de cada año no se afectan: usan las cifras de ese año.</li></ul></div>
+  </div>
 </div></section>
 
 <!-- 21 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Un hallazgo sobre la fuente</p>
-  <h2>El stock publicado no se conserva entre años</h2>
-  <div class="grid2">
-    <div>
-      <p>Si el registro se conservara, las pendientes al <em>inicio</em> de un año serían las del <em>cierre</em> del anterior. En el Anuario la apertura es <strong>menor</strong> que el cierre previo en <strong>15 de 16</strong> transiciones.</p>
-      <p>Ejemplo: cierre 2022 = 364.680; apertura 2023 = 337.394; diferencia <strong>−27.286</strong>.</p>
-    </div>
-    <div class="callout error"><span class="t">Qué significa</span>
-      <ul>
-        <li>No se sabe la causa (depuración, archivo, registro) y <strong>no se corrige ni se interpola</strong>.</li>
-        <li>El stock no se puede reconstruir sumando flujos.</li>
-        <li>Las tasas de cada año usan las cifras de ese año: no se afectan.</li>
-      </ul>
-    </div>
+  <p class="eyebrow">Parte 2</p>
+  <h2>Se comparó la serie con las tasas publicadas por el CEJA</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calcularon las tasas con las fórmulas del CEJA y se compararon con las que el informe publica para 2018-2022.</p></div><div><span class="tag">Cómo se hizo</span><p>Tabla 6 (resolución) y tabla 8 (congestión) del informe CEJA 2025, contra la serie del Anuario.</p></div></div>
+  <div class="grid2 w60">
+    <div class="table-wrap"><table><thead><tr><th>Año</th><th class="num">Resolución CEJA</th><th class="num">Resolución Anuario</th><th class="num">Congestión CEJA</th><th class="num">Congestión Anuario</th></tr></thead><tbody><tr><td>2018</td><td class="num">0,80</td><td class="num">1,00</td><td class="num">2,40</td><td class="num">1,97</td></tr><tr><td>2019</td><td class="num">0,94</td><td class="num">0,93</td><td class="num">2,03</td><td class="num">2,06</td></tr><tr><td>2020</td><td class="num">1,01</td><td class="num">0,99</td><td class="num">2,24</td><td class="num">2,33</td></tr><tr><td>2021</td><td class="num">0,97</td><td class="num">0,95</td><td class="num">1,93</td><td class="num">2,03</td></tr><tr><td>2022</td><td class="num">0,92</td><td class="num">0,93</td><td class="num">2,01</td><td class="num">2,04</td></tr><tr><td>2023</td><td class="num">sin dato</td><td class="num">0,95</td><td class="num">sin dato</td><td class="num">1,93</td></tr></tbody></table></div>
+    <ul><li><strong>2019-2022</strong>: diferencia máxima de 0,02 y 0,10.</li><li><strong>2018</strong> difiere mucho: otra fuente o una revisión; no se explica con estos datos.</li><li><strong>2023</strong>, que el CEJA no tiene: resolución 0,95 («mejorable»), congestión 1,93 («en riesgo»).</li></ul>
   </div>
 </div></section>
 
 <!-- 22 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Contra el CEJA</p>
-  <h2>Nuestras cifras coinciden con las del CEJA (salvo 2018)</h2>
-  <div class="grid2 w60">
-    <div class="table-wrap"><table>
-      <thead><tr><th>Año</th><th class="num">Resolución CEJA</th><th class="num">Resolución Anuario</th><th class="num">Congestión CEJA</th><th class="num">Congestión Anuario</th></tr></thead>
-      <tbody><tr><td>2018</td><td class="num">0,80</td><td class="num">1,00</td><td class="num">2,40</td><td class="num">1,97</td></tr><tr><td>2019</td><td class="num">0,94</td><td class="num">0,93</td><td class="num">2,03</td><td class="num">2,06</td></tr><tr><td>2020</td><td class="num">1,01</td><td class="num">0,99</td><td class="num">2,24</td><td class="num">2,33</td></tr><tr><td>2021</td><td class="num">0,97</td><td class="num">0,95</td><td class="num">1,93</td><td class="num">2,03</td></tr><tr><td>2022</td><td class="num">0,92</td><td class="num">0,93</td><td class="num">2,01</td><td class="num">2,04</td></tr><tr><td>2023</td><td class="num">sin dato</td><td class="num">0,95</td><td class="num">sin dato</td><td class="num">1,93</td></tr></tbody>
-    </table></div>
-    <div>
-      <ul>
-        <li><strong>2019-2022</strong>: diferencia máxima de 0,02 y 0,10.</li>
-        <li><strong>2018</strong> difiere mucho: otra fuente o una revisión; no se explica con estos datos.</li>
-        <li><strong>2023</strong>, que el CEJA no tiene: resolución 0,95 («mejorable»), congestión 1,93 («en riesgo»).</li>
-      </ul>
-    </div>
-  </div>
+  <p class="eyebrow">Parte 2</p>
+  <h2>Resultado: casi todas las materias resuelven más que en 2021; una cae</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se compararon las causas resueltas por materia entre 2020 y 2023.</p></div><div><span class="tag">Cómo se hizo</span><p>Cuadros 9.1.2, 9.1.6 y 9.1.10; la columna de 2019 no se usa porque no cierra entre cuadros.</p></div></div>
+  <figure><img src="img/nb15_3.png" alt="Cambio de las causas resueltas entre 2021 y 2023 por materia."></figure><ul><li>Las cinco materias no penales resuelven más: de +5 % (familia) a +39 % (trabajo).</li><li>Los <strong>tribunales de sentencia penal</strong> caen −33 %: 3.110 causas resueltas en 2020 y 1.811 en 2023.</li></ul>
 </div></section>
 
 <!-- 23 -->
-<section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2 · Resueltas por materia</p>
-  <h2>Casi todo resuelve más que en 2021; una materia cae</h2>
-  <figure><img src="img/nb15_3.png" alt="Cambio de las causas resueltas entre 2021 y 2023 por materia."></figure>
-  <ul>
-    <li>Las cinco materias no penales resuelven más: de +5 % (familia) a +39 % (trabajo).</li>
-    <li>Los <strong>tribunales de sentencia penal</strong> caen −33 %: 3.110 causas resueltas en 2020 y 1.811 en 2023.</li>
-    <li>No se usa 2019: la columna de la tabla 9.1.10 no coincide con las otras dos (hasta 34.671 causas de diferencia); queda registrada.</li>
-  </ul>
-</div></section>
-
-<!-- 24 -->
 <section class="slide sec"><div class="in">
   <p class="eyebrow">Parte 3 de 3</p>
   <h1>Dónde está el problema</h1>
-  <p class="lede">Notebooks 16, 18 y 17: dónde se concentra el rezago, qué explica la duración, qué recursos hay por departamento, correlación, PCA y outliers multivariados.</p>
+  <p class="lede">Notebooks 16, 18 y 17: dónde se concentra el rezago, qué explica la duración, qué personal hay por departamento, correlación y PCA.</p>
+</div></section>
+
+<!-- 24 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Tema de la clase: 3 · Valores atípicos (extremos válidos)</span></p>
+  <h2>Se midió la concentración del rezago: el 6 % de los procesos tiene el 73 %</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calculó qué parte del rezago está en las primeras filas, tipos de proceso y departamentos.</p></div><div><span class="tag">Cómo se hizo</span><p><code>pendientes_fin</code> ordenado de mayor a menor y acumulado (curva de Pareto). Los extremos son válidos: no se eliminan.</p></div></div>
+  <div class="grid2">
+    <figure><img src="img/nb16_1.png" alt="Curva de concentración del rezago y los 10 tipos de proceso con más pendientes."></figure>
+    <ul><li>566 de 1.655 procesos <strong>no tienen causas pendientes</strong>.</li><li>10 de 87 tipos de proceso reúnen el 65,7 %: asistencia familiar (14,5 %), ordinario (10,9 %), infracción a leyes sociales (9,4 %).</li><li>La Paz y Santa Cruz concentran el 66,6 %.</li></ul>
+  </div>
 </div></section>
 
 <!-- 25 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Concentración</p>
-  <h2>El 6 % de los procesos tiene el 73 % del rezago</h2>
+  <p class="eyebrow">Parte 3<span class="tema">Tema de la clase: 6 · Codificación de categóricas</span></p>
+  <h2>Se descompuso la varianza de la duración: lo que más explica es el tipo de proceso</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió qué parte de la variación de la duración explica cada factor.</p></div><div><span class="tag">Cómo se hizo</span><p>R² ajustado de <code>log(1 + días)</code> con las categorías como indicadoras (<em>one-hot</em> a mano, no como números), sin pesos y ponderado.</p></div></div>
   <div class="grid2">
-    <figure><img src="img/nb16_1.png" alt="Curva de concentración del rezago y los 10 tipos de proceso con más pendientes."></figure>
-    <ul>
-      <li>566 de 1.655 procesos <strong>no tienen causas pendientes</strong>.</li>
-      <li>10 de 87 tipos de proceso reúnen el 65,7 %: asistencia familiar (14,5 %), ordinario (10,9 %), infracción a leyes sociales (9,4 %).</li>
-      <li>La Paz y Santa Cruz concentran el 66,6 %.</li>
-    </ul>
+    <figure><img src="img/nb16_2.png" alt="Porcentaje de la variación de la duración que explica cada factor."></figure>
+    <ul><li><strong>Capital o provincia: menos de 1 %.</strong></li><li>Departamento: 10 a 14 %. Materia: 5 a 39 %.</li><li><strong>Tipo de proceso</strong>: 21 % sin pesos, hasta 57 % ponderado.</li><li>Es descripción, no causalidad.</li></ul>
   </div>
 </div></section>
 
 <!-- 26 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Qué explica la duración</p>
-  <h2>La unidad que importa es más fina que la materia</h2>
+  <p class="eyebrow">Parte 3<span class="tema">Tema de la clase: Parte B · Clustering (y 4 · Estandarización)</span></p>
+  <h2>Se probó un agrupamiento K-Means y se descartó: el mejor silhouette es 0,425</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió si los procesos forman grupos naturales.</p></div><div><span class="tag">Cómo se hizo</span><p>Cuatro variables estandarizadas (z-score), K-Means con <em>k-means++</em> para <em>k</em> = 2 a 7 y el índice de silhouette (cerca de 0,5 o más hay grupos claros).</p></div></div>
   <div class="grid2">
-    <figure><img src="img/nb16_2.png" alt="Porcentaje de la variación de la duración que explica cada factor."></figure>
-    <div>
-      <ul>
-        <li><strong>Capital o provincia: menos de 1 %.</strong> No explica nada.</li>
-        <li>Departamento: 10 a 14 %.</li>
-        <li>Materia: 5 % sin pesos, hasta 39 % ponderado.</li>
-        <li><strong>Tipo de proceso</strong>: 21 % sin pesos, hasta 57 % ponderado.</li>
-      </ul>
-      <p class="muted">R² ajustado de log(1 + duración). Es descripción, no causalidad; sin pesos queda sin explicar ≈ dos tercios.</p>
-    </div>
+    <div class="table-wrap"><table><thead><tr><th class="num">Grupos (k)</th><th class="num">Silhouette</th><th>Tamaños</th></tr></thead><tbody><tr><td class="num">2</td><td class="num">0,375</td><td>816 / 266</td></tr><tr><td class="num">3</td><td class="num">0,425</td><td>850 / 161 / 71</td></tr><tr><td class="num">4</td><td class="num">0,355</td><td>503 / 382 / 131 / 66</td></tr><tr><td class="num">5</td><td class="num">0,351</td><td>503 / 380 / 127 / 53 / 19</td></tr><tr><td class="num">6</td><td class="num">0,338</td><td>315 / 313 / 239 / 127 / 52 / 36</td></tr><tr><td class="num">7</td><td class="num">0,331</td><td>295 / 228 / 191 / 163 / 127 / 43 / 35</td></tr></tbody></table></div>
+    <div><ul><li>El mejor es <strong>0,425</strong> (k = 3): una masa normal y dos minorías extremas.</li><li><strong>No se adopta</strong> como resultado: las banderas de outlier ya aíslan esos casos.</li><li>Tampoco se ajustó ningún modelo predictivo: no hay variable objetivo.</li></ul></div>
   </div>
 </div></section>
 
 <!-- 27 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Lo que probamos y no adoptamos</p>
-  <h2>El agrupamiento (K-Means) no encuentra grupos naturales</h2>
-  <div class="grid2">
-    <div class="table-wrap"><table>
-      <thead><tr><th class="num">Grupos (k)</th><th class="num">Silhouette</th><th>Tamaños</th></tr></thead>
-      <tbody><tr><td class="num">2</td><td class="num">0,375</td><td>816 / 266</td></tr><tr><td class="num">3</td><td class="num">0,425</td><td>850 / 161 / 71</td></tr><tr><td class="num">4</td><td class="num">0,355</td><td>503 / 382 / 131 / 66</td></tr><tr><td class="num">5</td><td class="num">0,351</td><td>503 / 380 / 127 / 53 / 19</td></tr><tr><td class="num">6</td><td class="num">0,338</td><td>315 / 313 / 239 / 127 / 52 / 36</td></tr><tr><td class="num">7</td><td class="num">0,331</td><td>295 / 228 / 191 / 163 / 127 / 43 / 35</td></tr></tbody>
-    </table></div>
-    <div>
-      <p>El índice de silhouette va de −1 a 1; cerca de 0,5 o más indica grupos claros. El mejor es <strong>0,425</strong> (k = 3), y separa 850 / 161 / 71: una masa normal y dos minorías extremas.</p>
-      <p><strong>No se adopta como resultado.</strong> Las banderas de outlier del notebook 11 ya aíslan esos casos. Tampoco se ajustó ningún modelo predictivo: no hay variable objetivo que lo justifique.</p>
-    </div>
-  </div>
+  <p class="eyebrow">Parte 3<span class="tema">Tema de la clase: 11 · Integración y fusión</span></p>
+  <h2>Se cruzó la carga con el personal: varía 2,6 veces entre departamentos</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calculó cuántas causas ingresan y se resuelven por puesto de trabajo ocupado en cada departamento.</p></div><div><span class="tag">Cómo se hizo</span><p>Ítems de personal (cuadro 14.1.3) y órganos (capítulo 4) unidos al movimiento con <code>merge</code> 1:1 sobre los nueve departamentos.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Departamento</th><th class="num">Puestos ocupados</th><th class="num">Ingresadas por puesto</th><th class="num">Resueltas por puesto</th><th class="num">Remuneración (índice)</th><th class="num">Tasa de resolución</th><th class="num">Días para vaciar</th></tr></thead><tbody><tr><td>Pando</td><td class="num">160</td><td class="num">33,1</td><td class="num">31,5</td><td class="num">2,16</td><td class="num">0,95</td><td class="num">344</td></tr><tr><td>Beni</td><td class="num">403</td><td class="num">38,2</td><td class="num">32,6</td><td class="num">1,83</td><td class="num">0,85</td><td class="num">389</td></tr><tr><td>Chuquisaca</td><td class="num">532</td><td class="num">41,9</td><td class="num">39,1</td><td class="num">1,54</td><td class="num">0,93</td><td class="num">202</td></tr><tr><td>Potosí</td><td class="num">552</td><td class="num">49,2</td><td class="num">50,1</td><td class="num">1,22</td><td class="num">1,02</td><td class="num">334</td></tr><tr><td>Oruro</td><td class="num">434</td><td class="num">52,1</td><td class="num">47,7</td><td class="num">1,30</td><td class="num">0,91</td><td class="num">275</td></tr><tr><td>Tarija</td><td class="num">507</td><td class="num">57,1</td><td class="num">55,6</td><td class="num">1,05</td><td class="num">0,97</td><td class="num">309</td></tr><tr><td>Cochabamba</td><td class="num">1.077</td><td class="num">66,0</td><td class="num">65,6</td><td class="num">0,90</td><td class="num">0,99</td><td class="num">249</td></tr><tr><td>La Paz</td><td class="num">1.480</td><td class="num">66,2</td><td class="num">62,9</td><td class="num">0,93</td><td class="num">0,95</td><td class="num">369</td></tr><tr><td>Santa Cruz</td><td class="num">1.305</td><td class="num">84,8</td><td class="num">79,0</td><td class="num">0,73</td><td class="num">0,93</td><td class="num">422</td></tr></tbody></table></div><ul><li>De 33,1 causas por puesto en Pando a <strong>84,8 en Santa Cruz</strong>; el personal sigue a la demanda (Spearman 0,90).</li></ul>
 </div></section>
 
 <!-- 28 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Recursos · carga por puesto</p>
-  <h2>La carga por puesto varía 2,6 veces entre departamentos</h2>
-  <div class="stack">
-    <div class="table-wrap"><table><thead><tr><th>Departamento</th><th class="num">Puestos ocupados</th><th class="num">Ingresadas por puesto</th><th class="num">Resueltas por puesto</th><th class="num">Remuneración por resuelta</th><th class="num">Tasa de resolución</th><th class="num">Días para vaciar</th></tr></thead><tbody><tr><td>Pando</td><td class="num">160</td><td class="num">33,1</td><td class="num">31,5</td><td class="num">2,16</td><td class="num">0,95</td><td class="num">344</td></tr><tr><td>Beni</td><td class="num">403</td><td class="num">38,2</td><td class="num">32,6</td><td class="num">1,83</td><td class="num">0,85</td><td class="num">389</td></tr><tr><td>Chuquisaca</td><td class="num">532</td><td class="num">41,9</td><td class="num">39,1</td><td class="num">1,54</td><td class="num">0,93</td><td class="num">202</td></tr><tr><td>Potosí</td><td class="num">552</td><td class="num">49,2</td><td class="num">50,1</td><td class="num">1,22</td><td class="num">1,02</td><td class="num">334</td></tr><tr><td>Oruro</td><td class="num">434</td><td class="num">52,1</td><td class="num">47,7</td><td class="num">1,30</td><td class="num">0,91</td><td class="num">275</td></tr><tr><td>Tarija</td><td class="num">507</td><td class="num">57,1</td><td class="num">55,6</td><td class="num">1,05</td><td class="num">0,97</td><td class="num">309</td></tr><tr><td>Cochabamba</td><td class="num">1.077</td><td class="num">66,0</td><td class="num">65,6</td><td class="num">0,90</td><td class="num">0,99</td><td class="num">249</td></tr><tr><td>La Paz</td><td class="num">1.480</td><td class="num">66,2</td><td class="num">62,9</td><td class="num">0,93</td><td class="num">0,95</td><td class="num">369</td></tr><tr><td>Santa Cruz</td><td class="num">1.305</td><td class="num">84,8</td><td class="num">79,0</td><td class="num">0,73</td><td class="num">0,93</td><td class="num">422</td></tr></tbody></table></div>
-    <div>
-      <ul>
-        <li>De 33,1 causas por puesto en Pando a <strong>84,8 en Santa Cruz</strong> (mediana 52,1).</li>
-        <li>El personal sigue a la demanda: ítems ocupados contra ingresadas, Spearman 0,90.</li>
-        <li>Remuneración por causa resuelta: de 0,73 a 2,16 (1,0 = promedio nacional).</li>
-      </ul>
-      <p class="muted">Un ítem es un puesto presupuestado; se miden los ocupados (sin vacantes). La remuneración es mensual y solo del personal.</p>
-    </div>
+  <p class="eyebrow">Parte 3</p>
+  <h2>Resultado: saturación en Santa Cruz y bajo rendimiento con carga ligera en Beni</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se buscó si la carga por puesto se relaciona con la tasa de resolución, la congestión o la duración.</p></div><div><span class="tag">Cómo se hizo</span><p>Correlación de Spearman con valor <em>p</em> (n = 9), 15 combinaciones de recursos y resultados.</p></div></div>
+  <div class="grid2 w60">
+    <figure><img src="img/nb18_1.png" alt="Carga por puesto, tasa de resolución contra carga y brecha de personal."></figure>
+    <ul><li><strong>Santa Cruz</strong>: la mayor carga, la remuneración por resuelta más baja (0,73) y 422 días para vaciarse.</li><li><strong>Beni</strong>: 38,2 causas por puesto, resuelve 32,6 y es el único con tasa crítica (0,85).</li><li><strong>Límite:</strong> ninguna de las 15 relaciones es significativa. Describe, no prueba. Falta la población del INE.</li></ul>
   </div>
 </div></section>
 
 <!-- 29 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Recursos · dos clases de problema</p>
-  <h2>Saturación en Santa Cruz, bajo rendimiento con carga ligera en Beni</h2>
-  <figure><img src="img/nb18_1.png" alt="Carga por puesto, tasa de resolución contra carga y brecha de personal."></figure>
-  <ul>
-    <li><strong>Santa Cruz</strong>: la mayor carga por puesto, la remuneración por resuelta más baja (0,73), 422 días para vaciarse y el mayor aumento de stock.</li>
-    <li><strong>Beni</strong>: 38,2 causas por puesto, resuelve 32,6 y es el único con tasa crítica (0,85). No es un problema de volumen.</li>
-    <li><strong>Límite:</strong> ninguna de las 15 relaciones entre recursos y resultados es significativa (n = 9). Describe, no prueba. Falta la población del INE para pasar a causas por 100.000 habitantes.</li>
-  </ul>
+  <p class="eyebrow">Parte 3<span class="tema">Tema de la clase: 10 · Reducción de dimensionalidad</span></p>
+  <h2>Se calculó la correlación entre indicadores sin eliminar ninguna columna</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió qué indicadores se mueven juntos.</p></div><div><span class="tag">Cómo se hizo</span><p>Matriz de Spearman sobre ocho indicadores; se separaron los pares que son identidades contables.</p></div></div>
+  <div class="grid2">
+    <figure><img src="img/nb17_2.png" alt="Matriz de correlación de Spearman entre indicadores."></figure>
+    <ul><li>7 de 28 pares pasan de 0,90.</li><li><strong>4 son identidades contables</strong> (<code>atendidas = resueltas + pendientes_fin</code>): una |r| alta es esperada.</li><li>Los otros tres (congestión, duración y pendencia) se construyen con fórmulas emparentadas.</li><li><strong>La capa curada sigue con sus 118 columnas</strong>: correlación alta no es motivo para borrar.</li></ul>
+  </div>
 </div></section>
 
 <!-- 30 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Reducción de dimensionalidad · correlación</p>
-  <h2>Correlación alta no es motivo para borrar una columna</h2>
+  <p class="eyebrow">Parte 3<span class="tema">Tema de la clase: 10 · Reducción de dimensionalidad (con 4 · Estandarización)</span></p>
+  <h2>Se redujo con PCA estandarizado: tres componentes explican el 98 %</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se resumieron cuatro indicadores en componentes para saber cuántas dimensiones reales hay.</p></div><div><span class="tag">Cómo se hizo</span><p>Variables estandarizadas y descomposición en valores singulares de <code>numpy</code>; se verificó que la varianza suma 100 % y que los componentes son ortogonales.</p></div></div>
   <div class="grid2">
-    <figure><img src="img/nb17_2.png" alt="Matriz de correlación de Spearman entre indicadores."></figure>
-    <div>
-      <ul>
-        <li>7 de 28 pares pasan de 0,90.</li>
-        <li><strong>4 son identidades contables</strong> (<code>atendidas = resueltas + pendientes_fin</code>): una |r| alta es esperada.</li>
-        <li>Los otros tres (congestión, duración y pendencia) se construyen con fórmulas emparentadas.</li>
-        <li><strong>No se elimina ninguna columna</strong>: la capa curada sigue con sus 118.</li>
-      </ul>
-    </div>
+    <figure><img src="img/nb17_3.png" alt="Varianza explicada por componente y procesos sobre los dos primeros componentes."></figure>
+    <ul><li>Dos componentes explican <strong>79,6 %</strong> y tres, 97,8 %.</li><li>PC1 contrapone duración y pendencia a tasa de resolución; PC2 es volumen.</li><li>Los procesos forman una nube continua, sin grupos separados: coincide con el silhouette bajo (0,425).</li></ul>
   </div>
 </div></section>
 
 <!-- 31 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Reducción de dimensionalidad · PCA</p>
-  <h2>Una nube continua, sin islas</h2>
-  <div class="grid2">
-    <figure><img src="img/nb17_3.png" alt="Varianza explicada y procesos sobre los dos primeros componentes."></figure>
-    <div>
-      <ul>
-        <li>PCA con variables estandarizadas: dos componentes explican <strong>79,6 %</strong> y tres, 97,8 %.</li>
-        <li>PC1 contrapone duración y pendencia a tasa de resolución; PC2 es volumen.</li>
-        <li>Los procesos no forman grupos separados: confirma el silhouette bajo del agrupamiento (0,425).</li>
-      </ul>
-    </div>
-  </div>
+  <p class="eyebrow">Cierre · La clase de preprocesamiento</p>
+  <h2>Dónde se aplicó cada tema de la clase</h2>
+  <div class="table-wrap"><table><thead><tr><th>Tema de la clase</th><th>Estado</th><th>Diapositiva</th></tr></thead><tbody><tr><td>1 · Documentar y verificar</td><td><span class="badge ok">aplicado</span></td><td>5, 6, 20</td></tr><tr><td>2 · Datos faltantes</td><td><span class="badge ok">aplicado</span></td><td>7</td></tr><tr><td>3 · Valores atípicos</td><td><span class="badge ok">aplicado</span></td><td>8, 11, 24</td></tr><tr><td>4 · Estandarización</td><td><span class="badge warn">parcial</span></td><td>26, 30 (sin train/test: no hay modelo predictivo)</td></tr><tr><td>5 · Conversión de tipos</td><td><span class="badge warn">parcial</span></td><td>heredado de los notebooks 04 y 06</td></tr><tr><td>6 · Discretización y codificación</td><td><span class="badge ok">aplicado</span></td><td>9, 25</td></tr><tr><td>7 · Duplicados</td><td><span class="badge warn">parcial</span></td><td>14 (la depuración de claves repetidas se hizo en la Fase 2)</td></tr><tr><td>8 · Creación de variables</td><td><span class="badge ok">aplicado</span></td><td>10, 18, 19</td></tr><tr><td>9 · Balanceo de clases</td><td><span class="badge">no aplica</span></td><td>no hay clasificación ni clase minoritaria</td></tr><tr><td>10 · Correlación y PCA</td><td><span class="badge ok">aplicado</span></td><td>29, 30</td></tr><tr><td>11 · Integración y fusión</td><td><span class="badge ok">aplicado</span></td><td>13, 27</td></tr><tr><td>Parte B · Clustering</td><td><span class="badge ok">aplicado</span></td><td>26 (probado y descartado)</td></tr></tbody></table></div>
+  <p class="muted">Balanceo, <code>chi²</code>, RFE, SFS y <em>train/test</em> necesitan una variable objetivo; este proyecto es descriptivo, por eso no aplican.</p>
 </div></section>
 
 <!-- 32 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3 · Outliers · multivariados</p>
-  <h2>Combinaciones raras que ninguna variable muestra sola</h2>
-  <div class="kpis">
-    <div class="kpi"><b>20</b><span>procesos multivariados atípicos de 1.082 (1,8 %)</span></div>
-    <div class="kpi"><b>6</b><span>ya tenían bandera severa univariada</span></div>
-    <div class="kpi"><b>14</b><span>solo se ven en conjunto</span></div>
-  </div>
-  <ul>
-    <li>Distancia de Mahalanobis con umbral chi-cuadrado al 99,9 %. LOF y DBSCAN, los de la clase, necesitan <code>scikit-learn</code>, que el proyecto no usa.</li>
-    <li>Son filas pequeñas con tasa de resolución cortada en 3 y sin pendientes: combinaciones atípicas, no errores. <strong>Se marcan, no se eliminan.</strong></li>
-    <li>Mahalanobis supone normalidad que estos datos no cumplen: es una marca para revisar.</li>
-  </ul>
+  <p class="eyebrow">Cierre · Las reglas de la profe</p>
+  <h2>Cómo se cumplió cada regla</h2>
+  <div class="table-wrap"><table><thead><tr><th>Regla</th><th>Cómo se cumplió</th></tr></thead><tbody><tr><td>No eliminar un outlier sin entender su origen</td><td>Ninguna fila eliminada: cada caso tiene explicación o queda como marca</td></tr><tr><td>Correlación no es causalidad; no borrar por |r| alta</td><td>Las 7 correlaciones altas se explican y se dejan; el R² se declara descripción</td></tr><tr><td>Transformar o reducir no garantiza mejorar: comprobar</td><td><code>log1p</code> sirve en cantidades, no en razones; el agrupamiento se descartó</td></tr><tr><td>Estandarizar cuando las escalas difieren</td><td>z-score antes del agrupamiento, el PCA y Mahalanobis</td></tr><tr><td>Guardar en columna nueva y preservar la original</td><td>Todo en archivos nuevos; la capa curada sigue con 118 columnas</td></tr><tr><td>Documentar qué se transformó y por qué</td><td>Página de decisiones, controles y 20 CSV nuevos</td></tr><tr><td>Verificar al terminar</td><td>Notebook 13: 12 bloques</td></tr></tbody></table></div>
 </div></section>
 
 <!-- 33 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Qué cambia</p>
   <h2>Lo que corrige o afina lo dicho en el primer análisis</h2>
-  <div class="table-wrap"><table>
-    <thead><tr><th>Antes</th><th>Ahora</th></tr></thead>
-    <tbody>
-      <tr><td>Civil resolvía el 69 % de lo que ingresaba</td><td>Resuelve el 1,01: las readecuadas eran stock inicial</td></tr>
-      <tr><td>Solo se podía medir la mitad no penal</td><td>Se cubre el 100 % de las causas atendidas con indicadores de flujo</td></tr>
-      <tr><td>Coactivo fiscal era lo más lento</td><td>Con lo penal, los tribunales de sentencia tardarían 1.953 días contra 1.446 de coactivo</td></tr>
-      <tr><td>El análisis cubría solo lo no penal y no se veía dónde sube el stock</td><td>La no penal bajó su stock en 1.379; el aumento de 19.114 está en lo penal</td></tr>
-      <tr><td>Se comparaba capital contra provincia</td><td>La geografía que importa es el departamento; el ámbito explica &lt; 1 %</td></tr>
-      <tr><td>Bolivia quedó fuera del índice del CEJA por falta de datos</td><td>2023 con las fórmulas del CEJA: resolución 0,95, congestión 1,93</td></tr>
-    </tbody>
-  </table></div>
+  <div class="table-wrap"><table><thead><tr><th>Antes</th><th>Ahora</th></tr></thead><tbody><tr><td>Civil resolvía el 69 % de lo que ingresaba</td><td>Resuelve el 1,01: las readecuadas eran stock inicial</td></tr><tr><td>Solo se podía medir la mitad no penal</td><td>Se cubre el 100 % de las causas atendidas con indicadores de flujo</td></tr><tr><td>Coactivo fiscal era lo más lento</td><td>Con lo penal, los tribunales de sentencia tardarían 1.953 días contra 1.446 de coactivo</td></tr><tr><td>El análisis cubría solo lo no penal y no se veía dónde sube el stock</td><td>La no penal bajó su stock en 1.379; el aumento de 19.114 dentro del año está en lo penal</td></tr><tr><td>Se comparaba capital contra provincia</td><td>La geografía que importa es el departamento; el ámbito explica menos de 1 %</td></tr><tr><td>Bolivia quedó fuera del índice del CEJA por falta de datos</td><td>2023 con las fórmulas del CEJA: resolución 0,95, congestión 1,93</td></tr></tbody></table></div>
 </div></section>
 
 <!-- 34 -->
@@ -551,13 +440,13 @@
     <ul>
       <li>Los indicadores penales son <strong>de flujo</strong> (resueltas contra ingresadas). Los propios para penal, con sobreseimientos y salidas alternativas, siguen pendientes.</li>
       <li>El stock publicado <strong>no se conserva</strong> entre años; la duración sigue siendo un estimador de estado estacionario, no el seguimiento de expedientes.</li>
-      <li>El capítulo 9 no tiene tipo de proceso: la lectura por materia es menos fina que la de los capítulos 5 y 6.</li>
+      <li>Con 9 departamentos y un solo año las relaciones entre recursos y resultados <strong>no son concluyentes</strong>.</li>
       <li>Mide celeridad, no calidad de las decisiones.</li>
     </ul>
     <div>
       <h3>Lo que sigue</h3>
       <ul>
-        <li>Fuentes externas: población (INE, Censo 2024), datos penitenciarios, presupuesto. Con la descomposición, el corte natural es el <strong>departamento</strong>.</li>
+        <li><strong>Población del INE</strong> (Censo 2024, tabla oficial completa): causas por 100.000 habitantes.</li>
         <li>Indicadores propios para las materias penales.</li>
         <li>Seguir la pista de por qué el stock no se conserva.</li>
       </ul>
@@ -570,9 +459,9 @@
   <p class="eyebrow">En resumen</p>
   <h1>Más cobertura, un error corregido y el problema mejor ubicado</h1>
   <div class="grid3" style="margin-top:1.5rem">
-    <div class="term"><h4>1 · Corrección y clase</h4><p>Las readecuadas son stock inicial: civil pasa de 0,69 a 1,01 y el total no penal de 0,83 a 1,01. Los 11 temas de la clase y el clustering, frente al proyecto: 8 aplicados, 3 en parte, 1 que no aplica.</p></div>
-    <div class="term"><h4>2 · Todo el sistema</h4><p>100 % de las causas atendidas y 17 años. En 2023: resolución 0,95, congestión 1,93; el stock sube 19.114 dentro del año y casi todo es penal. El stock publicado no se conserva entre años.</p></div>
-    <div class="term"><h4>3 · Dónde está</h4><p>El 73 % del rezago está en el 6 % de los procesos y lo explica el tipo de proceso. La carga por puesto varía 2,6 veces: saturación en Santa Cruz, bajo rendimiento con carga ligera en Beni.</p></div>
+    <div class="term"><h4>1 · Corrección y preprocesamiento</h4><p>Las readecuadas son stock inicial: civil pasa de 0,69 a 1,01. Vacíos sin imputar, asimetría medida, discretización, contexto de grupo y outliers multivariados.</p></div>
+    <div class="term"><h4>2 · Todo el sistema</h4><p>100 % de las causas y 17 años. En 2023: resolución 0,95, congestión 1,93. El stock publicado no se conserva entre años.</p></div>
+    <div class="term"><h4>3 · Dónde está</h4><p>El 73 % del rezago está en el 6 % de los procesos y lo explica el tipo de proceso. La carga por puesto varía 2,6 veces: saturación en Santa Cruz, bajo rendimiento en Beni.</p></div>
   </div>
   <p style="font-family:var(--sans);margin-top:2rem">Documentación completa: <a href="ampliacion.html">la página de la ampliación</a> · <a href="index.html">la web del proyecto</a> · ¿Preguntas?</p>
 </div></section>
@@ -584,6 +473,7 @@
   <button class="icon-btn" id="sig" aria-label="Diapositiva siguiente">→</button>
   <button class="icon-btn" id="full" aria-label="Pantalla completa" title="Pantalla completa (f)">⛶</button>
   <button class="icon-btn" id="tema" aria-label="Cambiar tema">◐</button>
+  <a class="icon-btn" href="presentacion.html" style="text-decoration:none">Presentación 1</a>
   <a class="icon-btn" href="index.html" style="text-decoration:none">Web</a>
 </div>
 <script>
