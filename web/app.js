@@ -36,6 +36,32 @@
     return e;
   }
 
+  /* ---------- menú de presentaciones ---------- */
+  var botonPresentar = document.querySelector(".present-btn");
+  if (botonPresentar) {
+    var envoltura = el("div", { "class": "present-menu" });
+    botonPresentar.parentNode.insertBefore(envoltura, botonPresentar);
+    envoltura.appendChild(botonPresentar);
+    botonPresentar.setAttribute("aria-haspopup", "true");
+    botonPresentar.setAttribute("aria-expanded", "false");
+    botonPresentar.appendChild(el("i", { "class": "caret", "aria-hidden": "true" }, "▾"));
+    var lista = el("div", { "class": "present-list", "role": "menu" },
+      '<a role="menuitem" href="presentacion.html"><b>Presentación 1 · El proyecto</b><span>Extracción y diccionario, auditorías, nulos, outliers y análisis exploratorio (41 diapositivas, tres partes)</span></a>' +
+      '<a role="menuitem" href="presentacion-ampliacion.html"><b>Presentación 2 · Ampliación</b><span>Corrección, la clase de preprocesamiento, capítulo 9, serie 2007-2023 y dónde está el problema (35 diapositivas, tres partes)</span></a>');
+    envoltura.appendChild(lista);
+    var cerrarPresentar = function () {
+      envoltura.classList.remove("open");
+      botonPresentar.setAttribute("aria-expanded", "false");
+    };
+    botonPresentar.addEventListener("click", function (e) {
+      e.preventDefault();
+      var abierto = envoltura.classList.toggle("open");
+      botonPresentar.setAttribute("aria-expanded", abierto ? "true" : "false");
+    });
+    document.addEventListener("click", function (e) { if (!envoltura.contains(e.target)) { cerrarPresentar(); } });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") { cerrarPresentar(); } });
+  }
+
   /* ---------- tema ---------- */
   var botonTema = document.getElementById("themeToggle");
   if (botonTema) {
