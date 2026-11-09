@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="reproducir">
 <header class="topbar">
@@ -31,7 +31,7 @@
   </nav>
   <div class="main">
     <article>
-<p class="eyebrow">Referencia · 13</p>
+<p class="eyebrow">Referencia · 14</p>
 <h1>Cómo reproducir</h1>
 <p class="lede">Todo el proyecto se regenera desde el PDF con los notebooks. Nada se hizo a mano en una planilla: otra persona, con el mismo PDF y el mismo código, obtiene los mismos archivos.</p>
 
@@ -79,7 +79,8 @@ sha256sum data/raw/anuario_2023.pdf
 for n in 01_diagnostico 02_inventario 03_extraccion 07_extraccion_procesos \
          04_normalizacion 05_validacion 06_export 08_integracion_interna \
          09_nulos_estados 10_indicadores_congestion 11_tratamiento_outliers \
-         12_reporte_eda 13_verificacion; do
+         12_reporte_eda 14_capitulo9_todas_las_materias 15_serie_historica \
+         16_diagnostico_concentracion 17_tecnicas_de_clase 18_recursos_y_carga 13_verificacion; do
   ../.venv/bin/jupyter nbconvert --to notebook --execute --inplace $n.ipynb
 done</code></pre>
 <p>La corrida completa tarda unos pocos minutos; el 07, que lee 525 páginas con coordenadas, es el más largo (unos 30 segundos).</p>

@@ -17,6 +17,7 @@
     { g: "Cómo se hizo", slug: "auditorias", t: "Las seis auditorías" },
     { g: "Cómo se hizo", slug: "integracion", t: "La capa analítica" },
     { g: "Resultados", slug: "eda", t: "EDA e indicadores" },
+    { g: "Resultados", slug: "ampliacion", t: "Ampliación y relación con la clase" },
     { g: "Resultados", slug: "decisiones", t: "Decisiones y errores" },
     { g: "Resultados", slug: "limites", t: "Límites y pendientes" },
     { g: "Referencia", slug: "reproducir", t: "Cómo reproducir" },

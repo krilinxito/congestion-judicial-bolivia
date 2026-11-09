@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="index">
 <header class="topbar">
@@ -41,7 +41,7 @@
   <div class="kpi"><b>85.953</b><span>filas en 12 tablas</span></div>
   <div class="kpi"><b>117</b><span>veces que el Anuario no cierra consigo mismo</span></div>
   <div class="kpi"><b>1.997</b><span>filas de la tabla analítica</span></div>
-  <div class="kpi"><b>83,4 %</b><span>tasa de resolución de la justicia no penal</span></div>
+  <div class="kpi"><b>100,7 %</b><span>tasa de resolución de la justicia no penal</span></div>
 </div>
 
 <h2>El proyecto en una página</h2>
@@ -68,11 +68,12 @@
   <a class="card" href="pipeline.html#fase-1"><span class="k">Fase 1 · ETL</span><h4>Sacar el dato sin interpretarlo</h4><p>Notebooks 01 a 07. Leen el PDF y producen 12 tablas (85.953 filas). Si una celda es ambigua queda vacía y se anota; si el Anuario se contradice, se registra.</p></a>
   <a class="card" href="auditorias.html"><span class="k">Fase 2 · Auditoría</span><h4>Entender qué significa</h4><p>Seis auditorías contra el PDF y el notebook 08. Resuelven geografía, materias, juzgados y tipos de proceso, y organizan las tablas en un modelo que no multiplica datos.</p></a>
   <a class="card" href="eda.html"><span class="k">Fase 3 · EDA</span><h4>Calcular y describir</h4><p>Notebooks 09 a 12. Clasifican los vacíos, calculan los indicadores de congestión, marcan valores extremos sin borrarlos y producen el reporte.</p></a>
+  <a class="card" href="ampliacion.html"><span class="k">Fase 4 · Ampliación</span><h4>Todas las materias y 17 años</h4><p>Notebooks 14 a 18. Usan el capítulo 9 para cubrir también lo penal, miran la serie 2007-2023 contra el CEJA, miden dónde se concentra el rezago, cruzan la carga con el personal de cada departamento y ponen cada técnica de la clase de preprocesamiento frente al proyecto.</p></a>
 </div>
 
 <h2>Lo que encontramos, en cuatro frases</h2>
 <ul>
-  <li>La justicia <strong>no penal</strong> cerró en 2023 el <strong>83,4 %</strong> de lo que recibió: 5 de cada 6 causas. El resto se acumula como mora. <a href="eda.html">Ver resultados</a>.</li>
+  <li>La justicia <strong>no penal</strong> resolvió en 2023 <strong>tanto como recibió</strong> (100,7 %: 209.197 resueltas contra 207.809 ingresadas), pero el stock heredado casi no baja (−1,3 %). Una primera versión decía 83,4 % por contar como ingreso las causas readecuadas a la Ley 439, que son el stock inicial de civil: <a href="decisiones.html#las-readecuadas">ver la corrección</a>. <a href="eda.html">Ver resultados</a>.</li>
   <li>La demora varía mucho entre materias: <strong>Coactivo Fiscal y Tributario</strong> tardaría unos <strong>1.417 días</strong> en vaciar su stock; Civil y Comercial, unos 162.</li>
   <li>La brecha entre capitales y provincias existe pero es moderada (213 contra 238 días). Importa más <em>qué tipo de caso</em> es que <em>dónde</em> se tramita.</li>
   <li>El análisis cubre el <strong>47,5 %</strong> de las causas: las materias penales no publican causas resueltas y quedan fuera de estas fórmulas. <a href="limites.html">Ver límites</a>.</li>
@@ -82,7 +83,7 @@
 <div class="table-wrap"><table>
 <thead><tr><th>Si tenés…</th><th>Leé</th></tr></thead>
 <tbody>
-<tr><td>5 minutos</td><td>La <a href="presentacion.html">presentación</a> (30 diapositivas: datos, nulos, outliers y hallazgos).</td></tr>
+<tr><td>5 minutos</td><td>La <a href="presentacion.html">presentación</a> (41 diapositivas: datos, nulos, outliers y hallazgos) y su continuación, <a href="presentacion-ampliacion.html">la ampliación</a> (37 diapositivas: corrección, capítulo 9, serie 2007-2023, diagnóstico, recursos y la clase aplicada).</td></tr>
 <tr><td>10 minutos</td><td>Esta página, <a href="conceptos.html#las-cinco-cantidades">las cinco cantidades</a> y <a href="eda.html">los resultados</a>.</td></tr>
 <tr><td>1 hora</td><td>Además: <a href="conceptos.html">conceptos jurídicos</a>, <a href="anuario.html">el Anuario</a>, <a href="pipeline.html">el pipeline</a> y <a href="decisiones.html">decisiones y errores</a>.</td></tr>
 <tr><td>Una tarde</td><td>Todo el sitio en el orden del menú. Al final, <a href="preguntas.html">las preguntas frecuentes</a> sirven de autoevaluación.</td></tr>
@@ -101,6 +102,7 @@
 │   ├── 01_diagnostico … 08_integracion_interna   Fases 1 y 2
 │   ├── 09_nulos_estados … 12_reporte_eda          Fase 3
 │   ├── 13_verificacion                            chequeo final de todo
+│   ├── 14_capitulo9 … 18_recursos_y_carga         Fase 4: ampliación
 │   └── modulos/               funciones y tablas compartidas (se cargan con %run)
 ├── data/
 │   ├── raw/                   el PDF (no se versiona: se descarga aparte)

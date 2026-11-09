@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="limites">
 <header class="topbar">
@@ -31,7 +31,7 @@
   </nav>
   <div class="main">
     <article>
-<p class="eyebrow">Resultados · 12</p>
+<p class="eyebrow">Resultados · 13</p>
 <h1>Límites y pendientes</h1>
 <p class="lede">Lo que no se hizo es tan importante como lo que sí. Suponer lo contrario lleva a conclusiones incorrectas. Esta página lista todo lo que los datos no permiten, lo que quedó abierto y lo que falta.</p>
 
@@ -43,8 +43,9 @@
   <li><strong><code>num_juzgados</code> es nominal:</strong> un juzgado mixto cuenta una vez por materia. Además, los capítulos 5 y 9 declaran cantidades distintas para la misma materia.</li>
   <li><strong>El costo salarial cubre solo el personal</strong>, no el presupuesto total del Órgano Judicial, y la remuneración es mensual.</li>
   <li><strong>El Anuario no cierra consigo mismo</strong> en 117 casos, y las series históricas tienen gestiones que no cumplen sus identidades.</li>
-  <li><strong>Las materias penales no publican causas resueltas</strong>, así que los indicadores cubren el 47,5 % de las causas.</li>
-  <li><strong>En civil no se publica el stock inicial</strong>, así que su tasa de resolución no se compara directamente con la de otras materias.</li>
+  <li><strong>Las materias penales no publican causas resueltas por tipo de proceso</strong> (capítulos 5 y 6), así que el detalle fino cubre el 47,5 % de las causas. El capítulo 9 sí publica las cinco cantidades por <em>materia</em>: con él se calculan indicadores de flujo para el 100 % (ver <a href="ampliacion.html">la ampliación</a>), pero solo por materia y departamento, y las materias penales cuentan <em>etapas</em>, no expedientes únicos.</li>
+  <li><strong>El stock publicado no se conserva entre años:</strong> la apertura de un año es menor que el cierre del anterior en 15 de 16 transiciones (en 2023, −27.286 causas). No se sabe la causa y no se corrige; por eso el stock no se reconstruye sumando flujos y la «variación del stock» es siempre dentro del año.</li>
+  <li><strong>En civil el stock inicial no se llama <code>pendientes_inicio</code></strong> sino <code>readecuadas_ley_439</code>. El proyecto lo usa como stock inicial (cierra exacto contra el 9.1.1 y el 9.1.5) y <strong>no</strong> como ingreso; una primera versión lo contaba como ingreso y daba 83,4 % en lugar de 100,7 %. En niñez los cuadros 5.x no cierran con el capítulo 9: son discrepancias de la fuente ya registradas.</li>
   <li><strong>Es una sola gestión.</strong> El planteo original del proyecto trabajaba sobre 2022; los números preliminares de esa edición no son comparables fila a fila con estos: cambian los valores y, en algunos cuadros, los nombres de las materias.</li>
 </ol>
 
@@ -53,14 +54,14 @@
   <span class="t">Lista de control</span>
   <ol>
     <li><code>pct_resueltas</code> <strong>no</strong> es la tasa de resolución: es resueltas ÷ atendidas.</li>
-    <li><code>ingresadas</code> es la suma de todas las formas de ingreso, no <code>nuevas_ingresadas</code>.</li>
+    <li><code>ingresadas</code> es la suma de todas las formas de ingreso <strong>del año</strong>, no <code>nuevas_ingresadas</code>, y <strong>sin el stock inicial</strong>: en civil, <code>readecuadas_ley_439</code> es stock inicial, no ingreso.</li>
     <li>Excluir las filas de total (<code>tipo_fila_derivado == "total"</code>, <code>es_total_nacional</code>) antes de sumar. La tabla analítica ya lo hace.</li>
     <li>Cero resueltas rompe la congestión y la duración: el indicador queda vacío, no se inventa.</li>
     <li>No sumar las 37 filas de 4.1.1: hay subtotales. Y los 846 órganos no son todos juzgados.</li>
     <li>No sumar informes de inicio con imputaciones formales: son dos etapas del mismo expediente.</li>
     <li>No unir tablas de grano distinto sin comprobar que la clave es única del otro lado.</li>
     <li>No usar como predictor una columna marcada con riesgo de leakage.</li>
-    <li>Las fórmulas exactas deben confirmarse contra el documento del CEJA 2025, que no está en este repositorio, en especial el denominador de la congestión y el factor de días de la duración.</li>
+    <li>Las fórmulas se contrastaron con el CEJA 2025 (cap. I): la tasa de resolución es resueltas ÷ ingresados del año, y la de congestión es (ingresados + pendientes al inicio) ÷ resueltas, es decir, <code>atendidas ÷ resueltas</code>. El CEJA <strong>no define una duración</strong>: <code>duracion_estimada_dias</code> es un estimador propio del proyecto.</li>
   </ol>
 </div>
 
@@ -73,7 +74,7 @@
 <tr><td>5 variaciones editoriales de tipo de proceso</td><td>conservadas literales</td><td>son erratas del Anuario; decisión editorial aparte</td></tr>
 <tr><td>Un número de juzgados «real»</td><td>no existe</td><td>hay que decidir antes qué cuenta: ¿tribunales? ¿salas? ¿conciliadores?</td></tr>
 <tr><td>Una dimensión de tipos de proceso</td><td>no existe</td><td>el dominio mezcla procesos, acciones penales e incidentes</td></tr>
-<tr><td>Indicadores para las 8 materias penales</td><td>no existen</td><td>no publican resueltas: hacen falta fórmulas propias (con sobreseimientos, imputaciones, salidas alternativas)</td></tr>
+<tr><td>Indicadores propios para las materias penales</td><td>solo de flujo</td><td>el capítulo 9 permite resueltas contra ingresadas por materia; los propios (con sobreseimientos, imputaciones, salidas alternativas) siguen pendientes</td></tr>
 <tr><td>104 páginas de cuadros de otros capítulos</td><td>solo en el catálogo</td><td>fuera de alcance: segunda instancia, agroambiental, disciplina, conciliaciones, registros</td></tr>
 </tbody></table></div>
 
@@ -83,7 +84,8 @@
   <li>No se eliminó ninguna fila ni se usó <code>drop_duplicates</code> para cambiar cantidades.</li>
   <li>No se corrigió ninguna discrepancia contable para que cierre.</li>
   <li>No se sumaron los componentes de recursos ni se repartieron órganos mixtos o personal por materia.</li>
-  <li>No se ejecutó ningún modelo, agrupamiento (clustering) ni serie de tiempo.</li>
+  <li><strong>No se normalizó por población.</strong> Falta la tabla oficial del Censo 2024 del INE para los 9 departamentos; las cifras de prensa están incompletas y son preliminares. Por eso las comparaciones entre departamentos son por puesto de trabajo, no por habitante.</li>
+  <li>No se ajustó ningún modelo predictivo ni se hizo pronóstico. La serie 2007-2023 es descriptiva. Se probó un agrupamiento (K-Means) y <strong>se descartó</strong>: el mejor silhouette fue 0,425, sin grupos naturales (<a href="ampliacion.html#5-lo-que-se-probo-y-no-se-adopto">ver la ampliación</a>). Del temario de clase tampoco se aplicó LOF ni DBSCAN (necesitan <code>scikit-learn</code>; se usó la distancia de Mahalanobis), ni balanceo, ni selección supervisada: no hay variable objetivo.</li>
   <li><strong>No se incorporó ninguna fuente externa.</strong></li>
 </ul>
 
@@ -93,7 +95,7 @@
   <li>validar la extracción contra otras fuentes;</li>
   <li><strong>población</strong> como variable explicativa y tasas por cien mil habitantes (INE, Censo 2024);</li>
   <li>situación penitenciaria (Defensoría del Pueblo);</li>
-  <li>comparación con el índice del <strong>CEJA 2025</strong>, con sus fórmulas exactas;</li>
+  <li>comparación de los valores de Bolivia con el índice del <strong>CEJA 2025</strong> (el índice no tiene datos de Bolivia después de 2022; las fórmulas ya están contrastadas);</li>
   <li>presupuesto del Órgano Judicial.</li>
 </ul>
 <div class="callout ojo">
@@ -102,7 +104,7 @@
 </div>
 
 <h3>Lo que sí está listo para modelar</h3>
-<p><code>data/curated/features/dataset_analitico_curado.parquet</code>: 1.997 filas × 115 columnas, con la unidad de análisis del proyecto, los indicadores, las banderas de outlier, las transformaciones logarítmicas para agrupamiento y el riesgo de leakage documentado columna por columna. El paso natural siguiente es un <strong>agrupamiento por distrito × materia × tipo de proceso</strong> que use solo variables estructurales y excluya las 47 columnas marcadas como resultado.</p>
+<p><code>data/curated/features/dataset_analitico_curado.parquet</code>: 1.997 filas × 118 columnas, con la unidad de análisis del proyecto, los indicadores, las banderas de outlier, las transformaciones logarítmicas para agrupamiento y el riesgo de leakage documentado columna por columna. El paso natural siguiente es un <strong>agrupamiento por distrito × materia × tipo de proceso</strong> que use solo variables estructurales y excluya las 47 columnas marcadas como resultado.</p>
     </article>
     <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
   </div>

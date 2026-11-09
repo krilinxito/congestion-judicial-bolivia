@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="glosario">
 <header class="topbar">
@@ -31,7 +31,7 @@
   </nav>
   <div class="main">
     <article>
-<p class="eyebrow">Referencia · 14</p>
+<p class="eyebrow">Referencia · 15</p>
 <h1>Glosario</h1>
 <p class="lede">Todos los términos del proyecto en orden alfabético. <span class="badge">judicial</span> viene del derecho o del Anuario; <span class="badge ok">datos</span> es de ingeniería de datos o estadística; <span class="badge warn">proyecto</span> es un nombre propio de este repositorio.</p>
 <input class="filter" type="search" placeholder="Filtrar el glosario…" data-target="glosario" aria-label="Filtrar el glosario">
@@ -125,11 +125,13 @@
 <tr><td>Proceso ordinario / extraordinario</td><td><span class="badge">judicial</span></td><td>El proceso civil completo, o el que se resuelve en una sola audiencia.</td></tr>
 <tr><td>Programación dinámica</td><td><span class="badge ok">datos</span></td><td>Técnica para resolver un problema combinando las soluciones de problemas más chicos. Se usa para asignar etiquetas de grupo.</td></tr>
 <tr><td>Readecuación</td><td><span class="badge">judicial</span></td><td>Adaptación de causas iniciadas con el código viejo al nuevo Código Procesal Civil (vigente desde 2016).</td></tr>
+<tr><td>Readecuadas (Ley 439)</td><td><span class="badge">judicial</span></td><td>Causas civiles iniciadas con el Código de Procedimiento Civil anterior y adaptadas al Código Procesal Civil (Ley 439). En los cuadros civiles ocupan el lugar de «pendientes de la gestión anterior»: son el <strong>stock inicial</strong>, no un ingreso del año.</td></tr>
 <tr><td>Resueltas</td><td><span class="badge">judicial</span></td><td>Causas cerradas en el año, con sentencia, auto definitivo o finalización de competencia.</td></tr>
 <tr><td>Sala</td><td><span class="badge">judicial</span></td><td>División de un Tribunal Departamental que revisa apelaciones: segunda instancia.</td></tr>
 <tr><td>SHA-256</td><td><span class="badge ok">datos</span></td><td>Huella digital de un archivo; cambia si el archivo cambia en un byte.</td></tr>
 <tr><td>Sobreseimiento</td><td><span class="badge">judicial</span></td><td>El fiscal cierra el caso sin llevarlo a juicio.</td></tr>
 <tr><td>Spearman</td><td><span class="badge ok">datos</span></td><td>Correlación que mide si dos variables ordenan igual los casos. 1 = mismo orden.</td></tr>
+<tr><td>Stock inicial</td><td><span class="badge ok">datos</span></td><td>Causas que ya estaban pendientes al empezar el año. <code>pendientes_inicio</code> o, en civil, <code>readecuadas_ley_439</code>. Entra en la tasa de congestión (numerador), no en el denominador de la tasa de resolución.</td></tr>
 <tr><td>Tasa de congestión</td><td><span class="badge ok">datos</span></td><td>atendidas ÷ resueltas: causas gestionadas por cada una cerrada.</td></tr>
 <tr><td>Tasa de pendencia</td><td><span class="badge ok">datos</span></td><td>pendientes_fin ÷ atendidas.</td></tr>
 <tr><td>Tasa de resolución</td><td><span class="badge ok">datos</span></td><td>resueltas ÷ ingresadas. Menos de 1: se acumula mora.</td></tr>
@@ -138,6 +140,23 @@
 <tr><td>Trazabilidad</td><td><span class="badge ok">datos</span></td><td>Poder decir de qué cuadro y página salió cualquier número.</td></tr>
 <tr><td>Tribunal (de Sentencia)</td><td><span class="badge">judicial</span></td><td>Órgano colegiado de tres jueces para los delitos graves. No es un juzgado.</td></tr>
 <tr><td>Winsorización</td><td><span class="badge ok">datos</span></td><td>Topear los valores extremos en un percentil, sin eliminar los casos.</td></tr>
+</tbody></table></div>
+
+<h2>Ampliación: capítulo 9, serie y diagnóstico</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Término</th><th>Tipo</th><th>Qué es</th></tr></thead>
+<tbody>
+<tr><td>Tasa de resolución (CEJA)</td><td><span class="badge ok">datos</span></td><td>Resueltas ÷ ingresadas del año, sin el stock inicial. Óptima si ≥ 1,00, mejorable de 0,90 a 0,99, crítica si &lt; 0,90.</td></tr>
+<tr><td>Tasa de congestión (CEJA)</td><td><span class="badge ok">datos</span></td><td>(Ingresadas + pendientes al inicio) ÷ resueltas, es decir, atendidas ÷ resueltas. Aceptable hasta 1,5, en riesgo hasta 2, crítica si &gt; 2.</td></tr>
+<tr><td>Brecha de capacidad</td><td><span class="badge ok">datos</span></td><td>Resoluciones adicionales al año para frenar el crecimiento del stock (<code>max(0, ingresadas − resueltas)</code>) o para vaciarlo en tres años. Es aritmética, no una proyección.</td></tr>
+<tr><td>Variación del stock</td><td><span class="badge ok">datos</span></td><td>Pendientes al cierre menos al inicio, <em>dentro del año</em>. No equivale a la diferencia entre cierres de años consecutivos porque el stock publicado no se conserva.</td></tr>
+<tr><td>R² ajustado</td><td><span class="badge ok">datos</span></td><td>Parte de la variación de una variable que explica un factor, descontando el número de categorías. Se usó con el logaritmo de la duración, con y sin pesos.</td></tr>
+<tr><td>Silhouette</td><td><span class="badge ok">datos</span></td><td>De −1 a 1: qué tan bien separados están los grupos de un agrupamiento. Cerca de 0,5 o más indica grupos claros; aquí el máximo fue 0,425.</td></tr>
+<tr><td>Asimetría (<em>skewness</em>)</td><td><span class="badge ok">datos</span></td><td>Qué tan desparejo es el reparto de una variable. Menos de 0,5 en valor absoluto es aproximadamente simétrica, de 0,5 a 1 moderada y más de 1 fuerte. Justifica transformar con logaritmo.</td></tr>
+<tr><td>Índice contra la base</td><td><span class="badge ok">datos</span></td><td>Participación de un grupo en una categoría dividida por la participación de toda la base. 1,0 es lo esperado; más de 1, sobrerrepresentación.</td></tr>
+<tr><td>PCA</td><td><span class="badge ok">datos</span></td><td>Reduce variables estandarizadas a componentes que resumen la varianza. Aquí, dos componentes explican el 79,6 % de la de cuatro indicadores.</td></tr>
+<tr><td>Distancia de Mahalanobis</td><td><span class="badge ok">datos</span></td><td>Distancia de un punto al centro de los datos que tiene en cuenta las correlaciones entre variables. Marca outliers multivariados; es el equivalente clásico de LOF.</td></tr>
+<tr><td>Concentración (Pareto)</td><td><span class="badge ok">datos</span></td><td>Qué porcentaje del total reúne el primer x % de las filas ordenadas. Aquí, el 6 % de los procesos reúne el 73 % del rezago.</td></tr>
 </tbody></table></div>
     </article>
     <aside class="toc" id="toc" aria-label="Índice de la página"></aside>

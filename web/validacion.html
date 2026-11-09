@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="validacion">
 <header class="topbar">
@@ -49,7 +49,7 @@
 <div class="eq">29.688                         = pendientes_inicio   ✓
 243 + 4.398 + 355 + 61.144     = 66.140 = ingresadas ✓
 95.828 = atendidas · 67.788 = resueltas · 28.040 = pendientes_fin   ✓</div>
-<p>Cierra exacto, y de paso aclara algo que no era obvio: la columna <code>ingresadas</code> del capítulo 9 es la <strong>suma de cuatro formas de ingreso</strong> que el capítulo 5 publica por separado. Ese detalle resultó decisivo para calcular bien la tasa de resolución.</p>
+<p>Cierra exacto, y de paso aclara algo que no era obvio: la columna <code>ingresadas</code> del capítulo 9 es la <strong>suma de cuatro formas de ingreso</strong> que el capítulo 5 publica por separado. Ese detalle resultó decisivo para calcular bien la tasa de resolución. Y la primera línea, vista del otro lado, dice algo más: <code>readecuadas_ley_439</code> es el stock inicial de civil (29.688 = <code>pendientes_inicio</code>) y no una forma de ingreso. Ver <a href="decisiones.html#las-readecuadas">decisiones y errores</a>.</p>
 <div class="table-wrap"><table>
 <thead><tr><th>Cuadro</th><th>Contra</th><th>Resultado</th></tr></thead>
 <tbody>
@@ -164,6 +164,11 @@
   <li><strong>Contexto y correcciones:</strong> 18 etapas y 54 contextos iguales a la auditoría; las 87 reglas iguales al contrato; dominios antes y después; el contexto constante dentro de cada fila fuente.</li>
   <li><strong>Integración:</strong> 1.997 filas y 87 columnas, clave única, 1.655 procesos, sumas conservadas, 19 recursos, 9 distritos, 32/12/12 en movimiento y gestión, 192 columnas en el diccionario analítico.</li>
   <li><strong>Capa analítica:</strong> la identidad de ingresos, la tasa de resolución calculada con el denominador correcto, vacía cuando no hubo ingresos, tasas en rango, winsorización que solo baja valores, logaritmo que conserva el orden.</li>
+  <li><strong>Capítulo 9:</strong> 13 grupos de materia, totales iguales a la serie 9.1.12 de 2023 por otro camino, y la variación del stock (+19.114: no penal −1.379, penal +13.134, ejecución +7.359).</li>
+  <li><strong>Serie 2007-2023:</strong> 51 filas, resolución 0,95 y congestión 1,93 en 2023, apertura menor que el cierre previo en 15 de 16 años y coincidencia con el CEJA de 2019 a 2022.</li>
+  <li><strong>Diagnóstico:</strong> 100 filas = 73,4 % del rezago, 10 tipos = 65,7 %, el ámbito no explica la duración y el tipo de proceso explica más que la materia.</li>
+  <li><strong>Recursos por departamento:</strong> 6.766 ítems (316 vacantes) y 1.209 órganos en 9 departamentos, movimiento igual al del notebook 14, carga mediana de 52,1 causas por puesto ocupado y 0 de 15 relaciones significativas.</li>
+  <li><strong>Técnicas de clase:</strong> <code>log1p</code> baja la asimetría, 198 procesos a más de tres veces la mediana de su grupo, 7 pares con |r| &gt; 0,90 (4 contables), PCA con 79,6 % en dos componentes, 20 outliers multivariados y la capa curada intacta (118 columnas).</li>
 </ol>
 <div class="callout regla">
   <span class="t">El patrón</span>

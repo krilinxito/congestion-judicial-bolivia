@@ -226,7 +226,7 @@ Tribunales Departamentales (9)
       <div class="eq">atendidas = pendientes_inicio + ingresadas
 atendidas = resueltas + pendientes_fin</div>
       <p><strong>Ejemplo real</strong> (cuadro 5.1.1.1, p. 121): procesos ordinarios civiles de Sucre. 2.397 atendidas, 1.286 resueltas, 1.111 pendientes al cierre. Cerró menos de lo que entró: acumula mora.</p>
-      <p class="muted">Una causa también puede <em>ingresar</em> readecuada a la Ley 439, por excusa o recusación de otro juez, o por una medida preliminar o cautelar que se formalizó: sumarlas todas es la verdadera <code>ingresadas</code>.</p>
+      <p class="muted">Una causa también puede <em>ingresar</em> por excusa o recusación de otro juez, o por una medida preliminar o cautelar que se formalizó: sumarlas con las nuevas es la verdadera <code>ingresadas</code>. Las causas <em>readecuadas</em> a la Ley 439 (civil) no entran acá: son el stock inicial.</p>
       <div class="callout ojo"><span class="t">Ojo</span><p><code>pct_resueltas</code> del Anuario es resueltas ÷ atendidas. <strong>No es la tasa de resolución</strong>, que es resueltas ÷ ingresadas.</p></div>
     </div>
   </div>
@@ -545,7 +545,7 @@ atendidas = resueltas + pendientes_fin</div>
     <div class="step"><b>774</b><span>páginas del PDF</span></div><div class="arrow">→</div>
     <div class="step"><b>85.953</b><span>filas en 12 tablas (<code>data/processed</code>)</span></div><div class="arrow">→</div>
     <div class="step"><b>1.997</b><span>filas en la tabla analítica, sin totales</span></div><div class="arrow">→</div>
-    <div class="step"><b>115</b><span>columnas en la capa curada: indicadores y outliers</span></div>
+    <div class="step"><b>118</b><span>columnas en la capa curada: indicadores y outliers</span></div>
   </div>
   <div class="grid2" style="margin-top:1.6rem">
     <div>
@@ -805,18 +805,18 @@ severo : valor &gt; Q3 + 3 × IQR</div>
 <!-- 35 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 3 · EDA · balance</p>
-  <h2>La justicia no penal cierra 5 de cada 6 causas</h2>
+  <h2>La justicia no penal resuelve lo que recibe, pero el stock casi no baja</h2>
   <div class="kpis">
-    <div class="kpi"><b>250.871</b><span>ingresadas</span></div>
+    <div class="kpi"><b>207.809</b><span>ingresadas en el año</span></div>
     <div class="kpi"><b>209.197</b><span>resueltas</span></div>
     <div class="kpi"><b>126.065</b><span>pendientes al cierre</span></div>
-    <div class="kpi"><b>83,4 %</b><span>tasa de resolución</span></div>
+    <div class="kpi"><b>100,7 %</b><span>tasa de resolución</span></div>
     <div class="kpi"><b>1,60</b><span>tasa de congestión</span></div>
     <div class="kpi"><b>220</b><span>días de duración estimada</span></div>
   </div>
   <div class="grid2">
-    <p><strong>747 de 1.655 procesos (45,1 %)</strong> resuelven menos de lo que reciben: acumulan mora.</p>
-    <div class="callout error"><span class="t">El error que invertía la conclusión</span><p>Dividiendo solo por <code>nuevas_ingresadas</code> daba <strong>103,84 %</strong> («descarga su acumulado»). Con todas las formas de ingreso, verificadas con la identidad del Anuario, da <strong>83,39 %</strong> («acumula mora»).</p></div>
+    <p>El stock pasó de 127.663 a 126.065 causas (−1,3 %). <strong>608 de 1.655 procesos (36,7 %)</strong> resuelven menos de lo que reciben.</p>
+    <div class="callout error"><span class="t">El error del denominador, dos veces</span><p>Dividiendo solo por <code>nuevas_ingresadas</code> daba <strong>103,84 %</strong>. Contando las <em>readecuadas</em> como ingreso daba <strong>83,39 %</strong> («acumula mora»). Pero son el stock inicial de civil (cierran exacto con el cuadro 9.1.1): con el denominador del año da <strong>100,67 %</strong>.</p></div>
   </div>
 </div></section>
 
@@ -930,7 +930,7 @@ severo : valor &gt; Q3 + 3 × IQR</div>
       <li>Es la <strong>mitad no penal</strong> del sistema (47,5 % de las causas).</li>
       <li>La duración es un <strong>estimador de estado estacionario</strong>, no el seguimiento de expedientes: no hay fechas por causa.</li>
       <li>Mide <strong>celeridad, no calidad</strong> de las decisiones.</li>
-      <li>La tasa de resolución de <strong>civil</strong> no se compara directamente: no hay stock inicial.</li>
+      <li>En <strong>civil</strong> el stock inicial se llama <code>readecuadas_ley_439</code>: se trata como stock, no como ingreso, y se contrasta con el capítulo 9.</li>
       <li>No hay <strong>juzgados individuales</strong> y el número de juzgados es nominal.</li>
     </ul>
     <div>
@@ -951,9 +951,9 @@ severo : valor &gt; Q3 + 3 × IQR</div>
   <div class="grid3" style="margin-top:1.5rem">
     <div class="term"><h4>1 · Extracción y diccionario</h4><p>85.953 filas en 12 tablas, extraídas de 554 páginas sin OCR y verificadas con las identidades del propio Anuario; 117 discrepancias registradas sin corregir.</p></div>
     <div class="term"><h4>2 · Auditorías</h4><p>Seis auditorías contra el PDF: geografía completa, 11 materias homologadas, 846 órganos en lugar de 2.422, 0 duplicados reales y 87 rótulos reparados.</p></div>
-    <div class="term"><h4>3 · Análisis y limpieza</h4><p>Nulos estructurales clasificados, no imputados; outliers por estrato marcados, no borrados. Resolución del 83,4 % y demora 8,7 veces mayor según la materia.</p></div>
+    <div class="term"><h4>3 · Análisis y limpieza</h4><p>Nulos estructurales clasificados, no imputados; outliers por estrato marcados, no borrados. Resolución del 100,7 % (corregida: las readecuadas son stock inicial) y demora 8,7 veces mayor según la materia.</p></div>
   </div>
-  <p style="font-family:var(--sans);margin-top:2rem">Documentación completa: <a href="index.html">la web del proyecto</a> · ¿Preguntas?</p>
+  <p style="font-family:var(--sans);margin-top:2rem">Documentación completa: <a href="index.html">la web del proyecto</a> · Continúa en <a href="presentacion-ampliacion.html">la ampliación</a> (capítulo 9, serie 2007-2023, diagnóstico, recursos y la clase aplicada) · ¿Preguntas?</p>
 </div></section>
 
 </main>

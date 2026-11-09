@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="decisiones">
 <header class="topbar">
@@ -31,7 +31,7 @@
   </nav>
   <div class="main">
     <article>
-<p class="eyebrow">Resultados · 11</p>
+<p class="eyebrow">Resultados · 12</p>
 <h1>Decisiones y errores</h1>
 <p class="lede">Un proyecto de datos se defiende por sus decisiones: qué se hizo, qué se descartó y por qué. Esta página las reúne, junto con los errores que el proyecto cometió. Contarlos muestra que el sistema de verificación funciona.</p>
 
@@ -93,7 +93,8 @@
 <tr><td>Mapas cerrados que fallan ante lo desconocido</td><td>valores por defecto</td><td>un cuadro nuevo que recibe <code>no_aplica</code> por defecto pasa desapercibido; uno que detiene el pipeline, no</td></tr>
 <tr><td>Una base de 1.997 filas y tablas auxiliares</td><td>una mega-tabla con todo</td><td>fan-out de hasta ×743 y sumas multiplicadas</td></tr>
 <tr><td>Unir solo relaciones N:1 verificadas</td><td>unir las métricas largas a la base</td><td>la unión multiplicaría la base por 29,8</td></tr>
-<tr><td>Tasa de resolución con la suma de todas las formas de ingreso</td><td>con <code>nuevas_ingresadas</code></td><td>la identidad del Anuario lo exige; el otro denominador invierte la conclusión</td></tr>
+<tr><td>Tasa de resolución con la suma de las formas de ingreso <strong>del año</strong>, sin el stock inicial</td><td>con <code>nuevas_ingresadas</code>; con las readecuadas contadas como ingreso</td><td>la identidad del Anuario y el CEJA lo exigen (resueltas ÷ ingresadas del año); cualquiera de los otros dos denominadores invierte la conclusión</td></tr>
+<tr><td>Tratar <code>readecuadas_ley_439</code> como stock inicial de civil</td><td>sumarla a los ingresos</td><td>ocupa el lugar de «pendientes de la gestión anterior» de los demás cuadros y suma lo mismo que el <code>pendientes_inicio</code> del 9.1.1 y 9.1.5 (ver <a href="#las-readecuadas">Fase 3, segunda vez</a>)</td></tr>
 <tr><td>Tasa vacía cuando no hay denominador</td><td>tasa = 1 («balance neutro»)</td><td>un cociente sin denominador es indefinido; imputar 1 arrastraba las medianas a 1,0</td></tr>
 <tr><td>Excluir las materias penales de los indicadores</td><td>aplicarles las mismas fórmulas</td><td>no publican <code>resueltas</code>: necesitan indicadores propios</td></tr>
 <tr><td>Outliers por estrato materia × ámbito</td><td>un umbral nacional</td><td>marcaría a media capital como anómala solo por tamaño</td></tr>
@@ -105,7 +106,7 @@
 </tbody></table></div>
 
 <h2>Los errores que el proyecto cometió</h2>
-<p>Uno por fase, más uno de documentación. Los tres primeros tienen la misma forma: <strong>una suposición razonable que nadie contrastó contra una fuente independiente</strong>. Y los tres se detectaron igual: comparando dos caminos que deberían dar el mismo número.</p>
+<p>Uno por fase, más uno de documentación y una segunda corrección en la Fase 3. Los tres primeros tienen la misma forma, y la corrección del denominador también: <strong>una suposición razonable que nadie contrastó contra una fuente independiente</strong>. Y todos se detectaron igual: comparando dos caminos que deberían dar el mismo número.</p>
 
 <h3>Fase 1 — Dos errores del parser que el ojo no vio</h3>
 <div class="callout error">
@@ -124,21 +125,21 @@
 <h3 id="el-error-del-denominador">Fase 3 — El error del denominador</h3>
 <div class="callout error">
   <span class="t">Qué pasó</span>
-  <p>La tasa de resolución dividía las causas resueltas por <code>nuevas_ingresadas</code>, que es solo una de las formas de ingreso. El reporte decía <strong>103,84 %</strong>: «el sistema cierra más de lo que recibe, está descargando su acumulado». Con el denominador correcto da <strong>83,39 %</strong>: «el sistema cierra 5 de cada 6 causas, está acumulando mora». <strong>La conclusión opuesta</strong>, y era el titular del informe.</p>
+  <p>La tasa de resolución dividía las causas resueltas por <code>nuevas_ingresadas</code>, que es solo una de las formas de ingreso. El reporte decía <strong>103,84 %</strong>: «el sistema cierra más de lo que recibe, está descargando su acumulado». Con el denominador correcto da <strong>83,39 %</strong>: «el sistema cierra 5 de cada 6 causas, está acumulando mora». <strong>La conclusión opuesta</strong>, y era el titular del informe. <em>(Esa cifra de 83,39 % también resultó incorrecta y se corrigió después: ver <a href="#las-readecuadas">Fase 3, segunda vez</a>.)</em></p>
 </div>
 <div class="eq">mismo numerador:              209.197 resueltas
 denominador incorrecto:       201.455 nuevas_ingresadas    → 103,84 %
-denominador correcto:         250.871 todas las formas     →  83,39 %
-comprobación:                 atendidas − pendientes_inicio = 250.871</div>
+primera corrección:         250.871 todas las formas     →  83,39 %   (también incorrecta, ver abajo)
+comprobación:                 atendidas − pendientes_inicio = 250.871   ← cerraba solo porque en civil no había pendientes_inicio que restar</div>
 <p>Lo más incómodo: el dato correcto <strong>ya estaba documentado</strong> en la Fase 1, que había verificado contra el cuadro 9.1.1 que <code>ingresadas</code> es la suma de las formas de ingreso. No hacía falta información nueva: solo consultar lo que la fase anterior ya había probado.</p>
 <p>Ese mismo repaso encontró cuatro problemas más en la Fase 3:</p>
 <div class="table-wrap"><table>
 <thead><tr><th>#</th><th>Problema</th><th>Arreglo</th></tr></thead>
 <tbody>
 <tr><td>1</td><td>la tasa dividía por <code>nuevas_ingresadas</code></td><td>divide por <code>ingresos_totales</code>; la variante vieja se conserva con nombre honesto, <code>tasa_resolucion_solo_nuevas</code></td></tr>
-<tr><td>2</td><td>la lista de formas de ingreso no incluía <code>readecuadas_ley_439</code>: 43.062 causas fuera del denominador</td><td>agregada</td></tr>
+<tr><td>2</td><td>la lista de formas de ingreso no incluía <code>readecuadas_ley_439</code>: 43.062 causas fuera del denominador</td><td>agregada. <strong>Corrección posterior:</strong> era un error, las readecuadas son stock inicial (ver <a href="#las-readecuadas">Fase 3, segunda vez</a>)</td></tr>
 <tr><td>3</td><td>a los procesos sin causas se les asignaba tasa = 1,0; con 415 filas sin movimiento, la mediana de casi todas las materias quedaba en 1,0 exacto</td><td>ahora quedan vacíos: un cociente sin denominador es indefinido</td></tr>
-<tr><td>4</td><td>la tasa ponderada por materia daba 0,5 en cuatro de cinco materias</td><td>su fórmula se anulaba sola (ver abajo); ahora divide por los ingresos totales y da entre 0,69 y 1,33</td></tr>
+<tr><td>4</td><td>la tasa ponderada por materia daba 0,5 en cuatro de cinco materias</td><td>su fórmula se anulaba sola (ver abajo); ahora divide por los ingresos totales y da entre 0,69 y 1,33 (0,95 a 1,33 tras la corrección de las readecuadas)</td></tr>
 <tr><td>5</td><td>el reporte se titulaba «Balance General del Sistema Judicial» cubriendo el 47,5 % de las causas, y decía que civil y familia eran «más del 80 % de la carga nacional» cuando son el 36,4 % del universo</td><td>se titula «justicia no penal», abre con una sección de cobertura y lista las materias excluidas</td></tr>
 </tbody></table></div>
 <p>La fórmula que se anulaba es un buen ejemplo:</p>
@@ -153,12 +154,60 @@ tasa        = resueltas ÷ (2 × resueltas) = 0,5   siempre</div>
 <div class="table-wrap"><table>
 <thead><tr><th>Medida</th><th>Antes</th><th>Después</th></tr></thead>
 <tbody>
-<tr><td>tasa de resolución global</td><td class="num">103,84 %</td><td class="num">83,39 %</td></tr>
-<tr><td>procesos que acumulan mora</td><td class="num">577</td><td class="num">747</td></tr>
-<tr><td>tasa ponderada por materia</td><td>0,5 constante</td><td>0,69 a 1,33</td></tr>
+<tr><td>tasa de resolución global</td><td class="num">103,84 %</td><td class="num">83,39 % <em>(corregida después: 100,67 %)</em></td></tr>
+<tr><td>procesos que acumulan mora</td><td class="num">577</td><td class="num">747 <em>(corregida después: 608)</em></td></tr>
+<tr><td>tasa ponderada por materia</td><td>0,5 constante</td><td>0,69 a 1,33 <em>(0,95 a 1,33 corregida)</em></td></tr>
 <tr><td>cobertura declarada en el reporte</td><td>no</td><td>sí, 47,5 %</td></tr>
 </tbody></table></div>
 <p>El tratamiento de outliers no cambió: esa parte estaba bien, y sus resultados idénticos sirvieron de control de que la corrección no rompió nada más.</p>
+
+<h3 id="las-readecuadas">Fase 3, segunda vez — Las readecuadas no son un ingreso</h3>
+<div class="callout error">
+  <span class="t">Qué pasó</span>
+  <p>Al corregir el denominador (arriba), la lista de formas de ingreso recibió <code>readecuadas_ley_439</code> para que la suma diera <strong>250.871</strong> y cerrara con la identidad del Anuario. Pero en civil esa columna <strong>no es un ingreso: es el stock inicial</strong>, la misma posición donde los demás cuadros publican «pendientes de la gestión anterior». Contarla como ingreso inflaba el denominador de civil en 43.062 causas y llevaba la tasa de resolución global a <strong>83,39 %</strong>. Con el stock inicial fuera del denominador da <strong>100,67 %</strong>: el sistema no penal resolvió tanto como recibió. <strong>La conclusión se invierte otra vez</strong>, y otra vez era el titular del informe.</p>
+</div>
+<div class="eq">mismo numerador:             209.197 resueltas
+denominador anterior:        250.871  con 43.062 readecuadas        →  83,39 %
+denominador del año:         207.809  formas de ingreso del año     → 100,67 %
+stock (no penal):            127.663 al abrir  →  126.065 al cerrar    (−1.598, −1,3 %)</div>
+
+<p><strong>Cómo se detectó:</strong> al contrastar el proyecto con la definición del CEJA y con el PDF, por tres caminos independientes.</p>
+<ol>
+  <li><strong>El PDF, misma posición.</strong> En los cuadros de familia (5.1.2.1, 6.1.2.1) y de salas (3.1.1.1), la primera columna bajo «FORMA DE INGRESO» es «PENDIENTES DE LA GESTIÓN ANTERIOR». En civil (5.1.1.1, p. 121; 6.1.1.1, p. 399), esa misma columna se llama «CAUSAS READECUADAS A LA LEY N.º 439».</li>
+  <li><strong>El resumen del propio Anuario.</strong> Cuadro 9.1.1 (p. 673), civil en capitales: pendientes de la gestión anterior 29.688 + ingresadas 66.140 = atendidas 95.828. Las readecuadas suman 29.688 en capitales y 13.374 en provincias, igual que el stock inicial del 9.1.1 y el 9.1.5, y las otras cuatro formas de ingreso suman exactamente las <code>ingresadas</code> (66.140 y 27.672).</li>
+  <li><strong>El CEJA 2025.</strong> La tasa de resolución es resueltas ÷ casos ingresados <em>en el año</em>. Los pendientes al inicio entran en el numerador de la tasa de congestión, no en el denominador de la de resolución.</li>
+</ol>
+<p><strong>Por qué no saltó antes.</strong> El control de la identidad de ingresos comparaba solo las 1.180 filas con <code>pendientes_inicio</code> publicado. Las 475 filas civiles quedaban fuera, y en ellas la identidad se cumplía <em>por construcción</em>: sin stock inicial que restar, <code>atendidas</code> era igual a la suma de formas de ingreso, readecuadas incluidas. La evidencia ya estaba en la página de <a href="validacion.html">validación</a> («29.688 = pendientes_inicio ✓»), pero no llegó al cálculo.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Medida</th><th>Antes</th><th>Después</th></tr></thead>
+<tbody>
+<tr><td>tasa de resolución, justicia no penal</td><td class="num">83,39 %</td><td class="num">100,67 %</td></tr>
+<tr><td>tasa de resolución de civil (ponderada)</td><td class="num">0,69</td><td class="num">1,01</td></tr>
+<tr><td>tasa de resolución de civil (mediana por proceso)</td><td class="num">0,57</td><td class="num">0,93</td></tr>
+<tr><td>ingresadas del estrato no penal</td><td class="num">250.871</td><td class="num">207.809</td></tr>
+<tr><td>procesos que acumulan mora</td><td class="num">747 (45,1 %)</td><td class="num">608 (36,7 %)</td></tr>
+<tr><td>… de ellos, civiles</td><td class="num">360</td><td class="num">221</td></tr>
+<tr><td>tasa de resolución, La Paz / Santa Cruz</td><td class="num">81,8 % / 78,6 %</td><td class="num">102,3 % / 101,7 %</td></tr>
+<tr><td>procesos con la identidad de ingresos comprobada</td><td class="num">1.180</td><td class="num">1.655</td></tr>
+<tr><td>según los umbrales del CEJA</td><td>crítica (&lt; 0,90)</td><td>óptima (≥ 1,00)</td></tr>
+</tbody></table></div>
+
+<h4>Qué cambia y qué no</h4>
+<ul>
+  <li><strong>Cambian:</strong> <code>ingresos_totales</code>, <code>tasa_resolucion</code>, <code>acumulacion_neta_anual</code>, <code>flag_acumula_mora</code>, <code>log_ingresos_totales</code> y los resúmenes por materia, ámbito y departamento. El criterio anterior sigue disponible, con su nombre honesto, en <code>tasa_resolucion_con_readecuadas</code>.</li>
+  <li><strong>No cambian:</strong> <code>tasa_congestion</code>, <code>tasa_pendencia</code> y <code>duracion_estimada_dias</code> (no usan los ingresos), <code>atendidas</code>, <code>resueltas</code>, los pendientes, las banderas y tratamientos de outliers, ni la hipótesis: la duración sigue variando 8,7 veces entre materias.</li>
+</ul>
+<h4>Implicaciones para lo que decía el proyecto</h4>
+<ul>
+  <li><strong>El titular.</strong> De «5 de cada 6 causas, acumula mora» a «resuelve lo que recibe, pero el stock heredado casi no baja». El problema está en el stock (la duración), no en el flujo del año.</li>
+  <li><strong>Civil no acumula mora.</strong> Su stock bajó en 957 causas (43.062 → 42.105). El 0,69 era un artefacto del denominador.</li>
+  <li><strong>Los departamentos grandes.</strong> La Paz y Santa Cruz parecían los que más mora acumulaban; era por su volumen civil. Siguen siendo los más lentos en duración, pero ya no en tasa de resolución. Los más rezagados en flujo son Chuquisaca (93,1 %) y Beni (93,8 %).</li>
+  <li><strong>Cuántos procesos acumulan.</strong> 608 en lugar de 747: 139 de las banderas de mora eran civiles y solo existían por el denominador.</li>
+</ul>
+<div class="callout ojo">
+  <span class="t">La lección</span>
+  <p>Una corrección también se contrasta por otro camino. El arreglo anterior agregó las readecuadas porque así la suma cuadraba, pero el control no cubría civil. Ahora el notebook 10 comprueba la identidad en los <strong>1.655</strong> procesos y cruza los totales por materia y ámbito contra el 9.1.1 y el 9.1.5: 7 de 9 celdas cierran exacto, y las dos restantes (niñez) son discrepancias de la fuente que ya estaban registradas. El notebook 13 conserva reproducible la cifra anterior (83,39 %) y comprueba la nueva (100,67 %).</p>
+</div>
 
 <h3>Documentación — cifras que se habían desactualizado</h3>
 <p>Al rehacer esta documentación contra los archivos regenerados aparecieron tres afirmaciones de los documentos anteriores que no coincidían con los datos, y que acá se corrigieron:</p>
@@ -173,6 +222,22 @@ tasa        = resueltas ÷ (2 × resueltas) = 0,5   siempre</div>
   <span class="t">Si podés calcular algo de dos maneras distintas, hacelo</span>
   <p>Y si no podés, construí la segunda manera. Todos los errores de este proyecto se encontraron así: el cruce entre capítulos, las identidades contables, la comparación contra el PDF, la reproducción byte a byte al pasar de scripts a notebooks.</p>
 </div>
+
+<h2 id="decisiones-de-la-ampliacion">Decisiones de la ampliación</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Decisión</th><th>Alternativa descartada</th><th>Por qué</th></tr></thead>
+<tbody>
+<tr><td>Sumar los rótulos de anticorrupción y violencia en pares</td><td>asignar cada rótulo a una materia</td><td>el Anuario los intercambia entre cuadros y años; el par no depende de cuál es cuál. Mapa cerrado: un rótulo nuevo detiene el cálculo.</td></tr>
+<tr><td>Ejecución penal aparte, fuera de los rankings</td><td>incluirla en las comparaciones de duración</td><td>el Anuario dice que esos juzgados no resuelven.</td></tr>
+<tr><td>No usar la columna de 2019 de la tabla 9.1.10</td><td>mezclar las dos fuentes</td><td>difiere de 9.1.2 + 9.1.6 hasta en 34.671 causas; 2020-2023 cierran con diferencia máxima de 9. Queda registrada.</td></tr>
+<tr><td>No corregir que la apertura no iguale el cierre anterior</td><td>reconstruir el stock sumando flujos</td><td>no se sabe la causa; corregir sería inventar.</td></tr>
+<tr><td>No adoptar el agrupamiento K-Means</td><td>presentar tres grupos como segmentos</td><td>silhouette máximo de 0,425: no hay grupos naturales.</td></tr>
+<tr><td>No usar cifras de población de prensa</td><td>completar con valores de memoria o de notas periodísticas parciales</td><td>solo había 6 de 9 departamentos y son preliminares; sin la tabla oficial del INE se prefiere medir por puesto de trabajo.</td></tr>
+<tr><td>Medir la carga por puesto ocupado y la remuneración como índice</td><td>carga por ítem total y remuneración en moneda anualizada</td><td>los vacantes no trabajan; la remuneración publicada es mensual y solo del personal, y anualizarla sería inventar.</td></tr>
+<tr><td>Usar la distancia de Mahalanobis en lugar de LOF</td><td>agregar <code>scikit-learn</code> solo para LOF y DBSCAN</td><td>es el equivalente clásico, no añade una dependencia y alcanza para marcar; supone normalidad, así que se declara como marca y no como conclusión.</td></tr>
+<tr><td>No eliminar columnas por correlación alta</td><td>borrar una de cada par con |r| &gt; 0,90</td><td>la clase lo desaconseja y 4 de los 7 pares son identidades contables.</td></tr>
+<tr><td>Medir con R² ajustado, con y sin pesos</td><td>un solo R² sin pesos</td><td>el R² sin ajustar crece con las categorías; los pesos evitan que las filas pequeñas manden.</td></tr>
+</tbody></table></div>
     </article>
     <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
   </div>

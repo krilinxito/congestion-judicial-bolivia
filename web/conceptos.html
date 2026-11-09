@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="conceptos">
 <header class="topbar">
@@ -151,12 +151,12 @@ atendidas = resueltas + pendientes_fin          ← lo que salió</div>
 </div>
 
 <h3>Cómo entra una causa: las formas de ingreso</h3>
-<p>El capítulo 9 del Anuario publica una sola columna <code>ingresadas</code>. Los capítulos 5 y 6 la <strong>descomponen</strong> en formas de ingreso. En civil y comercial son:</p>
+<p>El capítulo 9 del Anuario publica una sola columna <code>ingresadas</code>. Los capítulos 5 y 6 la <strong>descomponen</strong> en formas de ingreso. En civil y comercial hay cinco columnas, pero solo cuatro son ingresos del año: <code>readecuadas_ley_439</code> es el stock con el que empieza el año.</p>
 <div class="table-wrap"><table>
 <thead><tr><th>Columna</th><th>Qué significa</th></tr></thead>
 <tbody>
 <tr><td><code>nuevas_ingresadas</code></td><td>demandas nuevas presentadas en el año</td></tr>
-<tr><td><code>readecuadas_ley_439</code></td><td>causas iniciadas con el Código de Procedimiento Civil viejo que se <strong>adaptaron</strong> («readecuaron») al nuevo Código Procesal Civil (Ley 439), vigente en plenitud desde el 6 de febrero de 2016. Las disposiciones transitorias de la ley establecen cómo pasa cada proceso de un régimen al otro.</td></tr>
+<tr><td><code>readecuadas_ley_439</code></td><td>causas iniciadas con el Código de Procedimiento Civil viejo que se <strong>adaptaron</strong> («readecuaron») al nuevo Código Procesal Civil (Ley 439), vigente en plenitud desde el 6 de febrero de 2016. Las disposiciones transitorias de la ley establecen cómo pasa cada proceso de un régimen al otro. <strong>No es un ingreso del año:</strong> son causas que ya estaban en los juzgados al empezar 2023 (en civil ocupan el lugar de <code>pendientes_inicio</code>).</td></tr>
 <tr><td><code>recibidas_excusa_recusacion</code></td><td>causas que llegaron desde otro juzgado porque ese juez se apartó (excusa) o fue apartado (recusación)</td></tr>
 <tr><td><code>preliminares_formalizados</code></td><td>diligencias preparatorias (pasos previos a demandar) que se convirtieron en demanda</td></tr>
 <tr><td><code>cautelares_formalizados</code></td><td>medidas cautelares pedidas antes del juicio que se formalizaron en demanda</td></tr>
@@ -164,7 +164,7 @@ atendidas = resueltas + pendientes_fin          ← lo que salió</div>
 <p>En penal aparecen otras: <code>ingresadas_conversion_acciones</code> (una acción pública que pasa a privada), <code>ingresadas_reenvio</code> (causas que vuelven para un nuevo juicio) y <code>otras_formas_ingreso</code>.</p>
 <div class="callout error">
   <span class="t">Por qué importa tanto</span>
-  <p>La suma de <strong>todas</strong> las formas es la verdadera <code>ingresadas</code>. El proyecto llegó a calcular la tasa de resolución dividiendo solo por <code>nuevas_ingresadas</code> y la conclusión salió al revés. Ver <a href="decisiones.html#el-error-del-denominador">el error del denominador</a>.</p>
+  <p>La suma de las <strong>cuatro</strong> formas de ingreso del año (sin las readecuadas) es la verdadera <code>ingresadas</code>. El proyecto se equivocó dos veces con este denominador: dividiendo solo por <code>nuevas_ingresadas</code> y, después, contando como ingreso las readecuadas, que son stock inicial. Las dos veces la conclusión salió al revés. Ver <a href="decisiones.html#el-error-del-denominador">el error del denominador</a> y <a href="decisiones.html#las-readecuadas">las readecuadas</a>.</p>
 </div>
 
 <h3>Cómo sale una causa: formas de resolución</h3>

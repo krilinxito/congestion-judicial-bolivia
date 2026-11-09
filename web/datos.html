@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="datos">
 <header class="topbar">
@@ -156,7 +156,8 @@ base = pd.read_parquet("data/processed/analitico/dataset_analitico_interno.parqu
 <tr><td>Qué proceso</td><td><code>tipo_proceso</code> (literal del PDF, corregido de defectos de extracción), <code>tipo_proceso_extraido</code> (lo que salió antes de corregir), <code>grupo_proceso</code> y <code>grupo_proceso_norm</code> (el rótulo vertical), <code>etapa_proceso_fuente</code>, <code>contexto_accion_penal</code>, <code>tipo_accion_penal</code></td></tr>
 <tr><td>Qué materia</td><td><code>materia_seccion</code> (de la numeración), <code>materia_norm</code>, <code>materia_homologada</code>, <code>materia_cruda</code> (el título de la página)</td></tr>
 <tr><td>Juzgados</td><td><code>num_juzgados_pagina</code> (la cifra de la cabecera «SUCRE 14», vale para toda la ciudad), <code>num_juzgados</code> (cuando un cuadro lo publica como columna)</td></tr>
-<tr><td>Formas de ingreso</td><td><code>pendientes_inicio</code>, <code>readecuadas_ley_439</code>, <code>recibidas_excusa_recusacion</code>, <code>preliminares_formalizados</code>, <code>cautelares_formalizados</code>, <code>nuevas_ingresadas</code>, <code>recibidas_otros_juzgados</code>, <code>ingresadas_conversion_acciones</code>, <code>ingresadas_reenvio</code>, <code>otras_formas_ingreso</code>…</td></tr>
+<tr><td>Stock inicial</td><td><code>pendientes_inicio</code> (en civil, <code>readecuadas_ley_439</code> ocupa su lugar)</td></tr>
+<tr><td>Formas de ingreso</td><td><code>recibidas_excusa_recusacion</code>, <code>preliminares_formalizados</code>, <code>cautelares_formalizados</code>, <code>nuevas_ingresadas</code>, <code>recibidas_otros_juzgados</code>, <code>ingresadas_conversion_acciones</code>, <code>ingresadas_reenvio</code>, <code>otras_formas_ingreso</code>…</td></tr>
 <tr><td>Totales</td><td><code>atendidas</code>, <code>resueltas</code>, <code>pendientes_fin</code></td></tr>
 <tr><td>Formas de salida penales</td><td><code>sobreseimiento</code>, <code>terminacion_anticipada</code>, <code>merecieron_imputacion_formal</code>, <code>merecieron_acusacion</code>, <code>concluidas_rechazo_denuncia</code>, <code>procesos_rebeldia</code>… (solo en cuadros penales)</td></tr>
 </tbody></table></div>
@@ -164,7 +165,7 @@ base = pd.read_parquet("data/processed/analitico/dataset_analitico_interno.parqu
   <span class="t">Tres advertencias sobre esta tabla</span>
   <ul>
     <li><strong>Las filas de total ya están sumadas.</strong> Excluir <code>tipo_fila_derivado == "total"</code> y <code>es_total_nacional</code> antes de agregar, o se cuenta todo dos veces. La tabla analítica ya lo hace.</li>
-    <li><strong><code>pendientes_inicio</code> está vacío en toda la materia civil:</strong> los cuadros 5.1.1.1 y 6.1.1.1 publican <code>readecuadas_ley_439</code> en esa posición.</li>
+    <li><strong><code>pendientes_inicio</code> está vacío en toda la materia civil:</strong> los cuadros 5.1.1.1 y 6.1.1.1 publican <code>readecuadas_ley_439</code> en esa posición. Es el stock inicial de civil: suma 29.688 en capitales y 13.374 en provincias, igual que el <code>pendientes_inicio</code> del 9.1.1 y el 9.1.5. No es un ingreso del año.</li>
     <li><strong>Los cuadros penales no publican <code>resueltas</code></strong>: publican formas de salida propias. Por eso las fórmulas de congestión solo se aplican a las materias no penales.</li>
   </ul>
 </div>
@@ -219,8 +220,8 @@ base = pd.read_parquet("data/processed/analitico/dataset_analitico_interno.parqu
 <div class="table-wrap"><table>
 <thead><tr><th>Archivo</th><th class="num">Cols.</th><th>Qué agrega</th></tr></thead>
 <tbody>
-<tr><td><code>features/dataset_analitico_indicadores</code></td><td class="num">100</td><td><code>estado_gestion</code> y 12 indicadores y banderas</td></tr>
-<tr><td><code>features/dataset_analitico_curado</code></td><td class="num">115</td><td>además: 8 banderas de outlier, 2 columnas winsorizadas, 5 <code>log_</code></td></tr>
+<tr><td><code>features/dataset_analitico_indicadores</code></td><td class="num">103</td><td><code>estado_gestion</code> y 15 columnas: ingresos, stock inicial, tasas y banderas</td></tr>
+<tr><td><code>features/dataset_analitico_curado</code></td><td class="num">118</td><td>además: 8 banderas de outlier, 2 columnas winsorizadas, 5 <code>log_</code></td></tr>
 <tr><td><code>eda/matriz_nulos_clasificada.csv</code></td><td></td><td>las 87 columnas con su porcentaje de nulos y la causa</td></tr>
 <tr><td><code>eda/resumen_dinamica_procesal.csv</code></td><td></td><td>estado de gestión × materia</td></tr>
 <tr><td><code>eda/resumen_indicadores_materia.csv</code></td><td></td><td>indicadores por materia</td></tr>

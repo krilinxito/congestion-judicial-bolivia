@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="pipeline">
 <header class="topbar">
@@ -77,7 +77,13 @@
   10_indicadores ........ curated/features/dataset_analitico_indicadores, eda/resumen_indicadores_materia
   11_outliers ........... curated/features/dataset_analitico_curado, eda/resumen_outliers_estratificado
   12_reporte_eda ........ reports/tables/*.csv, reports/figures/*.png
-  13_verificacion ....... (no escribe: verifica todo lo anterior)</pre>
+  13_verificacion ....... (no escribe: verifica todo lo anterior)
+  14_capitulo9 .......... curated/eda/indicadores_capitulo9_{materia,departamento}, capacidad_resoluciones_extra
+  15_serie_historica .... curated/eda/serie_historica_indicadores, serie_enlace_stock, comparacion_ceja, serie_resueltas_materia_2020_2023
+  16_diagnostico ........ curated/eda/concentracion_rezago, descomposicion_varianza_duracion, agrupamiento_prueba
+  17_tecnicas_de_clase .. curated/eda/asimetria_antes_despues, segmentos_materia, contexto_grupo_procesos,
+                          serie_variables_temporales, correlaciones_indicadores, pca_*, outliers_multivariados
+  18_recursos_y_carga ... curated/eda/recursos_carga_departamento, correlaciones_recursos_departamento</pre>
 
 <h2>Los módulos</h2>
 <div class="table-wrap"><table>
@@ -194,7 +200,7 @@
 <figure><img src="img/nb09_1.png" alt="Las 25 columnas con más nulos, coloreadas por causa."><figcaption>Las columnas con más vacíos y su causa (notebook 09).</figcaption></figure>
 
 <h3 id="10-indicadores-congestion">10 · Indicadores de congestión</h3>
-<p>Calcula los indicadores y las banderas. Antes, verifica que la suma de las formas de ingreso reproduzca <code>atendidas − pendientes_inicio</code> en todos los procesos: si no, se detiene. Agrega 12 columnas.</p>
+<p>Calcula los indicadores y las banderas. Antes, verifica que la suma de las formas de ingreso reproduzca <code>atendidas − stock inicial</code> en los 1.655 procesos (el stock inicial es <code>pendientes_inicio</code> o, en civil, <code>readecuadas_ley_439</code>) y que los totales por materia y ámbito coincidan con el capítulo 9: si no, se detiene. Agrega 15 columnas.</p>
 <figure><img src="img/nb10_2.png" alt="Distribución de la tasa de resolución con dos denominadores."><figcaption>El denominador cambia el resultado (notebook 10).</figcaption></figure>
 
 <h3 id="11-tratamiento-outliers">11 · Outliers</h3>
@@ -205,7 +211,25 @@
 <p>Resume por departamento, materia y ámbito, arma el top 20 de procesos con más stock pendiente y produce las figuras del reporte. Los resultados están en <a href="eda.html">EDA e indicadores</a>.</p>
 
 <h3 id="13-verificacion">13 · Verificación final</h3>
-<p>Siete bloques de comprobaciones independientes sobre todo lo que produjeron los pasos anteriores. Cada una es un <code>assert</code>: si algo no se cumple, el notebook se detiene y dice qué. Ver <a href="validacion.html#el-notebook-13">validación</a>.</p>
+<p>Doce bloques de comprobaciones independientes sobre todo lo que produjeron los pasos anteriores, incluidos los notebooks 14 a 18. Cada una es un <code>assert</code>: si algo no se cumple, el notebook se detiene y dice qué. Ver <a href="validacion.html#el-notebook-13">validación</a>.</p>
+
+<h2 id="fase-4">Fase 4 — Ampliación</h2>
+<p>Cinco notebooks que no reemplazan nada: agregan archivos nuevos en <code>data/curated/eda/</code>. Se explican con sus resultados, y con la relación de cada técnica con la clase de preprocesamiento, en <a href="ampliacion.html">la página de la ampliación</a>.</p>
+<h3 id="14-capitulo-9">14 · Capítulo 9, todas las materias</h3>
+<p>Lee los cuadros 9.1.1, 9.1.5 y 9.1.9 (materia) y 9.1.3, 9.1.7 y 9.1.11 (departamento) y calcula con las fórmulas del CEJA las tasas de resolución y congestión, la duración estimada, la variación del stock y la brecha de capacidad. Antes comprueba las identidades de cada fila y que capital + provincia = nacional. Los rótulos de anticorrupción y violencia se suman en pares con un mapa cerrado.</p>
+<figure><img src="img/nb14_2.png" alt="Tasa de resolución y días para vaciar el stock por materia."><figcaption>Tasa de resolución y días para vaciar el stock por materia (notebook 14).</figcaption></figure>
+<h3 id="15-serie-historica">15 · Serie histórica</h3>
+<p>Usa los cuadros 9.1.4, 9.1.8 y 9.1.12 (2007-2023) y 9.1.2, 9.1.6 y 9.1.10 (resueltas por materia). Mide el enlace entre cierre y apertura de años consecutivos, que <strong>no se cumple</strong>, y compara con las tasas publicadas por el CEJA para 2018-2022.</p>
+<figure><img src="img/nb15_1.png" alt="Stock, ingresadas y resueltas 2007-2023 y comparación con el CEJA."><figcaption>Serie 2007-2023 y comparación con el CEJA (notebook 15).</figcaption></figure>
+<h3 id="16-diagnostico-concentracion">16 · Diagnóstico de concentración</h3>
+<p>Sobre los 1.655 procesos no penales: curva de concentración del rezago, descomposición de la varianza de la duración (R² ajustado, sin pesos y ponderado) y una prueba de agrupamiento K-Means que no se adoptó porque no hay grupos naturales.</p>
+<figure><img src="img/nb16_1.png" alt="Curva de concentración del rezago."><figcaption>Concentración del rezago (notebook 16).</figcaption></figure>
+<h3 id="17-tecnicas-de-clase">17 · Técnicas de la clase</h3>
+<p>Aplica las técnicas que la guía de la clase de preprocesamiento proponía y el proyecto aún no mostraba: asimetría antes y después de <code>log1p</code>, <code>cut</code> y <code>qcut</code> con el índice contra la base, <code>groupby().transform</code> y <code>merge</code> con sufijos, <code>shift</code>, <code>pct_change</code> y <code>rolling</code> sobre la serie, correlación sin eliminar columnas, PCA con estandarización y distancia de Mahalanobis. Usa solo <code>pandas</code>, <code>numpy</code> y <code>scipy</code> y no modifica la capa curada.</p>
+<figure><img src="img/nb17_3.png" alt="Varianza explicada por componente y procesos sobre los dos primeros componentes."><figcaption>PCA de los indicadores (notebook 17).</figcaption></figure>
+<h3 id="18-recursos-y-carga">18 · Recursos y carga</h3>
+<p>Cruza los ítems de personal (cuadro 14.1.3) y los órganos judiciales (capítulo 4) con el movimiento de todas las materias del notebook 14: causas por puesto ocupado, remuneración por causa resuelta como índice, y la brecha de puestos respecto a la carga mediana. Controla que los ítems sumen mujeres + varones + vacantes y que el movimiento sea idéntico al del notebook 14. Con 9 departamentos reporta correlaciones con su valor <em>p</em> y dice que no son concluyentes.</p>
+<figure><img src="img/nb18_1.png" alt="Carga por puesto, tasa de resolución contra carga y brecha de personal."><figcaption>Carga por puesto ocupado y brecha respecto a la carga mediana (notebook 18).</figcaption></figure>
     </article>
     <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
   </div>

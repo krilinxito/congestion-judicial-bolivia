@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=571e9656">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=cf2631f7" defer></script>
+<script src="app.js?v=a5756209" defer></script>
 </head>
 <body data-page="eda">
 <header class="topbar">
@@ -48,8 +48,8 @@
 <tbody>
 <tr><td>08 · integración</td><td class="num">87</td><td class="num">1.997</td><td>punto de partida</td></tr>
 <tr><td>09 · nulos y estados</td><td class="num">88</td><td class="num">1.997</td><td><code>estado_gestion</code></td></tr>
-<tr><td>10 · indicadores</td><td class="num">100</td><td class="num">1.997</td><td>12 indicadores y banderas</td></tr>
-<tr><td>11 · outliers</td><td class="num">115</td><td class="num">1.997</td><td>8 banderas, 2 winsorizadas, 5 logaritmos</td></tr>
+<tr><td>10 · indicadores</td><td class="num">103</td><td class="num">1.997</td><td>15 columnas: ingresos, stock inicial, tasas y banderas</td></tr>
+<tr><td>11 · outliers</td><td class="num">118</td><td class="num">1.997</td><td>8 banderas, 2 winsorizadas, 5 logaritmos</td></tr>
 </tbody></table></div>
 
 <h2>Paso 09 · Los vacíos no son todos iguales</h2>
@@ -86,36 +86,39 @@
 <div class="table-wrap"><table>
 <thead><tr><th>Columna</th><th>Fórmula</th><th>Se lee</th></tr></thead>
 <tbody>
-<tr><td><code>ingresos_totales</code></td><td>suma de las 8 formas de ingreso</td><td>la verdadera «ingresadas»</td></tr>
+<tr><td><code>pendientes_inicio_efectivo</code></td><td><code>pendientes_inicio</code> publicado o, en civil, <code>readecuadas_ley_439</code></td><td>el stock con el que arranca el año</td></tr>
+<tr><td><code>ingresos_totales</code></td><td>suma de las formas de ingreso <strong>del año</strong> (sin el stock inicial)</td><td>la verdadera «ingresadas»</td></tr>
 <tr><td><code>tasa_resolucion</code></td><td><code>resueltas ÷ ingresos_totales</code></td><td>&gt; 1 descarga acumulado; &lt; 1 acumula mora</td></tr>
 <tr><td><code>tasa_congestion</code></td><td><code>atendidas ÷ resueltas</code></td><td>causas gestionadas por cada una cerrada</td></tr>
 <tr><td><code>tasa_pendencia</code></td><td><code>pendientes_fin ÷ atendidas</code></td><td>parte de lo gestionado que quedó abierta</td></tr>
 <tr><td><code>duracion_estimada_dias</code></td><td><code>pendientes_fin ÷ resueltas × 365</code></td><td>días para vaciar el stock al ritmo de 2023</td></tr>
 <tr><td><code>acumulacion_neta_anual</code></td><td><code>ingresos_totales − resueltas</code></td><td>cuánto creció el stock en el año</td></tr>
 </tbody></table></div>
-<p>Más tres banderas: <code>flag_acumula_mora</code> (747 procesos, 45,1 %), <code>flag_sin_resolucion_anual</code> (118) y <code>flag_sin_movimiento</code> (415), y dos cargas relativas: causas por ítem de personal del distrito y por juzgado publicado del territorio.</p>
+<p>Más tres banderas: <code>flag_acumula_mora</code> (608 procesos, 36,7 %), <code>flag_sin_resolucion_anual</code> (118) y <code>flag_sin_movimiento</code> (415), y dos cargas relativas: causas por ítem de personal del distrito y por juzgado publicado del territorio.</p>
 
 <div class="callout simple">
   <span class="t">Un ejemplo completo, de principio a fin</span>
-  <p>Procesos ordinarios civiles de Sucre (cuadro 5.1.1.1, página 121): 770 causas readecuadas, 1.424 nuevas y otras formas de ingreso, 2.397 atendidas en total, 1.286 resueltas, 1.111 pendientes al cierre. <code>ingresos_totales</code> = 2.397 (en civil no se publica el stock inicial); tasa de resolución 1.286 ÷ 2.397 = 0,537; congestión 2.397 ÷ 1.286 = 1,86; duración 1.111 ÷ 1.286 × 365 = 315 días. <code>flag_acumula_mora = True</code>. Y se puede verificar abriendo el PDF en la página 121.</p>
+  <p>Procesos ordinarios civiles de Sucre (cuadro 5.1.1.1, página 121): 770 causas readecuadas (el stock con el que empezó el año), 1.627 ingresadas en el año (22 por excusa o recusación, 160 preliminares, 21 cautelares y 1.424 nuevas), 2.397 atendidas en total (770 + 1.627), 1.286 resueltas, 1.111 pendientes al cierre. <code>ingresos_totales</code> = 1.627; tasa de resolución 1.286 ÷ 1.627 = 0,79; congestión 2.397 ÷ 1.286 = 1,86; duración 1.111 ÷ 1.286 × 365 = 315 días. El stock subió de 770 a 1.111 causas: <code>flag_acumula_mora = True</code>. Contar las 770 readecuadas como ingreso daba 1.286 ÷ 2.397 = 0,54, que era un error (ver <a href="decisiones.html#las-readecuadas">decisiones y errores</a>). Se puede verificar abriendo el PDF en la página 121.</p>
 </div>
 
 <h3>El denominador</h3>
-<p><code>ingresadas</code> no es <code>nuevas_ingresadas</code>. En el estrato analizado:</p>
-<div class="eq">readecuadas_ley_439              43.062
-recibidas_excusa_recusacion         519
+<p><code>ingresadas</code> no es <code>nuevas_ingresadas</code>: es la suma de <strong>todas las formas de ingreso del año</strong>. Y tampoco incluye el stock con el que arrancó el año. En el estrato analizado:</p>
+<div class="eq">recibidas_excusa_recusacion         519
 preliminares_formalizados         5.423
 cautelares_formalizados             412
 nuevas_ingresadas               201.455
 ─────────────────────────────────────────
-suma                            250.871
-atendidas − pendientes_inicio   250.871   ← la identidad del Anuario cierra</div>
-<p>El notebook 10 <strong>se detiene</strong> si la suma no reproduce <code>atendidas − pendientes_inicio</code> en cada proceso. Resultado: cero descuadres en las 1.180 filas comparables. Usar solo <code>nuevas_ingresadas</code> daría 103,84 % en vez de 83,39 %: la conclusión opuesta. Es el error que el proyecto cometió y corrigió: ver <a href="decisiones.html#el-error-del-denominador">decisiones y errores</a>.</p>
-<figure><img src="img/nb10_1.png" alt="Aporte de cada forma de ingreso al denominador."><figcaption>De qué está hecho el denominador (notebook 10).</figcaption></figure>
-<figure><img src="img/nb10_2.png" alt="Distribución de la tasa de resolución por proceso y comparación con el denominador incorrecto."><figcaption>La tasa de resolución por proceso y el efecto de usar solo las nuevas ingresadas (notebook 10).</figcaption></figure>
-<div class="callout ojo">
-  <span class="t">La tasa de civil no se compara directamente con las demás</span>
-  <p>En los cuadros civiles el Anuario publicó <code>readecuadas_ley_439</code> en lugar del stock inicial, así que <code>pendientes_inicio</code> está vacío en las 475 filas civiles. Consecuencia aritmética: en civil, <code>ingresos_totales == atendidas</code>, y la tasa de resolución colapsa en <code>resueltas ÷ atendidas</code> (0,69), que es la fórmula de <code>pct_resueltas</code>, no la del CEJA. Hay que declararlo cada vez que se comparen materias.</p>
+ingresos_totales                207.809   ← el denominador de la tasa de resolución
++ stock inicial de civil         43.062   (readecuadas_ley_439: no es un ingreso)
++ pendientes_inicio publicado    84.601
+─────────────────────────────────────────
+atendidas                       335.472   ← y la identidad del Anuario cierra</div>
+<p>El notebook 10 <strong>se detiene</strong> si <code>atendidas − stock inicial</code> no reproduce la suma de ingresos en <strong>cada uno de los 1.655 procesos</strong> (1.180 con <code>pendientes_inicio</code> publicado y 475 civiles con <code>readecuadas_ley_439</code> como stock inicial). Y hace una segunda comprobación por otro camino: los totales por materia y ámbito tienen que coincidir con los del capítulo 9 (cuadros 9.1.1 y 9.1.5). Civil, familia, trabajo y coactivo cierran exacto: 7 de 9 celdas materia × ámbito; las dos de niñez difieren por discrepancias de la fuente que ya estaban registradas.</p>
+<figure><img src="img/nb10_1.png" alt="Aporte de cada forma de ingreso al denominador y stock inicial de civil, que queda fuera."><figcaption>De qué está hecho el denominador (notebook 10): las formas de ingreso del año, en azul, y el stock inicial de civil, en gris, que no es un ingreso.</figcaption></figure>
+<figure><img src="img/nb10_2.png" alt="Distribución de la tasa de resolución por proceso y comparación entre tres denominadores."><figcaption>La tasa de resolución por proceso con tres denominadores (notebook 10). La mancha naranja alrededor de 0,5 es civil con las readecuadas contadas como ingreso.</figcaption></figure>
+<div class="callout error">
+  <span class="t">Corrección: las readecuadas son el stock inicial, no un ingreso</span>
+  <p>La primera versión de este análisis contaba <code>readecuadas_ley_439</code> como una forma de ingreso. En los cuadros civiles esa columna ocupa el lugar de <em>«pendientes de la gestión anterior»</em> de los demás cuadros, y suma exactamente el <code>pendientes_inicio</code> del capítulo 9 (29.688 en capitales, 13.374 en provincias). Con el denominador corregido, la tasa de resolución de la justicia no penal pasa de <strong>83,39 % a 100,67 %</strong>, la de civil de <strong>0,69 a 1,01</strong>, y los procesos que acumulan mora de 747 a <strong>608</strong>. La congestión y la duración no cambian. El detalle, la evidencia y qué cambia: <a href="decisiones.html#las-readecuadas">decisiones y errores</a>.</p>
 </div>
 
 <h2>Paso 11 · Outliers sin borrar nada</h2>
@@ -153,18 +156,22 @@ atendidas − pendientes_inicio   250.871   ← la identidad del Anuario cierra<
 <h2>Resultados</h2>
 <h3>Balance de la justicia no penal, 2023</h3>
 <div class="kpis">
-  <div class="kpi"><b>250.871</b><span>causas ingresadas</span></div>
+  <div class="kpi"><b>207.809</b><span>causas ingresadas</span></div>
   <div class="kpi"><b>335.472</b><span>causas atendidas</span></div>
   <div class="kpi"><b>209.197</b><span>causas resueltas</span></div>
   <div class="kpi"><b>126.065</b><span>pendientes al cierre</span></div>
-  <div class="kpi"><b>83,4 %</b><span>tasa de resolución</span></div>
+  <div class="kpi"><b>100,7 %</b><span>tasa de resolución</span></div>
   <div class="kpi"><b>1,60</b><span>tasa de congestión</span></div>
   <div class="kpi"><b>220</b><span>días de duración estimada</span></div>
 </div>
-<p>El sistema no penal cerró <strong>5 de cada 6</strong> causas que recibió: acumula mora. <strong>747 de 1.655 procesos (45,1 %)</strong> tienen tasa de resolución menor que 1.</p>
+<p>El sistema no penal resolvió <strong>tanto como recibió</strong>: 209.197 resueltas contra 207.809 ingresadas en el año. El stock casi no se movió: pasó de 127.663 a 126.065 causas (−1,3 %). Lo que pesa no es el flujo del año sino el <strong>stock heredado</strong>, que al ritmo actual tardaría unos 220 días en vaciarse. Aun así, <strong>608 de 1.655 procesos (36,7 %)</strong> tienen tasa de resolución menor que 1.</p>
+<div class="callout ojo">
+  <span class="t">Esta cifra cambió</span>
+  <p>La primera versión de esta página decía <strong>83,4 %</strong> («5 de cada 6 causas, acumula mora») porque contaba las causas readecuadas a la Ley 439 como si fueran ingresos. Son el stock inicial de civil. Ver <a href="decisiones.html#las-readecuadas">la corrección</a>.</p>
+</div>
 
 <h3>Por materia</h3>
-<div class="table-wrap"><table><thead><tr><th>Materia</th><th class="num">Procesos</th><th class="num">Ingresadas</th><th class="num">Atendidas</th><th class="num">Resueltas</th><th class="num">Pendientes</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración (días)</th></tr></thead><tbody><tr><td>Partido Administrativo Coactivo Fiscal y Tributario</td><td class="num">40</td><td class="num">2.012</td><td class="num">13.249</td><td class="num">2.671</td><td class="num">10.368</td><td class="num">1,33</td><td class="num">4,96</td><td class="num">1.417</td></tr><tr><td>Partido de Trabajo y Seguridad Social</td><td class="num">228</td><td class="num">24.073</td><td class="num">51.342</td><td class="num">23.441</td><td class="num">27.901</td><td class="num">0,97</td><td class="num">2,19</td><td class="num">434</td></tr><tr><td>Público de Familia</td><td class="num">437</td><td class="num">78.366</td><td class="num">120.483</td><td class="num">79.210</td><td class="num">41.273</td><td class="num">1,01</td><td class="num">1,52</td><td class="num">190</td></tr><tr><td>Público Niñez y Adolescencia</td><td class="num">475</td><td class="num">9.546</td><td class="num">13.524</td><td class="num">9.106</td><td class="num">4.418</td><td class="num">0,95</td><td class="num">1,49</td><td class="num">177</td></tr><tr><td>Público Civil y Comercial</td><td class="num">475</td><td class="num">136.874</td><td class="num">136.874</td><td class="num">94.769</td><td class="num">42.105</td><td class="num">0,69</td><td class="num">1,44</td><td class="num">162</td></tr></tbody><caption>reports/tables/resumen_congestion_materia.csv · valores ponderados (totales ÷ totales), ordenados por congestión</caption></table></div>
+<div class="table-wrap"><table><thead><tr><th>Materia</th><th class="num">Procesos</th><th class="num">Ingresadas</th><th class="num">Atendidas</th><th class="num">Resueltas</th><th class="num">Pendientes</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración (días)</th></tr></thead><tbody><tr><td>Partido Administrativo Coactivo Fiscal y Tributario</td><td class="num">40</td><td class="num">2.012</td><td class="num">13.249</td><td class="num">2.671</td><td class="num">10.368</td><td class="num">1,33</td><td class="num">4,96</td><td class="num">1.417</td></tr><tr><td>Partido de Trabajo y Seguridad Social</td><td class="num">228</td><td class="num">24.073</td><td class="num">51.342</td><td class="num">23.441</td><td class="num">27.901</td><td class="num">0,97</td><td class="num">2,19</td><td class="num">434</td></tr><tr><td>Público de Familia</td><td class="num">437</td><td class="num">78.366</td><td class="num">120.483</td><td class="num">79.210</td><td class="num">41.273</td><td class="num">1,01</td><td class="num">1,52</td><td class="num">190</td></tr><tr><td>Público Niñez y Adolescencia</td><td class="num">475</td><td class="num">9.546</td><td class="num">13.524</td><td class="num">9.106</td><td class="num">4.418</td><td class="num">0,95</td><td class="num">1,49</td><td class="num">177</td></tr><tr><td>Público Civil y Comercial</td><td class="num">475</td><td class="num">93.812</td><td class="num">136.874</td><td class="num">94.769</td><td class="num">42.105</td><td class="num">1,01</td><td class="num">1,44</td><td class="num">162</td></tr></tbody><caption>reports/tables/resumen_congestion_materia.csv · valores ponderados (totales ÷ totales), ordenados por congestión</caption></table></div>
 <figure><img src="img/nb10_3.png" alt="Congestión y duración ponderadas por materia."><figcaption>Congestión y duración por materia (notebook 10).</figcaption></figure>
 <ul>
   <li><strong>Coactivo Fiscal y Tributario</strong> es el cuello de botella: gestiona casi 5 causas por cada una que cierra y tardaría unos <strong>1.417 días</strong> (casi cuatro años) en vaciar su stock. Es cobranza de deudas al Estado: la demora tiene un costo fiscal directo.</li>
@@ -174,13 +181,13 @@ atendidas − pendientes_inicio   250.871   ← la identidad del Anuario cierra<
 </ul>
 
 <h3>Capitales contra provincias</h3>
-<div class="table-wrap"><table><thead><tr><th>Ámbito</th><th class="num">Procesos</th><th class="num">Atendidas</th><th class="num">Resueltas</th><th class="num">Pendientes</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración (días)</th></tr></thead><tbody><tr><td>capital</td><td class="num">890</td><td class="num">238.306</td><td class="num">150.408</td><td class="num">87.688</td><td class="num">85,1 %</td><td class="num">1,58</td><td class="num">213</td></tr><tr><td>provincia</td><td class="num">765</td><td class="num">97.166</td><td class="num">58.789</td><td class="num">38.377</td><td class="num">79,3 %</td><td class="num">1,65</td><td class="num">238</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Ámbito</th><th class="num">Procesos</th><th class="num">Atendidas</th><th class="num">Resueltas</th><th class="num">Pendientes</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración (días)</th></tr></thead><tbody><tr><td>capital</td><td class="num">890</td><td class="num">238.306</td><td class="num">150.408</td><td class="num">87.688</td><td class="num">102,3 %</td><td class="num">1,58</td><td class="num">213</td></tr><tr><td>provincia</td><td class="num">765</td><td class="num">97.166</td><td class="num">58.789</td><td class="num">38.377</td><td class="num">96,8 %</td><td class="num">1,65</td><td class="num">238</td></tr></tbody></table></div>
 <figure><img src="img/05_capital_vs_provincia.png" alt="Tasa de resolución, congestión y duración en capital y provincia."><figcaption>Capital y provincia (notebook 12).</figcaption></figure>
 <p>La brecha existe pero es moderada: las provincias resuelven proporcionalmente algo menos y tardan unos 25 días más. Es mucho menor que la brecha entre materias: importa más <em>qué tipo de caso</em> es que <em>dónde</em> se tramita.</p>
 
 <h3>Por departamento</h3>
-<div class="table-wrap"><table><thead><tr><th>Departamento</th><th class="num">Atendidas</th><th class="num">Resueltas</th><th class="num">Pendientes</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración (días)</th><th class="num">Ítems de personal</th><th class="num">Causas por ítem</th></tr></thead><tbody><tr><td>La Paz</td><td class="num">98.531</td><td class="num">55.457</td><td class="num">43.074</td><td class="num">81,8 %</td><td class="num">1,78</td><td class="num">283</td><td class="num">1.560</td><td class="num">63,2</td></tr><tr><td>Santa Cruz</td><td class="num">91.497</td><td class="num">50.674</td><td class="num">40.823</td><td class="num">78,6 %</td><td class="num">1,81</td><td class="num">294</td><td class="num">1.348</td><td class="num">67,9</td></tr><tr><td>Cochabamba</td><td class="num">53.222</td><td class="num">39.433</td><td class="num">13.789</td><td class="num">87,5 %</td><td class="num">1,35</td><td class="num">128</td><td class="num">1.112</td><td class="num">47,9</td></tr><tr><td>Potosí</td><td class="num">24.607</td><td class="num">15.816</td><td class="num">8.791</td><td class="num">88,3 %</td><td class="num">1,56</td><td class="num">203</td><td class="num">594</td><td class="num">41,4</td></tr><tr><td>Tarija</td><td class="num">19.196</td><td class="num">13.238</td><td class="num">5.958</td><td class="num">87,3 %</td><td class="num">1,45</td><td class="num">164</td><td class="num">522</td><td class="num">36,8</td></tr><tr><td>Oruro</td><td class="num">17.425</td><td class="num">13.674</td><td class="num">3.541</td><td class="num">88,1 %</td><td class="num">1,27</td><td class="num">95</td><td class="num">470</td><td class="num">37,1</td></tr><tr><td>Chuquisaca</td><td class="num">15.117</td><td class="num">11.369</td><td class="num">3.748</td><td class="num">84,4 %</td><td class="num">1,33</td><td class="num">120</td><td class="num">565</td><td class="num">26,8</td></tr><tr><td>Beni</td><td class="num">12.081</td><td class="num">7.111</td><td class="num">4.970</td><td class="num">80,2 %</td><td class="num">1,70</td><td class="num">255</td><td class="num">413</td><td class="num">29,3</td></tr><tr><td>Pando</td><td class="num">3.796</td><td class="num">2.425</td><td class="num">1.371</td><td class="num">95,5 %</td><td class="num">1,57</td><td class="num">206</td><td class="num">182</td><td class="num">20,9</td></tr></tbody><caption>reports/tables/resumen_congestion_departamental.csv · ordenado por volumen</caption></table></div>
-<p>Santa Cruz y La Paz, los dos distritos más grandes, son también los más lentos: más de nueve meses contra los tres de Oruro. Pero Cochabamba maneja casi el mismo volumen que Potosí y Tarija juntos y es más rápido que ambos: el tamaño no explica todo.</p>
+<div class="table-wrap"><table><thead><tr><th>Departamento</th><th class="num">Atendidas</th><th class="num">Resueltas</th><th class="num">Pendientes</th><th class="num">Tasa de resolución</th><th class="num">Congestión</th><th class="num">Duración (días)</th><th class="num">Ítems de personal</th><th class="num">Causas por ítem</th></tr></thead><tbody><tr><td>La Paz</td><td class="num">98.531</td><td class="num">55.457</td><td class="num">43.074</td><td class="num">102,3 %</td><td class="num">1,78</td><td class="num">283</td><td class="num">1.560</td><td class="num">63,2</td></tr><tr><td>Santa Cruz</td><td class="num">91.497</td><td class="num">50.674</td><td class="num">40.823</td><td class="num">101,7 %</td><td class="num">1,81</td><td class="num">294</td><td class="num">1.348</td><td class="num">67,9</td></tr><tr><td>Cochabamba</td><td class="num">53.222</td><td class="num">39.433</td><td class="num">13.789</td><td class="num">99,8 %</td><td class="num">1,35</td><td class="num">128</td><td class="num">1.112</td><td class="num">47,9</td></tr><tr><td>Potosí</td><td class="num">24.607</td><td class="num">15.816</td><td class="num">8.791</td><td class="num">105,2 %</td><td class="num">1,56</td><td class="num">203</td><td class="num">594</td><td class="num">41,4</td></tr><tr><td>Tarija</td><td class="num">19.196</td><td class="num">13.238</td><td class="num">5.958</td><td class="num">101,3 %</td><td class="num">1,45</td><td class="num">164</td><td class="num">522</td><td class="num">36,8</td></tr><tr><td>Oruro</td><td class="num">17.425</td><td class="num">13.674</td><td class="num">3.541</td><td class="num">97,0 %</td><td class="num">1,27</td><td class="num">95</td><td class="num">470</td><td class="num">37,1</td></tr><tr><td>Chuquisaca</td><td class="num">15.117</td><td class="num">11.369</td><td class="num">3.748</td><td class="num">93,1 %</td><td class="num">1,33</td><td class="num">120</td><td class="num">565</td><td class="num">26,8</td></tr><tr><td>Beni</td><td class="num">12.081</td><td class="num">7.111</td><td class="num">4.970</td><td class="num">93,8 %</td><td class="num">1,70</td><td class="num">255</td><td class="num">413</td><td class="num">29,3</td></tr><tr><td>Pando</td><td class="num">3.796</td><td class="num">2.425</td><td class="num">1.371</td><td class="num">106,9 %</td><td class="num">1,57</td><td class="num">206</td><td class="num">182</td><td class="num">20,9</td></tr></tbody><caption>reports/tables/resumen_congestion_departamental.csv · ordenado por volumen</caption></table></div>
+<p>Santa Cruz y La Paz, los dos distritos más grandes, son también los más lentos: más de nueve meses contra los tres de Oruro. Pero Cochabamba maneja casi el mismo volumen que Potosí y Tarija juntos y es más rápido que ambos: el tamaño no explica todo. En cambio, en <strong>tasa de resolución</strong> La Paz y Santa Cruz ya no se distinguen: resuelven algo más de lo que ingresa (102,3 % y 101,7 %). Los más rezagados en flujo son Chuquisaca (93,1 %) y Beni (93,8 %). Antes de la corrección de las readecuadas los dos departamentos grandes parecían los que más mora acumulaban (81,8 % y 78,6 %): era por su volumen en civil.</p>
 <div class="callout ojo">
   <span class="t">Cuidado con «causas por ítem»</span>
   <p>El numerador son solo las causas no penales; el denominador es todo el personal del distrito, que también atiende penal. El valor real por funcionario es más alto. Sirve para comparar departamentos entre sí, no como carga absoluta.</p>
@@ -199,7 +206,7 @@ atendidas − pendientes_inicio   250.871   ← la identidad del Anuario cierra<
 <h2>Cinco trampas antes de citar un número</h2>
 <ol>
   <li><strong>Es la mitad no penal del sistema</strong> (47,5 % de las causas).</li>
-  <li><strong>La tasa de resolución de civil no es comparable</strong> con la de las otras materias (no hay stock inicial).</li>
+  <li><strong>En civil, las readecuadas son stock inicial, no ingreso.</strong> Contarlas como ingreso (como hizo la primera versión) bajaba la tasa de resolución de civil de 1,01 a 0,69 y la global de 100,7 % a 83,4 %.</li>
   <li><strong>Tasa de resolución y duración miden cosas distintas:</strong> flujo del año contra stock.</li>
   <li><strong><code>num_juzgados</code> es nominal:</strong> no sirve como denominador de una tasa por juzgado.</li>
   <li><strong>Mide celeridad, no calidad:</strong> resolver rápido no es resolver bien, y la duración es un estimador de estado estacionario, no el seguimiento de expedientes.</li>
