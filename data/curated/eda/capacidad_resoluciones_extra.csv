@@ -1,0 +1,14 @@
+grupo_materia,tipo_materia,resueltas,pendientes_fin,resoluciones_extra_para_frenar,resoluciones_extra_para_vaciar_3_anios,pct_extra_para_vaciar_3_anios
+TODAS LAS MATERIAS,todas,382333,356508,19115.0,137951.0,36.08137409012562
+Trabajo y Seguridad Social,no penal,23441,27900,632.0,9932.0,42.37020604922998
+Niñez y Adolescencia,no penal,11712,6547,450.0,2632.3333333333335,22.475523679417122
+Familia,no penal,79210,41273,0.0,13757.666666666666,17.36859824096284
+Civil y Comercial,no penal,94769,42105,0.0,14035.0,14.809695153478458
+Tribunales de sentencia penal,penal,1811,9688,272.0,3501.3333333333335,193.33701454076936
+Tribunal de sentencia: anticorrupción + violencia,penal,1964,6479,642.0,2801.6666666666665,142.6510522742702
+Sentencia: anticorrupción + violencia,penal,6031,16808,3081.0,8683.666666666668,143.98386116177528
+Sentencia penal,penal,16457,36855,1421.0,13706.0,83.28370905997447
+Instrucción anticorrupción,penal,2192,2811,133.0,1070.0,48.81386861313868
+Instrucción violencia contra la mujer,penal,46763,43919,5684.0,20323.666666666664,43.460998367655336
+Instrucción penal,penal,86244,66279,1901.0,23994.0,27.821065813273965
+Ejecución penal,ejecución penal,9068,45266,7359.0,22447.666666666664,247.5481546831348

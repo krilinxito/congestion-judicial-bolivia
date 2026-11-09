@@ -1,0 +1,16 @@
+medida,resultado,spearman,valor_p,significativo_al_5pct,n
+ingresadas_por_ocupado,tasa_resolucion,0.21666666666666667,0.5755148957119259,False,9
+ingresadas_por_ocupado,tasa_congestion,0.16666666666666669,0.668231040071504,False,9
+ingresadas_por_ocupado,duracion_estimada_dias,0.16666666666666669,0.668231040071504,False,9
+resueltas_por_ocupado,tasa_resolucion,0.3666666666666667,0.3317398014330152,False,9
+resueltas_por_ocupado,tasa_congestion,0.11666666666666665,0.765007942926146,False,9
+resueltas_por_ocupado,duracion_estimada_dias,0.11666666666666665,0.765007942926146,False,9
+ocupados_por_organo,tasa_resolucion,-0.2333333333333333,0.5456987782182728,False,9
+ocupados_por_organo,tasa_congestion,0.5333333333333333,0.13922686754397812,False,9
+ocupados_por_organo,duracion_estimada_dias,0.5333333333333333,0.13922686754397812,False,9
+pct_vacantes,tasa_resolucion,0.06666666666666667,0.8646897846262036,False,9
+pct_vacantes,tasa_congestion,-0.21666666666666667,0.5755148957119259,False,9
+pct_vacantes,duracion_estimada_dias,-0.21666666666666667,0.5755148957119259,False,9
+indice_remuneracion_por_resuelta,tasa_resolucion,-0.3666666666666667,0.3317398014330152,False,9
+indice_remuneracion_por_resuelta,tasa_congestion,-0.11666666666666665,0.765007942926146,False,9
+indice_remuneracion_por_resuelta,duracion_estimada_dias,-0.11666666666666665,0.765007942926146,False,9

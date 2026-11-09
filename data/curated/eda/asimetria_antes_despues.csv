@@ -1,0 +1,6 @@
+variable,n,asimetria_original,asimetria_log1p,asimetria_winsorizada,lectura_original,lectura_log1p
+atendidas,1655,6.530638418598399,0.5424360464735646,,asimetría fuerte,asimetría moderada
+resueltas,1655,7.6813999032304405,0.7392010581144848,,asimetría fuerte,asimetría moderada
+pendientes_fin,1655,7.721001683924895,0.8542038369133532,,asimetría fuerte,asimetría moderada
+tasa_congestion,1122,16.143025075324168,2.256297575545242,3.6547804422164716,asimetría fuerte,asimetría fuerte
+duracion_estimada_dias,1122,16.56994168022243,-1.1327934337171222,2.94854911280842,asimetría fuerte,asimetría fuerte

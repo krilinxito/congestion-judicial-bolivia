@@ -1,0 +1,6 @@
+materia_homologada,n_procesos,"pct_crítica (< 0,90)","pct_mejorable (0,90 a 0,99)","pct_óptima (≥ 1,00)","indice_crítica (< 0,90)","indice_mejorable (0,90 a 0,99)","indice_óptima (≥ 1,00)",pct_duracion_corta,pct_duracion_media,pct_duracion_larga,indice_duracion_corta,indice_duracion_media,indice_duracion_larga
+Partido Administrativo Coactivo Fiscal y Tributario,28,0.393,0.036,0.571,1.04,0.29,1.14,0.321,0.071,0.607,0.96,0.19,2.06
+Partido de Trabajo y Seguridad Social,124,0.363,0.073,0.565,0.96,0.59,1.13,0.194,0.306,0.5,0.58,0.82,1.7
+Público Civil y Comercial,347,0.435,0.15,0.415,1.15,1.22,0.83,0.274,0.409,0.317,0.82,1.1,1.08
+Público Niñez y Adolescencia,271,0.369,0.092,0.539,0.98,0.75,1.08,0.502,0.255,0.244,1.5,0.69,0.83
+Público de Familia,312,0.324,0.147,0.529,0.86,1.2,1.06,0.311,0.484,0.205,0.93,1.3,0.7
