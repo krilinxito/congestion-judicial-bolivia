@@ -66,6 +66,11 @@
   <div id="resultado" aria-live="polite"><p class="muted">Cargando el modelo…</p></div>
 </div>
 
+<div class="callout regla">
+  <span class="t">La versión pública</span>
+  <p>Esta es la versión de la web de documentación. La página pública, con medidor, deslizadores y el panel «¿Y si cambia algo?», está en la carpeta <code>despliegue/</code> del proyecto y se publica en un VPS con Docker Compose (<code>docker compose up -d --build</code>; instrucciones en <code>despliegue/README.md</code>). Usa exactamente el mismo modelo.</p>
+</div>
+
 <div class="callout ojo">
   <span class="t">Cómo leer el resultado</span>
   <p>Es una <strong>probabilidad estimada con datos de un solo año</strong> (2023) y <span id="nTotal">los procesos con movimiento</span>. El modelo acierta en <span id="aciertoTexto">buena parte de los</span> casos de prueba: sirve para <strong>ordenar</strong> qué procesos mirar primero, no para decidir sobre un juzgado concreto. No conoce nada que no esté en estas variables (cambios de personal, reformas, paros).</p>

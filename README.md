@@ -34,6 +34,7 @@ data/curated/     tabla analítica con indicadores y tratamientos del EDA
 data/curated/modelo/  variables, partición, métricas, importancia y versiones del modelo (notebooks 19-22)
 models/          el modelo de 5 variables entrenado (joblib)
 informe/         el informe final en LaTeX (informe.tex → informe.pdf) y sus tablas generadas
+despliegue/      la página pública de predicción y su Dockerfile + docker-compose.yml para el VPS
 reports/          tablas resumen y figuras
 web/              la documentación
 ```
@@ -61,6 +62,17 @@ presentación `web/presentacion-ampliacion.html`.
 > `readecuadas_ley_439`, que en civil son el stock inicial (ocupan el lugar de
 > `pendientes_inicio` y suman lo mismo que el cuadro 9.1.x). Ver
 > `web/decisiones.html#las-readecuadas`.
+
+## Despliegue en un VPS
+
+La carpeta `despliegue/` publica el modelo de 5 variables como una página web: el modelo corre en el navegador y el
+servidor (nginx en Docker) solo entrega archivos.
+
+```bash
+cd despliegue && docker compose up -d --build     # abrir http://IP-DEL-VPS:8080
+```
+
+Detalle, HTTPS y cómo actualizar el modelo: `despliegue/README.md`.
 
 ## Reproducir
 

@@ -34,6 +34,17 @@ Pausado el 2026-11-16. Plan aprobado completo en `C:\Users\barry\.claude\plans\h
 - `web/limites.html` ya dice que los notebooks 19-22 sí entrenan modelos.
 - `prediccion.html` verificada con Edge sin interfaz: 20/20 coinciden.
 
+## Despliegue real (2026-11-16, tercera parte)
+- Carpeta `despliegue/`: página pública (`sitio/`: index.html, estilos.css, prediccion.js, modelo JSON, escudo UMSA),
+  `nginx.conf`, `Dockerfile` (nginx-unprivileged 1.27, puerto 8080, /salud) y `docker-compose.yml` (servicio prediccion-mora,
+  solo lectura, cap_drop ALL, healthcheck). Sin Python en el servidor. Instrucciones en `despliegue/README.md`.
+- El notebook 22 escribe el JSON también en `despliegue/sitio/modelo/` y verifica que sea idéntico.
+- El JS de la página pública se probó con Node.js en los 248 procesos de prueba: coincide con scikit-learn (2e-16).
+- `docker compose config` valida; **la imagen no se construyó localmente** (Docker Desktop apagado).
+- Informe: portada con escudo UMSA, materia Análisis de Datos, docente M.Sc. Madelina Loza Soliz; sección 4 con 4.1-4.3
+  (modelo exportado, página, VPS con Docker Compose). Presentación 3: portada con escudo y diapositiva 30 de Docker (33 en total).
+  Guía de estudio: VPS, Docker, nginx y Compose explicados desde cero.
+
 ## Pendiente
-- Revisar visualmente la presentación 3 en el navegador (el usuario rechazó las capturas automáticas).
-- Commit (no se pidió todavía).
+- Construir y probar la imagen (docker compose up -d --build) y publicarla en el VPS del usuario; poner la URL real en
+  la presentación (diapositiva 31 usa localhost:8080 e IP-DEL-VPS).

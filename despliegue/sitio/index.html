@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¿Acumulará mora? · Predicción judicial Bolivia</title>
+<meta name="description" content="Escribe los datos de un tipo de proceso judicial no penal y un modelo de Gradient Boosting entrenado con el Anuario Estadístico Judicial 2023 estima la probabilidad de que acumule mora. Proyecto de Análisis de Datos, UMSA.">
+<meta name="theme-color" content="#0a1a6b">
+<link rel="icon" type="image/png" href="img/umsa.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css?v=1">
+<script src="prediccion.js?v=1" defer></script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="rayos" aria-hidden="true"></div>
+  <nav class="barra">
+    <a class="marca" href="#">
+      <img src="img/umsa.png" alt="Escudo de la Universidad Mayor de San Andrés" width="44" height="88">
+      <span><b>Congestión judicial en Bolivia</b><small>Universidad Mayor de San Andrés · Análisis de Datos</small></span>
+    </a>
+    <div class="enlaces">
+      <a href="#probar">Probar</a>
+      <a href="#modelo">El modelo</a>
+      <a href="#como">Cómo funciona</a>
+    </div>
+  </nav>
+  <div class="hero-texto">
+    <p class="etiqueta">Anuario Estadístico Judicial 2023 · modelo de 5 variables</p>
+    <h1>¿Este juzgado va a <span class="dorado">acumular mora</span>?</h1>
+    <p class="bajada">Escribe cuántas causas le entran, cuántas hereda y cuántos juzgados las atienden. Un modelo entrenado con <b id="nTotal">1.240</b> procesos reales estima, en tu navegador, la probabilidad de que resuelva menos de lo que recibe y su pila de expedientes crezca.</p>
+    <a class="boton-hero" href="#probar">Probar el modelo ↓</a>
+  </div>
+</header>
+
+<main>
+
+<section id="probar" class="probar">
+  <form id="formulario" class="tarjeta formulario" autocomplete="off" novalidate>
+    <h2><span class="paso">1</span> Datos del proceso</h2>
+
+    <fieldset class="materias">
+      <legend>Materia</legend>
+      <div id="materias" class="chips" role="radiogroup"></div>
+    </fieldset>
+
+    <div id="campos"></div>
+
+    <div class="ejemplos">
+      <p class="mini">¿Sin datos a mano? Carga un proceso real de la prueba (el modelo nunca lo vio):</p>
+      <div id="ejemplos" class="carrusel"></div>
+    </div>
+  </form>
+
+  <div class="tarjeta resultado" aria-live="polite">
+    <h2><span class="paso">2</span> Lo que estima el modelo</h2>
+    <div class="medidor">
+      <svg viewBox="0 0 240 140" role="img" aria-labelledby="medidorTitulo">
+        <title id="medidorTitulo">Medidor de la probabilidad de acumular mora</title>
+        <defs>
+          <linearGradient id="arcoColor" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#22c55e"/>
+            <stop offset=".5" stop-color="#f2b705"/>
+            <stop offset="1" stop-color="#ef4444"/>
+          </linearGradient>
+        </defs>
+        <path class="arco-fondo" d="M20 120 A100 100 0 0 1 220 120"/>
+        <path id="arcoValor" class="arco-valor" d="M20 120 A100 100 0 0 1 220 120" pathLength="100"/>
+        <line class="marca-umbral" x1="120" y1="12" x2="120" y2="30"/>
+        <g id="aguja" class="aguja"><line x1="120" y1="120" x2="120" y2="36"/><circle cx="120" cy="120" r="9"/></g>
+        <text x="20" y="138" class="eje">0 %</text><text x="120" y="8" class="eje" text-anchor="middle">50 %</text><text x="220" y="138" class="eje" text-anchor="end">100 %</text>
+      </svg>
+      <div class="cifra"><b id="porcentaje">—</b><span>probabilidad de acumular mora</span></div>
+    </div>
+    <p id="veredicto" class="veredicto">Cargando el modelo…</p>
+
+    <h3>Las 5 variables que mira</h3>
+    <div id="variables" class="variables"></div>
+
+    <h3>¿Y si cambia algo?</h3>
+    <p class="mini">Cuánto se movería la probabilidad con cada cambio, dejando todo lo demás igual.</p>
+    <div id="simulacion" class="simulacion"></div>
+  </div>
+</section>
+
+<section id="modelo" class="seccion">
+  <h2 class="titulo-seccion">El modelo, en números</h2>
+  <div id="ficha" class="kpis"></div>
+  <div class="tarjeta aviso">
+    <h3>Cómo leer el resultado</h3>
+    <p>Es una <b>probabilidad</b> aprendida de un solo año (2023) y de las cinco materias no penales (civil, familia, niñez, trabajo y coactivo). Acierta en <b id="acierto">—</b> de cada 100 procesos de prueba: sirve para <b>ordenar qué procesos mirar primero</b>, no para juzgar a un juzgado concreto. No sabe nada que no esté en estas variables: cambios de personal, reformas o paros.</p>
+  </div>
+  <details class="tarjeta verificacion">
+    <summary><span id="sello" class="sello">verificando…</span> Autoverificación contra Python</summary>
+    <p class="mini">Al abrir la página, el navegador recalcula 20 procesos de la prueba y compara su probabilidad con la que dio scikit-learn en el notebook 22. Si los árboles se hubieran copiado mal, aparecería «distinto».</p>
+    <div class="tabla"><table><thead><tr><th>Proceso</th><th>Territorio</th><th>Python</th><th>Navegador</th><th>Realidad</th><th></th></tr></thead><tbody id="tablaVerificacion"></tbody></table></div>
+  </details>
+</section>
+
+<section id="como" class="seccion">
+  <h2 class="titulo-seccion">Cómo funciona</h2>
+  <ol class="pasos">
+    <li><b>Se entrenó con datos reales.</b> 992 tipos de proceso del Anuario 2023 (el 80 %), de los que se sabía si acumularon mora. Los otros 248 se guardaron para la prueba.</li>
+    <li><b>Se construyeron variables nuevas.</b> Las más útiles no están en el Anuario: los <em>ingresos por juzgado</em>, la <em>presión del stock</em> (stock heredado ÷ ingresos) y el <em>stock por juzgado</em>.</li>
+    <li><b>200 árboles en fila.</b> Es un <em>Gradient Boosting</em>: cada árbol hace preguntas del tipo «¿ingresos por juzgado ≤ 12?» y corrige el error de los anteriores. Sus respuestas se suman y se convierten en una probabilidad.</li>
+    <li><b>Todo corre en tu navegador.</b> Los árboles están en un archivo JSON; esta página los recorre en JavaScript. El servidor (nginx en Docker) solo entrega archivos: no recibe ni guarda tus datos.</li>
+  </ol>
+</section>
+
+</main>
+
+<footer class="pie">
+  <img src="img/umsa.png" alt="" width="40" height="80">
+  <div>
+    <p><b>Universidad Mayor de San Andrés</b> · Análisis de Datos · Docente: M.Sc. Madelina Loza Soliz</p>
+    <p>Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
+    <p class="mini">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>. Modelo y código: notebooks 19 a 22 del proyecto.</p>
+  </div>
+</footer>
+
+</body>
+</html>

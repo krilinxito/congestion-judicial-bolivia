@@ -26,14 +26,38 @@
 
 \input{tablas/cifras.tex}
 
-\title{\textbf{¿Qué procesos judiciales acumulan mora?}\\[4pt]
-  \large Preprocesamiento, modelos de clasificación, evaluación y despliegue\\
-  con el Anuario Estadístico Judicial 2023 de Bolivia}
-\author{Andrés Maximiliano Espinoza Romero \and Andrés Gabriel Maydana García \and Maximiliano Gómez Mallo}
-\date{Proyecto de Análisis de Datos · noviembre de 2026}
+\hypersetup{pdftitle={¿Qué procesos judiciales acumulan mora?},
+  pdfauthor={Andrés Maximiliano Espinoza Romero, Andrés Gabriel Maydana García, Maximiliano Gómez Mallo}}
 
 \begin{document}
-\maketitle
+
+%--------------------------------------------------------------------- portada
+\begin{titlepage}
+  \centering
+  {\Large\bfseries\color{acento!40!black} UNIVERSIDAD MAYOR DE SAN ANDRÉS\par}
+  \vspace{1.2cm}
+  \includegraphics[height=7.2cm]{img/umsa.png}\par
+  \vspace{1.3cm}
+  {\color{acento}\rule{0.75\linewidth}{1.2pt}\par}
+  \vspace{0.5cm}
+  {\LARGE\bfseries ¿Qué procesos judiciales acumulan mora?\par}
+  \vspace{0.35cm}
+  {\large Preprocesamiento, modelos de clasificación, evaluación y despliegue\\
+   con el Anuario Estadístico Judicial 2023 de Bolivia\par}
+  \vspace{0.5cm}
+  {\color{acento}\rule{0.75\linewidth}{1.2pt}\par}
+  \vfill
+  \begin{tabular}{@{}r@{\hspace{0.8em}}l@{}}
+    \textbf{Materia:} & Análisis de Datos \\[3pt]
+    \textbf{Docente:} & M.Sc. Madelina Loza Soliz \\[3pt]
+    \textbf{Integrantes:} & Andrés Maximiliano Espinoza Romero \\
+                          & Andrés Gabriel Maydana García \\
+                          & Maximiliano Gómez Mallo \\
+  \end{tabular}
+  \vfill
+  {\large La Paz -- Bolivia\par}
+  {\large Noviembre de 2026\par}
+\end{titlepage}
 
 \begin{abstract}
 \noindent
@@ -46,7 +70,8 @@ penales con movimiento en 2023 (\nAcumulan{} acumulan mora, \pctAcumulan~\%). Si
 presenta (1)~el preprocesamiento, (2)~los modelos ---SVM, Bagging, Boosting y Stacking--- con ajuste de
 hiperparámetros, (3)~la evaluación, con la importancia de las variables y la comparación entre las \nOriginales{}
 variables originales, las \nCompleta{} con ingeniería y las 5 más importantes, y (4)~el despliegue del modelo de
-5~variables en una página web. El mejor modelo (\mejorModelo) alcanza un ROC-AUC de \mejorAucCv{} en validación
+5~variables en una página web pública, empaquetada con Docker y publicada en un servidor privado virtual (VPS) con
+Docker Compose. El mejor modelo (\mejorModelo) alcanza un ROC-AUC de \mejorAucCv{} en validación
 cruzada y \mejorAucPrueba{} en la prueba; el modelo de 5 variables publicado (\modeloDesplegado) obtiene
 \aucDesplegado{} en la prueba. Las variables más útiles no están en el Anuario: son cocientes construidos en el
 preprocesamiento, como los ingresos por juzgado y la presión del stock heredado.
@@ -365,9 +390,12 @@ de proceso que no vio. El SVM es el que más cae (tabla~\ref{tab:robustez}).
 %=====================================================================
 \section{Despliegue}
 
-Un modelo solo sirve si alguien lo puede usar. El modelo de 5 variables se publicó en la web del proyecto
-(\texttt{web/prediccion.html}): se escriben los datos de un proceso y el navegador calcula la probabilidad de que acumule
-mora, sin servidor y sin instalar nada.
+Un modelo solo sirve si alguien lo puede usar. El modelo de 5 variables se publicó como una \textbf{página web pública}:
+se escriben los datos de un proceso y el navegador calcula la probabilidad de que acumule mora. La página se empaqueta
+en un contenedor de Docker y se publica en un servidor privado virtual (VPS) con Docker Compose. La web de
+documentación del proyecto tiene además una versión más sencilla (\texttt{web/prediccion.html}).
+
+\subsection{El modelo exportado}
 
 \paragraph{Qué modelo.} Entre los modelos de árboles, que se pueden exportar a un archivo de datos, el de mejor
 validación cruzada con 5 variables fue \textbf{\modeloDesplegado} (\aucVCincoCvGradientBoosting; Random Forest
@@ -391,6 +419,67 @@ página repite el control al cargarse con 20 procesos y muestra cuántos coincid
 \aucDesplegadoVeintisiete: el costo de simplificar a 5 variables queda medido. La página lo dice: sirve para
 \emph{ordenar} qué procesos mirar primero, no para decidir sobre un juzgado concreto.
 
+\subsection{La página de predicción}
+
+La carpeta \path{despliegue/sitio/} contiene la página pública: \texttt{index.html}, \texttt{estilos.css} (colores
+del escudo de la UMSA, tema claro y oscuro), \texttt{prediccion.js} (el modelo en JavaScript) y el JSON del modelo, que
+el notebook 22 escribe en esa carpeta y verifica que sea idéntico al de la web del proyecto. La página ofrece:
+
+\begin{itemize}
+  \item \textbf{El formulario:} la materia como botones y los tres datos numéricos con un campo y un deslizador (en
+  escala logarítmica para los ingresos y el stock, que tienen cola larga), con la mediana y el máximo de los datos como
+  referencia. También se puede cargar uno de los 20 procesos reales de la prueba.
+  \item \textbf{El resultado:} un medidor con la probabilidad, el veredicto respecto del umbral de 0,5 y las 5
+  variables que usa el modelo con sus fórmulas.
+  \item \textbf{«¿Y si cambia algo?»:} cuánto se movería la probabilidad si los ingresos o el stock subieran o bajaran
+  un 25~\% o si hubiera un juzgado más o menos, en puntos porcentuales. Es una forma de leer el modelo: muestra, para
+  ese proceso, hacia dónde empuja cada dato.
+  \item \textbf{La ficha del modelo y la autoverificación:} las métricas de la prueba y la comparación de 20 procesos
+  con las probabilidades de scikit-learn. Además, una prueba con Node.js recorrió con el mismo código JavaScript los
+  \nPrueba{} procesos de prueba y coincidió con scikit-learn en todos (diferencia máxima del orden de $10^{-16}$).
+\end{itemize}
+
+\subsection{Publicación en un VPS con Docker Compose}
+
+Como el modelo corre en el navegador, el servidor no necesita Python ni scikit-learn: solo entrega archivos
+estáticos. Eso hace al despliegue simple, barato y seguro: el servidor no recibe ni guarda los datos que se escriben en
+el formulario. La carpeta \path{despliegue/} es independiente del resto del proyecto y tiene tres archivos de
+configuración (tabla~\ref{tab:despliegue}).
+
+\begin{table}[H]
+  \centering\small
+  \caption{Archivos del despliegue (carpeta \texttt{despliegue/}).}
+  \label{tab:despliegue}
+  \begin{tabular}{lp{11cm}}
+    \toprule
+    Archivo & Qué hace \\
+    \midrule
+    \texttt{Dockerfile} & Parte de la imagen \texttt{nginxinc/nginx-unprivileged:1.27-alpine} (el servidor web nginx
+      corriendo como usuario sin privilegios), copia la configuración y la carpeta \texttt{sitio/}, expone el puerto 8080
+      y define un chequeo de salud. \\
+    \texttt{nginx.conf} & Sirve los archivos, comprime el JSON del modelo (gzip), envía cabeceras de seguridad (una
+      política de contenido que solo permite archivos propios y las fuentes tipográficas), oculta la versión de nginx y
+      responde \texttt{ok} en \texttt{/salud}. \\
+    \texttt{docker-compose.yml} & Define el servicio \texttt{prediccion-mora}: construye la imagen, publica el puerto
+      (8080 por defecto, configurable con la variable \texttt{PUERTO}), reinicia el contenedor si se cae, lo deja de solo
+      lectura, sin capacidades de Linux ni escalada de privilegios, y revisa \texttt{/salud} cada 30 segundos. \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\noindent En el VPS, con Docker instalado, el despliegue completo son tres comandos:
+
+\begin{verbatim}
+scp -r despliegue usuario@IP-DEL-VPS:~/prediccion-mora    # llevar la carpeta
+ssh usuario@IP-DEL-VPS "cd ~/prediccion-mora && docker compose up -d --build"
+curl http://IP-DEL-VPS:8080/salud                          # responde: ok
+\end{verbatim}
+
+\noindent La página queda en \texttt{http://IP-DEL-VPS:8080}. Si el VPS tiene un dominio y un proxy inverso (por
+ejemplo, Caddy), el proxy apunta a ese puerto y agrega HTTPS. Para actualizar el modelo se vuelve a ejecutar el
+notebook 22 y se repite \texttt{docker compose up -d --build}: la configuración no cambia. Las instrucciones completas
+están en \path{despliegue/README.md}.
+
 %=====================================================================
 \section*{Conclusiones}
 \addcontentsline{toc}{section}{Conclusiones}
@@ -408,7 +497,8 @@ página repite el control al cargarse con 20 procesos y muestra cuántos coincid
   tienden a acumular. Los que heredan mucho stock respecto de lo que les entra tienden a resolver más de lo que reciben.
   El personal y las vacantes del departamento casi no aportan, en línea con lo que encontró el notebook 18.
   \item \textbf{El modelo de 5 variables funciona en el navegador} y reproduce exactamente al de Python, a cambio de
-  perder alrededor de 0,07 de ROC-AUC en la prueba.
+  perder alrededor de 0,07 de ROC-AUC en la prueba. Se publica en un VPS con Docker Compose, sin código Python en el
+  servidor.
 \end{enumerate}
 
 \section*{Limitaciones}
@@ -459,8 +549,9 @@ jupyter nbconvert --to notebook --execute --inplace 22_despliegue.ipynb
 
 cd ../informe
 pdflatex informe.tex          # dos veces
-cd ../web
-python -m http.server 8000    # abrir http://localhost:8000/prediccion.html
+cd ../despliegue
+docker compose up -d --build  # abrir http://localhost:8080
+# sin Docker: cd despliegue/sitio && python -m http.server 8000
 \end{verbatim}
 
 \noindent El notebook 22 escribe las tablas y las cifras de este informe en \path{informe/tablas/}, de modo que al

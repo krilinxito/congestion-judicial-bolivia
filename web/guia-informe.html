@@ -70,12 +70,13 @@
 
 <!-- ================================================================== -->
 <h2>La portada y el resumen</h2>
-<p>El título del informe es una pregunta: <strong>«¿Qué procesos judiciales acumulan mora?»</strong>. El subtítulo dice las cuatro etapas que pidió la docente en la pizarra: <strong>preprocesamiento, modelos de clasificación, evaluación y despliegue</strong>.</p>
+<p>La <strong>portada</strong> lleva el escudo de la <strong>Universidad Mayor de San Andrés</strong>, la materia (<strong>Análisis de Datos</strong>), la docente (<strong>M.Sc. Madelina Loza Soliz</strong>), los tres integrantes, el lugar y la fecha. El título del informe es una pregunta: <strong>«¿Qué procesos judiciales acumulan mora?»</strong>. El subtítulo dice las cuatro etapas que pidió la docente en la pizarra: <strong>preprocesamiento, modelos de clasificación, evaluación y despliegue</strong>.</p>
 <p>El <strong>resumen</strong> cuenta todo el informe en un párrafo. Traducido:</p>
 <ol>
   <li>El Consejo de la Magistratura publica sus estadísticas en un PDF de 774 páginas. En la primera parte del proyecto ese PDF se convirtió en tablas.</li>
   <li>Este informe usa esas tablas para una pregunta: con lo que se sabe de un tipo de proceso (materia, territorio, stock heredado, causas que entran, juzgados), ¿se puede anticipar si este año resolverá menos causas de las que recibe?</li>
   <li>Se usaron <strong>1.240 procesos</strong>; <strong>608</strong> acumulan mora (49,0 %).</li>
+  <li>El modelo de 5 variables se publica en una página web pública, empaquetada con <strong>Docker</strong> y puesta en un servidor (un <strong>VPS</strong>) con <strong>Docker Compose</strong> (se explica en la parte 4).</li>
   <li>El mejor modelo (<strong>Bagging</strong>) obtiene un ROC-AUC (una nota de 0,5 a 1 que se explica en la parte 3) de <strong>0,753</strong> en la validación y <strong>0,729</strong> en la prueba. El modelo publicado, de 5 variables (<strong>Gradient Boosting</strong>), obtiene <strong>0,663</strong>.</li>
   <li>Lo más útil para predecir no viene del Anuario: son <strong>cocientes</strong> que el equipo construyó, como los ingresos por juzgado y la presión del stock.</li>
 </ol>
@@ -521,7 +522,7 @@
 
 <!-- ================================================================== -->
 <h2>4 · Despliegue</h2>
-<p><strong>La idea en simple.</strong> Un modelo que vive en un notebook no lo usa nadie. <strong>Desplegar</strong> es ponerlo donde cualquiera pueda escribir sus datos y recibir una respuesta. Aquí: una página web, <a href="prediccion.html">predicción de mora</a>, que funciona en el navegador, sin servidor y sin instalar nada.</p>
+<p><strong>La idea en simple.</strong> Un modelo que vive en un notebook no lo usa nadie. <strong>Desplegar</strong> es ponerlo donde cualquiera pueda escribir sus datos y recibir una respuesta. Aquí se hizo en dos pasos: (1) el modelo se convirtió en un archivo que una página web puede usar, y (2) esa página se publicó en un servidor de internet (un VPS) con Docker. La web del proyecto tiene además una versión sencilla: <a href="prediccion.html">predicción de mora</a>.</p>
 
 <h3>Qué modelo</h3>
 <p>Se eligió entre los modelos de <strong>árboles</strong> (Bagging, Random Forest y Gradient Boosting), porque un árbol es una lista de preguntas que se puede copiar a un archivo. Con 5 variables, el mejor en validación fue <strong>Gradient Boosting</strong> (0,712; Random Forest 0,705; Bagging 0,704). AdaBoost tuvo 0,714, pero queda fuera de los exportables y la diferencia está dentro del ruido. Tiene <strong>200 árboles</strong>. Se entrena con los mismos 992 procesos, así que las notas de la prueba son las del modelo publicado.</p>
@@ -547,10 +548,40 @@
   <p>Con civil, 1.627 ingresos, 14 juzgados y 770 heredadas, la página calcula ingresos por juzgado = 116,2, presión del stock = 0,47 y stock por juzgado = 55, y da una probabilidad de <strong>33 %</strong>: predice «no acumula». Pero <strong>sí acumuló</strong>. Es uno de los 248 procesos de prueba y uno de los casos perdidos. Un modelo con 66 % de exactitud se equivoca en uno de cada tres: este es uno de ellos, y por eso no se usa para decidir sobre un juzgado.</p>
 </div>
 
+<h3>La página pública</h3>
+<p>Está en la carpeta <code>despliegue/sitio/</code> y tiene los colores del escudo de la UMSA. Qué tiene, de arriba abajo:</p>
+<ul>
+  <li><strong>El formulario:</strong> la materia como botones de colores y los tres números (ingresos, juzgados y causas heredadas), cada uno con una casilla y un <strong>deslizador</strong>. Los deslizadores de ingresos y de stock van en escala logarítmica: como hay procesos con 5 causas y otros con 4.000, así se puede mover con precisión en los dos extremos. Debajo, tarjetas con 20 procesos reales de la prueba para cargarlos con un clic.</li>
+  <li><strong>El medidor:</strong> una aguja de 0 % a 100 % con la marca del 50 % (el umbral), la probabilidad en grande y el veredicto («probablemente acumula» o «probablemente no»).</li>
+  <li><strong>Las 5 variables que mira</strong>, con sus valores y fórmulas.</li>
+  <li><strong>«¿Y si cambia algo?»:</strong> cuánto subiría o bajaría la probabilidad si los ingresos o el stock cambiaran un 25 %, o si hubiera un juzgado más o menos. Rojo = sube; verde = baja. Sirve para entender qué empuja la predicción en ese proceso.</li>
+  <li><strong>La ficha del modelo y la autoverificación</strong> («20 / 20 coinciden»). Además, el mismo código JavaScript se probó con Node.js (un programa que ejecuta JavaScript fuera del navegador) en los 248 procesos de prueba: coincide con scikit-learn en todos.</li>
+</ul>
+
+<h3>Ponerla en internet: VPS, Docker y Docker Compose</h3>
+<p><strong>La idea en simple.</strong> Para que cualquiera abra la página desde su celular, tiene que estar en una computadora encendida todo el día y conectada a internet: un <strong>servidor</strong>.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Palabra</th><th>Qué es, en simple</th><th>En nuestro caso</th></tr></thead>
+<tbody>
+<tr><td><strong>VPS</strong> (servidor privado virtual)</td><td>una computadora alquilada en un centro de datos, a la que uno se conecta por internet</td><td>donde vive la página pública</td></tr>
+<tr><td><strong>nginx</strong></td><td>un programa que entrega páginas web: cuando alguien abre la dirección, le manda los archivos</td><td>entrega el HTML, el CSS, el JavaScript y el JSON del modelo</td></tr>
+<tr><td><strong>Docker</strong> y el <strong>contenedor</strong></td><td>una «caja» que lleva el programa con todo lo que necesita, para que funcione igual en cualquier computadora</td><td>la caja lleva nginx, su configuración y la carpeta <code>sitio/</code></td></tr>
+<tr><td><strong>Dockerfile</strong></td><td>la receta para armar la caja</td><td>«parte de nginx sin privilegios, copia la configuración y la página, usa el puerto 8080»</td></tr>
+<tr><td><strong>Docker Compose</strong> (<code>docker-compose.yml</code>)</td><td>el archivo que dice cómo encender la caja: qué puerto, qué hacer si se cae, qué permisos</td><td>el servicio <code>prediccion-mora</code>, en el puerto 8080</td></tr>
+<tr><td><strong>Puerto</strong></td><td>como el número de departamento de un edificio: la dirección IP es el edificio, el puerto la puerta</td><td>8080 (se puede cambiar con <code>PUERTO</code>)</td></tr>
+<tr><td><strong>Chequeo de salud</strong></td><td>una pregunta periódica «¿estás vivo?»</td><td>cada 30 segundos se pide <code>/salud</code> y nginx responde «ok»</td></tr>
+</tbody></table></div>
+<p><strong>¿Por qué no hace falta Python en el servidor?</strong> Porque el modelo corre en el navegador de quien visita la página: el servidor solo entrega archivos, como una biblioteca que presta libros sin leerlos. Por eso el despliegue es simple, barato y seguro: el servidor <strong>no recibe ni guarda</strong> los datos que se escriben en el formulario.</p>
+<p><strong>Las medidas de seguridad,</strong> en simple: nginx corre como usuario sin permisos especiales; el contenedor es de <strong>solo lectura</strong> (nadie puede modificar los archivos desde adentro); no tiene permisos extra de Linux; y la página le dice al navegador que solo cargue archivos propios (una «política de contenido»), lo que impide que se inyecte código de otro sitio.</p>
+<p><strong>Cómo se publica</strong> (los tres comandos del informe): se copia la carpeta al VPS con <code>scp</code>; se entra con <code>ssh</code> y se ejecuta <code>docker compose up -d --build</code> (arma la caja y la enciende en segundo plano); y se comprueba con <code>curl http://IP-DEL-VPS:8080/salud</code>, que debe responder «ok». Si el servidor tiene un nombre de dominio, un <strong>proxy inverso</strong> (por ejemplo, Caddy) puede recibir las visitas en ese dominio con candado (HTTPS) y pasarlas al puerto 8080. Para actualizar el modelo: se vuelve a correr el notebook 22 (que escribe el JSON en la carpeta del despliegue) y se repite <code>docker compose up -d --build</code>.</p>
+
 <h3>Autoevaluación · Parte 4</h3>
 <details><summary>¿Por qué se publicó un modelo de árboles y no el SVM?</summary><div class="body"><p>Porque un árbol es una lista de preguntas que se copia fácilmente a un archivo y se recorre en JavaScript. Entre los de árboles, Gradient Boosting fue el mejor con 5 variables.</p></div></details>
 <details><summary>¿Cómo se sabe que la página calcula lo mismo que Python?</summary><div class="body"><p>Por el control: una reimplementación que lee solo el JSON coincide con scikit-learn en los 248 procesos de prueba (diferencia 3 × 10<sup>−16</sup>), y la página verifica 20 procesos al abrirse (20 / 20).</p></div></details>
 <details><summary>Si el modelo de 5 variables es peor, ¿por qué se publicó?</summary><div class="body"><p>Porque era la consigna y porque es más fácil de usar (pide 4 datos) y de explicar. El costo se midió: 0,663 contra 0,736.</p></div></details>
+<details><summary>¿Por qué el servidor no necesita Python ni scikit-learn?</summary><div class="body"><p>Porque el modelo está en un JSON y lo ejecuta el JavaScript en el navegador de quien usa la página. El servidor (nginx) solo entrega archivos.</p></div></details>
+<details><summary>¿Qué diferencia hay entre el Dockerfile y el docker-compose.yml?</summary><div class="body"><p>El Dockerfile es la receta para armar la caja (la imagen); el docker-compose.yml dice cómo encenderla: el puerto, el reinicio automático, los permisos y el chequeo de salud.</p></div></details>
+<details><summary>¿Cómo se sabe que la página está funcionando en el VPS?</summary><div class="body"><p>Con el chequeo de salud: <code>curl http://IP-DEL-VPS:8080/salud</code> responde «ok», y <code>docker compose ps</code> muestra el contenedor como «healthy». Al abrir la página, la autoverificación debe decir 20 / 20.</p></div></details>
 
 <!-- ================================================================== -->
 <h2>Conclusiones</h2>
@@ -595,7 +626,7 @@
   <li><code>python -m venv .venv</code> crea un entorno de Python aislado (una «caja» con sus propias librerías) y <code>pip install -r requirements.txt</code> instala las versiones exactas que usó el proyecto (por ejemplo, scikit-learn 1.9.1).</li>
   <li><code>jupyter nbconvert --to notebook --execute --inplace</code> ejecuta cada notebook de principio a fin y guarda los resultados dentro. Se corren en orden: 19, 20, 21 y 22. Leen la tabla curada que ya está en el repositorio, así que no hace falta el PDF.</li>
   <li><code>pdflatex informe.tex</code> (dos veces) arma el PDF. LaTeX es un sistema para escribir documentos; la segunda pasada completa el índice y las referencias cruzadas. Las tablas y las cifras las escribe el notebook 22 en <code>informe/tablas/</code>: <strong>ninguna cifra del informe se copió a mano</strong>, y si se vuelve a correr todo, el informe se actualiza solo.</li>
-  <li><code>python -m http.server 8000</code> dentro de <code>web/</code> sirve la página para abrir <code>prediccion.html</code> en el navegador.</li>
+  <li><code>docker compose up -d --build</code> dentro de <code>despliegue/</code> enciende la página pública en <code>http://localhost:8080</code> (o en el VPS). Sin Docker: <code>python -m http.server 8000</code> dentro de <code>despliegue/sitio/</code>.</li>
 </ol>
 <p>Todas las salidas intermedias quedan en <code>data/curated/modelo/</code>: el diccionario de variables, la partición, las métricas, los hiperparámetros, la importancia y las versiones. La <strong>semilla</strong> es fija (42): los sorteos (la partición, las muestras de los árboles, las barajadas) salen siempre iguales, así que cada ejecución da los mismos números.</p>
 
@@ -622,6 +653,7 @@
 <tr><td>Gradient Boosting · 200 · 4</td><td>modelo publicado · árboles · datos que pide</td></tr>
 <tr><td>0,663 · 0,589 · 0,680</td><td>ROC-AUC · exactitud · recall del modelo publicado</td></tr>
 <tr><td>3 × 10<sup>−16</sup> · 20 / 20</td><td>diferencia JSON vs. Python · control de la página</td></tr>
+<tr><td>8080 · /salud</td><td>puerto del contenedor · dirección del chequeo de salud</td></tr>
 </tbody></table></div>
 
 <h2>Diccionario rápido</h2>
@@ -667,13 +699,17 @@
 <tr><td>GroupKFold</td><td>validación donde un mismo tipo de proceso queda siempre del mismo lado</td></tr>
 <tr><td>Despliegue</td><td>poner el modelo a disposición de quien lo quiera usar</td></tr>
 <tr><td>JSON</td><td>archivo de texto con datos ordenados que la página lee</td></tr>
+<tr><td>VPS</td><td>computadora alquilada en internet donde vive la página</td></tr>
+<tr><td>Docker / contenedor</td><td>una caja con el programa y todo lo que necesita, que funciona igual en cualquier lado</td></tr>
+<tr><td>Docker Compose</td><td>el archivo que dice cómo encender la caja (puerto, reinicio, permisos)</td></tr>
+<tr><td>nginx</td><td>el programa que entrega los archivos de la página</td></tr>
 <tr><td>Semilla</td><td>número que fija los sorteos para que todo salga siempre igual</td></tr>
 </tbody></table></div>
 
 <h2>Dónde seguir</h2>
 <ul>
   <li>El informe completo: <code>informe/informe.pdf</code>.</li>
-  <li>El modelo en vivo: <a href="prediccion.html">predicción de mora</a>.</li>
+  <li>El modelo en vivo: la página pública (carpeta <code>despliegue/</code>, instrucciones en <code>despliegue/README.md</code>) o la versión de la web del proyecto, <a href="prediccion.html">predicción de mora</a>.</li>
   <li>Para exponer: el menú <strong>Presentar</strong> abre la <a href="presentacion-informe.html">Presentación 3 · Informe final</a>.</li>
   <li>El código, con sus resultados y una «Lectura» al final de cada uno: notebooks <code>19_preparacion_modelo</code>, <code>20_modelos</code>, <code>21_evaluacion</code> y <code>22_despliegue</code>.</li>
   <li>Lo anterior al modelo, también sin tecnicismos: <a href="guia-ampliacion.html">la guía de la ampliación</a>.</li>
