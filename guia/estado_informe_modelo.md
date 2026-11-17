@@ -48,5 +48,11 @@ Pausado el 2026-11-16. Plan aprobado completo en `C:\Users\barry\.claude\plans\h
   (modelo exportado, página, VPS con Docker Compose). Presentación 3: portada con escudo y diapositiva 30 de Docker (33 en total).
   Guía de estudio: VPS, Docker, nginx y Compose explicados desde cero.
 
+## Cierre de la presentación 3 (2026-11-17)
+- Final reescrito con enfoque judicial (40 diapositivas): 32 portada «Qué nos dice esto sobre la justicia»,
+  33-37 cinco hallazgos (carga por juzgado; personal no explica, n = 9; rezago concentrado 6 % → 73 %;
+  stock heredado alto tiende a bajar, asociación; datos no abiertos), 38 aplicación (alerta temprana, 49 % → 64 %),
+  39 límites, 40 resumen con los cinco hallazgos. El informe LaTeX no se cambió.
+
 ## Pendiente
 - El informe LaTeX (sección 4.3 y anexo) todavía usa `IP-DEL-VPS` y no menciona la URL ni Dokploy.

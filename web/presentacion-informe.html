@@ -41,6 +41,7 @@
   .slide figure img { max-height: 58vh; width: auto; max-width: 100%; margin: 0 auto; }
   .big { font: 700 clamp(3rem, 7vw, 6rem) var(--sans); letter-spacing: -.03em; line-height: 1; color: var(--accent); }
   .big.crit { color: var(--crit); }
+  .slide p.big { font-size: clamp(2.4rem, 4.6vw, 4rem); }
   .muted { color: var(--ink-mute); }
   .slide .bars .row { grid-template-columns: 16rem 1fr 5rem; }
   .bars .bar.b2 { background: var(--warn); }
@@ -79,6 +80,8 @@
   .qr span { font: 600 .78rem var(--sans); color: #0a1a6b; }
   @media (max-width: 900px) { .portada-pie { flex-direction: column; } }
   .slide li { margin-bottom: .3rem; }
+  .cierre { margin: 1.2rem 0 1rem; padding-left: 1.4rem; }
+  .slide .cierre li { font-size: 1.15rem; margin-bottom: .5rem; }
   @media (max-width: 900px) { .quecomo { grid-template-columns: 1fr; } }
   @media (max-width: 900px) {
     body { overflow: auto; }
@@ -131,7 +134,7 @@
     <div class="term"><span class="n">2</span><h4>Modelo</h4><p>SVM, Bagging, Boosting y Stacking, comparados con validación cruzada, y el ajuste de hiperparámetros de cada uno.</p></div>
     <div class="term"><span class="n">3</span><h4>Evaluación y despliegue</h4><p>Métricas en datos nunca vistos, importancia de las variables, versiones con 19, 27 y 5 variables, y el modelo de 5 variables funcionando en la web.</p></div>
   </div>
-  <p class="muted">En cada diapositiva se indica <strong>qué se hizo</strong> y <strong>cómo se hizo</strong>, y el punto de la pizarra al que corresponde.</p>
+  <p class="muted">En cada diapositiva se indica <strong>qué se hizo</strong> y <strong>cómo se hizo</strong>, y el punto de la pizarra al que corresponde. Al final: qué dice esto sobre la mora judicial y para qué sirve el modelo.</p>
 </div></section>
 
 <!-- 3 -->
@@ -608,6 +611,116 @@ ok</div>
 </div></section>
 
 <!-- 32 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Cierre</p>
+  <h1>Qué nos dice esto sobre la justicia</h1>
+  <p class="lede">Cinco hallazgos sobre la mora judicial que salen del modelo y del análisis exploratorio, y para qué le sirve la predicción a quien gestiona los juzgados.</p>
+</div></section>
+
+<!-- 33 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Hallazgo 1 de 5<span class="tema">Notebook 21 · importancia</span></p>
+  <h2>La mora la anticipa la carga de cada juzgado, no el tamaño del distrito</h2>
+  <div class="vs">
+    <div class="term"><span class="tag">cantidad suelta</span><p class="big crit" style="margin:.4rem 0">0,007</p><p>ingresos del año («Santa Cruz recibe muchas causas»)</p></div>
+    <div class="x">vs</div>
+    <div class="term"><span class="tag">carga relativa</span><p class="big" style="margin:.4rem 0">0,039</p><p>ingresos por juzgado y presión del stock (stock heredado ÷ ingresos)</p></div>
+  </div>
+  <p class="muted" style="font-size:.85rem;margin-top:.6rem">Cuánto cae el ROC-AUC al barajar la variable: cuanto más cae, más depende el modelo de ella. La carga relativa pesa más de cinco veces.</p>
+  <ul>
+    <li>Las tres variables más importantes son <strong>cocientes que construimos</strong>; el Anuario no las publica.</li>
+    <li>Un distrito grande con muchos juzgados puede estar mejor que uno chico con un solo juzgado saturado.</li>
+  </ul>
+  <div class="callout regla"><span class="t">Para gestionar</span><p>Mirar cuántas causas recibe <strong>cada juzgado de cada materia</strong>, no los totales del departamento.</p></div>
+</div></section>
+
+<!-- 34 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Hallazgo 2 de 5<span class="tema">Notebooks 18 y 21</span></p>
+  <h2>Tener más personal en el departamento no explica la mora: el refuerzo tiene que ir a juzgados concretos</h2>
+  <div class="grid2">
+    <div class="kpis" style="grid-template-columns:1fr;margin:0">
+      <div class="kpi"><b>33 → 85</b><span>causas ingresadas por puesto ocupado, de Pando a Santa Cruz: 2,6 veces más</span></div>
+      <div class="kpi"><b>0 de 15</b><span>relaciones entre recursos y resultados que resultan significativas (notebook 18)</span></div>
+      <div class="kpi"><b>≤ 0,003</b><span>aporte al modelo de personal, vacantes y remuneración: casi nada</span></div>
+    </div>
+    <div>
+      <ul>
+        <li>El personal ya crece con la demanda (Spearman 0,90 entre departamentos). Lo que cambia la mora es <strong>a qué juzgados y materias llega</strong>, no cuánta gente tiene el departamento.</li>
+        <li>Pista para la gestión: contratar en general no basta. El refuerzo tiene que ir a los juzgados y materias con más carga.</li>
+      </ul>
+      <div class="callout ojo"><span class="t">Advertencia</span><p>El personal solo se publica por departamento (n = 9). Lo correcto es decir «con estos datos no se ve efecto», no «el personal no importa».</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 35 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Hallazgo 3 de 5<span class="tema">Notebooks 10 y 16</span></p>
+  <h2>El rezago está concentrado: el 6 % de los procesos acumula el 73 %</h2>
+  <div class="grid2">
+    <figure><img src="img/nb16_1.png" alt="Curva de concentración del rezago y los 10 tipos de proceso con más pendientes."></figure>
+    <div>
+      <ul>
+        <li>Lo que más explica la demora es <strong>el tipo de proceso</strong> (hasta 57 % de la variación), no si es capital o provincia (menos de 1 %: 213 contra 238 días).</li>
+        <li>Coactivo fiscal tardaría unos <strong>1.417 días</strong> en vaciar su stock; civil, unos 162.</li>
+        <li>Civil es la materia donde más procesos acumulan (58 %); trabajo y coactivo, 40 %.</li>
+        <li>Asistencia familiar, ordinario e infracción a leyes sociales reúnen un tercio de los pendientes.</li>
+      </ul>
+      <div class="callout regla"><span class="t">Para gestionar</span><p>Atacar unos pocos tipos de proceso rinde mucho más que repartir el esfuerzo entre todos.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 36 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Hallazgo 4 de 5<span class="tema">Notebooks 19 y 22</span></p>
+  <h2>Quien hereda mucho stock y recibe poco tiende a descargarlo</h2>
+  <div class="grid2">
+    <figure><img src="img/nb19_1.png" alt="Porcentaje de procesos que acumulan mora por materia y presión del stock en las dos clases."></figure>
+    <div>
+      <ul>
+        <li>Presión del stock = stock heredado ÷ ingresos del año. Cuanto más alta, <strong>menos</strong> mora (Spearman −0,23).</li>
+        <li>En la página: con 100 ingresos, subir el stock heredado de 8 a 300 baja la probabilidad de 93 % a 33 %.</li>
+      </ul>
+      <div class="quecomo"><div><span class="tag">Explicación 1</span><p>Capacidad libre: quien recibe poco tiene tiempo para resolver lo atrasado.</p></div><div><span class="tag">Explicación 2</span><p>Depuración: archivar causas dormidas, si se registra como resolución, también baja el stock.</p></div></div>
+      <div class="callout ojo"><span class="t">Advertencia</span><p>Con estos datos no se puede saber cuál de las dos es. Es una asociación, no una causa.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 37 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Hallazgo 5 de 5<span class="tema">Notebooks 01 a 07, 14 y 15</span></p>
+  <h2>Los datos judiciales todavía no alcanzan para gestionar con ellos</h2>
+  <div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(12rem,1fr))">
+    <div class="kpi"><b>PDF</b><span>sin datos abiertos: los cuadros se extrajeron página por página</span></div>
+    <div class="kpi"><b>117</b><span>discrepancias contables del propio Anuario (notebook 05)</span></div>
+    <div class="kpi"><b>+20.493</b><span>crece el stock penal en 2023, y penal no publica causas resueltas (no penal: −1.379)</span></div>
+    <div class="kpi"><b>≠</b><span>el stock al cerrar un año no coincide con el del inicio del siguiente (notebook 15)</span></div>
+  </div>
+  <p>Justo donde más crece el rezago, en penal, no se puede calcular la tasa de resolución. Y sin una serie por proceso, el modelo no se puede probar en otros años.</p>
+  <div class="callout regla"><span class="t">Recomendación</span><p>Publicar el Anuario en formato abierto (CSV), con las causas resueltas en penal y con el stock enlazado entre años.</p></div>
+</div></section>
+
+<!-- 38 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Aplicación</p>
+  <h2>El modelo sirve para ordenar dónde mirar primero, no para decidir</h2>
+  <div class="grid3">
+    <div class="term"><h4>Alerta temprana</h4><p>Al empezar el año, con los ingresos del año anterior como estimación, ordenar los procesos de cada territorio por riesgo y decidir a dónde van juzgados de refuerzo, redistribución de causas o conciliación.</p></div>
+    <div class="term"><h4>Simulador «¿y si?»</h4><p>En la página, subir los juzgados o cambiar los ingresos y ver cómo se mueve el riesgo. Sirve para discutir cuánto refuerzo haría falta.</p></div>
+    <div class="term"><h4>Indicadores simples</h4><p>Ingresos por juzgado y presión del stock se calculan con una división: se pueden vigilar como umbrales aun sin el modelo.</p></div>
+  </div>
+  <div class="vs" style="margin-top:1.4rem">
+    <div class="term"><span class="tag">al azar</span><p class="big crit" style="margin:.4rem 0">49 %</p><p>de los procesos elegidos acumulan mora</p></div>
+    <div class="x">→</div>
+    <div class="term"><span class="tag">con el modelo</span><p class="big" style="margin:.4rem 0">64 %</p><p>de los marcados acumulan; detecta 85 de 122</p></div>
+  </div>
+  <div class="callout ojo" style="margin-top:1.2rem"><span class="t">No sirve para</span><p>Evaluar a un juez o a un juzgado: cada fila es un tipo de proceso en un territorio, y el modelo se equivoca en uno de cada tres.</p></div>
+</div></section>
+
+<!-- 39 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Límites</p>
   <h2>Lo que este modelo no puede decir</h2>
@@ -621,21 +734,24 @@ ok</div>
   </ul>
 </div></section>
 
-<!-- 33 -->
+<!-- 40 -->
 <section class="slide titulo"><div class="in">
   <p class="eyebrow">En resumen</p>
-  <h1>La mora se puede anticipar en parte, y lo que la anticipa es la carga relativa</h1>
-  <div class="grid3" style="margin-top:1.5rem">
-    <div class="term"><h4>1 · Preprocesamiento</h4><p>1.240 procesos, 18 columnas fuera por fuga, filas elegidas sin mirar la respuesta y 8 variables nuevas. Las clases están equilibradas (49 %).</p></div>
-    <div class="term"><h4>2 · Modelo</h4><p>Bagging, Random Forest y Stacking empatan en 0,753 de ROC-AUC; ajustar hiperparámetros sube hasta 0,04. La logística queda cerca: la señal es moderada.</p></div>
-    <div class="term"><h4>3 · Evaluación y despliegue</h4><p>0,73 en la prueba. Lo que más pesa: ingresos por juzgado y presión del stock. El modelo de 5 variables (0,66) funciona en la web.</p></div>
-  </div>
-  <p style="font-family:var(--sans);margin-top:2rem">Informe: <code>informe/informe.pdf</code> · página pública: <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a> · <a href="prediccion.html">la página de predicción</a> · <a href="guia-informe.html">la guía de estudio</a> · ¿Preguntas?</p>
+  <h1>La mora se concentra donde la carga por juzgado es alta, y ahí hay que intervenir</h1>
+  <ol class="cierre">
+    <li><strong>Carga por juzgado, no tamaño del distrito:</strong> lo que anticipa la mora son los ingresos por juzgado y la presión del stock.</li>
+    <li><strong>Más personal en general no basta:</strong> el refuerzo tiene que ir a juzgados y materias concretos.</li>
+    <li><strong>El rezago está concentrado:</strong> el 6 % de los procesos tiene el 73 %; atacar pocos tipos de proceso rinde más.</li>
+    <li><strong>Mucho stock heredado con poca demanda tiende a bajar:</strong> es una asociación, no una causa.</li>
+    <li><strong>Faltan datos abiertos y completos</strong> para gestionar con ellos y repetir el análisis cada año.</li>
+  </ol>
+  <p class="muted" style="font-family:var(--sans)">El modelo (ROC-AUC 0,73 en la prueba; 0,66 con 5 variables) ordena qué procesos mirar primero.</p>
+  <p style="font-family:var(--sans);margin-top:1.4rem">Informe: <code>informe/informe.pdf</code> · página pública: <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a> · <a href="prediccion.html">la página de predicción</a> · <a href="guia-informe.html">la guía de estudio</a> · ¿Preguntas?</p>
 </div></section>
 
 </main>
 <div class="hud">
-  <span id="contador">1 / 33</span>
+  <span id="contador">1 / 40</span>
   <button class="icon-btn" id="ant" aria-label="Diapositiva anterior">←</button>
   <button class="icon-btn" id="sig" aria-label="Diapositiva siguiente">→</button>
   <button class="icon-btn" id="full" aria-label="Pantalla completa" title="Pantalla completa (f)">⛶</button>
