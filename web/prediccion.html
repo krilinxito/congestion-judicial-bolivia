@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Predicción de mora — Congestión judicial en Bolivia</title>
+<meta name="description" content="Despliegue del modelo de 5 variables: escribe los datos de un proceso y el navegador calcula la probabilidad de que acumule mora, con autoverificación contra Python.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=4e419cfa">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js?v=1ee6d900" defer></script>
+<script src="prediccion.js?v=3" defer></script>
+<style>
+  .pred { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; align-items: start; margin: 0 0 2rem; }
+  .pred form { background: var(--paper-raised); border: 1px solid var(--rule); border-radius: .6rem; padding: 1.1rem 1.2rem; }
+  .campo { margin: 0 0 1rem; }
+  .campo label { display: block; font: 600 .9rem var(--sans); margin-bottom: .3rem; }
+  .campo input, .campo select, .pred select#ejemplo { width: 100%; font: 1rem var(--sans); padding: .45rem .6rem; border: 1px solid var(--rule-strong); border-radius: .4rem; background: var(--paper); color: var(--ink); }
+  .campo small { display: block; font: .75rem var(--sans); color: var(--ink-mute); margin-top: .25rem; }
+  .pred-numero b { display: block; font: 700 3.4rem var(--sans); letter-spacing: -.03em; line-height: 1; }
+  .pred-numero span { font: .85rem var(--sans); color: var(--ink-mute); }
+  .pred-numero.si b { color: var(--crit); }
+  .pred-numero.no b { color: var(--ok); }
+  .pred-barra { position: relative; height: .7rem; border-radius: 1rem; background: var(--paper-sunken); border: 1px solid var(--rule); margin: .9rem 0 1rem; overflow: visible; }
+  .pred-barra i { display: block; height: 100%; border-radius: 1rem; background: var(--accent); }
+  .pred-barra em { position: absolute; top: -.35rem; bottom: -.35rem; width: 2px; background: var(--ink); }
+  @media (max-width: 900px) { .pred { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-page="prediccion">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <a class="present-btn" href="presentacion.html" title="Abrir la presentación"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M10 8l4 2-4 2z"/></svg><span>Presentar</span></a>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Informe final · 16</p>
+<h1>¿Este proceso va a acumular mora?</h1>
+<p class="lede">El modelo de <strong>5 variables</strong> del informe, funcionando en el navegador. Escribe los datos de un tipo de proceso no penal al empezar el año y el modelo estima la probabilidad de que <strong>resuelva menos causas de las que le ingresan</strong>, es decir, de que su stock crezca.</p>
+
+<div class="kpis" id="ficha"></div>
+
+<h2>Probar el modelo</h2>
+<div class="pred">
+  <form id="formPrediccion" autocomplete="off">
+    <div class="campo">
+      <label for="ejemplo">Cargar un proceso real de la prueba (opcional)</label>
+      <select id="ejemplo"><option value="">— escribir los datos a mano —</option></select>
+    </div>
+    <div id="campos"></div>
+  </form>
+  <div id="resultado" aria-live="polite"><p class="muted">Cargando el modelo…</p></div>
+</div>
+
+<div class="callout ojo">
+  <span class="t">Cómo leer el resultado</span>
+  <p>Es una <strong>probabilidad estimada con datos de un solo año</strong> (2023) y <span id="nTotal">los procesos con movimiento</span>. El modelo acierta en <span id="aciertoTexto">buena parte de los</span> casos de prueba: sirve para <strong>ordenar</strong> qué procesos mirar primero, no para decidir sobre un juzgado concreto. No conoce nada que no esté en estas variables (cambios de personal, reformas, paros).</p>
+</div>
+
+<h2>Autoverificación</h2>
+<p>Al cargar la página, el navegador recalcula 20 procesos de la prueba y compara su resultado con el que dio scikit-learn en el notebook 22. Si los árboles se hubieran copiado mal, aquí aparecería «distinto».</p>
+<div id="verificacion"><p class="muted">Calculando…</p></div>
+
+<h2>Cómo funciona</h2>
+<ol>
+  <li>El notebook <code>22_despliegue</code> entrena el modelo con el 80 % de los procesos y lo exporta a <code>web/modelo/modelo_5var.json</code>: las preguntas de cada árbol («¿variable ≤ umbral?») y el valor de cada hoja.</li>
+  <li>Esta página calcula las variables de ingeniería con las mismas fórmulas del notebook (por ejemplo, <em>presión del stock = stock heredado ÷ (ingresos + 1)</em>), rellena un faltante con la mediana del entrenamiento y recorre los árboles.</li>
+  <li id="comoCombina">La probabilidad final combina todos los árboles. Si pasa del 50 %, se predice «acumula mora».</li>
+</ol>
+<p>El proceso completo (preprocesamiento, modelos, evaluación y despliegue) está en el informe y en la <a href="presentacion-informe.html">presentación del informe</a>; para estudiarlo desde cero, la <a href="guia-informe.html">guía de estudio del modelo</a>.</p>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>

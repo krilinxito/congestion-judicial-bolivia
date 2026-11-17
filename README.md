@@ -25,11 +25,15 @@ notebooks/        todo el código, en notebooks ejecutados (se leen sin correr n
   09 … 12         nulos, indicadores, outliers, reporte
   13              verificación final
   14 … 18         ampliación: capítulo 9, serie 2007-2023, diagnóstico, técnicas de la clase y recursos
+  19 … 22         informe final: preparación, modelos, evaluación y despliegue del modelo de 5 variables
   modulos/        funciones y tablas compartidas, cargadas con %run -i
 data/processed/   las 12 tablas en CSV y Parquet (el Parquet es la referencia)
   auditoria/      evidencia de cada decisión y cada validación
   analitico/      capa analítica: 5 tablas relacionadas + diccionario
 data/curated/     tabla analítica con indicadores y tratamientos del EDA
+data/curated/modelo/  variables, partición, métricas, importancia y versiones del modelo (notebooks 19-22)
+models/          el modelo de 5 variables entrenado (joblib)
+informe/         el informe final en LaTeX (informe.tex → informe.pdf) y sus tablas generadas
 reports/          tablas resumen y figuras
 web/              la documentación
 ```
@@ -68,7 +72,7 @@ python -m venv .venv
 ```
 
 Orden de ejecución: `01 → 02 → 03 → 07 → 04 → 05 → 06 → 08 → 09 → 10 → 11 →
-12 → 14 → 15 → 16 → 17 → 18 → 13`. Desde el 08 no hace falta el PDF. Detalle en la página «Cómo
+12 → 14 → 15 → 16 → 17 → 18 → 13 → 19 → 20 → 21 → 22`. Desde el 08 no hace falta el PDF. Detalle en la página «Cómo
 reproducir» de la web.
 
 ## Fuente

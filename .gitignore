@@ -13,3 +13,9 @@ __pycache__/
 
 # Entorno virtual local.
 .venv/
+
+# Auxiliares de LaTeX (el PDF sí se versiona).
+informe/*.aux
+informe/*.log
+informe/*.out
+informe/*.toc

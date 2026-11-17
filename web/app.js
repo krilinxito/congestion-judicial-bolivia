@@ -21,6 +21,8 @@
     { g: "Resultados", slug: "ampliacion", t: "Ampliación y relación con la clase" },
     { g: "Resultados", slug: "decisiones", t: "Decisiones y errores" },
     { g: "Resultados", slug: "limites", t: "Límites y pendientes" },
+    { g: "Informe final", slug: "guia-informe", t: "Guía de estudio del informe" },
+    { g: "Informe final", slug: "prediccion", t: "Predicción de mora (el modelo en vivo)" },
     { g: "Referencia", slug: "reproducir", t: "Cómo reproducir" },
     { g: "Referencia", slug: "glosario", t: "Glosario" },
     { g: "Referencia", slug: "preguntas", t: "Preguntas frecuentes" }
@@ -48,7 +50,8 @@
     botonPresentar.appendChild(el("i", { "class": "caret", "aria-hidden": "true" }, "▾"));
     var lista = el("div", { "class": "present-list", "role": "menu" },
       '<a role="menuitem" href="presentacion.html"><b>Presentación 1 · El proyecto</b><span>Extracción y diccionario, auditorías, nulos, outliers y análisis exploratorio (41 diapositivas, tres partes)</span></a>' +
-      '<a role="menuitem" href="presentacion-ampliacion.html"><b>Presentación 2 · Ampliación</b><span>Corrección, la clase de preprocesamiento, capítulo 9, serie 2007-2023 y dónde está el problema (35 diapositivas, tres partes)</span></a>');
+      '<a role="menuitem" href="presentacion-ampliacion.html"><b>Presentación 2 · Ampliación</b><span>Corrección, la clase de preprocesamiento, capítulo 9, serie 2007-2023 y dónde está el problema (35 diapositivas, tres partes)</span></a>' +
+      '<a role="menuitem" href="presentacion-informe.html"><b>Presentación 3 · Informe final</b><span>Preprocesamiento, modelos (SVM, Bagging, Boosting, Stacking), evaluación y despliegue del modelo de 5 variables (tres partes)</span></a>');
     envoltura.appendChild(lista);
     var cerrarPresentar = function () {
       envoltura.classList.remove("open");

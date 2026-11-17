@@ -1,0 +1,24 @@
+\begin{tabular}{lp{9cm}}
+\toprule
+Columna excluida & Motivo \\
+\midrule
+\texttt{resueltas} & es parte de la respuesta: el stock crece cuando se resuelve menos de lo que entra \\
+\texttt{pendientes\_fin} & es el resultado del año (stock heredado + ingresos - resueltas) \\
+\texttt{tasa\_resolucion} & resueltas / ingresos \\
+\texttt{tasa\_resolucion\_con\_readecuadas} & usa resueltas \\
+\texttt{tasa\_resolucion\_solo\_nuevas} & usa resueltas \\
+\texttt{tasa\_congestion} & atendidas / resueltas \\
+\texttt{tasa\_pendencia} & usa pendientes al final \\
+\texttt{duracion\_estimada\_dias} & usa resueltas y pendientes al final \\
+\texttt{acumulacion\_neta\_anual} & es el objetivo en número (ingresos - resueltas) \\
+\texttt{flag\_sin\_resolucion\_anual} & usa resueltas \\
+\texttt{flag\_sin\_movimiento} & usa resueltas \\
+\texttt{estado\_gestion} & clasifica la fila según sus resueltas \\
+\texttt{tasa\_congestion\_winsorizada} & usa resueltas \\
+\texttt{duracion\_estimada\_winsorizada} & usa resueltas \\
+\texttt{log\_resueltas} & usa resueltas \\
+\texttt{log\_pendientes\_fin} & usa pendientes al final \\
+\texttt{es\_outlier\_congestion\_iqr} & marca construida con la tasa de congestión \\
+\texttt{es\_outlier\_duracion\_iqr} & marca construida con la duración \\
+\bottomrule
+\end{tabular}

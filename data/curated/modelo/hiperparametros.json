@@ -1,0 +1,33 @@
+{
+  "SVM": {
+    "C": 1000,
+    "gamma": 0.003
+  },
+  "Regresión logística": {
+    "C": 0.31622776601683794
+  },
+  "Bagging": {
+    "n_estimators": 400,
+    "max_samples": 0.7,
+    "max_features": 0.7,
+    "estimator__min_samples_leaf": 3
+  },
+  "Random Forest": {
+    "n_estimators": 200,
+    "min_samples_leaf": 4,
+    "max_features": 0.5,
+    "max_depth": null
+  },
+  "AdaBoost": {
+    "n_estimators": 400,
+    "learning_rate": 0.5,
+    "estimator__max_depth": 1
+  },
+  "Gradient Boosting": {
+    "subsample": 0.85,
+    "n_estimators": 200,
+    "min_samples_leaf": 10,
+    "max_depth": 4,
+    "learning_rate": 0.03
+  }
+}

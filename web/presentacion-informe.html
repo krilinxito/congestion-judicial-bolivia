@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentación: informe final — Congestión judicial en Bolivia</title>
+<meta name="description" content="Tercera presentación: el informe final en el orden de la pizarra — preprocesamiento, modelos (SVM, Bagging, Boosting, Stacking) con hiperparámetros, evaluación con importancia y versiones de variables, y despliegue del modelo de 5 variables.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=4e419cfa">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  html, body { height: 100%; }
+  body { overflow: hidden; font-size: clamp(14px, 1.08vw, 21px); }
+  .deck { height: 100vh; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+  .slide {
+    min-height: 100vh; scroll-snap-align: start;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4.5rem 7vw 4rem; border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .slide > .in { width: 100%; max-width: 72rem; margin: 0 auto; }
+  .slide h1 { font-size: clamp(2.2rem, 4.4vw, 4rem); margin: 0 0 1rem; }
+  .slide h2 { font-size: clamp(1.6rem, 2.8vw, 2.5rem); border: 0; padding: 0; margin: 0 0 1.2rem; }
+  .slide h3 { font-size: 1.15rem; margin: 1.2rem 0 .5rem; }
+  .slide p, .slide li { font-size: 1.05rem; }
+  .slide .lede { font-size: 1.3rem; max-width: 52rem; }
+  .slide .eyebrow { margin-bottom: .8rem; }
+  .slide table { font-size: .85rem; }
+  .slide th, .slide td { padding: .45rem .7rem; }
+  .slide .kpi b { font-size: 2rem; }
+  .slide.sec { background: var(--accent-soft); }
+  .slide.sec h1 { color: var(--accent-ink); }
+  .slide.titulo { background: var(--paper-sunken); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.2rem; align-items: start; }
+  .grid2.w60 { grid-template-columns: 3fr 2fr; }
+  .grid2.w40 { grid-template-columns: 2fr 3fr; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .slide figure img { max-height: 58vh; width: auto; max-width: 100%; margin: 0 auto; }
+  .big { font: 700 clamp(3rem, 7vw, 6rem) var(--sans); letter-spacing: -.03em; line-height: 1; color: var(--accent); }
+  .big.crit { color: var(--crit); }
+  .muted { color: var(--ink-mute); }
+  .slide .bars .row { grid-template-columns: 16rem 1fr 5rem; }
+  .bars .bar.b2 { background: var(--warn); }
+  .bars .bar.b3 { background: var(--note); }
+  .bars .bar.b4 { background: var(--crit); }
+  .bars .bar.b5 { background: var(--ink-mute); }
+  .flowline { display: flex; gap: .6rem; align-items: stretch; flex-wrap: wrap; font-family: var(--sans); }
+  .flowline .step { flex: 1; min-width: 9rem; background: var(--paper-raised); border: 1px solid var(--rule); border-radius: .6rem; padding: .8rem .9rem; }
+  .flowline .step b { display: block; font-size: 1.4rem; color: var(--accent); }
+  .flowline .step span { font-size: .8rem; color: var(--ink-soft); }
+  .flowline .arrow { align-self: center; color: var(--ink-mute); font-size: 1.3rem; }
+  .nota-pie { position: absolute; bottom: 1.2rem; left: 7vw; right: 7vw; font: .75rem var(--sans); color: var(--ink-mute); }
+  .hud { position: fixed; z-index: 40; right: 1rem; bottom: 1rem; display: flex; gap: .4rem; align-items: center; font: .8rem var(--sans); color: var(--ink-mute); }
+  .hud a, .hud button { font: .8rem var(--sans); }
+  .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--accent); z-index: 41; width: 0; transition: width .2s; }
+  .vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1.2rem; align-items: center; text-align: center; }
+  .vs .x { font: 700 1.5rem var(--sans); color: var(--ink-mute); }
+  .tag { display: inline-block; font: 600 .72rem var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: .15rem .5rem; border-radius: 1rem; background: var(--accent-soft); color: var(--accent-ink); }
+  .agenda { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .agenda .n { display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; border-radius: 50%; background: var(--accent); color: #fff; font: 700 1.2rem var(--sans); margin-bottom: .6rem; }
+  .tree { font: .82rem/1.55 var(--mono); white-space: pre; background: var(--paper-raised); border: 1px solid var(--rule); border-radius: .6rem; padding: 1rem 1.1rem; overflow-x: auto; }
+  .badge.ok { background: var(--ok-soft); color: var(--ok); }
+  .badge.warn { background: var(--warn-soft); color: var(--warn); }
+  .slide.compacta h2 { font-size: clamp(1.4rem, 2.4vw, 2.1rem); }
+  .quecomo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin: .1rem 0 1.1rem; padding: .75rem 1rem; background: var(--paper-raised); border: 1px solid var(--rule); border-radius: .6rem; }
+  .quecomo p { margin: .35rem 0 0; font-size: .95rem; }
+  .eyebrow .tema { display: inline-block; margin-left: .7rem; padding: .12rem .6rem; border-radius: 1rem; background: var(--accent-soft); color: var(--accent-ink); text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .slide figure img { max-height: 42vh; }
+  .slide ul { margin: .4rem 0; }
+  .slide li { margin-bottom: .3rem; }
+  @media (max-width: 900px) { .quecomo { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) {
+    body { overflow: auto; }
+    .deck { height: auto; overflow: visible; scroll-snap-type: none; }
+    .slide { min-height: auto; padding: 3rem 1rem; }
+    .grid2, .grid2.w60, .grid2.w40, .grid3, .vs, .agenda { grid-template-columns: 1fr; }
+    .slide .bars .row { grid-template-columns: 8rem 1fr 3.5rem; }
+    .hud { display: none; }
+    .nota-pie { position: static; margin-top: 1.5rem; }
+  }
+  @media print {
+    @page { size: 16in 9in; margin: 0; }
+    body, .deck { overflow: visible; height: auto; }
+    .slide { height: 9in; min-height: 0; page-break-after: always; break-after: page; border: 0; }
+    .hud, .progress { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<main class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide titulo"><div class="in">
+  <p class="eyebrow">Proyecto de Análisis de Datos · Bolivia · gestión 2023 · informe final</p>
+  <h1>¿Qué procesos judiciales acumulan mora?</h1>
+  <p class="lede">Preprocesamiento, modelos de clasificación (SVM, Bagging, Boosting y Stacking), evaluación y despliegue de un modelo de 5 variables.</p>
+  <p class="muted" style="font-family:var(--sans);margin-top:2.5rem">Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
+  <p class="muted" style="font-family:var(--sans);font-size:.85rem">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em> · notebooks 19 a 22 · informe en <code>informe/informe.pdf</code></p>
+</div></section>
+
+<!-- 2 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Agenda</p>
+  <h2>La exposición sigue el orden de la pizarra, en tres partes</h2>
+  <div class="agenda">
+    <div class="term"><span class="n">1</span><h4>Preprocesamiento</h4><p>Análisis exploratorio, limpieza (fuga de información, faltantes, atípicos) y conversión (ingeniería de variables, one-hot, escala, partición).</p></div>
+    <div class="term"><span class="n">2</span><h4>Modelo</h4><p>SVM, Bagging, Boosting y Stacking, comparados con validación cruzada, y el ajuste de hiperparámetros de cada uno.</p></div>
+    <div class="term"><span class="n">3</span><h4>Evaluación y despliegue</h4><p>Métricas en datos nunca vistos, importancia de las variables, versiones con 19, 27 y 5 variables, y el modelo de 5 variables funcionando en la web.</p></div>
+  </div>
+  <p class="muted">En cada diapositiva se indica <strong>qué se hizo</strong> y <strong>cómo se hizo</strong>, y el punto de la pizarra al que corresponde.</p>
+</div></section>
+
+<!-- 3 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">La pregunta</p>
+  <h2>Con lo que entra a un juzgado, ¿se puede anticipar si su stock va a crecer?</h2>
+  <div class="grid2">
+    <div>
+      <p>Un proceso <strong>acumula mora</strong> cuando en el año resuelve menos causas de las que le ingresan: la diferencia se suma al stock pendiente.</p>
+      <p>Ejemplo: procesos ordinarios civiles de Sucre. Empezaron 2023 con 770 causas, ingresaron 1.627 y se resolvieron 1.286. El stock subió a 1.111: <strong>acumuló mora</strong>.</p>
+      <p>La variable objetivo es <code>flag_acumula_mora</code> (1 = sí, 0 = no): es una <strong>clasificación binaria</strong>.</p>
+    </div>
+    <div class="kpis" style="grid-template-columns:1fr 1fr">
+      <div class="kpi"><b>1.240</b><span>procesos no penales con movimiento en 2023</span></div>
+      <div class="kpi"><b>49,0 %</b><span>acumulan mora (608): clases equilibradas</span></div>
+      <div class="kpi"><b>87</b><span>tipos de proceso distintos</span></div>
+      <div class="kpi"><b>5</b><span>materias: civil, familia, niñez, trabajo y coactivo</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 4 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">El orden de trabajo</p>
+  <h2>Cuatro pasos, cada uno en su notebook</h2>
+  <div class="flowline">
+    <div class="step"><b>1</b>Preprocesamiento<br><span>notebook 19 (y 01 a 18)</span></div><div class="arrow">→</div>
+    <div class="step"><b>2</b>Modelo<br><span>notebook 20: siete modelos y sus hiperparámetros</span></div><div class="arrow">→</div>
+    <div class="step"><b>3</b>Evaluación<br><span>notebook 21: prueba, importancia, tres versiones</span></div><div class="arrow">→</div>
+    <div class="step"><b>4</b>Despliegue<br><span>notebook 22: modelo de 5 variables en la web</span></div>
+  </div>
+  <ul style="margin-top:1.6rem">
+    <li>Todo el código está en notebooks ejecutados; las funciones compartidas, en <code>notebooks/modulos/modelado.ipynb</code>.</li>
+    <li>Cada paso escribe sus resultados en <code>data/curated/modelo/</code>, y el informe LaTeX los lee de ahí: ninguna cifra se copia a mano.</li>
+    <li>Semilla fija (42): cada ejecución da los mismos números.</li>
+  </ul>
+</div></section>
+
+<!-- 5 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 1 de 3</p>
+  <h1>Preprocesamiento</h1>
+  <p class="lede">Análisis exploratorio, limpieza y conversión de los 1.240 procesos (notebook 19, sobre la base construida en los notebooks 01 a 18).</p>
+</div></section>
+
+<!-- 6 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
+  <h2>Los datos salen de un PDF de 774 páginas, verificado antes de modelar</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se convirtió el Anuario en tablas y se eligieron las filas que tienen sentido para la pregunta.</p></div><div><span class="tag">Cómo se hizo</span><p>Notebooks 01 a 18: extracción, normalización, validación contra las identidades del Anuario e integración.</p></div></div>
+  <div class="flowline">
+    <div class="step"><b>774</b><span>páginas del PDF</span></div><div class="arrow">→</div>
+    <div class="step"><b>85.953</b><span>filas en 12 tablas</span></div><div class="arrow">→</div>
+    <div class="step"><b>1.997</b><span>filas de la capa analítica</span></div><div class="arrow">→</div>
+    <div class="step"><b>1.655</b><span>procesos no penales</span></div><div class="arrow">→</div>
+    <div class="step"><b>1.240</b><span>con movimiento: el conjunto del modelo</span></div>
+  </div>
+  <p style="margin-top:1.2rem">Se dejan fuera los 415 procesos sin ninguna causa atendida (no hay nada que predecir) y las materias penales, que no publican causas resueltas.</p>
+</div></section>
+
+<!-- 7 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
+  <h2>Las clases están equilibradas y civil acumula más que el resto</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb19_1.png" alt="Porcentaje que acumula mora por materia e histograma de la presión del stock por clase."></figure>
+    <ul>
+      <li><strong>608 de 1.240</strong> acumulan (49,0 %): la exactitud no engaña tanto como con clases desbalanceadas.</li>
+      <li>Civil: <strong>58 %</strong>. Familia y niñez: 47 %. Trabajo y coactivo: 40 %.</li>
+      <li>Capital y provincia casi no difieren: 48 % y 50 %.</li>
+      <li>Derecha: los que heredan mucho stock respecto de lo que les entra (en verde) tienden a <strong>no</strong> acumular.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- 8 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
+  <h2>Ninguna variable sola decide: hace falta un modelo que combine varias</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió la relación de cada variable numérica con el objetivo.</p></div><div><span class="tag">Cómo se hizo</span><p>Correlación de Spearman (por rangos): las cantidades son muy asimétricas y un proceso enorme no debe dominar la medida.</p></div></div>
+  <div class="grid2">
+    <div class="table-wrap"><table><thead><tr><th>Variable</th><th class="num">Spearman</th></tr></thead><tbody>
+      <tr><td>ingresos del año</td><td class="num">+0,24</td></tr>
+      <tr><td>causas nuevas</td><td class="num">+0,24</td></tr>
+      <tr><td>presión del stock (stock heredado ÷ ingresos)</td><td class="num">−0,23</td></tr>
+      <tr><td>ingresos por juzgado</td><td class="num">+0,20</td></tr>
+      <tr><td>stock heredado, solo</td><td class="num">+0,04</td></tr>
+      <tr><td>proporción de vacantes</td><td class="num">−0,01</td></tr>
+    </tbody></table></div>
+    <ul>
+      <li>La más fuerte llega a <strong>0,24</strong>: una relación débil.</li>
+      <li>El stock heredado solo casi no dice nada (+0,04); <strong>dividido por los ingresos</strong>, sí (−0,23). Ahí aparece la idea de construir variables.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- 9 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
+  <h2>Se sacaron 18 columnas que contienen la respuesta (fuga de información)</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se excluyó toda columna calculada con las causas <em>resueltas</em> o con el stock al <em>cierre</em> del año.</p></div><div><span class="tag">Cómo se hizo</span><p>Una lista explícita en el módulo de modelado, con el motivo de cada una; un <code>assert</code> en el notebook 19 verifica que ninguna entra al modelo.</p></div></div>
+  <div class="grid2">
+    <div class="table-wrap"><table><thead><tr><th>Columna</th><th>Por qué contiene la respuesta</th></tr></thead><tbody>
+      <tr><td><code>resueltas</code></td><td>el stock crece justamente cuando se resuelve menos de lo que entra</td></tr>
+      <tr><td><code>pendientes_fin</code></td><td>es el resultado del año</td></tr>
+      <tr><td><code>tasa_resolucion</code></td><td>resueltas ÷ ingresos: es el objetivo con otro nombre</td></tr>
+      <tr><td><code>tasa_congestion</code>, duración, banderas…</td><td>todas usan las resueltas</td></tr>
+    </tbody></table></div>
+    <p>Si se dejaran, el modelo acertaría casi el 100 %… y no serviría de nada: al empezar el año nadie sabe cuántas causas se van a resolver.</p>
+  </div>
+</div></section>
+
+<!-- 10 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
+  <h2>Las filas se eligieron sin mirar la respuesta</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se tomaron los procesos con al menos una causa atendida, no los que tienen tasa de congestión.</p></div><div><span class="tag">Cómo se hizo</span><p>Filtro <code>atendidas &gt; 0</code>, que solo usa lo que entra al juzgado.</p></div></div>
+  <div class="vs">
+    <div class="term"><span class="tag">filtro cómodo</span><p class="big crit" style="margin:.4rem 0">1.122</p><p>procesos con tasa de congestión</p></div>
+    <div class="x">→</div>
+    <div class="term"><span class="tag">filtro correcto</span><p class="big" style="margin:.4rem 0">1.240</p><p>procesos con movimiento</p></div>
+  </div>
+  <p style="margin-top:1.2rem">La tasa de congestión se divide por las resueltas y no existe si no se resolvió nada. Quitar esos <strong>118 procesos</strong> era elegir los ejemplos mirando el resultado: <strong>67 de ellos acumulan mora</strong>, y el modelo habría aprendido con un conjunto más fácil que el real.</p>
+</div></section>
+
+<!-- 11 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
+  <h2>Los vacíos estructurales son ceros y los atípicos no se borran</h2>
+  <div class="grid2">
+    <div>
+      <h3>Valores faltantes</h3>
+      <ul>
+        <li>Preliminares y cautelares formalizados solo existen en civil: en las otras materias el vacío es <strong>cero</strong>. Imputarlos con la mediana inventaría causas.</li>
+        <li>Único faltante real: tribunales del territorio (20 filas). Se imputa con la <strong>mediana del entrenamiento</strong>, dentro del modelo.</li>
+      </ul>
+      <h3>Valores atípicos</h3>
+      <ul>
+        <li>Un proceso con miles de causas es real (verificado contra el PDF) y es donde más importa acertar.</li>
+        <li>En vez de borrar, se agregan versiones en <strong>logaritmo</strong> y <strong>cociente</strong>: la asimetría de los ingresos baja de 6,1 a 0,46.</li>
+      </ul>
+    </div>
+    <figure><img src="img/nb19_2.png" alt="Histograma del stock heredado y de su logaritmo."></figure>
+  </div>
+</div></section>
+
+<!-- 12 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Conversión</span></p>
+  <h2>Se construyeron 8 variables nuevas, calculadas fila por fila</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Relaciones entre variables que un modelo lineal o el SVM no construyen solos.</p></div><div><span class="tag">Cómo se hizo</span><p>Fórmulas simples, sin promedios de grupo, para que la página web pueda recalcularlas igual.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Variable nueva</th><th>Fórmula</th></tr></thead><tbody>
+    <tr><td><strong>presión del stock</strong></td><td>stock heredado ÷ (ingresos del año + 1)</td></tr>
+    <tr><td><strong>ingresos por juzgado</strong></td><td>ingresos del año ÷ juzgados de esa materia y territorio</td></tr>
+    <tr><td><strong>stock por juzgado</strong></td><td>stock heredado ÷ juzgados</td></tr>
+    <tr><td>log del stock, log de los ingresos</td><td>log(1 + x)</td></tr>
+    <tr><td>proporción de vacantes, proporción por excusa</td><td>vacantes ÷ puestos; recibidas por excusa ÷ (ingresos + 1)</td></tr>
+    <tr><td>sin stock heredado</td><td>1 si no había stock</td></tr>
+  </tbody></table></div>
+  <p class="muted">19 variables originales + 8 nuevas = <strong>27</strong>. Los números de la pizarra eran ejemplos; estos salen de nuestros datos.</p>
+</div></section>
+
+<!-- 13 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Conversión</span></p>
+  <h2>Todo se convierte a números dentro de un Pipeline, ajustado solo con el entrenamiento</h2>
+  <div class="table-wrap"><table><thead><tr><th>Paso</th><th>Qué hace</th><th>Por qué</th></tr></thead><tbody>
+    <tr><td>tipos</td><td>enteros con vacíos → decimales; texto → categoría</td><td>scikit-learn no acepta el entero con nulos de pandas</td></tr>
+    <tr><td>one-hot</td><td>materia, departamento y ámbito → columnas 0/1</td><td>un código 1, 2, 3 inventaría un orden; 27 variables → 40 columnas</td></tr>
+    <tr><td>escala</td><td>media 0 y desvío 1 (solo SVM, logística y Stacking)</td><td>el SVM mide distancias: sin escala, la remuneración (millones) taparía todo</td></tr>
+    <tr><td>imputación</td><td>mediana del entrenamiento</td><td>la prueba no debe influir en ningún valor</td></tr>
+  </tbody></table></div>
+  <p>El <code>Pipeline</code> aprende la mediana, las categorías y la escala <strong>solo con los datos de entrenamiento</strong> de cada pliegue, y las aplica igual a los datos de validación y de prueba.</p>
+</div></section>
+
+<!-- 14 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Conversión</span></p>
+  <h2>Se guardó el 20 % para el final y el resto se usa con validación cruzada</h2>
+  <div class="grid2">
+    <div class="kpis" style="grid-template-columns:1fr 1fr">
+      <div class="kpi"><b>992</b><span>procesos para entrenar y ajustar (80 %)</span></div>
+      <div class="kpi"><b>248</b><span>procesos de prueba (20 %), no se tocan hasta la evaluación</span></div>
+      <div class="kpi"><b>49,0 %</b><span>acumulan en el entrenamiento</span></div>
+      <div class="kpi"><b>49,2 %</b><span>acumulan en la prueba (partición estratificada)</span></div>
+    </div>
+    <div>
+      <h3>Validación cruzada de 5 pliegues</h3>
+      <p>El entrenamiento se parte en 5 trozos. Se entrena con 4 y se mide con el quinto, y se repite cinco veces cambiando el trozo de medición. El resultado es el promedio de las 5 medidas, con su desvío.</p>
+      <p class="muted">Así se comparan modelos y se eligen hiperparámetros sin gastar la prueba.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 15 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 2 de 3</p>
+  <h1>Modelo</h1>
+  <p class="lede">SVM, Bagging, Boosting y Stacking, con sus hiperparámetros ajustados (notebook 20). Todo se mide en el entrenamiento, con validación cruzada.</p>
+</div></section>
+
+<!-- 16 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Modelo</span></p>
+  <h2>Se compararon siete modelos con una sola métrica: ROC-AUC</h2>
+  <div class="grid2">
+    <div class="table-wrap"><table><thead><tr><th>Modelo</th><th>Familia</th></tr></thead><tbody>
+      <tr><td>Línea base (siempre la clase más frecuente)</td><td>referencia</td></tr>
+      <tr><td>Regresión logística</td><td>referencia</td></tr>
+      <tr><td><strong>SVM</strong> con kernel RBF</td><td>SVM</td></tr>
+      <tr><td><strong>Bagging</strong> de árboles y <strong>Random Forest</strong></td><td>Bagging</td></tr>
+      <tr><td><strong>AdaBoost</strong> y <strong>Gradient Boosting</strong></td><td>Boosting</td></tr>
+      <tr><td><strong>Stacking</strong> (SVM + RF + GB)</td><td>Stacking</td></tr>
+    </tbody></table></div>
+    <div>
+      <h3>Qué mide el ROC-AUC</h3>
+      <p>Se toma al azar un proceso que acumula y uno que no. El ROC-AUC es la probabilidad de que el modelo le dé más puntaje al que acumula.</p>
+      <p><strong>0,5</strong> = azar · <strong>1</strong> = perfecto · <strong>0,75</strong> = ordena bien 3 de cada 4 pares.</p>
+      <p class="muted">No depende del umbral de decisión. También se reportan exactitud y F1.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 17 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · SVM</span></p>
+  <h2>SVM: la mejor frontera es suave y castiga fuerte los errores</h2>
+  <div class="quecomo"><div><span class="tag">Qué es</span><p>Busca la frontera entre las dos clases con el <strong>mayor margen</strong>; el kernel RBF la deja curvarse.</p></div><div><span class="tag">Cómo se ajustó</span><p>Búsqueda en grilla (<code>GridSearchCV</code>): 5 valores de <code>C</code> × 6 de <code>gamma</code> = 30 combinaciones.</p></div></div>
+  <div class="grid2 w60">
+    <figure><img src="img/nb20_2.png" alt="Mapa de calor del ROC-AUC del SVM para cada combinación de C y gamma."></figure>
+    <ul>
+      <li><code>C</code>: cuánto castiga los errores. <code>gamma</code>: hasta dónde llega la influencia de cada punto.</li>
+      <li>Mejor: <strong>C = 1.000, gamma = 0,003</strong>, ROC-AUC 0,729 (por defecto: 0,706).</li>
+      <li>Con <code>gamma</code> alto la frontera se curva de más y el modelo memoriza: el AUC baja hasta 0,62.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- 18 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Bagging</span></p>
+  <h2>Bagging: muchos árboles con muestras distintas que votan</h2>
+  <div class="quecomo"><div><span class="tag">Qué es</span><p>Cada árbol se entrena con una <strong>muestra con reemplazo</strong> de las filas; el promedio de sus votos es más estable que un árbol solo.</p></div><div><span class="tag">Random Forest</span><p>Bagging + cada corte del árbol mira solo <strong>algunas variables al azar</strong>, para que los árboles se parezcan menos.</p></div></div>
+  <div class="grid2">
+    <div class="vs">
+      <div class="term"><span class="tag">por defecto</span><p class="big crit" style="margin:.4rem 0">0,716</p><p>Bagging</p></div>
+      <div class="x">→</div>
+      <div class="term"><span class="tag">ajustado</span><p class="big" style="margin:.4rem 0">0,753</p><p>Bagging</p></div>
+    </div>
+    <ul>
+      <li>Lo que más ayudó: <strong>no dejar que los árboles memoricen</strong>. Hojas con al menos 3 procesos y cada árbol con el 70 % de las filas y de las variables.</li>
+      <li>Random Forest: de 0,734 a <strong>0,753</strong> (hojas de al menos 4 procesos, 200 árboles).</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- 19 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Boosting</span></p>
+  <h2>Boosting: árboles en secuencia, cada uno corrige al anterior</h2>
+  <div class="grid2">
+    <div class="term"><h4>AdaBoost</h4><p>Árboles pequeños (de un solo corte) en secuencia. Cada uno da <strong>más peso a las filas que el anterior clasificó mal</strong>.</p><p>Ajustado: 400 árboles, tasa de aprendizaje 0,5 → ROC-AUC <strong>0,728</strong> (por defecto 0,712).</p></div>
+    <div class="term"><h4>Gradient Boosting</h4><p>Cada árbol se ajusta al <strong>error que todavía queda</strong> (el residuo) del conjunto anterior; la tasa de aprendizaje controla cuánto corrige cada uno.</p><p>Ajustado: 200 árboles de profundidad 4, tasa 0,03 → ROC-AUC <strong>0,744</strong> (por defecto 0,724).</p></div>
+  </div>
+  <p class="muted" style="margin-top:1rem">Bagging reduce la variación promediando árboles independientes; Boosting reduce el error encadenando árboles que se corrigen.</p>
+</div></section>
+
+<!-- 20 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Stacking</span></p>
+  <h2>Stacking combina tres modelos, pero no supera al mejor de ellos</h2>
+  <div class="quecomo"><div><span class="tag">Qué es</span><p>El SVM, el Random Forest y el Gradient Boosting dan cada uno una probabilidad; una regresión logística aprende <strong>cuánto confiar en cada uno</strong>.</p></div><div><span class="tag">Cómo se hizo</span><p>La logística aprende con predicciones <strong>fuera de pliegue</strong>: nunca ve la predicción de un dato con el que ese modelo se entrenó.</p></div></div>
+  <div class="flowline">
+    <div class="step"><b>SVM</b><span>0,729</span></div>
+    <div class="step"><b>Random Forest</b><span>0,753</span></div>
+    <div class="step"><b>Gradient Boosting</b><span>0,744</span></div><div class="arrow">→</div>
+    <div class="step"><b>Regresión logística</b><span>combina las tres</span></div><div class="arrow">→</div>
+    <div class="step"><b>0,753</b><span>Stacking</span></div>
+  </div>
+  <p style="margin-top:1.2rem">Combinar no agrega información: lo más probable es que los tres aprendan la misma señal y fallen en procesos parecidos.</p>
+</div></section>
+
+<!-- 21 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Hiperparámetros</span></p>
+  <h2>Los hiperparámetros se eligieron con validación cruzada, nunca con la prueba</h2>
+  <div class="quecomo"><div><span class="tag">Qué es</span><p>Una perilla que se fija <strong>antes</strong> de entrenar (cuántos árboles, qué tan profundos, cuánto castigar errores). No se aprende de los datos.</p></div><div><span class="tag">Cómo se buscó</span><p>SVM: grilla completa (2 perillas). El resto: <code>RandomizedSearchCV</code>, 30 combinaciones al azar (con 4 o 5 perillas la grilla tendría cientos).</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Modelo</th><th>Hiperparámetros elegidos</th><th class="num">Por defecto</th><th class="num">Ajustado</th></tr></thead><tbody>
+    <tr><td>SVM</td><td>C = 1.000 · gamma = 0,003</td><td class="num">0,706</td><td class="num">0,729</td></tr>
+    <tr><td>Bagging</td><td>400 árboles · 70 % de filas y variables · hoja ≥ 3</td><td class="num">0,716</td><td class="num">0,753</td></tr>
+    <tr><td>Random Forest</td><td>200 árboles · 50 % de variables por corte · hoja ≥ 4</td><td class="num">0,734</td><td class="num">0,753</td></tr>
+    <tr><td>AdaBoost</td><td>400 árboles de un corte · tasa 0,5</td><td class="num">0,712</td><td class="num">0,728</td></tr>
+    <tr><td>Gradient Boosting</td><td>200 árboles · profundidad 4 · tasa 0,03 · 85 % de filas</td><td class="num">0,724</td><td class="num">0,744</td></tr>
+  </tbody></table></div>
+</div></section>
+
+<!-- 22 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Resultado</span></p>
+  <h2>Tres ensambles empatan arriba con 0,753 y todos superan al azar</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb20_1.png" alt="ROC-AUC de cada modelo antes y después de ajustar hiperparámetros."></figure>
+    <ul>
+      <li><strong>Bagging, Random Forest y Stacking: 0,753.</strong> La diferencia entre ellos (0,0004) es cien veces menor que el desvío entre pliegues (≈ 0,03): no hay un ganador claro.</li>
+      <li>La regresión logística queda cerca (0,730): la señal es moderada y casi aditiva.</li>
+      <li>Ajustar sube hasta <strong>+0,04</strong> a cada modelo.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- 23 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 3 de 3</p>
+  <h1>Evaluación y despliegue</h1>
+  <p class="lede">Los 248 procesos de prueba, la importancia de las variables, las versiones con 19, 27 y 5 variables (notebook 21) y el modelo de 5 variables en la web (notebook 22).</p>
+</div></section>
+
+<!-- 24 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Evaluación</span></p>
+  <h2>Con datos que nunca vio, el modelo mantiene un ROC-AUC de 0,73</h2>
+  <div class="grid2">
+    <figure><img src="img/nb21_1.png" alt="Curvas ROC de los siete modelos en la prueba."></figure>
+    <div>
+      <div class="table-wrap"><table><thead><tr><th>Modelo</th><th class="num">ROC-AUC prueba</th><th class="num">Exactitud</th></tr></thead><tbody>
+        <tr><td>Stacking</td><td class="num">0,741</td><td class="num">0,661</td></tr>
+        <tr><td>Gradient Boosting</td><td class="num">0,736</td><td class="num">0,645</td></tr>
+        <tr><td>SVM</td><td class="num">0,735</td><td class="num">0,661</td></tr>
+        <tr><td>Random Forest</td><td class="num">0,731</td><td class="num">0,653</td></tr>
+        <tr><td><strong>Bagging</strong> (mejor en CV)</td><td class="num"><strong>0,729</strong></td><td class="num">0,661</td></tr>
+        <tr><td>Regresión logística</td><td class="num">0,716</td><td class="num">0,657</td></tr>
+        <tr><td>AdaBoost</td><td class="num">0,700</td><td class="num">0,629</td></tr>
+      </tbody></table></div>
+      <p class="muted">Con 248 filas, diferencias de 0,01 están dentro del ruido. Bagging baja de 0,753 a 0,729: lo normal al elegir el mejor de varios.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 25 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Evaluación</span></p>
+  <h2>Detecta 7 de cada 10 procesos que acumulan, con más alarmas falsas que casos perdidos</h2>
+  <div class="grid2 w40">
+    <figure><img src="img/nb21_2.png" alt="Matriz de confusión de Bagging en la prueba."></figure>
+    <div>
+      <ul>
+        <li><strong>85</strong> acumularon y los marcó · <strong>79</strong> no acumularon y no los marcó.</li>
+        <li><strong>47</strong> alarmas falsas · <strong>37</strong> casos perdidos.</li>
+      </ul>
+      <div class="kpis" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="kpi"><b>0,70</b><span>recall: de los que acumularon, detectados</span></div>
+        <div class="kpi"><b>0,64</b><span>precisión: de los marcados, acertados</span></div>
+        <div class="kpi"><b>0,66</b><span>exactitud: bien clasificados</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 26 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Importancia</span></p>
+  <h2>Las tres variables más importantes son de ingeniería, no del Anuario</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió cuánto depende el modelo de cada variable.</p></div><div><span class="tag">Cómo se hizo</span><p><strong>Permutación</strong>: se barajan los valores de una variable y se mide cuánto cae el ROC-AUC. En los pliegues de validación, nunca en la prueba.</p></div></div>
+  <div class="grid2 w60">
+    <figure><img src="img/nb21_3.png" alt="Importancia por permutación de las 15 primeras variables."></figure>
+    <ol>
+      <li><strong>ingresos por juzgado</strong> (−0,039 al barajarla)</li>
+      <li><strong>presión del stock</strong> (−0,039)</li>
+      <li><strong>stock por juzgado</strong> (−0,011)</li>
+      <li>materia (−0,007)</li>
+      <li>ingresos del año (−0,007)</li>
+    </ol>
+  </div>
+  <p class="muted">Personal, vacantes, remuneración y ámbito casi no importan. La impureza del Random Forest coincide en las dos primeras.</p>
+</div></section>
+
+<!-- 27 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Versiones de variables</span></p>
+  <h2>Con ingeniería es la mejor versión; con 5 variables se pierde 0,05</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb21_4.png" alt="ROC-AUC de cada modelo con 19, 27 y 5 variables."></figure>
+    <div class="table-wrap"><table><thead><tr><th>ROC-AUC (CV)</th><th class="num">19</th><th class="num">27</th><th class="num">5</th></tr></thead><tbody>
+      <tr><td>Bagging</td><td class="num">0,735</td><td class="num"><strong>0,753</strong></td><td class="num">0,704</td></tr>
+      <tr><td>Random Forest</td><td class="num">0,739</td><td class="num"><strong>0,753</strong></td><td class="num">0,705</td></tr>
+      <tr><td>Regresión logística</td><td class="num">0,584</td><td class="num"><strong>0,730</strong></td><td class="num">0,659</td></tr>
+      <tr><td>SVM</td><td class="num">0,595</td><td class="num"><strong>0,729</strong></td><td class="num">0,649</td></tr>
+    </tbody></table></div>
+  </div>
+  <ul>
+    <li>Sin ingeniería, los árboles casi no pierden (aproximan los cocientes cortando dos variables); la logística y el SVM caen 0,14: <strong>no pueden construir los cocientes solos</strong>.</li>
+    <li>Con 5 variables el modelo es más simple de usar, pero pierde la señal repartida en las otras 22.</li>
+  </ul>
+</div></section>
+
+<!-- 28 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Evaluación</span></p>
+  <h2>El modelo generaliza a tipos de proceso que no vio al entrenar</h2>
+  <div class="quecomo"><div><span class="tag">El riesgo</span><p>«Divorcio» aparece en varios departamentos. El modelo podría solo «recordar» cada tipo de proceso.</p></div><div><span class="tag">El control</span><p><code>GroupKFold</code>: todas las filas de un mismo tipo de proceso quedan del mismo lado; se mide con tipos nuevos.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>27 variables</th><th class="num">CV normal</th><th class="num">CV por grupos</th><th class="num">Diferencia</th></tr></thead><tbody>
+    <tr><td>Bagging</td><td class="num">0,753</td><td class="num">0,741</td><td class="num">−0,013</td></tr>
+    <tr><td>Random Forest</td><td class="num">0,753</td><td class="num">0,735</td><td class="num">−0,018</td></tr>
+    <tr><td>SVM</td><td class="num">0,729</td><td class="num">0,698</td><td class="num">−0,031</td></tr>
+  </tbody></table></div>
+  <p>La caída es pequeña en los ensambles: lo que aprenden sirve para procesos nuevos. El SVM es el que más depende de haber visto el tipo.</p>
+</div></section>
+
+<!-- 29 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
+  <h2>El modelo de 5 variables se publicó en la web y corre en el navegador</h2>
+  <div class="quecomo"><div><span class="tag">Qué modelo</span><p><strong>Gradient Boosting</strong>, 200 árboles: el mejor de 5 variables entre los que se pueden exportar (0,712 en CV).</p></div><div><span class="tag">Qué pide</span><p>Solo <strong>4 datos</strong>: materia, ingresos del año, juzgados y stock heredado. Las otras tres variables se calculan con las mismas fórmulas.</p></div></div>
+  <div class="flowline">
+    <div class="step"><b>notebook 22</b><span>entrena con los 992 procesos</span></div><div class="arrow">→</div>
+    <div class="step"><b>JSON</b><span>preguntas «¿variable ≤ umbral?» y hojas de los 200 árboles (0,2 MB)</span></div><div class="arrow">→</div>
+    <div class="step"><b>prediccion.html</b><span>recorre los árboles en JavaScript</span></div>
+  </div>
+  <p style="margin-top:1.2rem"><strong>Control:</strong> una versión que lee solo el JSON da la misma probabilidad que scikit-learn en los 248 procesos de prueba (diferencia máxima 3·10<sup>−16</sup>). La página repite el control con 20.</p>
+</div></section>
+
+<!-- 30 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
+  <h2>Demostración: la página de predicción</h2>
+  <div class="grid2">
+    <div class="kpis" style="grid-template-columns:1fr 1fr">
+      <div class="kpi"><b>0,663</b><span>ROC-AUC en la prueba (27 variables: 0,736)</span></div>
+      <div class="kpi"><b>58,9 %</b><span>exactitud en la prueba</span></div>
+      <div class="kpi"><b>68,0 %</b><span>de los que acumularon, detectados</span></div>
+      <div class="kpi"><b>20 / 20</b><span>coinciden con Python al cargar la página</span></div>
+    </div>
+    <div>
+      <p><a class="present-btn" href="prediccion.html" target="_blank" rel="noopener" style="display:inline-flex">Abrir la página de predicción</a></p>
+      <ol>
+        <li>Cargar un proceso real de la prueba desde la lista.</li>
+        <li>Civil, 11 juzgados, 8 de stock: con 5 ingresos da 44 %; con 50 ingresos, 91 %.</li>
+        <li>Con 100 ingresos, subir el stock heredado de 8 a 300: la presión del stock sube y la probabilidad baja de 93 % a 33 %.</li>
+      </ol>
+      <p class="muted">Sirve para <strong>ordenar</strong> qué procesos mirar primero, no para decidir sobre un juzgado.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 31 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Límites</p>
+  <h2>Lo que este modelo no puede decir</h2>
+  <ul>
+    <li><strong>Un solo año.</strong> Todo es 2023; no se probó en otro año, y el stock publicado no se conserva entre años (notebook 15).</li>
+    <li><strong>Los ingresos se conocen al cerrar el año.</strong> Para usarlo al empezar un año habría que estimarlos (por ejemplo, con los del año anterior).</li>
+    <li><strong>Solo materias no penales</strong>, porque las penales no publican causas resueltas.</li>
+    <li><strong>Muestra pequeña:</strong> con 248 procesos de prueba, diferencias de 0,01 entre modelos no son significativas.</li>
+    <li>El umbral de 0,5 no se ajustó; si importara más detectar que evitar alarmas, convendría bajarlo.</li>
+    <li>Mide celeridad, no calidad de las decisiones.</li>
+  </ul>
+</div></section>
+
+<!-- 32 -->
+<section class="slide titulo"><div class="in">
+  <p class="eyebrow">En resumen</p>
+  <h1>La mora se puede anticipar en parte, y lo que la anticipa es la carga relativa</h1>
+  <div class="grid3" style="margin-top:1.5rem">
+    <div class="term"><h4>1 · Preprocesamiento</h4><p>1.240 procesos, 18 columnas fuera por fuga, filas elegidas sin mirar la respuesta y 8 variables nuevas. Las clases están equilibradas (49 %).</p></div>
+    <div class="term"><h4>2 · Modelo</h4><p>Bagging, Random Forest y Stacking empatan en 0,753 de ROC-AUC; ajustar hiperparámetros sube hasta 0,04. La logística queda cerca: la señal es moderada.</p></div>
+    <div class="term"><h4>3 · Evaluación y despliegue</h4><p>0,73 en la prueba. Lo que más pesa: ingresos por juzgado y presión del stock. El modelo de 5 variables (0,66) funciona en la web.</p></div>
+  </div>
+  <p style="font-family:var(--sans);margin-top:2rem">Informe: <code>informe/informe.pdf</code> · <a href="prediccion.html">la página de predicción</a> · <a href="guia-informe.html">la guía de estudio</a> · ¿Preguntas?</p>
+</div></section>
+
+</main>
+<div class="hud">
+  <span id="contador">1 / 32</span>
+  <button class="icon-btn" id="ant" aria-label="Diapositiva anterior">←</button>
+  <button class="icon-btn" id="sig" aria-label="Diapositiva siguiente">→</button>
+  <button class="icon-btn" id="full" aria-label="Pantalla completa" title="Pantalla completa (f)">⛶</button>
+  <button class="icon-btn" id="tema" aria-label="Cambiar tema">◐</button>
+  <a class="icon-btn" href="presentacion.html" style="text-decoration:none">Presentación 1</a>
+  <a class="icon-btn" href="presentacion-ampliacion.html" style="text-decoration:none">Presentación 2</a>
+  <a class="icon-btn" href="index.html" style="text-decoration:none">Web</a>
+</div>
+<script>
+(function () {
+  var deck = document.getElementById("deck");
+  var slides = Array.prototype.slice.call(document.querySelectorAll(".slide"));
+  var contador = document.getElementById("contador");
+  var barra = document.getElementById("progress");
+  var actual = 0;
+  function ir(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    slides[i].scrollIntoView({ behavior: "smooth" });
+  }
+  function marcar() {
+    var mitad = deck.scrollTop + window.innerHeight / 2;
+    for (var i = 0; i < slides.length; i++) {
+      if (slides[i].offsetTop <= mitad) { actual = i; }
+    }
+    contador.textContent = (actual + 1) + " / " + slides.length;
+    barra.style.width = ((actual + 1) / slides.length * 100) + "%";
+    if (history.replaceState) { history.replaceState(null, "", "#" + (actual + 1)); }
+  }
+  deck.addEventListener("scroll", function () { window.requestAnimationFrame(marcar); });
+  document.addEventListener("keydown", function (e) {
+    if (["ArrowRight", "ArrowDown", "PageDown", " "].indexOf(e.key) >= 0) { e.preventDefault(); ir(actual + 1); }
+    else if (["ArrowLeft", "ArrowUp", "PageUp"].indexOf(e.key) >= 0) { e.preventDefault(); ir(actual - 1); }
+    else if (e.key === "Home") { e.preventDefault(); ir(0); }
+    else if (e.key === "End") { e.preventDefault(); ir(slides.length - 1); }
+    else if (e.key === "f") { pantalla(); }
+  });
+  function pantalla() {
+    if (document.fullscreenElement) { document.exitFullscreen(); } else { document.documentElement.requestFullscreen(); }
+  }
+  document.getElementById("full").addEventListener("click", pantalla);
+  document.getElementById("ant").addEventListener("click", function () { ir(actual - 1); });
+  document.getElementById("sig").addEventListener("click", function () { ir(actual + 1); });
+  document.getElementById("tema").addEventListener("click", function () {
+    var r = document.documentElement;
+    var oscuro = r.getAttribute("data-theme") === "dark" || (!r.hasAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    var nuevo = oscuro ? "light" : "dark";
+    r.setAttribute("data-theme", nuevo);
+    try { localStorage.setItem("tema", nuevo); } catch (err) {}
+  });
+  var inicial = parseInt(window.location.hash.slice(1), 10);
+  if (inicial > 1) { deck.style.scrollBehavior = "auto"; deck.scrollTop = slides[Math.min(inicial, slides.length) - 1].offsetTop; deck.style.scrollBehavior = ""; }
+  marcar();
+})();
+</script>
+</body>
+</html>

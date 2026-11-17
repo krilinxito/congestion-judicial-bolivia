@@ -1,0 +1,46 @@
+variable,nombre,grupo,tipo,conversion,formula,motivo_exclusion
+materia_homologada,materia,original,categórica,one-hot,,
+ambito,capital o provincia,original,categórica,one-hot,,
+departamento_derivado,departamento,original,categórica,one-hot,,
+pendientes_inicio_efectivo,stock heredado,original,numérica,imputación mediana + escala (SVM),,
+nuevas_ingresadas,causas nuevas,original,numérica,imputación mediana + escala (SVM),,
+recibidas_excusa_recusacion,recibidas por excusa,original,numérica,imputación mediana + escala (SVM),,
+preliminares_formalizados,preliminares formalizados,original,numérica,cero estructural + imputación mediana + escala (SVM),,
+cautelares_formalizados,cautelares formalizados,original,numérica,cero estructural + imputación mediana + escala (SVM),,
+ingresos_totales,ingresos del año,original,numérica,imputación mediana + escala (SVM),,
+atendidas,causas atendidas,original,numérica,imputación mediana + escala (SVM),,
+num_juzgados_pagina,juzgados (materia y territorio),original,numérica,imputación mediana + escala (SVM),,
+recurso_juzgados_publicados,juzgados del territorio,original,numérica,imputación mediana + escala (SVM),,
+recurso_tribunales_publicados,tribunales del territorio,original,numérica,imputación mediana + escala (SVM),,
+recurso_conciliadores_publicados,conciliadores del territorio,original,numérica,imputación mediana + escala (SVM),,
+personal_items_mujer,puestos ocupados por mujeres,original,numérica,imputación mediana + escala (SVM),,
+personal_items_varon,puestos ocupados por varones,original,numérica,imputación mediana + escala (SVM),,
+personal_items_acefalias,puestos vacantes,original,numérica,imputación mediana + escala (SVM),,
+personal_items_total,puestos totales,original,numérica,imputación mediana + escala (SVM),,
+personal_remun_total,remuneración total,original,numérica,imputación mediana + escala (SVM),,
+log_stock_inicial,log del stock heredado,ingeniería,numérica,imputación mediana + escala (SVM),log(1 + stock heredado),
+log_ingresos,log de los ingresos,ingeniería,numérica,imputación mediana + escala (SVM),log(1 + ingresos del año),
+presion_stock,presión del stock,ingeniería,numérica,imputación mediana + escala (SVM),stock heredado / (ingresos del año + 1),
+ingresos_por_juzgado,ingresos por juzgado,ingeniería,numérica,imputación mediana + escala (SVM),ingresos del año / juzgados,
+stock_por_juzgado,stock por juzgado,ingeniería,numérica,imputación mediana + escala (SVM),stock heredado / juzgados,
+prop_acefalias,proporción de vacantes,ingeniería,numérica,imputación mediana + escala (SVM),puestos vacantes / puestos totales,
+prop_excusa,proporción por excusa,ingeniería,numérica,imputación mediana + escala (SVM),recibidas por excusa / (ingresos del año + 1),
+sin_stock_inicial,sin stock heredado,ingeniería,numérica,imputación mediana + escala (SVM),1 si no había stock heredado,
+resueltas,resueltas,excluida (fuga),,,,es parte de la respuesta: el stock crece cuando se resuelve menos de lo que entra
+pendientes_fin,pendientes_fin,excluida (fuga),,,,es el resultado del año (stock heredado + ingresos - resueltas)
+tasa_resolucion,tasa_resolucion,excluida (fuga),,,,resueltas / ingresos
+tasa_resolucion_con_readecuadas,tasa_resolucion_con_readecuadas,excluida (fuga),,,,usa resueltas
+tasa_resolucion_solo_nuevas,tasa_resolucion_solo_nuevas,excluida (fuga),,,,usa resueltas
+tasa_congestion,tasa_congestion,excluida (fuga),,,,atendidas / resueltas
+tasa_pendencia,tasa_pendencia,excluida (fuga),,,,usa pendientes al final
+duracion_estimada_dias,duracion_estimada_dias,excluida (fuga),,,,usa resueltas y pendientes al final
+acumulacion_neta_anual,acumulacion_neta_anual,excluida (fuga),,,,es el objetivo en número (ingresos - resueltas)
+flag_sin_resolucion_anual,flag_sin_resolucion_anual,excluida (fuga),,,,usa resueltas
+flag_sin_movimiento,flag_sin_movimiento,excluida (fuga),,,,usa resueltas
+estado_gestion,estado_gestion,excluida (fuga),,,,clasifica la fila según sus resueltas
+tasa_congestion_winsorizada,tasa_congestion_winsorizada,excluida (fuga),,,,usa resueltas
+duracion_estimada_winsorizada,duracion_estimada_winsorizada,excluida (fuga),,,,usa resueltas
+log_resueltas,log_resueltas,excluida (fuga),,,,usa resueltas
+log_pendientes_fin,log_pendientes_fin,excluida (fuga),,,,usa pendientes al final
+es_outlier_congestion_iqr,es_outlier_congestion_iqr,excluida (fuga),,,,marca construida con la tasa de congestión
+es_outlier_duracion_iqr,es_outlier_duracion_iqr,excluida (fuga),,,,marca construida con la duración

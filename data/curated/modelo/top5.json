@@ -1,0 +1,10 @@
+{
+  "modelo_importancia": "Bagging",
+  "variables": [
+    "ingresos_por_juzgado",
+    "presion_stock",
+    "stock_por_juzgado",
+    "materia_homologada",
+    "ingresos_totales"
+  ]
+}

@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía de estudio del informe — Congestión judicial en Bolivia</title>
+<meta name="description" content="El informe final explicado desde cero y sin omitir nada: cada sección, cada tabla, cada figura, cada modelo y cada hiperparámetro, con ejemplos de la vida diaria, un proceso real seguido de principio a fin y preguntas de autoevaluación.">
+<script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=4e419cfa">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<script src="app.js?v=1ee6d900" defer></script>
+</head>
+<body data-page="guia-informe">
+<header class="topbar">
+  <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Abrir el menú">☰</button>
+  <a class="brand" href="index.html"><b>Congestión judicial en Bolivia</b><span>Anuario 2023</span></a>
+  <div class="spacer"></div>
+  <div class="search">
+    <input id="searchInput" type="search" placeholder="Buscar…  ( / )" aria-label="Buscar" autocomplete="off">
+    <div class="search-results" id="searchResults" role="listbox"></div>
+  </div>
+  <a class="present-btn" href="presentacion.html" title="Abrir la presentación"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M12 16v4M8 20h8M10 8l4 2-4 2z"/></svg><span>Presentar</span></a>
+  <button class="icon-btn" id="themeToggle" aria-label="Cambiar entre tema claro y oscuro">◐</button>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Secciones del sitio">
+    <noscript><a href="index.html">Inicio</a> · el menú necesita JavaScript; desde el inicio se llega a todas las páginas.</noscript>
+  </nav>
+  <div class="main">
+    <article>
+<p class="eyebrow">Informe final · 15</p>
+<h1>Guía de estudio del informe, desde cero</h1>
+<p class="lede">Esta guía acompaña al informe final (<code>informe/informe.pdf</code>) <strong>sección por sección, sin saltarse nada</strong>: el resumen, la introducción, cada tabla, cada figura, cada modelo, cada hiperparámetro, las conclusiones, las limitaciones, las referencias y el anexo. Está escrita para alguien que nunca vio estadística ni aprendizaje automático. Si lees esta guía con el informe al lado, deberías poder explicar cualquier parte del informe con tus palabras.</p>
+
+<div class="callout simple">
+  <span class="t">Cómo usar esta guía</span>
+  <p>Léela en orden la primera vez: cada parte usa ideas de las anteriores. Los títulos siguen la numeración del informe (1.1, 1.2…, tabla 1, figura 1…), para que puedas buscar cada cosa en el PDF. Cada concepto tiene <strong>la idea en simple</strong> (con un ejemplo de la vida diaria), <strong>en nuestro caso</strong> (qué significa con nuestros datos) y, cuando hace falta, <strong>cuidado con…</strong> (el error típico). Al final de cada parte hay preguntas de autoevaluación: la respuesta se abre con un clic.</p>
+</div>
+
+<!-- ================================================================== -->
+<h2>Antes de empezar: las palabras que se usan todo el tiempo</h2>
+
+<h3>Los datos: filas, columnas y variables</h3>
+<p>Imagina una planilla de Excel. Cada <strong>fila</strong> es una cosa que se observa; cada <strong>columna</strong> es una característica de esa cosa. En el informe:</p>
+<ul>
+  <li>Una <strong>fila</strong> es un <em>tipo de proceso en un territorio</em>: por ejemplo, «procesos ordinarios civiles de Sucre». No es un juicio individual: es el resumen de todos los juicios de ese tipo en ese lugar durante 2023.</li>
+  <li>Una <strong>variable</strong> es una columna que se usa para predecir: la materia, cuántas causas ingresaron, cuántos juzgados hay…</li>
+  <li>La <strong>variable objetivo</strong> es la columna que se quiere adivinar: si el proceso acumuló mora o no.</li>
+</ul>
+
+<h3>Una causa y sus cinco números</h3>
+<p>Piensa en una <strong>cuenta bancaria</strong>. El 1 de enero hay un saldo; durante el año entran depósitos y salen retiros; el 31 de diciembre queda otro saldo. Los juzgados funcionan igual con las causas (los expedientes):</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Número</th><th>En una cuenta bancaria</th><th>En un juzgado</th></tr></thead>
+<tbody>
+<tr><td><strong>stock heredado</strong> (pendientes al inicio)</td><td>saldo del 1 de enero</td><td>causas que venían abiertas del año anterior</td></tr>
+<tr><td><strong>ingresos</strong> del año</td><td>depósitos</td><td>causas que entraron durante el año (nuevas, por excusa, preliminares, cautelares)</td></tr>
+<tr><td><strong>atendidas</strong></td><td>todo el dinero con el que se trabajó</td><td>stock heredado + ingresos</td></tr>
+<tr><td><strong>resueltas</strong></td><td>retiros</td><td>causas que se terminaron en el año</td></tr>
+<tr><td><strong>pendientes al cierre</strong></td><td>saldo del 31 de diciembre</td><td>causas que siguen abiertas</td></tr>
+</tbody></table></div>
+<p>Siempre se cumple: <strong>atendidas = stock heredado + ingresos = resueltas + pendientes al cierre</strong>. A esto el informe lo llama la <em>identidad contable</em>. Más detalle en <a href="conceptos.html">conceptos jurídicos</a>.</p>
+
+<h3>Qué es un «modelo» y qué es «entrenar»</h3>
+<p>Un <strong>modelo</strong> es una receta que recibe datos y devuelve una respuesta. Un médico con experiencia mira la fiebre, la tos y la edad de un paciente y dice «probablemente es gripe»: aprendió de miles de pacientes anteriores. Un modelo hace lo mismo con números: <strong>entrenar</strong> es mostrarle muchos ejemplos de los que ya se sabe la respuesta, para que encuentre el patrón. <strong>Predecir</strong> es usarlo con un caso nuevo.</p>
+<p>Lo que devuelve nuestro modelo es una <strong>probabilidad</strong> entre 0 y 1 (o entre 0 % y 100 %) de que el proceso acumule mora. Si pasa de 0,5 (el <strong>umbral</strong>), se dice «acumula».</p>
+
+<!-- ================================================================== -->
+<h2>La portada y el resumen</h2>
+<p>El título del informe es una pregunta: <strong>«¿Qué procesos judiciales acumulan mora?»</strong>. El subtítulo dice las cuatro etapas que pidió la docente en la pizarra: <strong>preprocesamiento, modelos de clasificación, evaluación y despliegue</strong>.</p>
+<p>El <strong>resumen</strong> cuenta todo el informe en un párrafo. Traducido:</p>
+<ol>
+  <li>El Consejo de la Magistratura publica sus estadísticas en un PDF de 774 páginas. En la primera parte del proyecto ese PDF se convirtió en tablas.</li>
+  <li>Este informe usa esas tablas para una pregunta: con lo que se sabe de un tipo de proceso (materia, territorio, stock heredado, causas que entran, juzgados), ¿se puede anticipar si este año resolverá menos causas de las que recibe?</li>
+  <li>Se usaron <strong>1.240 procesos</strong>; <strong>608</strong> acumulan mora (49,0 %).</li>
+  <li>El mejor modelo (<strong>Bagging</strong>) obtiene un ROC-AUC (una nota de 0,5 a 1 que se explica en la parte 3) de <strong>0,753</strong> en la validación y <strong>0,729</strong> en la prueba. El modelo publicado, de 5 variables (<strong>Gradient Boosting</strong>), obtiene <strong>0,663</strong>.</li>
+  <li>Lo más útil para predecir no viene del Anuario: son <strong>cocientes</strong> que el equipo construyó, como los ingresos por juzgado y la presión del stock.</li>
+</ol>
+<p>Después del resumen está el <strong>índice</strong>: introducción, las cuatro secciones de la pizarra, conclusiones, limitaciones, referencias y el anexo de reproducción.</p>
+
+<!-- ================================================================== -->
+<h2>Introducción</h2>
+
+<h3>El problema</h3>
+<p><strong>La idea en simple.</strong> Un juzgado es como una mesa de trabajo con una pila de expedientes. Si en el año despacha menos de lo que le llega, la pila crece: eso es <strong>acumular mora</strong>. Y cuanto más alta la pila, más espera cada persona que tiene un juicio.</p>
+<p>El Anuario publica, para cada tipo de proceso de cada capital y provincia, las cinco cantidades de la tabla de arriba. Con ellas se puede saber <strong>después</strong> si un proceso acumuló mora. El informe pregunta si se puede saber <strong>antes</strong>, sin mirar las causas resueltas.</p>
+
+<h3>La variable objetivo</h3>
+<p>Se llama <code>flag_acumula_mora</code> («bandera de acumula mora»). Vale <strong>1</strong> si las resueltas fueron menos que los ingresos del año, y <strong>0</strong> si no. Es lo mismo que decir que la <strong>tasa de resolución</strong> (resueltas ÷ ingresos, la fórmula que usa el CEJA, un centro de estudios de justicia de las Américas) es menor que 1. Y por la identidad contable, es lo mismo que decir que la pila creció.</p>
+<p>Como la respuesta es una de dos clases (sí o no), el problema es una <strong>clasificación binaria</strong>. Si la respuesta fuera un número (por ejemplo, cuántas causas crece la pila), sería una <em>regresión</em>.</p>
+
+<h3>Los datos</h3>
+<ul>
+  <li>Cada fila es un tipo de proceso + un territorio + una materia, por ejemplo «divorcio por mutuo acuerdo, Cochabamba capital, familia».</li>
+  <li>Solo las <strong>cinco materias no penales</strong>: civil y comercial, familia, niñez y adolescencia, trabajo y seguridad social, y coactivo fiscal. Las penales quedan fuera porque el Anuario no publica sus causas resueltas, y sin resueltas no se puede saber si acumularon.</li>
+  <li>De los <strong>1.655</strong> procesos no penales se usan los <strong>1.240</strong> que tuvieron movimiento (al menos una causa atendida). Hay <strong>87</strong> tipos de proceso distintos.</li>
+  <li>Todo el código está en <strong>notebooks</strong> (cuadernos de Jupyter que mezclan código, resultados y texto): del 01 al 18 la construcción de los datos y el análisis exploratorio; del 19 al 22, lo que cuenta el informe.</li>
+</ul>
+
+<div class="callout regla">
+  <span class="t">Un ejemplo que vamos a seguir de principio a fin</span>
+  <p><strong>Procesos ordinarios civiles de Sucre</strong> (cuadro 5.1.1.1, página 121 del Anuario). Empezaron 2023 con <strong>770</strong> causas heredadas; ingresaron <strong>1.627</strong>; hay <strong>14</strong> juzgados civiles en Sucre. Se resolvieron 1.286 y quedaron 1.111 abiertas. Como 1.286 &lt; 1.627, <strong>acumuló mora</strong>: <code>flag_acumula_mora</code> = 1. Volveremos a este proceso en cada parte.</p>
+</div>
+
+<h3>Autoevaluación · Introducción</h3>
+<details><summary>¿Qué significa que un proceso «acumule mora»?</summary><div class="body"><p>Que en el año resolvió menos causas de las que le ingresaron, de modo que su pila de causas pendientes creció.</p></div></details>
+<details><summary>¿Por qué no se incluyen las materias penales?</summary><div class="body"><p>Porque el Anuario no publica cuántas causas penales se resolvieron; sin ese dato no se puede saber si acumularon mora.</p></div></details>
+<details><summary>¿Por qué es una clasificación y no una regresión?</summary><div class="body"><p>Porque la respuesta es una clase (sí o no), no un número.</p></div></details>
+
+<!-- ================================================================== -->
+<h2>1 · Preprocesamiento</h2>
+<p><strong>La idea en simple.</strong> Antes de cocinar hay que comprar, lavar, pelar y cortar. El <strong>preprocesamiento</strong> es todo lo que se le hace a los datos antes de entrenar un modelo. La pizarra lo divide en tres: <strong>análisis exploratorio</strong> (mirar), <strong>limpieza</strong> (sacar lo que estorba o engaña) y <strong>conversión</strong> (dejarlo en el formato que el modelo entiende).</p>
+
+<h3>1.1 · Análisis exploratorio</h3>
+
+<h4>De dónde vienen los datos</h4>
+<p>El Anuario es un PDF: se puede leer, pero no se puede calcular con él. Esta parte del informe resume el trabajo de los notebooks 01 a 18:</p>
+<ol class="steps">
+  <li><strong>Inventario y extracción (01 a 07).</strong> Se revisó cada una de las 774 páginas y se sacaron los números de los cuadros. Como los cuadros tienen formatos distintos, se usaron técnicas distintas: por posición, por coordenadas de cada palabra y por «firmas» de encabezado (dos páginas con los mismos títulos de columna son la misma tabla). Cada valor se guardó primero como texto, para no perder nada. Detalle en <a href="extraccion.html">técnicas de extracción</a>.</li>
+  <li><strong>Normalización (04 a 06).</strong> Se unificaron los nombres de materias y territorios y se convirtieron los textos a números con la convención boliviana: el punto separa miles y la coma separa decimales («86.285» es ochenta y seis mil). Resultado: <strong>12 tablas con 85.953 filas</strong>, cada una con el cuadro y la página de donde salió.</li>
+  <li><strong>Validación (05).</strong> Se verificaron doce identidades contables del propio Anuario (por ejemplo, que atendidas = resueltas + pendientes). Se encontraron <strong>117 discrepancias</strong> de la fuente: se registraron, no se «arreglaron». Ver <a href="validacion.html">validación y discrepancias</a>.</li>
+  <li><strong>Integración (08).</strong> Se unieron las tablas en una «capa analítica» de <strong>1.997 filas</strong> (procesos y otros detalles), con los recursos y el personal de cada territorio pegados a cada fila.</li>
+  <li><strong>Análisis exploratorio (09 a 18).</strong> Vacíos, indicadores de congestión, valores raros, la serie 2007–2023, dónde se concentra el rezago y la relación con el personal. Ver <a href="eda.html">EDA e indicadores</a> y <a href="ampliacion.html">la ampliación</a>.</li>
+</ol>
+
+<h4>Qué dice el análisis exploratorio del objetivo</h4>
+<p><strong>Las clases están casi equilibradas:</strong> 608 de 1.240 acumulan (49,0 %). Esto importa porque, si fueran 95 % «no» y 5 % «sí», un modelo tonto que siempre dice «no» acertaría el 95 % sin aprender nada. Con 49/51 ese truco solo da 51 %.</p>
+<p><strong>La proporción cambia según la materia:</strong> civil acumula en el 58 % de sus procesos; familia y niñez, en el 47 %; trabajo y coactivo, en el 40 %. En cambio, capital y provincia casi no difieren (48 % y 50 %).</p>
+<p><strong>Ninguna variable sola separa bien las clases.</strong> Para medirlo se usó la <strong>correlación de Spearman</strong>, que se escribe con la letra griega ρ («ro»):</p>
+<div class="callout simple">
+  <span class="t">Qué es la correlación de Spearman</span>
+  <p>Mide si, cuando una cosa sube, la otra tiende a subir (ρ positivo) o a bajar (ρ negativo). Va de −1 a +1; 0 es «no hay relación». En vez de usar los valores, usa su <strong>orden</strong> (el primero, el segundo…), así que un proceso gigante no pesa más que los demás. Como regla práctica: menos de 0,3 es una relación débil.</p>
+</div>
+<ul>
+  <li>Ingresos del año: <strong>ρ = 0,24</strong>. Los procesos que reciben más causas tienden algo a acumular.</li>
+  <li>Presión del stock (stock heredado ÷ ingresos): <strong>ρ = −0,23</strong>. Los que heredan mucho en relación con lo que les entra tienden a <em>no</em> acumular: con muchas causas viejas en la mesa, el juzgado resuelve más de lo que recibe.</li>
+  <li>Stock heredado solo: <strong>ρ = 0,04</strong>, casi nada. Pero dividido por los ingresos (la presión del stock), sí dice algo. Esa es la pista de que conviene <em>construir</em> variables nuevas.</li>
+</ul>
+<p>Conclusión: ninguna variable alcanza sola; hace falta un modelo que combine varias.</p>
+
+<h4>Figura 1</h4>
+<figure><img src="img/nb19_1.png" alt="Figura 1 del informe: porcentaje que acumula mora por materia e histograma de la presión del stock por clase."></figure>
+<ul>
+  <li><strong>Izquierda:</strong> una barra por materia; el largo es el porcentaje de sus procesos que acumulan. La línea gris punteada es el promedio (49 %). Civil es la única claramente por encima.</li>
+  <li><strong>Derecha:</strong> un <strong>histograma</strong> (cuántos procesos hay en cada rango de valores) de la presión del stock, en verde los que no acumulan y en rojo los que sí. El eje está en <strong>escala logarítmica</strong>: cada paso hacia la derecha multiplica por 10 (0,1 → 1 → 10). Se usa porque los valores van de casi 0 a cientos. Se ve que los verdes están más a la derecha (más presión del stock) que los rojos, pero las dos montañas se superponen mucho: la variable ayuda, no decide.</li>
+</ul>
+
+<h3>1.2 · Limpieza</h3>
+
+<h4>Fuga de información (tabla 1)</h4>
+<p><strong>La idea en simple.</strong> Si a un estudiante le das el examen con las respuestas escritas al margen, saca 100, pero no aprendió nada y en el próximo examen fracasa. <strong>Fuga de información</strong> es darle al modelo, sin querer, una variable que contiene la respuesta.</p>
+<p><strong>En nuestro caso.</strong> La pila crece cuando se <em>resuelve</em> menos de lo que entra. Entonces cualquier columna calculada con las <strong>resueltas</strong> o con la pila <strong>al cierre</strong> es la respuesta disfrazada. Se sacaron <strong>18 columnas</strong>, que son las de la tabla 1 del informe:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Columnas de la tabla 1</th><th>Por qué contienen la respuesta</th></tr></thead>
+<tbody>
+<tr><td><code>resueltas</code></td><td>el objetivo se define comparándola con los ingresos</td></tr>
+<tr><td><code>pendientes_fin</code>, <code>log_pendientes_fin</code></td><td>la pila al cierre: es el resultado del año</td></tr>
+<tr><td><code>tasa_resolucion</code> y sus dos variantes</td><td>resueltas ÷ ingresos: es el objetivo con otro nombre</td></tr>
+<tr><td><code>tasa_congestion</code> y su versión winsorizada</td><td>atendidas ÷ resueltas</td></tr>
+<tr><td><code>tasa_pendencia</code></td><td>usa las pendientes al cierre</td></tr>
+<tr><td><code>duracion_estimada_dias</code> y su versión winsorizada</td><td>usa resueltas y pendientes al cierre</td></tr>
+<tr><td><code>acumulacion_neta_anual</code></td><td>ingresos − resueltas: es el objetivo en número</td></tr>
+<tr><td><code>flag_sin_resolucion_anual</code>, <code>flag_sin_movimiento</code>, <code>estado_gestion</code></td><td>marcas que se calcularon mirando las resueltas</td></tr>
+<tr><td><code>log_resueltas</code></td><td>las resueltas en logaritmo</td></tr>
+<tr><td><code>es_outlier_congestion_iqr</code>, <code>es_outlier_duracion_iqr</code></td><td>marcas de valores raros construidas con la congestión y la duración</td></tr>
+</tbody></table></div>
+<p>«Winsorizada» quiere decir que los valores extremos se recortaron a un tope; «log» es el logaritmo. Ninguna de las dos cosas quita la fuga: siguen siendo las resueltas transformadas. El notebook 19 tiene un control automático (un <code>assert</code>: una línea que detiene todo si algo no se cumple) que verifica que ninguna de estas 18 columnas entre al modelo.</p>
+<div class="callout ojo"><span class="t">Cuidado con…</span><p>Un modelo con fuga da resultados espectaculares (casi 100 % de aciertos). Cuando un problema difícil da resultados perfectos, lo primero es sospechar una fuga.</p></div>
+
+<h4>Qué filas entran</h4>
+<ul>
+  <li>Se excluyen los <strong>415</strong> procesos <strong>sin movimiento</strong> (cero causas atendidas): no entró ni había nada, no hay nada que predecir. 1.655 − 415 = <strong>1.240</strong>.</li>
+  <li>Hubo una tentación: usar solo los procesos que tienen <strong>tasa de congestión</strong> calculada (eran 1.122). Pero esa tasa se divide por las resueltas, y no existe cuando un proceso no resolvió nada. Quitar esos <strong>118</strong> procesos sería <strong>elegir los ejemplos mirando la respuesta</strong>: <strong>67</strong> de ellos acumulan mora. Es otra forma de fuga, más sutil: el modelo aprendería con un conjunto más fácil que el real. Por eso el filtro usa solo «atendidas &gt; 0», que no depende del resultado.</li>
+</ul>
+
+<h4>Valores faltantes</h4>
+<p><strong>La idea en simple.</strong> Un casillero vacío puede significar «se perdió el dato» o «no aplica». En el formulario de una persona soltera, el casillero «nombre del cónyuge» está vacío porque no aplica: rellenarlo con un nombre promedio sería absurdo.</p>
+<ul>
+  <li>Casi todos los vacíos del Anuario son <strong>estructurales</strong> (no aplica). Dos formas de ingreso —<strong>preliminares</strong> y <strong>cautelares formalizados</strong>— solo existen en civil. En las demás materias el vacío significa <strong>cero</strong>, y se llenó con 0. Si se rellenara con la mediana se inventarían causas que no existen.</li>
+  <li>El único faltante real es el número de <strong>tribunales del territorio</strong> (20 filas). Se rellena con la <strong>mediana</strong> (el valor del medio cuando se ordenan todos) calculada <strong>solo con los datos de entrenamiento</strong>, dentro del modelo. Así los datos de prueba no influyen en ningún valor (la razón se ve en 1.3).</li>
+</ul>
+
+<h4>Valores atípicos (figura 2)</h4>
+<p>Un <strong>valor atípico</strong> (outlier) es uno muy distinto de los demás: un proceso con 4.000 causas cuando la mayoría tiene 20.</p>
+<ul>
+  <li><strong>No se eliminan.</strong> El notebook 11 comprobó contra el PDF que son reales, y son justamente los procesos donde más importa acertar.</li>
+  <li>Las cantidades tienen <strong>asimetría</strong> fuerte: muchos valores chicos y unos pocos enormes (una «cola larga»). La asimetría de los ingresos es 6,1 (más de 1 ya se considera fuerte).</li>
+  <li>En vez de borrar, se agregan versiones en <strong>logaritmo</strong> y en <strong>cociente</strong>. El logaritmo «aplasta» los números grandes: entre 10 y 1.000 hay cien veces de diferencia, pero en logaritmo (base 10) solo se pasa de 1 a 3. (El proyecto usa el logaritmo natural, que hace lo mismo con otra escala.) La asimetría de los ingresos baja de 6,1 a 0,46.</li>
+  <li>Los modelos de árboles no se ven afectados por la escala (se explica en la parte 2); el SVM y la regresión logística, sí.</li>
+</ul>
+<figure><img src="img/nb19_2.png" alt="Figura 2 del informe: histograma del stock heredado y de su logaritmo."></figure>
+<p><strong>Figura 2:</strong> a la izquierda, el stock heredado: casi todos los procesos están pegados al cero y unos pocos se van muy lejos. A la derecha, el mismo dato en logaritmo: la forma es mucho más pareja.</p>
+
+<h3>1.3 · Conversión</h3>
+<p>El modelo solo entiende números, ordenados en una tabla. La conversión tiene cinco pasos.</p>
+
+<h4>Tipos</h4>
+<p>pandas (la librería de Python para tablas) guarda los conteos con vacíos en un formato especial (<code>Int64</code> con <code>&lt;NA&gt;</code>) que scikit-learn (la librería de modelos) no acepta. Se convierten a números decimales (<code>float64</code>) y las categorías, a texto.</p>
+
+<h4>Ingeniería de variables: las 8 variables nuevas</h4>
+<p><strong>La idea en simple.</strong> El precio de una casa dice poco; el precio <em>por metro cuadrado</em>, mucho más. A veces la información útil está en una combinación de columnas. Crear esas combinaciones es la <strong>ingeniería de variables</strong>.</p>
+<p>Se calculan fila por fila, con fórmulas simples y sin promedios de grupos, para que la página web pueda recalcularlas exactamente igual. Con el ejemplo de Sucre (770 heredadas, 1.627 ingresos, 14 juzgados):</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Variable nueva</th><th>Fórmula</th><th>Qué mide</th><th>Sucre</th></tr></thead>
+<tbody>
+<tr><td><strong>ingresos por juzgado</strong></td><td>ingresos ÷ juzgados</td><td>cuánto trabajo nuevo le toca a cada juzgado</td><td>1.627 ÷ 14 = 116,2</td></tr>
+<tr><td><strong>presión del stock</strong></td><td>stock heredado ÷ (ingresos + 1)</td><td>qué tan grande es la pila vieja comparada con lo que entra</td><td>770 ÷ 1.628 = 0,47</td></tr>
+<tr><td><strong>stock por juzgado</strong></td><td>stock heredado ÷ juzgados</td><td>cuánta pila vieja tiene cada juzgado</td><td>770 ÷ 14 = 55</td></tr>
+<tr><td>log del stock heredado</td><td>log(1 + stock)</td><td>el stock con la cola aplastada</td><td>log(771) = 6,65</td></tr>
+<tr><td>log de los ingresos</td><td>log(1 + ingresos)</td><td>los ingresos con la cola aplastada</td><td>log(1.628) = 7,40</td></tr>
+<tr><td>proporción de vacantes</td><td>puestos vacantes ÷ puestos totales</td><td>qué parte del personal falta</td><td>(dato del departamento)</td></tr>
+<tr><td>proporción por excusa</td><td>recibidas por excusa ÷ (ingresos + 1)</td><td>qué parte entró porque otro juez se apartó</td><td>(dato del proceso)</td></tr>
+<tr><td>sin stock heredado</td><td>1 si el stock es 0</td><td>marca a los que empiezan de cero</td><td>0</td></tr>
+</tbody></table></div>
+<p>El «+ 1» de algunas fórmulas evita dividir por cero cuando un proceso no tuvo ingresos.</p>
+
+<h4>One-hot</h4>
+<p><strong>La idea en simple.</strong> Si se codificara civil = 1, familia = 2, niñez = 3, el modelo creería que niñez es «el triple» de civil o que familia está «entre» las otras dos. En cambio, se crea una columna de sí/no (1/0) por cada categoría: «¿es civil?», «¿es familia?»… Eso es <strong>one-hot</strong>.</p>
+<p><strong>En nuestro caso.</strong> Materia (5 categorías), departamento (9) y ámbito (capital o provincia: 2) se convierten en 16 columnas. Más las 24 variables numéricas, las <strong>27 variables quedan en 40 columnas</strong>.</p>
+
+<h4>Escala</h4>
+<p><strong>La idea en simple.</strong> Si comparas personas por su sueldo (miles) y su edad (decenas) sumando las diferencias, el sueldo tapa la edad. <strong>Escalar</strong> (estandarizar) lleva cada variable a «media 0 y desvío 1»: a cada valor se le resta el promedio y se divide por cuánto varía. Así todas pesan parecido.</p>
+<p><strong>En nuestro caso.</strong> Solo para el SVM, la regresión logística y el Stacking, porque miden distancias o suman variables. Sin escala, la remuneración (millones) taparía a los juzgados (decenas). Los árboles no lo necesitan.</p>
+
+<h4>Partición: entrenamiento y prueba</h4>
+<p><strong>La idea en simple.</strong> Un profesor no toma el examen con los mismos ejercicios que hizo en clase: solo mediría la memoria. Guarda ejercicios nuevos para el final.</p>
+<ul>
+  <li><strong>992</strong> procesos (80 %) son el <strong>entrenamiento</strong>: con ellos se entrena, se compara y se elige.</li>
+  <li><strong>248</strong> procesos (20 %) son la <strong>prueba</strong>: se guardan y ningún modelo los ve hasta la evaluación final. (El ejemplo de Sucre cayó en la prueba.)</li>
+  <li>La partición es <strong>estratificada</strong>: las dos partes tienen la misma proporción de procesos que acumulan (49,0 % y 49,2 %), como cuando se reparte un mazo y cada mano recibe la misma proporción de cartas rojas.</li>
+</ul>
+
+<h4>El Pipeline</h4>
+<p>Un <strong>Pipeline</strong> («tubería») encadena todos los pasos: rellenar faltantes → one-hot → escalar → modelo. Lo importante: la mediana, las categorías y la escala se <strong>aprenden solo con los datos de entrenamiento</strong> y después se aplican igual a los demás. Si se calcularan con todos los datos, la prueba «filtraría» información al entrenamiento (otra fuga, pequeña pero real).</p>
+
+<h4>Tabla 2: las 27 variables del modelo</h4>
+<p>La tabla 2 del informe lista cada variable con cinco columnas:</p>
+<ul>
+  <li><strong>Variable:</strong> el nombre de la columna en los datos.</li>
+  <li><strong>Descripción:</strong> qué es, o su fórmula si es de ingeniería.</li>
+  <li><strong>Grupo:</strong> «original» (viene del Anuario) o «ingeniería» (creada por el equipo).</li>
+  <li><strong>Conversión:</strong> qué se le hace: one-hot (categorías), mediana (rellenar faltantes), cero estructural + mediana (preliminares y cautelares).</li>
+  <li><strong>ρ Spearman:</strong> su correlación con el objetivo (las categorías no tienen, por eso «---»).</li>
+</ul>
+<p>Las <strong>19 originales</strong> son: materia, ámbito (capital o provincia), departamento; stock heredado, causas nuevas, recibidas por excusa, preliminares formalizados, cautelares formalizados, ingresos del año, causas atendidas; juzgados de esa materia y territorio, juzgados, tribunales y conciliadores del territorio; puestos ocupados por mujeres, por varones, vacantes, puestos totales y remuneración total. Las <strong>8 de ingeniería</strong> son las de la tabla de arriba. 19 + 8 = <strong>27</strong>.</p>
+<div class="callout ojo"><span class="t">Cuidado con…</span><p>Los números 19, 25 y 5 que estaban en la pizarra eran ejemplos. Los nuestros salen de los datos: 19 originales sin fuga, 27 con ingeniería y 5 las más importantes.</p></div>
+
+<h3>Autoevaluación · Parte 1</h3>
+<details><summary>¿Por qué la tasa de resolución no puede ser una variable del modelo?</summary><div class="body"><p>Porque es la respuesta: un proceso acumula mora exactamente cuando su tasa de resolución es menor que 1. Sería fuga de información.</p></div></details>
+<details><summary>¿Por qué no se usaron los 1.122 procesos con tasa de congestión?</summary><div class="body"><p>Porque esa tasa no existe cuando no se resolvió nada, y eso depende del resultado. Quitar esos 118 procesos (67 acumulan) era elegir los ejemplos mirando la respuesta.</p></div></details>
+<details><summary>¿Por qué los preliminares de familia se llenaron con 0 y los tribunales con la mediana?</summary><div class="body"><p>En familia los preliminares no existen: el vacío es un cero. Los tribunales sí existen y el dato falta: se estima con la mediana del entrenamiento.</p></div></details>
+<details><summary>¿Por qué se calcula la mediana solo con el entrenamiento?</summary><div class="body"><p>Para que los datos de prueba no influyan en nada de lo que el modelo aprende; si no, la prueba ya no sería «datos nunca vistos».</p></div></details>
+<details><summary>¿Cuánto vale la presión del stock de un proceso con 200 causas heredadas y 399 ingresos?</summary><div class="body"><p>200 ÷ (399 + 1) = 0,5: la pila vieja es la mitad de lo que entra en el año.</p></div></details>
+<details><summary>¿Por qué 27 variables se convierten en 40 columnas?</summary><div class="body"><p>Porque las 3 categóricas se abren en una columna por categoría (5 materias + 9 departamentos + 2 ámbitos = 16) y se suman a las 24 numéricas.</p></div></details>
+
+<!-- ================================================================== -->
+<h2>2 · Modelo</h2>
+
+<h3>El protocolo: cómo se comparan los modelos</h3>
+<h4>Validación cruzada de 5 pliegues</h4>
+<p><strong>La idea en simple.</strong> Antes del examen final se hacen simulacros. Los 992 procesos de entrenamiento se parten en 5 grupos (<strong>pliegues</strong>). Se entrena con 4 y se mide con el quinto; se repite cinco veces cambiando el grupo de medición; se promedian las cinco notas. El <strong>desvío</strong> dice cuánto variaron las notas entre simulacros: si es grande, el resultado es inestable.</p>
+<p>Es <strong>estratificada</strong>: cada pliegue tiene la misma proporción de procesos que acumulan. Todo lo del notebook 20 (comparar modelos y elegir hiperparámetros) se hace así, sin tocar la prueba.</p>
+
+<h4>La métrica principal: ROC-AUC</h4>
+<p><strong>La idea en simple.</strong> Toma al azar un proceso que acumuló y uno que no. Pregúntale al modelo cuál de los dos tiene más probabilidad de acumular. El <strong>ROC-AUC</strong> es la proporción de veces que acierta ese orden.</p>
+<ul>
+  <li><strong>0,5</strong> = tirar una moneda. <strong>1</strong> = ordena perfecto. <strong>0,75</strong> = ordena bien 3 de cada 4 pares.</li>
+  <li>No depende del umbral (el 0,5 a partir del cual se dice «acumula»): mide si el modelo <em>ordena</em> bien, no dónde se corta.</li>
+</ul>
+
+<h4>Las dos referencias</h4>
+<ul>
+  <li><strong>Línea base:</strong> siempre dice la clase más frecuente («no acumula»). No aprende nada; es el piso. Su ROC-AUC es exactamente 0,5.</li>
+  <li><strong>Regresión logística:</strong> el modelo serio más simple. Hace una suma ponderada de las variables (cada una multiplicada por un peso) y la pasa por una curva en forma de S que la convierte en una probabilidad entre 0 y 1. Si un modelo complejo no le gana, no vale la pena.</li>
+</ul>
+
+<h3>Un ladrillo que usan casi todos: el árbol de decisión</h3>
+<p>Un <strong>árbol de decisión</strong> es un juego de «20 preguntas»: «¿ingresos por juzgado ≤ 12? → sí → ¿es civil? → no → ¿presión del stock ≤ 0,8? → …», hasta llegar a una <strong>hoja</strong>, que da la respuesta (la proporción de procesos que acumulaban entre los de entrenamiento que llegaron ahí). El árbol elige las preguntas que mejor separan las dos clases. Por eso no le importa la escala: «¿ingresos ≤ 100?» funciona igual en causas o en miles de causas. Su defecto: un árbol solo es <strong>inestable</strong> (cambia mucho si cambian un poco los datos) y tiende a <strong>memorizar</strong>.</p>
+
+<h3>2.1 · SVM (máquina de vectores de soporte)</h3>
+<p><strong>La idea en simple.</strong> Imagina puntos rojos y verdes sobre una mesa. El SVM traza la línea que los separa dejando el <strong>pasillo más ancho posible</strong> entre los dos colores (el <em>margen</em>). Los puntos que tocan el borde del pasillo son los «vectores de soporte»: los que definen la frontera. Con el <strong>kernel RBF</strong> la línea puede curvarse para rodear grupos.</p>
+<p><strong>En nuestro caso.</strong> Tiene dos perillas:</p>
+<ul>
+  <li><code>C</code>: cuánto castiga equivocarse con un punto de entrenamiento. Alto = frontera ajustada que intenta no dejar ningún error.</li>
+  <li><code>gamma</code>: hasta dónde llega la influencia de cada punto. Alto = cada punto influye solo cerca de sí, y la frontera se vuelve muy curva.</li>
+</ul>
+<p>Necesita las variables escaladas, porque mide distancias.</p>
+
+<h3>2.2 · Bagging (y Random Forest)</h3>
+<p><strong>La idea en simple.</strong> Si una persona adivina el peso de una vaca, se equivoca bastante; si se promedian las adivinanzas de cien personas, el promedio suele ser muy bueno. <strong>Bagging</strong> (de <em>bootstrap aggregating</em>) entrena cientos de árboles, cada uno con una muestra distinta de las filas tomada <strong>con reemplazo</strong> (como sacar bolillas de una bolsa y devolverlas: algunas salen dos veces, otras ninguna), y promedia sus votos. El promedio es mucho más estable que un árbol solo.</p>
+<p><strong>Random Forest</strong> («bosque aleatorio») agrega otra dosis de azar: en cada pregunta, el árbol solo puede elegir entre <strong>algunas variables</strong> sorteadas. Así los árboles se parecen menos entre sí y el voto aporta más. En el informe, los dos pertenecen a la familia Bagging.</p>
+
+<h3>2.3 · Boosting</h3>
+<p><strong>La idea en simple.</strong> En vez de árboles independientes que votan, árboles <strong>en fila</strong>, cada uno enfocado en lo que el anterior hizo mal. Como un alumno que, después de cada prueba, repasa solo los ejercicios que le salieron mal.</p>
+<ul>
+  <li><strong>AdaBoost</strong> (<em>adaptive boosting</em>): cada árbol nuevo (muy chico) da <strong>más peso a los procesos que el anterior clasificó mal</strong>; al final todos votan, y los que acertaron más pesan más.</li>
+  <li><strong>Gradient Boosting</strong>: cada árbol nuevo intenta predecir <strong>el error que todavía queda</strong> (el residuo) del conjunto anterior, y se le suma. Una <strong>tasa de aprendizaje</strong> controla cuánto corrige cada árbol: pasos chicos y muchos árboles suelen dar mejores resultados que pasos grandes.</li>
+</ul>
+<p>Diferencia clave: <strong>Bagging</strong> reduce la inestabilidad promediando árboles independientes; <strong>Boosting</strong> reduce el error encadenando árboles que se corrigen.</p>
+
+<h3>2.4 · Stacking</h3>
+<p><strong>La idea en simple.</strong> Un comité de expertos distintos da cada uno su opinión, y un presidente aprende <strong>a quién creerle más</strong>.</p>
+<p><strong>En nuestro caso.</strong> Los expertos son el SVM, el Random Forest y el Gradient Boosting (ya ajustados); el presidente es una regresión logística. Detalle importante: el presidente aprende con predicciones <strong>fuera de pliegue</strong>: cada experto opina sobre procesos que no usó para entrenarse. Si opinara sobre procesos que ya vio, parecería más acertado de lo que es y el presidente le creería de más.</p>
+
+<h3>2.5 · Hiperparámetros</h3>
+<p><strong>La idea en simple.</strong> Un <strong>hiperparámetro</strong> es una perilla que se fija <strong>antes</strong> de entrenar: cuántos árboles, qué tan profundos, cuánto castigar errores. El modelo no la aprende sola; se elige probando, como la temperatura del horno. Siempre se prueba con validación cruzada, nunca con la prueba.</p>
+<ul>
+  <li><strong>Búsqueda en grilla</strong> (<code>GridSearchCV</code>), para el SVM: se prueban <em>todas</em> las combinaciones: 5 valores de <code>C</code> × 6 de <code>gamma</code> = 30.</li>
+  <li><strong>Búsqueda aleatoria</strong> (<code>RandomizedSearchCV</code>), para el resto: con 4 o 5 perillas la grilla completa tendría cientos de combinaciones, así que se prueban 30 al azar. Se sabe que llega a valores casi igual de buenos con mucho menos trabajo.</li>
+</ul>
+
+<h4>Figura 3: la grilla del SVM</h4>
+<figure><img src="img/nb20_2.png" alt="Figura 3 del informe: ROC-AUC del SVM para cada par de C y gamma."></figure>
+<p>Cada casilla es el ROC-AUC de validación para un par (<code>C</code> en las filas, <code>gamma</code> en las columnas); el color más claro es mejor. Va de <strong>0,623</strong> (peor) a <strong>0,729</strong> (mejor). El mejor par es <strong>C = 1.000 con gamma = 0,003</strong>: una frontera <em>suave</em> (gamma bajo) que castiga fuerte los errores. A la derecha, con <code>gamma</code> alto, el resultado empeora: la frontera se retuerce para encerrar cada punto y <strong>memoriza</strong> el entrenamiento. Eso se llama <strong>sobreajuste</strong>.</p>
+
+<h4>Tabla 3: los hiperparámetros elegidos, perilla por perilla</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>Modelo</th><th>Perilla</th><th>Valor</th><th>Qué significa</th></tr></thead>
+<tbody>
+<tr><td>SVM</td><td><code>C</code></td><td>1.000</td><td>castiga mucho cada error de entrenamiento</td></tr>
+<tr><td>SVM</td><td><code>gamma</code></td><td>0,003</td><td>cada punto influye lejos: frontera suave</td></tr>
+<tr><td>Regresión logística</td><td><code>C</code></td><td>0,316</td><td>cuánto se permite que los pesos crezcan; un valor bajo los frena (evita exagerar)</td></tr>
+<tr><td>Bagging</td><td><code>n_estimators</code></td><td>400</td><td>cantidad de árboles que votan</td></tr>
+<tr><td>Bagging</td><td><code>max_samples</code></td><td>0,7</td><td>cada árbol ve una muestra del tamaño del 70 % de las filas</td></tr>
+<tr><td>Bagging</td><td><code>max_features</code></td><td>0,7</td><td>cada árbol usa el 70 % de las variables</td></tr>
+<tr><td>Bagging</td><td><code>estimator__min_samples_leaf</code></td><td>3</td><td>cada hoja debe tener al menos 3 procesos (no puede «memorizar» uno solo)</td></tr>
+<tr><td>Random Forest</td><td><code>n_estimators</code></td><td>200</td><td>cantidad de árboles</td></tr>
+<tr><td>Random Forest</td><td><code>min_samples_leaf</code></td><td>4</td><td>al menos 4 procesos por hoja</td></tr>
+<tr><td>Random Forest</td><td><code>max_features</code></td><td>0,5</td><td>en cada pregunta, se sortea la mitad de las variables</td></tr>
+<tr><td>Random Forest</td><td><code>max_depth</code></td><td>sin límite</td><td>los árboles pueden tener tantas preguntas como quieran (el freno lo pone la hoja mínima)</td></tr>
+<tr><td>AdaBoost</td><td><code>n_estimators</code></td><td>400</td><td>árboles en la fila</td></tr>
+<tr><td>AdaBoost</td><td><code>learning_rate</code></td><td>0,5</td><td>cuánto pesa cada árbol nuevo</td></tr>
+<tr><td>AdaBoost</td><td><code>estimator__max_depth</code></td><td>1</td><td>cada árbol hace una sola pregunta (un «tocón»)</td></tr>
+<tr><td>Gradient Boosting</td><td><code>n_estimators</code></td><td>200</td><td>árboles en la fila</td></tr>
+<tr><td>Gradient Boosting</td><td><code>learning_rate</code></td><td>0,03</td><td>cada árbol corrige solo un 3 % del error: pasos chicos</td></tr>
+<tr><td>Gradient Boosting</td><td><code>max_depth</code></td><td>4</td><td>cada árbol hace hasta 4 preguntas seguidas</td></tr>
+<tr><td>Gradient Boosting</td><td><code>min_samples_leaf</code></td><td>10</td><td>al menos 10 procesos por hoja</td></tr>
+<tr><td>Gradient Boosting</td><td><code>subsample</code></td><td>0,85</td><td>cada árbol se entrena con un 85 % de las filas sorteado</td></tr>
+</tbody></table></div>
+<p>El Stacking no tiene perillas propias en la tabla: usa las de sus tres expertos.</p>
+
+<h4>Resultados: tabla 4 y figura 4</h4>
+<p>La <strong>tabla 4</strong> tiene, para cada modelo: su familia; el ROC-AUC <strong>por defecto</strong> (con las perillas de fábrica) y <strong>ajustado</strong> (con las de la tabla 3); el <strong>desvío</strong> entre los 5 pliegues; y la exactitud y el F1 del modelo ajustado (se explican en la parte 3).</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Modelo</th><th class="num">Por defecto</th><th class="num">Ajustado</th><th class="num">Mejora</th></tr></thead>
+<tbody>
+<tr><td>Línea base</td><td class="num">0,500</td><td class="num">0,500</td><td class="num">—</td></tr>
+<tr><td>Regresión logística</td><td class="num">0,729</td><td class="num">0,730</td><td class="num">+0,001</td></tr>
+<tr><td>SVM</td><td class="num">0,706</td><td class="num">0,729</td><td class="num">+0,023</td></tr>
+<tr><td>Bagging</td><td class="num">0,716</td><td class="num"><strong>0,753</strong></td><td class="num">+0,038</td></tr>
+<tr><td>Random Forest</td><td class="num">0,734</td><td class="num"><strong>0,753</strong></td><td class="num">+0,020</td></tr>
+<tr><td>AdaBoost</td><td class="num">0,712</td><td class="num">0,728</td><td class="num">+0,016</td></tr>
+<tr><td>Gradient Boosting</td><td class="num">0,724</td><td class="num">0,744</td><td class="num">+0,021</td></tr>
+<tr><td>Stacking</td><td class="num">0,736</td><td class="num"><strong>0,753</strong></td><td class="num">+0,017</td></tr>
+</tbody></table></div>
+<figure><img src="img/nb20_1.png" alt="Figura 4 del informe: cada modelo antes y después de ajustar hiperparámetros."></figure>
+<p><strong>Figura 4:</strong> barra gris = por defecto, barra azul = ajustado. La línea punteada en 0,5 es el azar. Cómo se lee:</p>
+<ul>
+  <li><strong>Ajustar mejoró a todos</strong>, hasta +0,04. La logística casi no cambia porque tiene una sola perilla.</li>
+  <li>Lo que más ayudó a los árboles fue <strong>no dejarlos memorizar</strong>: hojas con al menos 3 o 4 procesos y cada árbol mirando solo una parte de las filas y de las variables.</li>
+  <li><strong>Arriba empatan Bagging, Random Forest y Stacking</strong> (0,7534, 0,7532 y 0,7530). La diferencia entre ellos (0,0004) es unas cien veces menor que el desvío entre pliegues (alrededor de 0,03). Por eso <strong>no se puede decir que uno sea mejor</strong>; el informe toma a Bagging como «el mejor» solo porque redondea un poco más alto.</li>
+  <li>La <strong>regresión logística queda cerca</strong> (0,730): la señal es <em>moderada</em> y casi <em>aditiva</em> (cada variable suma su parte), sin combinaciones complicadas que solo un ensamble pueda descubrir.</li>
+  <li>El <strong>Stacking no supera</strong> a su mejor experto: probablemente los tres aprenden la misma señal y fallan en procesos parecidos, y entonces combinarlos no agrega información.</li>
+</ul>
+
+<h3>Autoevaluación · Parte 2</h3>
+<details><summary>¿Qué es la validación cruzada de 5 pliegues y para qué sirve?</summary><div class="body"><p>Partir el entrenamiento en 5 grupos, entrenar con 4 y medir con el quinto, cinco veces, y promediar. Sirve para comparar modelos y elegir perillas sin gastar la prueba.</p></div></details>
+<details><summary>Un modelo tiene ROC-AUC 0,5. ¿Qué significa?</summary><div class="body"><p>Que ordena igual que tirar una moneda: no aprendió nada útil. Es lo que da la línea base.</p></div></details>
+<details><summary>¿En qué se diferencian Bagging y Random Forest?</summary><div class="body"><p>Los dos promedian árboles entrenados con muestras distintas de filas; el Random Forest además sortea qué variables puede usar cada pregunta, para que los árboles se parezcan menos.</p></div></details>
+<details><summary>¿En qué se diferencian Bagging y Boosting?</summary><div class="body"><p>Bagging: árboles independientes en paralelo que votan (reduce la inestabilidad). Boosting: árboles en fila, cada uno corrigiendo los errores del anterior (reduce el error).</p></div></details>
+<details><summary>¿Por qué el Stacking usa predicciones «fuera de pliegue»?</summary><div class="body"><p>Para que el presidente aprenda con opiniones sobre procesos que cada experto no vio; si no, los expertos parecerían más acertados de lo que son.</p></div></details>
+<details><summary>¿Qué es el sobreajuste y dónde se ve en el informe?</summary><div class="body"><p>Memorizar el entrenamiento y fallar con datos nuevos. Se ve en la figura 3: con gamma alto el SVM empeora. También explica por qué ayudó exigir un mínimo de procesos por hoja.</p></div></details>
+<details><summary>¿Por qué no hay un ganador claro entre Bagging, Random Forest y Stacking?</summary><div class="body"><p>Porque sus diferencias (0,0004) son mucho menores que lo que varía el resultado de un pliegue a otro (≈ 0,03).</p></div></details>
+
+<!-- ================================================================== -->
+<h2>3 · Evaluación</h2>
+
+<h3>3.1 · Métricas en la prueba</h3>
+<p>Ahora sí se usan los <strong>248 procesos de prueba</strong> que nadie vio. Cada modelo se entrena con los 992 del entrenamiento (con sus perillas de la tabla 3) y se le pide que prediga los 248.</p>
+
+<h4>Las métricas, con un detector de humo</h4>
+<p>Primero hay que poner nombre a los cuatro resultados posibles:</p>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th>El modelo dice «acumula»</th><th>El modelo dice «no acumula»</th></tr></thead>
+<tbody>
+<tr><td><strong>Acumuló de verdad</strong></td><td>verdadero positivo (acierto)</td><td>falso negativo (caso perdido)</td></tr>
+<tr><td><strong>No acumuló</strong></td><td>falso positivo (alarma falsa)</td><td>verdadero negativo (acierto)</td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table>
+<thead><tr><th>Métrica</th><th>Pregunta</th><th>En un detector de humo</th></tr></thead>
+<tbody>
+<tr><td><strong>Exactitud</strong></td><td>de todos los procesos, ¿qué parte clasificó bien?</td><td>de todas las veces, ¿cuántas acertó (sonó con humo o calló sin humo)?</td></tr>
+<tr><td><strong>Precisión</strong></td><td>de los que marcó «acumula», ¿cuántos acumulaban?</td><td>de las veces que sonó, ¿cuántas había humo?</td></tr>
+<tr><td><strong>Recall</strong> (sensibilidad)</td><td>de los que acumulaban, ¿a cuántos detectó?</td><td>de los incendios reales, ¿cuántos detectó?</td></tr>
+<tr><td><strong>F1</strong></td><td>un promedio especial de precisión y recall</td><td>un detector bueno en las dos cosas a la vez</td></tr>
+<tr><td><strong>ROC-AUC</strong></td><td>¿ordena bien a los que acumulan por encima de los que no?</td><td>¿suena más fuerte cuanto más humo hay?</td></tr>
+</tbody></table></div>
+<p>Las cuatro primeras dependen del <strong>umbral</strong> de 0,5; el ROC-AUC no.</p>
+
+<h4>Tabla 5</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>Modelo</th><th class="num">Exactitud</th><th class="num">Precisión</th><th class="num">Recall</th><th class="num">F1</th><th class="num">ROC-AUC</th></tr></thead>
+<tbody>
+<tr><td>Línea base</td><td class="num">0,508</td><td class="num">0,000</td><td class="num">0,000</td><td class="num">0,000</td><td class="num">0,500</td></tr>
+<tr><td>Regresión logística</td><td class="num">0,657</td><td class="num">0,643</td><td class="num">0,680</td><td class="num">0,661</td><td class="num">0,716</td></tr>
+<tr><td>SVM</td><td class="num">0,661</td><td class="num">0,648</td><td class="num">0,680</td><td class="num">0,664</td><td class="num">0,735</td></tr>
+<tr><td>Bagging</td><td class="num">0,661</td><td class="num">0,644</td><td class="num">0,697</td><td class="num">0,669</td><td class="num">0,729</td></tr>
+<tr><td>Random Forest</td><td class="num">0,653</td><td class="num">0,632</td><td class="num">0,705</td><td class="num">0,667</td><td class="num">0,731</td></tr>
+<tr><td>AdaBoost</td><td class="num">0,629</td><td class="num">0,603</td><td class="num">0,721</td><td class="num">0,657</td><td class="num">0,700</td></tr>
+<tr><td>Gradient Boosting</td><td class="num">0,645</td><td class="num">0,633</td><td class="num">0,664</td><td class="num">0,648</td><td class="num">0,736</td></tr>
+<tr><td>Stacking</td><td class="num">0,661</td><td class="num">0,646</td><td class="num">0,689</td><td class="num">0,667</td><td class="num">0,741</td></tr>
+</tbody></table></div>
+<ul>
+  <li>La <strong>línea base</strong> acierta el 50,8 % (los que no acumulan) pero nunca detecta a nadie: precisión, recall y F1 en cero. Por eso la exactitud sola no alcanza.</li>
+  <li>Todos los modelos superan a la línea base, con ROC-AUC entre <strong>0,700</strong> (AdaBoost) y <strong>0,741</strong> (Stacking).</li>
+  <li><strong>Bagging</strong>, el mejor de la validación, da <strong>0,729</strong>: un poco menos que en la validación (0,753). Es normal: cuando se elige el mejor de varios candidatos, su nota de validación tiene algo de suerte a favor.</li>
+  <li>Con solo 248 procesos, diferencias de 0,01 entre modelos <strong>están dentro del ruido</strong>: con otra prueba de 248 el orden podría cambiar.</li>
+</ul>
+
+<h4>Figura 5: curvas ROC y matriz de confusión</h4>
+<figure><img src="img/nb21_1.png" alt="Figura 5, izquierda: curvas ROC de los modelos en la prueba."></figure>
+<p><strong>La curva ROC</strong> (izquierda en el informe) muestra qué pasa al mover el umbral desde 1 hasta 0. En el eje horizontal, la proporción de alarmas falsas; en el vertical, la proporción de casos detectados. Un modelo perfecto subiría pegado al eje izquierdo hasta arriba (detecta todo sin alarmas falsas); el azar es la diagonal punteada. Cuanto más se aleja la curva de la diagonal hacia arriba a la izquierda, mejor. El <strong>área bajo la curva</strong> es justamente el ROC-AUC (AUC = <em>area under the curve</em>). Las curvas de los modelos se cruzan y se superponen: otra vez, ninguno gana con claridad.</p>
+<figure><img src="img/nb21_2.png" alt="Figura 5, derecha: matriz de confusión de Bagging en la prueba."></figure>
+<p><strong>La matriz de confusión</strong> de Bagging (derecha en el informe) es la tabla de los cuatro resultados posibles con números:</p>
+<div class="table-wrap"><table>
+<thead><tr><th></th><th class="num">Predice «no»</th><th class="num">Predice «acumula»</th><th class="num">Total real</th></tr></thead>
+<tbody>
+<tr><td>Real: no acumula</td><td class="num">79 (acierto)</td><td class="num">47 (alarma falsa)</td><td class="num">126</td></tr>
+<tr><td>Real: acumula</td><td class="num">37 (caso perdido)</td><td class="num">85 (acierto)</td><td class="num">122</td></tr>
+</tbody></table></div>
+<ul>
+  <li><strong>Recall</strong> = 85 ÷ 122 = <strong>0,697</strong>: detecta 7 de cada 10 que acumulan.</li>
+  <li><strong>Precisión</strong> = 85 ÷ (85 + 47) = <strong>0,644</strong>: de cada 10 que marca, acierta 6.</li>
+  <li><strong>Exactitud</strong> = (79 + 85) ÷ 248 = <strong>0,661</strong>: dos de cada tres bien clasificados.</li>
+  <li>Se equivoca más por <strong>alarmas falsas</strong> (47) que por <strong>casos perdidos</strong> (37). Es el recuadro «Cómo leer la matriz de confusión» del informe.</li>
+</ul>
+
+<h3>3.2 · Importancia de las variables</h3>
+<p><strong>La idea en simple.</strong> Para saber cuánto depende un equipo de fútbol de un jugador, se lo reemplaza por alguien al azar y se mira cuánto empeora el equipo. <strong>Importancia por permutación:</strong> se <strong>barajan</strong> los valores de una variable entre las filas (así queda con valores sin sentido) y se mide cuánto cae el ROC-AUC. Si cae mucho, el modelo dependía de ella; si no cae, la ignoraba.</p>
+<ul>
+  <li>Sirve para cualquier modelo, incluso para el SVM, que no tiene una medida de importancia propia.</li>
+  <li>Se calculó sobre <strong>Bagging</strong>, en los pliegues de validación del entrenamiento: 5 pliegues × 10 barajadas por variable. <strong>Nunca en la prueba</strong>: si se eligieran las variables mirando la prueba, la prueba dejaría de ser «datos nunca vistos».</li>
+  <li>Como comparación, la <strong>importancia por impureza</strong> del Random Forest: cuánto ayuda cada variable a separar las clases en las preguntas de los árboles (las 16 columnas one-hot se suman de vuelta a sus 3 variables). Tiene un sesgo: favorece a las variables con muchos valores distintos. Por eso la selección usa la permutación.</li>
+</ul>
+
+<h4>Tabla 6 y figura 6</h4>
+<p>La tabla 6 lista las 12 más importantes: el puesto (#), la variable, su grupo, la caída media del ROC-AUC al barajarla (<strong>Permutación</strong>), cuánto varió esa caída entre pliegues (<strong>Desvío</strong>) y la importancia por impureza (<strong>Impureza RF</strong>, que suma 1 entre todas).</p>
+<div class="table-wrap"><table>
+<thead><tr><th>#</th><th>Variable</th><th>Grupo</th><th class="num">Caída al barajar</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><strong>ingresos por juzgado</strong></td><td>ingeniería</td><td class="num">0,039</td></tr>
+<tr><td>2</td><td><strong>presión del stock</strong></td><td>ingeniería</td><td class="num">0,039</td></tr>
+<tr><td>3</td><td><strong>stock por juzgado</strong></td><td>ingeniería</td><td class="num">0,011</td></tr>
+<tr><td>4</td><td><strong>materia</strong></td><td>original</td><td class="num">0,007</td></tr>
+<tr><td>5</td><td><strong>ingresos del año</strong></td><td>original</td><td class="num">0,007</td></tr>
+<tr><td>6–12</td><td>log de los ingresos, juzgados del territorio, juzgados de la materia, departamento, causas nuevas, proporción de vacantes, puestos ocupados por mujeres</td><td>—</td><td class="num">0,006 a 0,002</td></tr>
+</tbody></table></div>
+<figure><img src="img/nb21_3.png" alt="Figura 6 del informe: importancia por permutación de las variables."></figure>
+<p><strong>Figura 6:</strong> las barras son la caída del ROC-AUC; las rayitas negras, el desvío; en rojo, las 5 elegidas; con asterisco, las de ingeniería.</p>
+<ul>
+  <li>Las <strong>tres más importantes son de ingeniería</strong>: no están en el Anuario, las construyó el equipo en el preprocesamiento.</li>
+  <li>Personal, vacantes, remuneración y ámbito <strong>casi no aportan</strong>. Las causas atendidas incluso dan un valor negativo: barajarlas no empeora nada (lo que dicen ya lo dicen los ingresos y el stock, porque atendidas es su suma).</li>
+  <li>La impureza del Random Forest coincide en las dos primeras.</li>
+  <li>Las 5 de arriba son las «5 más importantes» que pidió la pizarra.</li>
+</ul>
+
+<h3>3.3 · Tres versiones: 19, 27 y 5 variables</h3>
+<p>La pizarra pidió comparar el modelo con todas las variables, con más variables y con las 5 más importantes. Se volvió a entrenar <em>cada</em> modelo con tres conjuntos: las <strong>19 originales</strong>, las <strong>27 con ingeniería</strong> y las <strong>5 más importantes</strong>.</p>
+
+<h4>Tabla 7 y figura 7</h4>
+<p>La tabla 7 da el ROC-AUC de cada modelo con cada versión, en validación (CV) y en la prueba. Un resumen:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Modelo</th><th class="num">19 (CV)</th><th class="num">27 (CV)</th><th class="num">5 (CV)</th><th class="num">19 (prueba)</th><th class="num">27 (prueba)</th><th class="num">5 (prueba)</th></tr></thead>
+<tbody>
+<tr><td>Regresión logística</td><td class="num">0,584</td><td class="num"><strong>0,730</strong></td><td class="num">0,659</td><td class="num">0,604</td><td class="num">0,716</td><td class="num">0,619</td></tr>
+<tr><td>SVM</td><td class="num">0,595</td><td class="num"><strong>0,729</strong></td><td class="num">0,649</td><td class="num">0,639</td><td class="num">0,735</td><td class="num">0,631</td></tr>
+<tr><td>Bagging</td><td class="num">0,735</td><td class="num"><strong>0,753</strong></td><td class="num">0,704</td><td class="num">0,712</td><td class="num">0,729</td><td class="num">0,658</td></tr>
+<tr><td>Random Forest</td><td class="num">0,739</td><td class="num"><strong>0,753</strong></td><td class="num">0,705</td><td class="num">0,715</td><td class="num">0,731</td><td class="num">0,662</td></tr>
+<tr><td>AdaBoost</td><td class="num">0,709</td><td class="num"><strong>0,728</strong></td><td class="num">0,714</td><td class="num">0,704</td><td class="num">0,700</td><td class="num">0,660</td></tr>
+<tr><td>Gradient Boosting</td><td class="num">0,732</td><td class="num"><strong>0,744</strong></td><td class="num">0,712</td><td class="num">0,739</td><td class="num">0,736</td><td class="num">0,663</td></tr>
+<tr><td>Stacking</td><td class="num">0,737</td><td class="num"><strong>0,753</strong></td><td class="num">0,705</td><td class="num">0,718</td><td class="num">0,741</td><td class="num">0,664</td></tr>
+</tbody></table></div>
+<figure><img src="img/nb21_4.png" alt="Figura 7 del informe: ROC-AUC de cada modelo con 19, 27 y 5 variables."></figure>
+<p><strong>Figura 7:</strong> por cada modelo, tres barras (gris = 19, azul = 27, rojo = 5) con la validación, y un punto negro con la prueba. Lo que se aprende:</p>
+<ul>
+  <li><strong>Con ingeniería (27) es la mejor versión</strong> en validación para todos los modelos.</li>
+  <li><strong>Sin ingeniería (19)</strong>, los árboles casi no pierden (Random Forest 0,739), pero la logística y el SVM se caen (0,584 y 0,595). ¿Por qué? Un árbol puede <em>imitar</em> un cociente haciendo dos preguntas seguidas («¿ingresos altos?» y «¿pocos juzgados?»); una suma ponderada o una distancia no pueden. <strong>La ingeniería de variables es lo que más aporta en este problema.</strong></li>
+  <li><strong>Con 5 variables</strong> se pierde alrededor de 0,05 en validación y 0,07 en la prueba (Bagging: 0,704 y 0,658). El modelo chico es más simple de usar y de explicar, pero la señal que estaba repartida entre las otras 22 variables no es despreciable.</li>
+</ul>
+
+<h3>3.4 · Control de robustez</h3>
+<p><strong>La idea en simple.</strong> Si un estudiante memorizó las respuestas de los exámenes viejos, le irá bien con preguntas repetidas y mal con preguntas nuevas. El mismo tipo de proceso (por ejemplo, «divorcio») aparece en varios departamentos. Si el modelo solo «recordara» cada tipo, le iría bien en la validación normal (donde el divorcio de La Paz puede estar en el entrenamiento y el de Oruro en la medición) y mal con un tipo nuevo.</p>
+<p><strong>Validación por grupos</strong> (<code>GroupKFold</code>): todas las filas de un mismo tipo de proceso quedan del mismo lado. Así se mide con tipos que el modelo nunca vio.</p>
+<h4>Tabla 8</h4>
+<div class="table-wrap"><table>
+<thead><tr><th>Versión</th><th>Modelo</th><th class="num">CV normal</th><th class="num">CV por grupos</th><th class="num">Diferencia</th></tr></thead>
+<tbody>
+<tr><td>19</td><td>Bagging</td><td class="num">0,735</td><td class="num">0,730</td><td class="num">−0,005</td></tr>
+<tr><td>19</td><td>Random Forest</td><td class="num">0,739</td><td class="num">0,728</td><td class="num">−0,010</td></tr>
+<tr><td>19</td><td>SVM</td><td class="num">0,595</td><td class="num">0,552</td><td class="num">−0,043</td></tr>
+<tr><td>27</td><td>Bagging</td><td class="num">0,753</td><td class="num">0,741</td><td class="num">−0,013</td></tr>
+<tr><td>27</td><td>Random Forest</td><td class="num">0,753</td><td class="num">0,735</td><td class="num">−0,018</td></tr>
+<tr><td>27</td><td>SVM</td><td class="num">0,729</td><td class="num">0,698</td><td class="num">−0,031</td></tr>
+<tr><td>5</td><td>Bagging</td><td class="num">0,704</td><td class="num">0,692</td><td class="num">−0,012</td></tr>
+<tr><td>5</td><td>Random Forest</td><td class="num">0,705</td><td class="num">0,681</td><td class="num">−0,024</td></tr>
+<tr><td>5</td><td>SVM</td><td class="num">0,649</td><td class="num">0,613</td><td class="num">−0,036</td></tr>
+</tbody></table></div>
+<p>Los ensambles bajan apenas (Bagging con 27: de 0,753 a 0,741): <strong>generalizan</strong> a tipos de proceso nuevos. El SVM es el que más cae: depende más de haber visto procesos parecidos.</p>
+
+<h3>Autoevaluación · Parte 3</h3>
+<details><summary>Un modelo nunca dice «acumula» y tiene exactitud 0,508. ¿Qué modelo es y por qué la exactitud engaña?</summary><div class="body"><p>La línea base. Acierta todos los que no acumulan (50,8 %) pero no detecta ninguno: recall 0. La exactitud sola no muestra eso.</p></div></details>
+<details><summary>Calcula el recall y la precisión de Bagging con su matriz de confusión.</summary><div class="body"><p>Recall = 85 ÷ (85 + 37) = 0,697. Precisión = 85 ÷ (85 + 47) = 0,644.</p></div></details>
+<details><summary>¿Por qué Bagging da 0,753 en validación y 0,729 en la prueba?</summary><div class="body"><p>Porque se eligió como el mejor de varios: su nota de validación tiene algo de suerte a favor. La prueba, que no participó en la elección, da una nota más honesta. La diferencia es chica y esperable.</p></div></details>
+<details><summary>¿Cómo funciona la importancia por permutación?</summary><div class="body"><p>Se barajan los valores de una variable entre las filas y se mide cuánto cae el ROC-AUC. Si cae mucho, el modelo dependía de ella.</p></div></details>
+<details><summary>¿Por qué la importancia no se midió en la prueba?</summary><div class="body"><p>Porque con ella se eligen las 5 variables; si se usara la prueba para elegir, la prueba dejaría de ser datos nunca vistos.</p></div></details>
+<details><summary>¿Por qué la logística y el SVM pierden tanto sin las variables de ingeniería y los árboles no?</summary><div class="body"><p>Porque los árboles pueden imitar un cociente con dos preguntas seguidas; una suma ponderada (logística) o una distancia (SVM) no pueden construirlo.</p></div></details>
+<details><summary>¿Qué controla la validación por grupos?</summary><div class="body"><p>Que el modelo funcione con tipos de proceso que no vio al entrenar, y no solo «recuerde» cada tipo.</p></div></details>
+
+<!-- ================================================================== -->
+<h2>4 · Despliegue</h2>
+<p><strong>La idea en simple.</strong> Un modelo que vive en un notebook no lo usa nadie. <strong>Desplegar</strong> es ponerlo donde cualquiera pueda escribir sus datos y recibir una respuesta. Aquí: una página web, <a href="prediccion.html">predicción de mora</a>, que funciona en el navegador, sin servidor y sin instalar nada.</p>
+
+<h3>Qué modelo</h3>
+<p>Se eligió entre los modelos de <strong>árboles</strong> (Bagging, Random Forest y Gradient Boosting), porque un árbol es una lista de preguntas que se puede copiar a un archivo. Con 5 variables, el mejor en validación fue <strong>Gradient Boosting</strong> (0,712; Random Forest 0,705; Bagging 0,704). AdaBoost tuvo 0,714, pero queda fuera de los exportables y la diferencia está dentro del ruido. Tiene <strong>200 árboles</strong>. Se entrena con los mismos 992 procesos, así que las notas de la prueba son las del modelo publicado.</p>
+
+<h3>Qué pide</h3>
+<p>Solo <strong>4 datos</strong>: la materia, los ingresos del año, los juzgados de esa materia en el territorio y el stock heredado. Las otras tres variables (ingresos por juzgado, presión del stock, stock por juzgado) la página las calcula con las mismas fórmulas del notebook.</p>
+
+<h3>Cómo funciona</h3>
+<ol class="steps">
+  <li>El notebook 22 entrena el modelo y copia a un archivo <strong>JSON</strong> (un archivo de texto con datos ordenados, de 0,2 MB) todas las preguntas «¿variable ≤ umbral?» de los 200 árboles, el valor de cada hoja y el preprocesamiento (las medianas para rellenar faltantes y las categorías del one-hot).</li>
+  <li>La página lee ese archivo y, cuando escribes los datos, calcula las variables, recorre los 200 árboles en JavaScript y suma sus correcciones (como hace el Gradient Boosting) para obtener la probabilidad.</li>
+  <li>Un detalle técnico: scikit-learn compara los números en un formato de menor precisión (<code>float32</code>); la página hace lo mismo, para que un dato justo en el umbral vaya por la misma rama.</li>
+</ol>
+
+<h3>El control</h3>
+<p>¿Cómo saber que la copia es fiel? Una versión en Python que lee <strong>solo el JSON</strong> (sin scikit-learn) da la misma probabilidad que el modelo original en los 248 procesos de prueba, con una diferencia máxima de <strong>3 × 10<sup>−16</sup></strong> (0,0000000000000003: el redondeo de la última cifra que una computadora puede guardar). Además, la página repite el control cada vez que se abre, con 20 procesos, y muestra «<strong>20 / 20 coinciden con Python</strong>».</p>
+
+<h3>Qué tan bien predice</h3>
+<p>En la prueba: ROC-AUC <strong>0,663</strong>, exactitud <strong>0,589</strong>, recall <strong>0,680</strong> (detecta 2 de cada 3 que acumulan) y precisión <strong>0,568</strong>. El mismo tipo de modelo con las 27 variables daba <strong>0,736</strong>: el costo de simplificar a 5 variables <strong>quedó medido</strong>. Por eso la página dice que sirve para <strong>ordenar</strong> qué procesos mirar primero, no para decidir sobre un juzgado concreto.</p>
+
+<div class="callout regla">
+  <span class="t">El ejemplo de Sucre, en el modelo publicado</span>
+  <p>Con civil, 1.627 ingresos, 14 juzgados y 770 heredadas, la página calcula ingresos por juzgado = 116,2, presión del stock = 0,47 y stock por juzgado = 55, y da una probabilidad de <strong>33 %</strong>: predice «no acumula». Pero <strong>sí acumuló</strong>. Es uno de los 248 procesos de prueba y uno de los casos perdidos. Un modelo con 66 % de exactitud se equivoca en uno de cada tres: este es uno de ellos, y por eso no se usa para decidir sobre un juzgado.</p>
+</div>
+
+<h3>Autoevaluación · Parte 4</h3>
+<details><summary>¿Por qué se publicó un modelo de árboles y no el SVM?</summary><div class="body"><p>Porque un árbol es una lista de preguntas que se copia fácilmente a un archivo y se recorre en JavaScript. Entre los de árboles, Gradient Boosting fue el mejor con 5 variables.</p></div></details>
+<details><summary>¿Cómo se sabe que la página calcula lo mismo que Python?</summary><div class="body"><p>Por el control: una reimplementación que lee solo el JSON coincide con scikit-learn en los 248 procesos de prueba (diferencia 3 × 10<sup>−16</sup>), y la página verifica 20 procesos al abrirse (20 / 20).</p></div></details>
+<details><summary>Si el modelo de 5 variables es peor, ¿por qué se publicó?</summary><div class="body"><p>Porque era la consigna y porque es más fácil de usar (pide 4 datos) y de explicar. El costo se midió: 0,663 contra 0,736.</p></div></details>
+
+<!-- ================================================================== -->
+<h2>Conclusiones</h2>
+<p>El informe cierra con cinco conclusiones. Cada una, explicada:</p>
+<ol>
+  <li><strong>Sí se puede anticipar, con una señal moderada.</strong> Con datos de entrada (stock heredado, demanda, materia, territorio, juzgados y personal) los modelos ordenan bien 3 de cada 4 pares (0,753 en validación, 0,729 en la prueba). Es claramente mejor que el azar, pero lejos de perfecto.</li>
+  <li><strong>El preprocesamiento importa más que el modelo.</strong> Entre los siete modelos hay a lo sumo 0,03 de diferencia; entre usar o no las variables de ingeniería, hasta 0,15 en los modelos lineales. Lo que predice la mora es la <em>carga por juzgado</em> y la <em>proporción entre la pila vieja y lo que entra</em>, no las cantidades sueltas.</li>
+  <li><strong>Los ensambles ganan por poco.</strong> Bagging, Random Forest y Stacking empatan arriba; Gradient Boosting los sigue de cerca. Ajustar hiperparámetros sube hasta 0,04.</li>
+  <li><strong>Más carga, más mora; más pila heredada en proporción, menos.</strong> Los procesos con muchos ingresos por juzgado tienden a acumular; los que heredan mucho respecto de lo que les entra tienden a resolver más de lo que reciben. El personal y las vacantes casi no aportan, igual que encontró el notebook 18.</li>
+  <li><strong>El modelo de 5 variables funciona en el navegador</strong> y reproduce exactamente al de Python, a cambio de perder alrededor de 0,07 de ROC-AUC en la prueba.</li>
+</ol>
+
+<h2>Limitaciones</h2>
+<p>Lo que el informe <strong>no</strong> permite concluir, y por qué:</p>
+<ul>
+  <li><strong>Un solo año.</strong> Todo es 2023. El modelo no se probó en otro año. Y el stock publicado no se «conserva» entre años (la pila al cierre de un año no coincide con la del inicio del siguiente, notebook 15), así que no se puede seguir a un proceso año a año.</li>
+  <li><strong>Los ingresos se conocen al cerrar el año.</strong> El modelo usa la demanda del año (no las resueltas, así que no hay fuga), pero esa demanda se conoce recién al final. Para usarlo al empezar un año habría que estimarla, por ejemplo con la del año anterior.</li>
+  <li><strong>Solo materias no penales</strong>, porque las penales no publican resueltas.</li>
+  <li><strong>Muestra pequeña.</strong> Con 248 procesos de prueba, diferencias de 0,01 no significan nada. El umbral de 0,5 no se ajustó: si importara más detectar que evitar alarmas falsas, convendría bajarlo (habría más detecciones y más alarmas falsas).</li>
+  <li><strong>Mide celeridad, no calidad</strong>: resolver rápido no es resolver bien.</li>
+  <li>Y una advertencia general: el modelo encuentra <strong>asociaciones</strong>, no causas. Que los procesos con muchos ingresos por juzgado acumulen no prueba que agregar juzgados lo resolvería (aunque es una hipótesis razonable para estudiar).</li>
+</ul>
+
+<h2>Referencias</h2>
+<p>Qué es cada referencia del informe y por qué se cita:</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Referencia</th><th>Qué aporta</th></tr></thead>
+<tbody>
+<tr><td>Consejo de la Magistratura, <em>Anuario Estadístico Judicial 2023</em></td><td>la fuente de todos los datos</td></tr>
+<tr><td>Breiman (1996), <em>Bagging predictors</em></td><td>el artículo que inventó el bagging</td></tr>
+<tr><td>Breiman (2001), <em>Random forests</em></td><td>el artículo del Random Forest</td></tr>
+<tr><td>Cortes y Vapnik (1995), <em>Support-vector networks</em></td><td>el artículo del SVM</td></tr>
+<tr><td>Freund y Schapire (1997)</td><td>el artículo de AdaBoost</td></tr>
+<tr><td>Friedman (2001), <em>Greedy function approximation</em></td><td>el artículo del Gradient Boosting</td></tr>
+<tr><td>Wolpert (1992), <em>Stacked generalization</em></td><td>el artículo del Stacking</td></tr>
+<tr><td>Pedregosa et al. (2011), <em>Scikit-learn</em></td><td>la librería de Python con la que se entrenaron todos los modelos</td></tr>
+</tbody></table></div>
+
+<h2>Anexo A · Reproducción</h2>
+<p><strong>La idea en simple.</strong> Una receta que cualquiera puede repetir y obtener el mismo plato. El anexo da los comandos para que otra persona obtenga exactamente los mismos números:</p>
+<ol class="steps">
+  <li><code>python -m venv .venv</code> crea un entorno de Python aislado (una «caja» con sus propias librerías) y <code>pip install -r requirements.txt</code> instala las versiones exactas que usó el proyecto (por ejemplo, scikit-learn 1.9.1).</li>
+  <li><code>jupyter nbconvert --to notebook --execute --inplace</code> ejecuta cada notebook de principio a fin y guarda los resultados dentro. Se corren en orden: 19, 20, 21 y 22. Leen la tabla curada que ya está en el repositorio, así que no hace falta el PDF.</li>
+  <li><code>pdflatex informe.tex</code> (dos veces) arma el PDF. LaTeX es un sistema para escribir documentos; la segunda pasada completa el índice y las referencias cruzadas. Las tablas y las cifras las escribe el notebook 22 en <code>informe/tablas/</code>: <strong>ninguna cifra del informe se copió a mano</strong>, y si se vuelve a correr todo, el informe se actualiza solo.</li>
+  <li><code>python -m http.server 8000</code> dentro de <code>web/</code> sirve la página para abrir <code>prediccion.html</code> en el navegador.</li>
+</ol>
+<p>Todas las salidas intermedias quedan en <code>data/curated/modelo/</code>: el diccionario de variables, la partición, las métricas, los hiperparámetros, la importancia y las versiones. La <strong>semilla</strong> es fija (42): los sorteos (la partición, las muestras de los árboles, las barajadas) salen siempre iguales, así que cada ejecución da los mismos números.</p>
+
+<!-- ================================================================== -->
+<h2>Las cifras que hay que saber</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Cifra</th><th>Qué es</th></tr></thead>
+<tbody>
+<tr><td>1.240 · 608 · 49,0 %</td><td>procesos del modelo · cuántos acumulan · proporción</td></tr>
+<tr><td>415 · 118 · 67</td><td>excluidos sin movimiento · sin tasa de congestión que se mantuvieron · de ellos, cuántos acumulan</td></tr>
+<tr><td>87</td><td>tipos de proceso distintos</td></tr>
+<tr><td>18</td><td>columnas excluidas por fuga</td></tr>
+<tr><td>19 · 8 · 27 · 40</td><td>variables originales · de ingeniería · total · columnas tras el one-hot</td></tr>
+<tr><td>992 · 248</td><td>procesos de entrenamiento · de prueba</td></tr>
+<tr><td>0,24 · −0,23 · 0,04</td><td>Spearman de los ingresos · de la presión del stock · del stock solo</td></tr>
+<tr><td>0,753</td><td>mejor ROC-AUC en validación (Bagging = Random Forest = Stacking)</td></tr>
+<tr><td>0,729</td><td>ROC-AUC de Bagging en la prueba</td></tr>
+<tr><td>85 · 79 · 47 · 37</td><td>aciertos «acumula» · aciertos «no» · alarmas falsas · casos perdidos</td></tr>
+<tr><td>0,70 · 0,64 · 0,66</td><td>recall · precisión · exactitud de Bagging en la prueba</td></tr>
+<tr><td>C = 1.000, gamma = 0,003</td><td>mejores perillas del SVM</td></tr>
+<tr><td>0,735 · 0,753 · 0,704</td><td>Bagging con 19, 27 y 5 variables (validación)</td></tr>
+<tr><td>0,584 → 0,730</td><td>la logística sin y con ingeniería</td></tr>
+<tr><td>0,741</td><td>Bagging validado por grupos de tipo de proceso</td></tr>
+<tr><td>Gradient Boosting · 200 · 4</td><td>modelo publicado · árboles · datos que pide</td></tr>
+<tr><td>0,663 · 0,589 · 0,680</td><td>ROC-AUC · exactitud · recall del modelo publicado</td></tr>
+<tr><td>3 × 10<sup>−16</sup> · 20 / 20</td><td>diferencia JSON vs. Python · control de la página</td></tr>
+</tbody></table></div>
+
+<h2>Diccionario rápido</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>Término</th><th>En una frase</th></tr></thead>
+<tbody>
+<tr><td>Clasificación binaria</td><td>predecir una de dos clases (sí/no)</td></tr>
+<tr><td>Variable objetivo</td><td>la columna que se quiere adivinar (<code>flag_acumula_mora</code>)</td></tr>
+<tr><td>Fuga de información</td><td>darle al modelo, sin querer, una pista que contiene la respuesta</td></tr>
+<tr><td>Valor faltante estructural</td><td>un vacío que significa «no aplica», no «se perdió»</td></tr>
+<tr><td>Valor atípico</td><td>un valor muy distinto de los demás; aquí son reales y no se borran</td></tr>
+<tr><td>Asimetría</td><td>muchos valores chicos y pocos enormes (cola larga)</td></tr>
+<tr><td>Logaritmo</td><td>transformación que aplasta los números grandes</td></tr>
+<tr><td>Ingeniería de variables</td><td>crear variables nuevas combinando las existentes</td></tr>
+<tr><td>One-hot</td><td>una columna 0/1 por cada categoría</td></tr>
+<tr><td>Escalar</td><td>llevar cada variable a media 0 y desvío 1</td></tr>
+<tr><td>Mediana</td><td>el valor del medio cuando se ordenan todos</td></tr>
+<tr><td>Entrenamiento / prueba</td><td>los datos con que aprende / los que se guardan para el examen final</td></tr>
+<tr><td>Partición estratificada</td><td>repartir manteniendo la misma proporción de cada clase</td></tr>
+<tr><td>Pipeline</td><td>la cadena de pasos que se aprende solo con el entrenamiento</td></tr>
+<tr><td>Validación cruzada</td><td>cinco simulacros de examen con partes distintas del entrenamiento</td></tr>
+<tr><td>Pliegue</td><td>cada uno de los 5 grupos de la validación cruzada</td></tr>
+<tr><td>Línea base</td><td>el modelo que siempre dice la clase más frecuente</td></tr>
+<tr><td>Regresión logística</td><td>suma ponderada de variables convertida en probabilidad</td></tr>
+<tr><td>Árbol de decisión</td><td>una cadena de preguntas «¿variable ≤ umbral?» que termina en una hoja</td></tr>
+<tr><td>SVM</td><td>la frontera con el pasillo más ancho entre las clases</td></tr>
+<tr><td>Kernel RBF</td><td>lo que permite que la frontera del SVM se curve</td></tr>
+<tr><td>Bagging</td><td>muchos árboles con muestras distintas que votan</td></tr>
+<tr><td>Random Forest</td><td>bagging que además sortea las variables en cada pregunta</td></tr>
+<tr><td>Boosting</td><td>árboles en fila, cada uno corrige al anterior</td></tr>
+<tr><td>AdaBoost / Gradient Boosting</td><td>da más peso a los errores / ajusta el error que queda</td></tr>
+<tr><td>Stacking</td><td>un modelo que aprende a combinar otros modelos</td></tr>
+<tr><td>Ensamble</td><td>cualquier combinación de muchos modelos</td></tr>
+<tr><td>Hiperparámetro</td><td>perilla que se fija antes de entrenar</td></tr>
+<tr><td>Búsqueda en grilla / aleatoria</td><td>probar todas las combinaciones / probar algunas al azar</td></tr>
+<tr><td>Sobreajuste</td><td>memorizar el entrenamiento y fallar con datos nuevos</td></tr>
+<tr><td>Umbral</td><td>la probabilidad a partir de la cual se dice «acumula» (0,5)</td></tr>
+<tr><td>Exactitud, precisión, recall, F1</td><td>aciertos totales; aciertos entre los marcados; detectados entre los reales; equilibrio de las dos últimas</td></tr>
+<tr><td>ROC-AUC</td><td>probabilidad de ordenar bien un par (uno que acumula, uno que no)</td></tr>
+<tr><td>Matriz de confusión</td><td>tabla de aciertos, alarmas falsas y casos perdidos</td></tr>
+<tr><td>Importancia por permutación</td><td>cuánto empeora el modelo al barajar una variable</td></tr>
+<tr><td>Importancia por impureza</td><td>cuánto ayuda una variable a separar las clases dentro de los árboles</td></tr>
+<tr><td>GroupKFold</td><td>validación donde un mismo tipo de proceso queda siempre del mismo lado</td></tr>
+<tr><td>Despliegue</td><td>poner el modelo a disposición de quien lo quiera usar</td></tr>
+<tr><td>JSON</td><td>archivo de texto con datos ordenados que la página lee</td></tr>
+<tr><td>Semilla</td><td>número que fija los sorteos para que todo salga siempre igual</td></tr>
+</tbody></table></div>
+
+<h2>Dónde seguir</h2>
+<ul>
+  <li>El informe completo: <code>informe/informe.pdf</code>.</li>
+  <li>El modelo en vivo: <a href="prediccion.html">predicción de mora</a>.</li>
+  <li>Para exponer: el menú <strong>Presentar</strong> abre la <a href="presentacion-informe.html">Presentación 3 · Informe final</a>.</li>
+  <li>El código, con sus resultados y una «Lectura» al final de cada uno: notebooks <code>19_preparacion_modelo</code>, <code>20_modelos</code>, <code>21_evaluacion</code> y <code>22_despliegue</code>.</li>
+  <li>Lo anterior al modelo, también sin tecnicismos: <a href="guia-ampliacion.html">la guía de la ampliación</a>.</li>
+</ul>
+    </article>
+    <aside class="toc" id="toc" aria-label="Índice de la página"></aside>
+  </div>
+</div>
+<footer class="site-footer">
+  <p>Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, Jefatura Nacional de Estudios Técnicos y Estadísticos. Los datos son públicos; este proyecto solo los tabula, verifica y analiza.</p>
+  <p>Proyecto de Análisis de Datos · Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo.</p>
+</footer>
+</body>
+</html>
