@@ -76,7 +76,7 @@
   <li>El Consejo de la Magistratura publica sus estadísticas en un PDF de 774 páginas. En la primera parte del proyecto ese PDF se convirtió en tablas.</li>
   <li>Este informe usa esas tablas para una pregunta: con lo que se sabe de un tipo de proceso (materia, territorio, stock heredado, causas que entran, juzgados), ¿se puede anticipar si este año resolverá menos causas de las que recibe?</li>
   <li>Se usaron <strong>1.240 procesos</strong>; <strong>608</strong> acumulan mora (49,0 %).</li>
-  <li>El modelo de 5 variables se publica en una página web pública, empaquetada con <strong>Docker</strong> y puesta en un servidor (un <strong>VPS</strong>) con <strong>Docker Compose</strong> (se explica en la parte 4).</li>
+  <li>El modelo de 5 variables se publica en una página web pública, empaquetada con <strong>Docker</strong> y puesta en un servidor (un <strong>VPS</strong>) con <strong>Docker Compose</strong>. Está en línea en <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a> (se explica en la parte 4).</li>
   <li>El mejor modelo (<strong>Bagging</strong>) obtiene un ROC-AUC (una nota de 0,5 a 1 que se explica en la parte 3) de <strong>0,753</strong> en la validación y <strong>0,729</strong> en la prueba. El modelo publicado, de 5 variables (<strong>Gradient Boosting</strong>), obtiene <strong>0,663</strong>.</li>
   <li>Lo más útil para predecir no viene del Anuario: son <strong>cocientes</strong> que el equipo construyó, como los ingresos por juzgado y la presión del stock.</li>
 </ol>
@@ -522,7 +522,7 @@
 
 <!-- ================================================================== -->
 <h2>4 · Despliegue</h2>
-<p><strong>La idea en simple.</strong> Un modelo que vive en un notebook no lo usa nadie. <strong>Desplegar</strong> es ponerlo donde cualquiera pueda escribir sus datos y recibir una respuesta. Aquí se hizo en dos pasos: (1) el modelo se convirtió en un archivo que una página web puede usar, y (2) esa página se publicó en un servidor de internet (un VPS) con Docker. La web del proyecto tiene además una versión sencilla: <a href="prediccion.html">predicción de mora</a>.</p>
+<p><strong>La idea en simple.</strong> Un modelo que vive en un notebook no lo usa nadie. <strong>Desplegar</strong> es ponerlo donde cualquiera pueda escribir sus datos y recibir una respuesta. Aquí se hizo en dos pasos: (1) el modelo se convirtió en un archivo que una página web puede usar, y (2) esa página se publicó en un servidor de internet (un VPS) con Docker, en <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a>. La portada de la presentación tiene un <strong>código QR</strong> con esa dirección, para abrirla desde el celular. La web del proyecto tiene además una versión sencilla: <a href="prediccion.html">predicción de mora</a>.</p>
 
 <h3>Qué modelo</h3>
 <p>Se eligió entre los modelos de <strong>árboles</strong> (Bagging, Random Forest y Gradient Boosting), porque un árbol es una lista de preguntas que se puede copiar a un archivo. Con 5 variables, el mejor en validación fue <strong>Gradient Boosting</strong> (0,712; Random Forest 0,705; Bagging 0,704). AdaBoost tuvo 0,714, pero queda fuera de los exportables y la diferencia está dentro del ruido. Tiene <strong>200 árboles</strong>. Se entrena con los mismos 992 procesos, así que las notas de la prueba son las del modelo publicado.</p>
@@ -570,10 +570,22 @@
 <tr><td><strong>Docker Compose</strong> (<code>docker-compose.yml</code>)</td><td>el archivo que dice cómo encender la caja: qué puerto, qué hacer si se cae, qué permisos</td><td>el servicio <code>prediccion-mora</code>, en el puerto 8080</td></tr>
 <tr><td><strong>Puerto</strong></td><td>como el número de departamento de un edificio: la dirección IP es el edificio, el puerto la puerta</td><td>8080 (se puede cambiar con <code>PUERTO</code>)</td></tr>
 <tr><td><strong>Chequeo de salud</strong></td><td>una pregunta periódica «¿estás vivo?»</td><td>cada 30 segundos se pide <code>/salud</code> y nginx responde «ok»</td></tr>
+<tr><td><strong>Dominio</strong></td><td>el nombre fácil de recordar que reemplaza a la dirección IP (como el nombre de una calle en vez de sus coordenadas)</td><td><code>proyanalisis.maxi42.space</code></td></tr>
+<tr><td><strong>HTTPS</strong> (el candado)</td><td>la conexión cifrada entre el navegador y el servidor; necesita un certificado</td><td>certificado gratuito de Let's Encrypt</td></tr>
+<tr><td><strong>Dokploy</strong></td><td>un panel instalado en el VPS que toma un repositorio de GitHub y lo enciende con Docker, sin escribir comandos</td><td>lee <code>despliegue/docker-compose.yml</code> de la rama <code>main</code></td></tr>
+<tr><td><strong>Traefik</strong> (proxy inverso)</td><td>el «recepcionista» que recibe las visitas al dominio y las pasa a la caja correcta</td><td>pasa las visitas de <code>proyanalisis.maxi42.space</code> al puerto 8080 del contenedor</td></tr>
 </tbody></table></div>
 <p><strong>¿Por qué no hace falta Python en el servidor?</strong> Porque el modelo corre en el navegador de quien visita la página: el servidor solo entrega archivos, como una biblioteca que presta libros sin leerlos. Por eso el despliegue es simple, barato y seguro: el servidor <strong>no recibe ni guarda</strong> los datos que se escriben en el formulario.</p>
 <p><strong>Las medidas de seguridad,</strong> en simple: nginx corre como usuario sin permisos especiales; el contenedor es de <strong>solo lectura</strong> (nadie puede modificar los archivos desde adentro); no tiene permisos extra de Linux; y la página le dice al navegador que solo cargue archivos propios (una «política de contenido»), lo que impide que se inyecte código de otro sitio.</p>
-<p><strong>Cómo se publica</strong> (los tres comandos del informe): se copia la carpeta al VPS con <code>scp</code>; se entra con <code>ssh</code> y se ejecuta <code>docker compose up -d --build</code> (arma la caja y la enciende en segundo plano); y se comprueba con <code>curl http://IP-DEL-VPS:8080/salud</code>, que debe responder «ok». Si el servidor tiene un nombre de dominio, un <strong>proxy inverso</strong> (por ejemplo, Caddy) puede recibir las visitas en ese dominio con candado (HTTPS) y pasarlas al puerto 8080. Para actualizar el modelo: se vuelve a correr el notebook 22 (que escribe el JSON en la carpeta del despliegue) y se repite <code>docker compose up -d --build</code>.</p>
+<p><strong>Cómo se publica a mano</strong> (los tres comandos del informe): se copia la carpeta al VPS con <code>scp</code>; se entra con <code>ssh</code> y se ejecuta <code>docker compose up -d --build</code> (arma la caja y la enciende en segundo plano); y se comprueba con <code>curl http://IP-DEL-VPS:8080/salud</code>, que debe responder «ok». Si el servidor tiene un nombre de dominio, un <strong>proxy inverso</strong> puede recibir las visitas en ese dominio con candado (HTTPS) y pasarlas al puerto 8080.</p>
+<p><strong>Cómo se publicó de verdad.</strong> Es la misma caja y el mismo <code>docker-compose.yml</code>, pero sin escribir esos comandos: en el VPS está instalado <strong>Dokploy</strong>, un panel que hace el trabajo. Los pasos fueron:</p>
+<ol class="steps">
+  <li>En Dokploy se creó un servicio de tipo <em>Compose</em> conectado al repositorio de GitHub, rama <code>main</code>, con la ruta <code>./despliegue/docker-compose.yml</code>.</li>
+  <li>Se le agregó el dominio <code>proyanalisis.maxi42.space</code>, apuntando al servicio <code>prediccion-mora</code> y al puerto <strong>8080</strong> del contenedor, con HTTPS (Let's Encrypt). Antes, en el proveedor del dominio, se creó un registro <strong>DNS</strong> de tipo A (la «guía telefónica» de internet) que dice que ese nombre corresponde a la IP del VPS.</li>
+  <li>Dokploy armó la caja y la encendió; <strong>Traefik</strong> recibe las visitas al dominio, pone el candado y se las pasa al contenedor.</li>
+  <li>Se comprobó: <code>https://proyanalisis.maxi42.space/salud</code> responde «ok» y la página dice «20 / 20 coinciden».</li>
+</ol>
+<p><strong>Para actualizar el modelo:</strong> se vuelve a correr el notebook 22 (que escribe el JSON en la carpeta del despliegue) y se sube el cambio a GitHub con <code>git push</code>; Dokploy vuelve a desplegar. A mano, sería repetir <code>docker compose up -d --build</code>.</p>
 
 <h3>Autoevaluación · Parte 4</h3>
 <details><summary>¿Por qué se publicó un modelo de árboles y no el SVM?</summary><div class="body"><p>Porque un árbol es una lista de preguntas que se copia fácilmente a un archivo y se recorre en JavaScript. Entre los de árboles, Gradient Boosting fue el mejor con 5 variables.</p></div></details>
@@ -581,7 +593,9 @@
 <details><summary>Si el modelo de 5 variables es peor, ¿por qué se publicó?</summary><div class="body"><p>Porque era la consigna y porque es más fácil de usar (pide 4 datos) y de explicar. El costo se midió: 0,663 contra 0,736.</p></div></details>
 <details><summary>¿Por qué el servidor no necesita Python ni scikit-learn?</summary><div class="body"><p>Porque el modelo está en un JSON y lo ejecuta el JavaScript en el navegador de quien usa la página. El servidor (nginx) solo entrega archivos.</p></div></details>
 <details><summary>¿Qué diferencia hay entre el Dockerfile y el docker-compose.yml?</summary><div class="body"><p>El Dockerfile es la receta para armar la caja (la imagen); el docker-compose.yml dice cómo encenderla: el puerto, el reinicio automático, los permisos y el chequeo de salud.</p></div></details>
-<details><summary>¿Cómo se sabe que la página está funcionando en el VPS?</summary><div class="body"><p>Con el chequeo de salud: <code>curl http://IP-DEL-VPS:8080/salud</code> responde «ok», y <code>docker compose ps</code> muestra el contenedor como «healthy». Al abrir la página, la autoverificación debe decir 20 / 20.</p></div></details>
+<details><summary>¿Cómo se sabe que la página está funcionando en el VPS?</summary><div class="body"><p>Con el chequeo de salud: <code>https://proyanalisis.maxi42.space/salud</code> responde «ok», y el contenedor aparece como «healthy» (sano). Al abrir la página, la autoverificación debe decir 20 / 20.</p></div></details>
+<details><summary>¿Qué hace Dokploy y qué hace Traefik?</summary><div class="body"><p>Dokploy toma el repositorio de GitHub y enciende la caja con el <code>docker-compose.yml</code>. Traefik recibe las visitas al dominio <code>proyanalisis.maxi42.space</code>, pone el HTTPS y las pasa al puerto 8080 del contenedor.</p></div></details>
+<details><summary>¿Por qué en el dominio se pone el puerto 8080 y no el 80?</summary><div class="body"><p>Porque nginx corre sin privilegios y por eso escucha en el 8080 dentro del contenedor (los puertos menores que 1024 piden permisos especiales). Traefik atiende el 443 (HTTPS) de afuera y lo pasa al 8080 de adentro.</p></div></details>
 
 <!-- ================================================================== -->
 <h2>Conclusiones</h2>
@@ -626,7 +640,7 @@
   <li><code>python -m venv .venv</code> crea un entorno de Python aislado (una «caja» con sus propias librerías) y <code>pip install -r requirements.txt</code> instala las versiones exactas que usó el proyecto (por ejemplo, scikit-learn 1.9.1).</li>
   <li><code>jupyter nbconvert --to notebook --execute --inplace</code> ejecuta cada notebook de principio a fin y guarda los resultados dentro. Se corren en orden: 19, 20, 21 y 22. Leen la tabla curada que ya está en el repositorio, así que no hace falta el PDF.</li>
   <li><code>pdflatex informe.tex</code> (dos veces) arma el PDF. LaTeX es un sistema para escribir documentos; la segunda pasada completa el índice y las referencias cruzadas. Las tablas y las cifras las escribe el notebook 22 en <code>informe/tablas/</code>: <strong>ninguna cifra del informe se copió a mano</strong>, y si se vuelve a correr todo, el informe se actualiza solo.</li>
-  <li><code>docker compose up -d --build</code> dentro de <code>despliegue/</code> enciende la página pública en <code>http://localhost:8080</code> (o en el VPS). Sin Docker: <code>python -m http.server 8000</code> dentro de <code>despliegue/sitio/</code>.</li>
+  <li><code>docker compose up -d --build</code> dentro de <code>despliegue/</code> enciende la página pública en <code>http://localhost:8080</code>. La versión publicada está en <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a>. Sin Docker: <code>python -m http.server 8000</code> dentro de <code>despliegue/sitio/</code>.</li>
 </ol>
 <p>Todas las salidas intermedias quedan en <code>data/curated/modelo/</code>: el diccionario de variables, la partición, las métricas, los hiperparámetros, la importancia y las versiones. La <strong>semilla</strong> es fija (42): los sorteos (la partición, las muestras de los árboles, las barajadas) salen siempre iguales, así que cada ejecución da los mismos números.</p>
 
@@ -654,6 +668,7 @@
 <tr><td>0,663 · 0,589 · 0,680</td><td>ROC-AUC · exactitud · recall del modelo publicado</td></tr>
 <tr><td>3 × 10<sup>−16</sup> · 20 / 20</td><td>diferencia JSON vs. Python · control de la página</td></tr>
 <tr><td>8080 · /salud</td><td>puerto del contenedor · dirección del chequeo de salud</td></tr>
+<tr><td>proyanalisis.maxi42.space</td><td>la dirección de la página pública (con HTTPS; está en el QR de la portada de la presentación)</td></tr>
 </tbody></table></div>
 
 <h2>Diccionario rápido</h2>
@@ -703,13 +718,17 @@
 <tr><td>Docker / contenedor</td><td>una caja con el programa y todo lo que necesita, que funciona igual en cualquier lado</td></tr>
 <tr><td>Docker Compose</td><td>el archivo que dice cómo encender la caja (puerto, reinicio, permisos)</td></tr>
 <tr><td>nginx</td><td>el programa que entrega los archivos de la página</td></tr>
+<tr><td>Dominio / DNS</td><td>el nombre de la página / la «guía telefónica» que traduce ese nombre a la IP del servidor</td></tr>
+<tr><td>HTTPS</td><td>conexión cifrada (el candado del navegador)</td></tr>
+<tr><td>Dokploy / Traefik</td><td>el panel que despliega desde GitHub / el recepcionista que pasa las visitas al contenedor</td></tr>
+<tr><td>Código QR</td><td>un cuadrado de puntos que el celular lee para abrir una dirección</td></tr>
 <tr><td>Semilla</td><td>número que fija los sorteos para que todo salga siempre igual</td></tr>
 </tbody></table></div>
 
 <h2>Dónde seguir</h2>
 <ul>
   <li>El informe completo: <code>informe/informe.pdf</code>.</li>
-  <li>El modelo en vivo: la página pública (carpeta <code>despliegue/</code>, instrucciones en <code>despliegue/README.md</code>) o la versión de la web del proyecto, <a href="prediccion.html">predicción de mora</a>.</li>
+  <li>El modelo en vivo: la página pública, <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a> (carpeta <code>despliegue/</code>, instrucciones en <code>despliegue/README.md</code>) o la versión de la web del proyecto, <a href="prediccion.html">predicción de mora</a>.</li>
   <li>Para exponer: el menú <strong>Presentar</strong> abre la <a href="presentacion-informe.html">Presentación 3 · Informe final</a>.</li>
   <li>El código, con sus resultados y una «Lectura» al final de cada uno: notebooks <code>19_preparacion_modelo</code>, <code>20_modelos</code>, <code>21_evaluacion</code> y <code>22_despliegue</code>.</li>
   <li>Lo anterior al modelo, también sin tecnicismos: <a href="guia-ampliacion.html">la guía de la ampliación</a>.</li>

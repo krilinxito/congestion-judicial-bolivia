@@ -73,6 +73,11 @@
   .portada { display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center; }
   .portada .escudo { height: min(62vh, 30rem); width: auto; filter: drop-shadow(0 8px 18px rgba(0,0,0,.25)); }
   @media (max-width: 900px) { .portada { grid-template-columns: 1fr; justify-items: center; text-align: center; } .portada .escudo { height: 14rem; } }
+  .portada-pie { display: flex; gap: 2rem; align-items: center; justify-content: space-between; margin-top: 1.6rem; }
+  .qr { flex: none; display: flex; flex-direction: column; align-items: center; gap: .4rem; padding: .7rem .7rem .55rem; background: #fff; border: 1px solid var(--rule); border-radius: .8rem; box-shadow: 0 6px 16px rgba(0,0,0,.12); text-decoration: none; }
+  .qr img { width: clamp(8rem, 12vw, 11rem); height: auto; display: block; }
+  .qr span { font: 600 .78rem var(--sans); color: #0a1a6b; }
+  @media (max-width: 900px) { .portada-pie { flex-direction: column; } }
   .slide li { margin-bottom: .3rem; }
   @media (max-width: 900px) { .quecomo { grid-template-columns: 1fr; } }
   @media (max-width: 900px) {
@@ -103,9 +108,17 @@
     <p class="eyebrow">Universidad Mayor de San Andrés · Análisis de Datos · informe final</p>
     <h1>¿Qué procesos judiciales acumulan mora?</h1>
     <p class="lede">Preprocesamiento, modelos de clasificación (SVM, Bagging, Boosting y Stacking), evaluación y despliegue de un modelo de 5 variables.</p>
-    <p style="font-family:var(--sans);margin-top:2rem"><strong>Docente:</strong> M.Sc. Madelina Loza Soliz</p>
-    <p class="muted" style="font-family:var(--sans)">Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
-    <p class="muted" style="font-family:var(--sans);font-size:.85rem">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em> · notebooks 19 a 22 · informe en <code>informe/informe.pdf</code></p>
+    <div class="portada-pie">
+      <div>
+        <p style="font-family:var(--sans)"><strong>Docente:</strong> M.Sc. Madelina Loza Soliz</p>
+        <p class="muted" style="font-family:var(--sans)">Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
+        <p class="muted" style="font-family:var(--sans);font-size:.85rem">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em> · notebooks 19 a 22 · informe en <code>informe/informe.pdf</code></p>
+      </div>
+      <a class="qr" href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">
+        <img src="img/qr-proyanalisis.svg" alt="Código QR de la página pública: proyanalisis.maxi42.space">
+        <span>Prueba el modelo · proyanalisis.maxi42.space</span>
+      </a>
+    </div>
   </div>
 </div></section>
 
@@ -543,8 +556,8 @@
 <!-- 30 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
-  <h2>Se publicó en un VPS con Docker Compose, sin Python en el servidor</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>La carpeta <code>despliegue/</code> empaqueta la página pública en un contenedor y la publica en un servidor privado virtual (VPS).</p></div><div><span class="tag">Por qué así</span><p>El modelo corre en el navegador: el servidor solo entrega archivos. Es simple, barato y no recibe ni guarda los datos que se escriben.</p></div></div>
+  <h2>Se publicó en un VPS con Docker Compose: proyanalisis.maxi42.space</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>La carpeta <code>despliegue/</code> empaqueta la página pública en un contenedor. En el VPS, Dokploy toma el repositorio de GitHub, levanta el <code>docker-compose.yml</code> y lo publica con dominio y HTTPS.</p></div><div><span class="tag">Por qué así</span><p>El modelo corre en el navegador: el servidor solo entrega archivos. Es simple, barato y no recibe ni guarda los datos que se escriben.</p></div></div>
   <div class="grid2">
     <div class="tree">despliegue/
   sitio/              la página: HTML, CSS, JS
@@ -553,14 +566,17 @@
   Dockerfile          nginx sin privilegios, puerto 8080
   docker-compose.yml  el servicio prediccion-mora</div>
     <div>
-      <div class="tree">ssh usuario@IP-DEL-VPS
-cd prediccion-mora
-docker compose up -d --build
-curl localhost:8080/salud   # ok</div>
+      <div class="tree">git push origin main
+  Dokploy (VPS): docker compose up --build
+    despliegue/docker-compose.yml
+  Traefik: dominio + HTTPS (Let's Encrypt)
+
+curl https://proyanalisis.maxi42.space/salud
+ok</div>
       <ul>
         <li>Se reinicia solo si se cae y revisa <code>/salud</code> cada 30 s.</li>
         <li>Contenedor de solo lectura, sin privilegios y con cabeceras de seguridad.</li>
-        <li>Reentrenar = correr el notebook 22 y repetir <code>docker compose up -d --build</code>.</li>
+        <li>Reentrenar = correr el notebook 22 y hacer <code>git push</code>: Dokploy vuelve a publicar.</li>
       </ul>
     </div>
   </div>
@@ -578,8 +594,8 @@ curl localhost:8080/salud   # ok</div>
       <div class="kpi"><b>20 / 20</b><span>coinciden con Python al cargar la página</span></div>
     </div>
     <div>
-      <p><a class="present-btn" href="http://localhost:8080" target="_blank" rel="noopener" style="display:inline-flex">Abrir la página pública</a> <a class="icon-btn" href="prediccion.html" target="_blank" rel="noopener" style="text-decoration:none">versión de la web del proyecto</a></p>
-      <p class="muted" style="font-size:.85rem">En el VPS: <code>http://IP-DEL-VPS:8080</code> · en la computadora, con Docker: <code>localhost:8080</code>.</p>
+      <p><a class="present-btn" href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener" style="display:inline-flex">Abrir la página pública</a> <a class="icon-btn" href="prediccion.html" target="_blank" rel="noopener" style="text-decoration:none">versión de la web del proyecto</a></p>
+      <p class="muted" style="font-size:.85rem">En internet: <code>https://proyanalisis.maxi42.space</code> (el QR de la portada) · en la computadora, con Docker: <code>localhost:8080</code>.</p>
       <ol>
         <li>Cargar un proceso real de la prueba desde las tarjetas.</li>
         <li>Civil, 11 juzgados, 8 de stock: con 5 ingresos da 44 %; con 50 ingresos, 91 %.</li>
@@ -614,7 +630,7 @@ curl localhost:8080/salud   # ok</div>
     <div class="term"><h4>2 · Modelo</h4><p>Bagging, Random Forest y Stacking empatan en 0,753 de ROC-AUC; ajustar hiperparámetros sube hasta 0,04. La logística queda cerca: la señal es moderada.</p></div>
     <div class="term"><h4>3 · Evaluación y despliegue</h4><p>0,73 en la prueba. Lo que más pesa: ingresos por juzgado y presión del stock. El modelo de 5 variables (0,66) funciona en la web.</p></div>
   </div>
-  <p style="font-family:var(--sans);margin-top:2rem">Informe: <code>informe/informe.pdf</code> · página pública en el VPS (<code>despliegue/</code>) · <a href="prediccion.html">la página de predicción</a> · <a href="guia-informe.html">la guía de estudio</a> · ¿Preguntas?</p>
+  <p style="font-family:var(--sans);margin-top:2rem">Informe: <code>informe/informe.pdf</code> · página pública: <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a> · <a href="prediccion.html">la página de predicción</a> · <a href="guia-informe.html">la guía de estudio</a> · ¿Preguntas?</p>
 </div></section>
 
 </main>

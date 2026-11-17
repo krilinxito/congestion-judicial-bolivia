@@ -40,11 +40,13 @@ Pausado el 2026-11-16. Plan aprobado completo en `C:\Users\barry\.claude\plans\h
   solo lectura, cap_drop ALL, healthcheck). Sin Python en el servidor. Instrucciones en `despliegue/README.md`.
 - El notebook 22 escribe el JSON también en `despliegue/sitio/modelo/` y verifica que sea idéntico.
 - El JS de la página pública se probó con Node.js en los 248 procesos de prueba: coincide con scikit-learn (2e-16).
-- `docker compose config` valida; **la imagen no se construyó localmente** (Docker Desktop apagado).
+- `docker compose config` valida. Publicado con Dokploy (Compose desde GitHub `main`, ruta `./despliegue/docker-compose.yml`,
+  dominio con Traefik + Let's Encrypt al puerto 8080) en https://proyanalisis.maxi42.space/ — `/salud` responde `ok`.
+- Presentación 3: QR de la URL en la portada (`web/img/qr-proyanalisis.svg`, generado con segno y verificado con OpenCV);
+  diapositivas 30, 31 y 33 con la URL real. Guía: dominio, HTTPS, DNS, Dokploy y Traefik explicados.
 - Informe: portada con escudo UMSA, materia Análisis de Datos, docente M.Sc. Madelina Loza Soliz; sección 4 con 4.1-4.3
   (modelo exportado, página, VPS con Docker Compose). Presentación 3: portada con escudo y diapositiva 30 de Docker (33 en total).
   Guía de estudio: VPS, Docker, nginx y Compose explicados desde cero.
 
 ## Pendiente
-- Construir y probar la imagen (docker compose up -d --build) y publicarla en el VPS del usuario; poner la URL real en
-  la presentación (diapositiva 31 usa localhost:8080 e IP-DEL-VPS).
+- El informe LaTeX (sección 4.3 y anexo) todavía usa `IP-DEL-VPS` y no menciona la URL ni Dokploy.
