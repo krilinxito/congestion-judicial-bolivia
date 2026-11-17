@@ -26,6 +26,7 @@ notebooks/        todo el código, en notebooks ejecutados (se leen sin correr n
   13              verificación final
   14 … 18         ampliación: capítulo 9, serie 2007-2023, diagnóstico, técnicas de la clase y recursos
   19 … 22         informe final: preparación, modelos, evaluación y despliegue del modelo de 5 variables
+  23              datos de la página pública: la consulta por tipo de proceso y lugar
   modulos/        funciones y tablas compartidas, cargadas con %run -i
 data/processed/   las 12 tablas en CSV y Parquet (el Parquet es la referencia)
   auditoria/      evidencia de cada decisión y cada validación
@@ -34,7 +35,7 @@ data/curated/     tabla analítica con indicadores y tratamientos del EDA
 data/curated/modelo/  variables, partición, métricas, importancia y versiones del modelo (notebooks 19-22)
 models/          el modelo de 5 variables entrenado (joblib)
 informe/         el informe final en LaTeX (informe.tex → informe.pdf) y sus tablas generadas
-despliegue/      la página pública de predicción y su Dockerfile + docker-compose.yml para el VPS
+despliegue/      la página pública (¿cuánto tarda la fila de mi trámite?) y su Dockerfile + docker-compose.yml
 reports/          tablas resumen y figuras
 web/              la documentación
 ```

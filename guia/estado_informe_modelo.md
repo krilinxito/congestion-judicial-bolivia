@@ -54,5 +54,16 @@ Pausado el 2026-11-16. Plan aprobado completo en `C:\Users\barry\.claude\plans\h
   stock heredado alto tiende a bajar, asociación; datos no abiertos), 38 aplicación (alerta temprana, 49 % → 64 %),
   39 límites, 40 resumen con los cinco hallazgos. El informe LaTeX no se cambió.
 
+## Página pública utilitaria (2026-11-17)
+- `despliegue/sitio/` reescrita para la gente: se elige materia, tipo y lugar (19 lugares) y muestra la fila hoy
+  (pendientes ÷ resueltas × 365), si es probable que crezca el año siguiente (3 niveles: >= 60 %, 40-60 %, < 40 %),
+  2023, el mismo trámite en otros lugares y una tabla de prioridades (p >= 60 %, ordenada por pendientes).
+- Datos: `notebooks/23_sitio_publico.ipynb` -> `despliegue/sitio/datos/procesos.json` (1.240 procesos, 59 KB).
+  Escenario: stock = pendientes al cierre 2023, mismos juzgados e ingresos. 408 crece / 423 incierto / 409 no crece.
+  Variación nacional de ingresos: mediana 6,3 %. Proyección NO validada (un solo Anuario).
+- La página recalcula las 1.240 probabilidades y las compara con Python: 1.240 / 1.240 (probado con Edge headless).
+- nginx: `location ~ ^/(modelo|datos)/` sin caché. `web/prediccion.html` (versión de clase) no se tocó.
+- Presentación 3: diapositivas 30, 31, 38 y 39 actualizadas; guía de estudio (parte 4) actualizada.
+
 ## Pendiente
 - El informe LaTeX (sección 4.3 y anexo) todavía usa `IP-DEL-VPS` y no menciona la URL ni Dokploy.

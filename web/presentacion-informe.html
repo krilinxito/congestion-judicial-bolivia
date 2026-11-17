@@ -560,11 +560,12 @@
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
   <h2>Se publicó en un VPS con Docker Compose: proyanalisis.maxi42.space</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>La carpeta <code>despliegue/</code> empaqueta la página pública en un contenedor. En el VPS, Dokploy toma el repositorio de GitHub, levanta el <code>docker-compose.yml</code> y lo publica con dominio y HTTPS.</p></div><div><span class="tag">Por qué así</span><p>El modelo corre en el navegador: el servidor solo entrega archivos. Es simple, barato y no recibe ni guarda los datos que se escriben.</p></div></div>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>La carpeta <code>despliegue/</code> empaqueta la página pública en un contenedor. En el VPS, Dokploy toma el repositorio de GitHub, levanta el <code>docker-compose.yml</code> y lo publica con dominio y HTTPS.</p></div><div><span class="tag">Por qué así</span><p>El modelo corre en el navegador: el servidor solo entrega archivos. Es simple, barato y no recibe ni guarda lo que se consulta.</p></div></div>
   <div class="grid2">
     <div class="tree">despliegue/
   sitio/              la página: HTML, CSS, JS
     modelo/           el JSON del notebook 22
+    datos/            los 1.240 procesos (notebook 23)
   nginx.conf          compresión, seguridad, /salud
   Dockerfile          nginx sin privilegios, puerto 8080
   docker-compose.yml  el servicio prediccion-mora</div>
@@ -579,7 +580,7 @@ ok</div>
       <ul>
         <li>Se reinicia solo si se cae y revisa <code>/salud</code> cada 30 s.</li>
         <li>Contenedor de solo lectura, sin privilegios y con cabeceras de seguridad.</li>
-        <li>Reentrenar = correr el notebook 22 y hacer <code>git push</code>: Dokploy vuelve a publicar.</li>
+        <li>Reentrenar = correr los notebooks 22 y 23 y hacer <code>git push</code>: Dokploy vuelve a publicar.</li>
       </ul>
     </div>
   </div>
@@ -588,26 +589,26 @@ ok</div>
 <!-- 31 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
-  <h2>Demostración: la página pública de predicción</h2>
+  <h2>La página pública responde la pregunta de quien tiene un caso: cuánto tarda la fila y si va a crecer</h2>
+  <div class="quecomo"><div><span class="tag">Qué cambia</span><p>Ya no se escriben números: la persona elige <strong>materia, tipo de proceso y lugar</strong>, y la página busca los datos del Anuario 2023 (notebook 23: 1.240 procesos en 19 lugares).</p></div><div><span class="tag">Cómo se proyecta</span><p>Para el año siguiente, el modelo de 5 variables usa lo que se sabe <strong>al empezar el año</strong>: stock heredado = pendientes al cierre de 2023, los mismos juzgados y los ingresos de 2023.</p></div></div>
   <div class="grid2">
-    <div class="kpis" style="grid-template-columns:1fr 1fr">
-      <div class="kpi"><b>0,663</b><span>ROC-AUC en la prueba (27 variables: 0,736)</span></div>
-      <div class="kpi"><b>58,9 %</b><span>exactitud en la prueba</span></div>
-      <div class="kpi"><b>68,0 %</b><span>de los que acumularon, detectados</span></div>
-      <div class="kpi"><b>20 / 20</b><span>coinciden con Python al cargar la página</span></div>
-    </div>
     <div>
-      <p><a class="present-btn" href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener" style="display:inline-flex">Abrir la página pública</a> <a class="icon-btn" href="prediccion.html" target="_blank" rel="noopener" style="text-decoration:none">versión de la web del proyecto</a></p>
-      <p class="muted" style="font-size:.85rem">En internet: <code>https://proyanalisis.maxi42.space</code> (el QR de la portada) · en la computadora, con Docker: <code>localhost:8080</code>.</p>
+      <p><a class="present-btn" href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener" style="display:inline-flex">Abrir la página pública</a></p>
       <ol>
-        <li>Cargar un proceso real de la prueba desde las tarjetas.</li>
-        <li>Civil, 11 juzgados, 8 de stock: con 5 ingresos da 44 %; con 50 ingresos, 91 %.</li>
-        <li>Con 100 ingresos, subir el stock heredado de 8 a 300: la presión del stock sube y la probabilidad baja de 93 % a 33 %.</li>
-        <li>Mirar el panel «¿Y si cambia algo?»: cuánto movería la probabilidad cada cambio.</li>
+        <li><strong>La fila hoy:</strong> pendientes ÷ resueltas × 365. Asistencia familiar en las provincias de Santa Cruz: unos 18 meses.</li>
+        <li><strong>¿Va a crecer?</strong> En tres niveles, no como cifra exacta: crece (60 % o más), incierto, no crece. Ahí: 61 %, probable que crezca.</li>
+        <li><strong>El mismo trámite en otros lugares</strong>, ordenado de la fila más corta a la más larga.</li>
+        <li><strong>Prioridades</strong> para quien gestiona: dónde la fila es grande y puede crecer.</li>
       </ol>
-      <p class="muted">Sirve para <strong>ordenar</strong> qué procesos mirar primero, no para decidir sobre un juzgado.</p>
+    </div>
+    <div class="kpis" style="grid-template-columns:1fr 1fr">
+      <div class="kpi"><b>19</b><span>lugares: 10 capitales con El Alto y las provincias de 9 departamentos</span></div>
+      <div class="kpi"><b>408</b><span>procesos donde es probable que la fila crezca el año siguiente (de 1.240)</span></div>
+      <div class="kpi"><b>6,3 %</b><span>cambio típico de las causas nuevas de un año a otro (serie nacional 2008-2023)</span></div>
+      <div class="kpi"><b>1.240 / 1.240</b><span>probabilidades del navegador iguales a las de Python</span></div>
     </div>
   </div>
+  <p class="muted">La proyección no se pudo validar: hace falta un segundo Anuario con el mismo detalle. La página lo dice, junto con que es el promedio del grupo y no el plazo de un caso.</p>
 </div></section>
 
 <!-- 32 -->
@@ -708,8 +709,8 @@ ok</div>
   <p class="eyebrow">Aplicación</p>
   <h2>El modelo sirve para ordenar dónde mirar primero, no para decidir</h2>
   <div class="grid3">
-    <div class="term"><h4>Alerta temprana</h4><p>Al empezar el año, con los ingresos del año anterior como estimación, ordenar los procesos de cada territorio por riesgo y decidir a dónde van juzgados de refuerzo, redistribución de causas o conciliación.</p></div>
-    <div class="term"><h4>Simulador «¿y si?»</h4><p>En la página, subir los juzgados o cambiar los ingresos y ver cómo se mueve el riesgo. Sirve para discutir cuánto refuerzo haría falta.</p></div>
+    <div class="term"><h4>Para la gente</h4><p>Quien tiene un caso elige su trámite y su lugar y ve cuánto tarda hoy la fila y si es probable que crezca. Le sirve para hacerse una idea y para preguntar, no como plazo.</p></div>
+    <div class="term"><h4>Alerta temprana</h4><p>Al empezar el año, con los ingresos del año anterior, la tabla de prioridades ordena dónde la fila es grande y puede crecer: a dónde van juzgados de refuerzo, redistribución de causas o conciliación.</p></div>
     <div class="term"><h4>Indicadores simples</h4><p>Ingresos por juzgado y presión del stock se calculan con una división: se pueden vigilar como umbrales aun sin el modelo.</p></div>
   </div>
   <div class="vs" style="margin-top:1.4rem">
@@ -726,7 +727,7 @@ ok</div>
   <h2>Lo que este modelo no puede decir</h2>
   <ul>
     <li><strong>Un solo año.</strong> Todo es 2023; no se probó en otro año, y el stock publicado no se conserva entre años (notebook 15).</li>
-    <li><strong>Los ingresos se conocen al cerrar el año.</strong> Para usarlo al empezar un año habría que estimarlos (por ejemplo, con los del año anterior).</li>
+    <li><strong>Los ingresos se conocen al cerrar el año.</strong> La página proyecta con los del año anterior: en la serie nacional cambian 6,3 % al año, pero hubo saltos de hasta 33 % (2020-2021). Sin un segundo Anuario, la proyección no se pudo validar.</li>
     <li><strong>Solo materias no penales</strong>, porque las penales no publican causas resueltas.</li>
     <li><strong>Muestra pequeña:</strong> con 248 procesos de prueba, diferencias de 0,01 entre modelos no son significativas.</li>
     <li>El umbral de 0,5 no se ajustó; si importara más detectar que evitar alarmas, convendría bajarlo.</li>

@@ -1,6 +1,11 @@
-# Despliegue: la página pública de predicción de mora
+# Despliegue: la página pública
 
-Esta carpeta es todo lo que hace falta para publicar el modelo de 5 variables en un VPS. Es independiente del
+La página responde la pregunta de quien tiene un caso: elige materia, tipo de proceso y lugar, y ve **cuánto tarda
+hoy la fila** de causas pendientes (pendientes ÷ resueltas × 365, datos del Anuario 2023) y **si es probable que crezca
+el año siguiente** (el modelo de 5 variables con stock heredado = pendientes al cierre de 2023 y los ingresos de 2023).
+Tiene además una tabla de prioridades para quien gestiona juzgados.
+
+Esta carpeta es todo lo que hace falta para publicarla en un VPS. Es independiente del
 resto del proyecto: se puede copiar sola al servidor.
 
 ```
@@ -8,8 +13,9 @@ despliegue/
   sitio/                   la página que ve el usuario
     index.html             estructura
     estilos.css            diseño (colores de la UMSA, tema claro y oscuro)
-    prediccion.js          el modelo en JavaScript: variables, one-hot, 200 árboles, curva S
+    prediccion.js          la consulta y el modelo en JavaScript (variables, one-hot, 200 árboles, curva S)
     modelo/modelo_5var.json  los árboles exportados por notebooks/22_despliegue.ipynb
+    datos/procesos.json    los 1.240 procesos con nombres legibles, de notebooks/23_sitio_publico.ipynb
     img/umsa.png           escudo
   nginx.conf               servidor de archivos: compresión, cabeceras de seguridad y /salud
   Dockerfile               imagen nginx sin privilegios (puerto 8080)
@@ -17,7 +23,8 @@ despliegue/
 ```
 
 **No hay Python en el servidor.** El modelo corre en el navegador de quien visita la página: nginx solo entrega
-archivos y no recibe ni guarda los datos que se escriben en el formulario.
+archivos y no recibe ni guarda lo que se consulta. Al abrirse, la página recalcula las 1.240 probabilidades y las
+compara con las de Python (sello «1.240 / 1.240 coinciden» en «Detalles técnicos»).
 
 ## Publicar en el VPS
 
@@ -56,7 +63,9 @@ prediccion.midominio.com {
 
 1. Volver a ejecutar `notebooks/22_despliegue.ipynb`: escribe el JSON en `web/modelo/` y la misma copia en
    `despliegue/sitio/modelo/`, y verifica que sean idénticas.
-2. En el VPS, traer los archivos nuevos y `docker compose up -d --build`.
+2. Volver a ejecutar `notebooks/23_sitio_publico.ipynb`: recalcula con ese modelo las probabilidades del año siguiente
+   y escribe `despliegue/sitio/datos/procesos.json`.
+3. Hacer `git push` (Dokploy vuelve a publicar) o, a mano, en el VPS: traer los archivos y `docker compose up -d --build`.
 
 ## Probar sin Docker
 
