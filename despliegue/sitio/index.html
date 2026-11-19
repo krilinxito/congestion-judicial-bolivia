@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>¿Cuánto tarda mi trámite? · Justicia en Bolivia</title>
-<meta name="description" content="Elige tu tipo de proceso judicial y tu ciudad: con los datos oficiales del Anuario Estadístico Judicial 2023 te mostramos cuánto tarda hoy la fila de causas pendientes y si es probable que crezca. Proyecto de Análisis de Datos, UMSA.">
+<title>¿Cuánto tardará mi caso? · Justicia en Bolivia</title>
+<meta name="description" content="Elige tu tipo de proceso judicial y tu ciudad: con los datos oficiales del Anuario Estadístico Judicial y 17 años de historia te estimamos cuánto tardaría un caso como el tuyo. Proyecto de Análisis de Datos, UMSA.">
 <meta name="theme-color" content="#0a1a6b">
 <link rel="icon" type="image/png" href="img/umsa.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="estilos.css?v=2">
-<script src="prediccion.js?v=2" defer></script>
+<link rel="stylesheet" href="estilos.css?v=3">
+<script src="prediccion.js?v=3" defer></script>
 </head>
 <body>
 
@@ -20,18 +20,19 @@
   <nav class="barra">
     <a class="marca" href="#">
       <img src="img/umsa.png" alt="Escudo de la Universidad Mayor de San Andrés" width="44" height="88">
-      <span><b>Congestión judicial en Bolivia</b><small>Universidad Mayor de San Andrés · Análisis de Datos</small></span>
+      <span><b>¿Cuánto tarda la justicia?</b><small>Universidad Mayor de San Andrés · Análisis de Datos</small></span>
     </a>
     <div class="enlaces">
       <a href="#consultar">Consultar</a>
-      <a href="#prioridades">Prioridades</a>
+      <a href="#historia">La historia</a>
+      <a href="#lentos">Dónde tarda más</a>
       <a href="#leer">Cómo leerlo</a>
     </div>
   </nav>
   <div class="hero-texto">
-    <p class="etiqueta">Datos oficiales · Anuario Estadístico Judicial 2023</p>
-    <h1>¿Cuánto tarda la justicia con <span class="dorado">casos como el tuyo</span>?</h1>
-    <p class="bajada">Elige el tipo de proceso y el lugar. Te mostramos cuánto tardan hoy los juzgados en sacar la fila de causas pendientes y si es probable que esa fila crezca el próximo año.</p>
+    <p class="etiqueta">Datos oficiales · Anuario Estadístico Judicial · 2007-2023</p>
+    <h1>¿Cuánto va a tardar <span class="dorado">tu caso</span>?</h1>
+    <p class="bajada">Elige el tipo de proceso y el lugar. Con los datos del Órgano Judicial y 17 años de historia, te estimamos cuánto tardaría un caso como el tuyo, con un rango honesto.</p>
     <a class="boton-hero" href="#consultar">Consultar ↓</a>
   </div>
 </header>
@@ -66,19 +67,33 @@
     <h2><span class="paso">2</span> Lo que dicen los datos</h2>
     <p id="titulo" class="titulo-res">Cargando datos…</p>
 
-    <div class="bloque">
-      <span class="etq">La fila hoy</span>
-      <b id="fila" class="grande">—</b>
-      <span id="filaTag" class="tag"></span>
-      <p id="filaTexto"></p>
+    <div class="bloque principal">
+      <span class="etq">Si tu caso entra ahora, tardaría</span>
+      <b id="estimado" class="grande">—</b>
+      <span id="estTag" class="tag"></span>
+      <p id="rangoTexto" class="rango-texto"></p>
+      <div class="regla" aria-hidden="true">
+        <span id="reglaRango" class="regla-rango"></span>
+        <span id="reglaPunto" class="regla-punto"></span>
+        <span id="reglaHoy" class="regla-hoy" title="lo que tardaba en 2023"></span>
+      </div>
+      <div class="regla-ejes" aria-hidden="true"><span>0</span><span id="reglaMax"></span></div>
+      <p class="regla-leyenda"><span class="lp"></span> estimación &nbsp; <span class="lr"></span> rango probable &nbsp; <span class="lh"></span> lo que tardaba en 2023</p>
+      <p id="estTexto"></p>
+      <p id="aviso" class="aviso" hidden></p>
     </div>
 
-    <div class="bloque">
-      <span class="etq">¿La fila va a crecer el próximo año?</span>
-      <b id="futuro" class="grande">—</b>
-      <div class="semaforo" aria-hidden="true"><i class="z1"></i><i class="z2"></i><i class="z3"></i><span id="marcador" class="marcador"></span></div>
-      <div class="semaforo-ejes" aria-hidden="true"><span>no crece</span><span>incierto</span><span>crece</span></div>
-      <p id="futuroTexto"></p>
+    <div class="dos">
+      <div class="bloque">
+        <span class="etq">Lo que tardaba en 2023</span>
+        <b id="hoy" class="mediano">—</b>
+        <p id="hoyTexto"></p>
+      </div>
+      <div class="bloque">
+        <span class="etq">El ritmo de tu materia</span>
+        <div id="ritmo" class="ritmo" aria-hidden="true"></div>
+        <p id="ritmoTexto"></p>
+      </div>
     </div>
 
     <h3>Lo que pasó en 2023</h3>
@@ -86,39 +101,57 @@
     <p id="balance" class="mini"></p>
 
     <h3>El mismo trámite en otros lugares</h3>
-    <p class="mini">Cuánto tardaría cada lugar en sacar su fila. Toca uno para verlo.</p>
+    <p class="mini">Tiempo estimado para un caso que entra ahora. Toca un lugar para verlo.</p>
     <div id="comparar" class="comparar"></div>
 
-    <p class="nota">Es el promedio de <b>todas</b> las causas de este tipo en este lugar, no el plazo de tu caso: cada expediente depende del juzgado, de las partes y de lo que se pida. Úsalo para hacerte una idea y para preguntar, no como un plazo legal.</p>
+    <p class="nota">Es el tiempo de la <b>fila</b> de este tipo de proceso en este lugar, no el plazo de tu expediente: cada caso depende del juzgado, de las partes, de las pruebas y de lo que se pida. Úsalo para hacerte una idea y para preguntar, no como un plazo legal.</p>
   </div>
 </section>
 
-<section id="prioridades" class="seccion">
-  <h2 class="titulo-seccion">Para quienes gestionan juzgados: dónde la fila es grande y puede crecer</h2>
-  <p class="intro">Trámites donde es probable que la fila crezca el próximo año (60 % o más), ordenados por cuántas causas tienen pendientes: ahí un atraso más afecta a más gente. Sirve para decidir dónde mirar primero: a dónde mandar refuerzo, redistribuir causas o empujar la conciliación.</p>
+<section id="historia" class="seccion">
+  <h2 class="titulo-seccion">La historia: 17 años de filas judiciales</h2>
+  <p class="intro">El Anuario trae el movimiento de causas de todo el país desde 2007. Con esos años comprobamos que la forma de medir el tiempo funciona: cuando se dijo que la fila tardaría tanto, ¿tardó eso de verdad?</p>
+  <div class="historia">
+    <div class="tarjeta grafico">
+      <svg id="grafHistoria" viewBox="0 0 640 300" role="img" aria-label="Tiempo estimado de la fila judicial en Bolivia, 2007-2023"></svg>
+      <div class="leyenda">
+        <span><i class="l-nac"></i>País</span><span><i class="l-cap"></i>Capitales</span><span><i class="l-pro"></i>Provincias</span><span><i class="l-real"></i>País: lo que de verdad tardó</span>
+      </div>
+    </div>
+    <div class="hechos">
+      <div class="tarjeta hecho"><b id="hVaciado">—</b><span id="hVaciadoTxt">de diferencia típica entre el tiempo estimado y lo que la fila de verdad tardó en vaciarse.</span></div>
+      <div class="tarjeta hecho"><b id="hAnterior">—</b><span id="hAnteriorTxt">cambia típicamente el tiempo de un año al siguiente: el último dato sirve para quien presenta su caso después.</span></div>
+      <div class="tarjeta hecho"><b id="hHoy">—</b><span id="hHoyTxt">tardaba la fila en todo el país en 2023, el valor más bajo desde 2015.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="lentos" class="seccion">
+  <h2 class="titulo-seccion">Dónde un caso nuevo tardaría más</h2>
+  <p class="intro">Trámites con 10 o más causas, ordenados por el tiempo estimado para un caso que entra ahora. Sirve a quienes gestionan juzgados para decidir dónde mirar primero: a dónde mandar refuerzo, redistribuir causas o empujar la conciliación.</p>
   <div class="filtros">
     <label>Departamento <select id="fDepartamento"></select></label>
     <label>Materia <select id="fMateria"></select></label>
   </div>
   <div class="tarjeta tabla"><table>
-    <thead><tr><th>Lugar</th><th>Tipo de proceso</th><th class="num">Pendientes</th><th class="num">Fila hoy</th><th>Probabilidad de que crezca</th></tr></thead>
-    <tbody id="tablaPrioridades"></tbody>
+    <thead><tr><th>Lugar</th><th>Tipo de proceso</th><th class="num">Pendientes</th><th class="num">En 2023</th><th>Caso nuevo (rango probable)</th></tr></thead>
+    <tbody id="tablaLentos"></tbody>
   </table></div>
 </section>
 
 <section id="leer" class="seccion">
   <h2 class="titulo-seccion">Cómo leer estos datos</h2>
   <div class="leer">
-    <div class="tarjeta"><h3>Es tu grupo, no tu caso</h3><p>El Anuario no publica causas una por una: publica, para cada tipo de proceso en cada lugar, cuántas causas había, cuántas entraron y cuántas se resolvieron. Todo lo que ves aquí es de ese grupo.</p></div>
-    <div class="tarjeta"><h3>La fila es una estimación</h3><p>Se calcula como <b>pendientes al cierre ÷ resueltas en el año</b>. Supone que los juzgados siguen resolviendo al mismo ritmo. No es un orden de llegada: hay causas que avanzan más rápido que otras.</p></div>
-    <div class="tarjeta"><h3>El próximo año es una proyección</h3><p>Supone los mismos juzgados y la misma cantidad de causas nuevas que en 2023. En la serie nacional <span id="txtVariacion">las causas nuevas cambian poco de un año a otro</span>. Como solo hay datos de un año, la proyección no se pudo comprobar.</p></div>
-    <div class="tarjeta"><h3>Acierta <span id="txtAcierto">6</span> de cada 10</h3><p>El modelo que estima si la fila crece se equivoca a menudo. Por eso la respuesta va en tres niveles (crece, incierto, no crece) y no como una cifra exacta. Sirve para ordenar, no para juzgar a un juzgado ni a un juez.</p></div>
+    <div class="tarjeta"><h3>Es tu grupo, no tu caso</h3><p>El Anuario no publica causas una por una: publica, para cada tipo de proceso en cada lugar, cuántas causas había, cuántas entraron y cuántas se resolvieron. El tiempo es el de la fila de ese grupo: <b>pendientes ÷ resueltas en el año</b>.</p></div>
+    <div class="tarjeta"><h3>Una estimación con rango</h3><p>Un modelo aprendió de 808 trámites cómo la fila que espera, las causas que entran y los juzgados se traducen en tiempo. El rango es donde cayó la mitad de sus errores en trámites que no había visto. En <span id="txtDoble">7</span> de cada 10 trámites, el tiempo real quedó entre la mitad y el doble de lo estimado.</p></div>
+    <div class="tarjeta"><h3>La historia lo respalda</h3><p>Con los años 2007 a 2022 se comprobó que la forma de medir funciona: el tiempo estimado quedó cerca de lo que la fila de verdad tardó en vaciarse, y el tiempo cambia poco de un año al siguiente, salvo en años raros como la pandemia.</p></div>
+    <div class="tarjeta"><h3>Los trámites chicos, con cuidado</h3><p>Donde hubo menos de 10 causas en el año, una sola causa cambia mucho el tiempo. Ahí la estimación se apoya en trámites parecidos y el rango es más ancho. Y los datos son de 2023: el Anuario más reciente con este detalle.</p></div>
   </div>
 </section>
 
 <details class="tarjeta tecnica">
   <summary><span id="sello" class="sello">verificando…</span> Detalles técnicos</summary>
-  <p>La fila se calcula con los datos del Anuario. La probabilidad la calcula un <b id="txtModelo">modelo</b> con 5 variables: ingresos por juzgado, presión del stock (stock heredado ÷ ingresos), stock por juzgado, materia e ingresos del año. Para el próximo año, el stock heredado es lo que quedó pendiente al cierre de 2023.</p>
+  <p>El tiempo de 2023 se calcula con los datos del Anuario. La estimación para un caso nuevo la calcula un <b id="txtModelo">modelo</b> con 5 variables que salen de 3 datos: la fila que espera (lo que quedó pendiente al cierre de 2023), las causas que entran por año y los juzgados. Se entrenó con el tiempo real de 2023 de 808 trámites y se evaluó con trámites que nunca vio.</p>
   <div id="ficha" class="kpis"></div>
   <p id="txtVerificacion" class="mini"></p>
   <p class="mini">Todo corre en tu navegador. El servidor (nginx en Docker) solo entrega archivos: no recibe ni guarda lo que eliges. Código y cálculos: notebooks 19 a 23 del proyecto.</p>
@@ -131,7 +164,7 @@
   <div>
     <p><b>Universidad Mayor de San Andrés</b> · Análisis de Datos · Docente: M.Sc. Madelina Loza Soliz</p>
     <p>Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
-    <p class="mini">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em>, materias no penales. No es un servicio oficial del Órgano Judicial.</p>
+    <p class="mini">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em> (capítulos de materias no penales y serie histórica 2007-2023). No es un servicio oficial del Órgano Judicial.</p>
   </div>
 </footer>
 

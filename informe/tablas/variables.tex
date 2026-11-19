@@ -1,33 +1,34 @@
-\begin{tabular}{llllr}
+\begin{tabular}{lp{5.2cm}llr}
 \toprule
 Variable & Descripción & Grupo & Conversión & $\rho$ Spearman \\
 \midrule
 \texttt{materia\_homologada} & materia & original & one-hot & --- \\
 \texttt{ambito} & capital o provincia & original & one-hot & --- \\
 \texttt{departamento\_derivado} & departamento & original & one-hot & --- \\
-\texttt{pendientes\_inicio\_efectivo} & stock heredado & original & mediana & 0,04 \\
-\texttt{nuevas\_ingresadas} & causas nuevas & original & mediana & 0,24 \\
-\texttt{recibidas\_excusa\_recusacion} & recibidas por excusa & original & mediana & 0,07 \\
-\texttt{preliminares\_formalizados} & preliminares formalizados & original & cero estructural + mediana & 0,10 \\
-\texttt{cautelares\_formalizados} & cautelares formalizados & original & cero estructural + mediana & 0,05 \\
-\texttt{ingresos\_totales} & ingresos del año & original & mediana & 0,24 \\
-\texttt{atendidas} & causas atendidas & original & mediana & 0,17 \\
-\texttt{num\_juzgados\_pagina} & juzgados (materia y territorio) & original & mediana & 0,08 \\
-\texttt{recurso\_juzgados\_publicados} & juzgados del territorio & original & mediana & 0,04 \\
-\texttt{recurso\_tribunales\_publicados} & tribunales del territorio & original & mediana & 0,08 \\
-\texttt{recurso\_conciliadores\_publicados} & conciliadores del territorio & original & mediana & 0,05 \\
-\texttt{personal\_items\_mujer} & puestos ocupados por mujeres & original & mediana & 0,07 \\
-\texttt{personal\_items\_varon} & puestos ocupados por varones & original & mediana & 0,07 \\
-\texttt{personal\_items\_acefalias} & puestos vacantes & original & mediana & 0,06 \\
-\texttt{personal\_items\_total} & puestos totales & original & mediana & 0,06 \\
-\texttt{personal\_remun\_total} & remuneración total & original & mediana & 0,06 \\
-\texttt{log\_stock\_inicial} & log(1 + stock heredado) & ingeniería & mediana & 0,04 \\
-\texttt{log\_ingresos} & log(1 + ingresos del año) & ingeniería & mediana & 0,24 \\
-\texttt{presion\_stock} & stock heredado / (ingresos del año + 1) & ingeniería & mediana & -0,23 \\
-\texttt{ingresos\_por\_juzgado} & ingresos del año / juzgados & ingeniería & mediana & 0,20 \\
-\texttt{stock\_por\_juzgado} & stock heredado / juzgados & ingeniería & mediana & 0,01 \\
-\texttt{prop\_acefalias} & puestos vacantes / puestos totales & ingeniería & mediana & -0,01 \\
-\texttt{prop\_excusa} & recibidas por excusa / (ingresos del año + 1) & ingeniería & mediana & 0,08 \\
-\texttt{sin\_stock\_inicial} & 1 si no había stock heredado & ingeniería & mediana & 0,05 \\
+\texttt{pendientes\_inicio\_efectivo} & stock heredado & original & mediana & 0,23 \\
+\texttt{nuevas\_ingresadas} & causas nuevas & original & mediana & -0,20 \\
+\texttt{recibidas\_excusa\_recusacion} & recibidas por excusa & original & mediana & -0,03 \\
+\texttt{preliminares\_formalizados} & preliminares formalizados & original & cero estructural + mediana & -0,02 \\
+\texttt{cautelares\_formalizados} & cautelares formalizados & original & cero estructural + mediana & 0,00 \\
+\texttt{ingresos\_totales} & ingresos del año & original & mediana & -0,20 \\
+\texttt{atendidas} & causas atendidas & original & mediana & -0,07 \\
+\texttt{num\_juzgados\_pagina} & juzgados (materia y territorio) & original & mediana & 0,16 \\
+\texttt{recurso\_juzgados\_publicados} & juzgados del territorio & original & mediana & 0,20 \\
+\texttt{recurso\_tribunales\_publicados} & tribunales del territorio & original & mediana & 0,28 \\
+\texttt{recurso\_conciliadores\_publicados} & conciliadores del territorio & original & mediana & 0,22 \\
+\texttt{personal\_items\_mujer} & puestos ocupados por mujeres & original & mediana & 0,31 \\
+\texttt{personal\_items\_varon} & puestos ocupados por varones & original & mediana & 0,28 \\
+\texttt{personal\_items\_acefalias} & puestos vacantes & original & mediana & 0,28 \\
+\texttt{personal\_items\_total} & puestos totales & original & mediana & 0,29 \\
+\texttt{personal\_remun\_total} & remuneración total & original & mediana & 0,29 \\
+\texttt{log\_stock\_inicial} & log(1 + stock heredado) & ingeniería & mediana & 0,23 \\
+\texttt{log\_ingresos} & log(1 + ingresos del año) & ingeniería & mediana & -0,20 \\
+\texttt{presion\_stock} & stock heredado / (ingresos del año + 1) & ingeniería & mediana & 0,64 \\
+\texttt{ingresos\_por\_juzgado} & ingresos del año / juzgados & ingeniería & mediana & -0,26 \\
+\texttt{stock\_por\_juzgado} & stock heredado / juzgados & ingeniería & mediana & 0,15 \\
+\texttt{prop\_acefalias} & puestos vacantes / puestos totales & ingeniería & mediana & -0,09 \\
+\texttt{prop\_excusa} & recibidas por excusa / (ingresos del año + 1) & ingeniería & mediana & -0,02 \\
+\texttt{sin\_stock\_inicial} & 1 si no había stock heredado & ingeniería & mediana & -0,19 \\
+\texttt{tendencia\_resueltas\_materia} & resueltas del año anterior / resueltas de dos años antes - 1 (materia y ámbito) & histórica & mediana & 0,16 \\
 \bottomrule
 \end{tabular}

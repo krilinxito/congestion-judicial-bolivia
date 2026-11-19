@@ -1,5 +1,5 @@
-% Informe final: congestión judicial en Bolivia (Anuario Estadístico Judicial 2023).
-% Compilar desde la carpeta informe/:   pdflatex informe.tex   (dos veces, para el índice y las referencias)
+% Informe final: ¿cuánto va a tardar mi caso? (Anuario Estadístico Judicial 2023 y su serie 2007-2023).
+% Compilar desde la carpeta informe/:   pdflatex --disable-installer informe.tex   (dos veces, para el índice)
 % Las tablas y las cifras salen de notebooks/22_despliegue.ipynb (carpeta tablas/): no se copian a mano.
 \documentclass[11pt,a4paper]{article}
 
@@ -9,6 +9,7 @@
 \usepackage[spanish,es-tabla,es-noshorthands]{babel}
 \usepackage[margin=2.4cm]{geometry}
 \usepackage{microtype}
+\usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{float}
@@ -26,7 +27,7 @@
 
 \input{tablas/cifras.tex}
 
-\hypersetup{pdftitle={¿Qué procesos judiciales acumulan mora?},
+\hypersetup{pdftitle={¿Cuánto va a tardar mi caso?},
   pdfauthor={Andrés Maximiliano Espinoza Romero, Andrés Gabriel Maydana García, Maximiliano Gómez Mallo}}
 
 \begin{document}
@@ -40,10 +41,10 @@
   \vspace{1.3cm}
   {\color{acento}\rule{0.75\linewidth}{1.2pt}\par}
   \vspace{0.5cm}
-  {\LARGE\bfseries ¿Qué procesos judiciales acumulan mora?\par}
+  {\LARGE\bfseries ¿Cuánto va a tardar mi caso?\par}
   \vspace{0.35cm}
-  {\large Preprocesamiento, modelos de clasificación, evaluación y despliegue\\
-   con el Anuario Estadístico Judicial 2023 de Bolivia\par}
+  {\large Estimación del tiempo de los procesos judiciales con el Anuario Estadístico Judicial\\
+   y su historia 2007--2023: preprocesamiento, modelos de regresión, evaluación y despliegue\par}
   \vspace{0.5cm}
   {\color{acento}\rule{0.75\linewidth}{1.2pt}\par}
   \vfill
@@ -61,20 +62,21 @@
 
 \begin{abstract}
 \noindent
-El Consejo de la Magistratura de Bolivia publica sus estadísticas en un PDF de 774 páginas. En la primera parte del
-proyecto ese PDF se convirtió en tablas verificadas y se calcularon indicadores de congestión. Este informe usa esas
-tablas para responder una pregunta de clasificación: \emph{con lo que se sabe de un tipo de proceso (su materia, su
-territorio, el stock que hereda, las causas que le ingresan y los juzgados que lo atienden), ¿se puede anticipar si en
-el año resolverá menos causas de las que recibe, es decir, si acumulará mora?} Se trabajó con \nFilas{} procesos no
-penales con movimiento en 2023 (\nAcumulan{} acumulan mora, \pctAcumulan~\%). Siguiendo el orden pedido, el informe
-presenta (1)~el preprocesamiento, (2)~los modelos ---SVM, Bagging, Boosting y Stacking--- con ajuste de
-hiperparámetros, (3)~la evaluación, con la importancia de las variables y la comparación entre las \nOriginales{}
-variables originales, las \nCompleta{} con ingeniería y las 5 más importantes, y (4)~el despliegue del modelo de
-5~variables en una página web pública, empaquetada con Docker y publicada en un servidor privado virtual (VPS) con
-Docker Compose. El mejor modelo (\mejorModelo) alcanza un ROC-AUC de \mejorAucCv{} en validación
-cruzada y \mejorAucPrueba{} en la prueba; el modelo de 5 variables publicado (\modeloDesplegado) obtiene
-\aucDesplegado{} en la prueba. Las variables más útiles no están en el Anuario: son cocientes construidos en el
-preprocesamiento, como los ingresos por juzgado y la presión del stock heredado.
+Quien presenta un divorcio, una demanda laboral o un cobro quiere saber una cosa: \emph{¿cuánto va a tardar?} El
+Anuario Estadístico Judicial de Bolivia no sigue causas una por una, pero publica para cada tipo de proceso y cada lugar
+cuántas causas había, cuántas entraron y cuántas se resolvieron, y trae además el movimiento de causas del país desde
+2007. Con eso se mide el tiempo de la \emph{fila}: causas pendientes al cierre entre causas resueltas en el año, en días.
+Este informe usa la \textbf{historia 2007--2023} para comprobar que esa medida funciona ---el tiempo estimado quedó a una
+mediana de \histErrVaciado~\% de lo que la fila de verdad tardó en vaciarse en \histNVaciado{} comprobaciones, y de un año
+al siguiente cambia una mediana de \histErrAnterior~\%--- y entrena modelos de \textbf{regresión} que estiman ese tiempo
+con lo que se sabe al presentar el caso: la fila que espera, las causas que entran, los juzgados, la materia, el lugar y
+la tendencia histórica de la materia. Siguiendo el orden pedido se presentan (1)~el preprocesamiento, (2)~los modelos
+---SVM, Bagging, Boosting y Stacking--- con ajuste de hiperparámetros, (3)~la evaluación, con la importancia de las
+variables y la comparación entre las \nOriginales{} originales, las \nCompleta{} con ingeniería e historia y las 5 más
+importantes, y (4)~el despliegue del modelo de 5~variables en una página pública. Con \nFilas{} procesos no penales de
+2023, el mejor modelo (\mejorModelo) deja al \mejorDobPrueba~\% de los procesos de prueba entre la mitad y el doble de su
+tiempo real (88~\% en los procesos grandes); el modelo publicado (\modeloDesplegado, 5 variables que salen de solo 3
+datos) logra \dobDesplegado~\% y acompaña cada estimación con un rango probable.
 \end{abstract}
 
 \tableofcontents
@@ -84,61 +86,133 @@ preprocesamiento, como los ingresos por juzgado y la presión del stock heredado
 \section*{Introducción}
 \addcontentsline{toc}{section}{Introducción}
 
-\paragraph{El problema.} Un juzgado acumula mora cuando en el año resuelve menos causas de las que le ingresan: la
-diferencia se suma al stock pendiente y alarga la espera de todos. El Anuario Estadístico Judicial~2023 publica, para
-cada tipo de proceso de cada capital y provincia, el stock con el que empezó el año, las causas que ingresaron por cada
-vía, las resueltas y las pendientes al cierre. Con esos datos se puede saber \emph{después} si un proceso acumuló mora.
-La pregunta de este informe es si se puede anticipar \emph{antes} de mirar las resueltas.
+\paragraph{El problema práctico.} En Bolivia una persona que inicia un proceso judicial no tiene ninguna forma pública
+de saber cuánto va a esperar. La respuesta habitual es «depende», y es cierto: depende del juzgado, de las partes, de las
+pruebas. Pero también depende de algo que sí se puede medir: \emph{cuántas causas tiene delante} y \emph{a qué ritmo las
+resuelven los juzgados} de su materia en su ciudad. El objetivo de este informe es estimar ese tiempo para cada tipo de
+proceso y lugar, con un rango honesto, y ponerlo al alcance de cualquiera en una página web.
 
-\paragraph{La variable objetivo.} \texttt{flag\_acumula\_mora} vale 1 cuando las causas resueltas en 2023 son menos que
-las ingresadas (tasa de resolución menor que 1, fórmula del CEJA). Por la identidad contable del Anuario
-(\emph{atendidas = stock inicial + ingresos = resueltas + pendientes al cierre}) eso equivale a que el stock creció
-durante el año. Es una clasificación binaria.
+\paragraph{La medida: el tiempo de la fila.} El Anuario publica, para cada tipo de proceso de cada capital y provincia,
+el stock con el que empezó el año, las causas que ingresaron, las resueltas y las pendientes al cierre. Con eso:
+\begin{equation*}
+  \text{tiempo estimado (días)} = \frac{\text{causas pendientes al cierre}}{\text{causas resueltas en el año}}\times 365 .
+\end{equation*}
+Si quedan 600 causas esperando y el juzgado resuelve 1.200 al año, la fila se termina en medio año; un caso nuevo se pone
+al final de esa fila. Es la «duración estimada» que usa el Centro de Estudios de Justicia de las Américas (CEJA) y que el
+notebook~10 del proyecto ya calculaba. Es un número de días, así que el problema es de \textbf{regresión}.
 
-\paragraph{Los datos.} Cada fila es un tipo de proceso en un territorio y una materia (por ejemplo, «divorcio por mutuo
-acuerdo, Cochabamba capital, familia»). Se usan las cinco materias no penales (civil y comercial, familia, niñez y
-adolescencia, trabajo, coactivo fiscal), porque las penales no publican causas resueltas. De los 1.655 procesos no
-penales se toman los \nFilas{} con movimiento en el año (al menos una causa atendida), de \nTiposProceso{} tipos de
-proceso distintos. Todo el código está en notebooks ejecutados: del \texttt{01} al \texttt{18} la construcción y el
-análisis exploratorio de los datos; del \texttt{19} al \texttt{22}, lo que presenta este informe.
+\paragraph{La historia.} Un solo año no alcanza para saber si la medida sirve. Por eso se usa el capítulo~9 del Anuario,
+que trae el movimiento de causas del país, de las capitales y de las provincias de 2007 a 2023, y las causas resueltas por
+materia de 2020 a 2023. Con esos años se responde lo que 2023 solo no puede: si el tiempo estimado se parece a lo que la
+fila \emph{de verdad} tardó en vaciarse, y cuánto cambia de un año al siguiente.
+
+\paragraph{Los datos del modelo.} Cada fila es un tipo de proceso en un territorio y una materia (por ejemplo,
+«divorcio, familia, Sucre capital»). Se usan las cinco materias no penales (civil y comercial, familia, niñez y
+adolescencia, trabajo, coactivo fiscal), porque las penales no publican causas resueltas. De los \nProcesos{} procesos no
+penales con movimiento en 2023 entran al modelo los \nFilas{} con al menos \minCausas{} causas atendidas y alguna resuelta,
+de \nTiposProceso{} tipos de proceso distintos. Todo el código está en notebooks ejecutados: del \texttt{01} al
+\texttt{18}, la construcción y el análisis exploratorio de los datos; del \texttt{19} al \texttt{23}, lo que presenta
+este informe.
 
 %=====================================================================
 \section{Preprocesamiento}
 
-\subsection{Análisis exploratorio}
+\subsection{De dónde vienen los datos}
+El PDF de 774 páginas no tiene datos abiertos. Los notebooks 01 a 07 lo inventariaron página por página y extrajeron sus
+cuadros con técnicas distintas según el formato (por posición, por coordenadas y por firmas de encabezado). Los notebooks
+04 a 06 normalizaron materias, territorios y números con la convención boliviana (punto de miles, coma decimal) y
+exportaron doce tablas con 85.953 filas, cada una con su cuadro y su página de origen. El notebook 05 verificó doce
+identidades contables del propio Anuario y registró 117 discrepancias de la fuente, sin corregirlas. El 08 integró las
+tablas en una capa analítica, y los notebooks 09 a 18 hicieron el análisis exploratorio: indicadores de congestión,
+valores atípicos, la serie 2007--2023, la concentración del rezago y los recursos de cada departamento.
 
-\paragraph{De dónde vienen los datos.} El PDF no tiene datos abiertos. Los notebooks 01 a 07 lo inventariaron página por
-página y extrajeron sus cuadros con técnicas distintas según el formato (por posición, por coordenadas y por firmas de
-encabezado), dejando cada valor como texto. Los notebooks 04 a 06 normalizaron materias, territorios y números con la
-convención boliviana (punto de miles, coma decimal) y exportaron doce tablas con 85.953 filas, cada una con su cuadro y
-su página de origen. El notebook 05 verificó doce identidades contables del propio Anuario y registró 117 discrepancias
-de la fuente, sin corregirlas. El 08 integró las tablas en una capa analítica de 1.997 filas, y los notebooks 09 a 18
-hicieron el análisis exploratorio: estados de gestión, indicadores de congestión, valores atípicos, la serie 2007--2023,
-la concentración del rezago y la relación con los recursos de cada departamento.
+\subsection{Lo que enseña la historia (2007--2023)}
 
-\paragraph{Qué dice el análisis exploratorio del objetivo.} Las clases están casi equilibradas: \nAcumulan{} de
-\nFilas{} procesos acumulan mora (\pctAcumulan~\%). La proporción cambia según la materia: civil es la que más acumula
-(58~\% de sus procesos) y trabajo y coactivo las que menos (40~\%), mientras que capital y provincia casi no difieren
-(48~\% y 50~\%). Ninguna variable numérica sola separa bien las clases: la correlación de Spearman más alta con el
-objetivo es la de los ingresos del año ($\rho=\rhoIngresos$) y la presión del stock heredado ($\rho=\rhoPresion$). El
-stock heredado solo casi no se relaciona con el objetivo ($\rho=\rhoStock$); dividido por los ingresos, sí. Los procesos
-que reciben muchas causas tienden a acumular; los que heredan mucho stock en relación con lo que les entra tienden a
-descargarlo (figura~\ref{fig:eda}).
+\paragraph{El tiempo, año por año.} Con los cuadros 9.1.4, 9.1.8 y 9.1.12 (todas las materias, penales incluidas) se
+calculó el tiempo estimado de cada año. El país pasó de \histTiempoDosmilsiete{} días en 2007 a \histTiempoDosmildoce{} en
+2012, bajó a \histTiempoDosmilquince{} en 2015, saltó a \histTiempoDosmilveinte{} en la pandemia y quedó en
+\histTiempoDosmilveintitres{} en 2023, el valor más bajo desde 2015. En 2023 las capitales (\histCapitalDosmilveintitres{}
+días) ya son más rápidas que las provincias (\histProvinciaDosmilveintitres) (figura~\ref{fig:historia}, izquierda).
+
+\paragraph{¿La fila se vació en el tiempo estimado?} Al cierre de cada año quedan $P$ causas pendientes y el tiempo
+estimado dice que se terminarán en $P/R\times365$ días. Con los años siguientes se puede ver cuánto tardó \emph{de
+verdad} el sistema en resolver esa cantidad de causas: se suman las resueltas de los años siguientes hasta llegar a $P$
+(dentro del último año, en proporción a los días). En \histNVaciado{} comprobaciones (país, capitales y provincias,
+2007--2022) la diferencia mediana fue de \textbf{\histErrVaciado~\%} (media \histErrVaciadoMedio~\%), con un leve sesgo
+pesimista: el tiempo estimado tiende a pasarse en \histSesgoVaciado~\% (tabla~\ref{tab:vaciado}). Es una comprobación
+aproximada, porque supone que las causas se resuelven en orden de llegada y el Anuario no dice cuáles se resolvieron,
+solo cuántas; aun así, muestra que la medida \emph{mide lo que dice medir}.
+
+\begin{table}[H]
+  \centering\small
+  \caption{El país: tiempo estimado al cierre de cada año y lo que la fila de verdad tardó en vaciarse con las
+  resoluciones de los años siguientes. Notebook 19.}
+  \label{tab:vaciado}
+  \input{tablas/historia_vaciado.tex}
+\end{table}
+
+\paragraph{¿Cuánto cambia de un año al siguiente?} Si el tiempo de este año se parece al del próximo, el último Anuario
+sirve para quien presenta su caso después. Se compararon tres formas de anticipar el tiempo de un año con lo que se sabía
+antes (tabla~\ref{tab:formas}). Usar \textbf{el tiempo del año anterior} se equivoca en una mediana de
+\histErrAnterior~\% (el peor caso, \histPeorAnterior~\%, en la pandemia). La \textbf{fórmula ingenua} ---stock heredado
+entre ingresos, que supone que se resuelve todo lo que entra--- se equivoca \histErrIngenua~\% y siempre se queda corta
+(sesgo \histSesgoIngenua~\%). Por eso la fórmula ingenua es una de las referencias que el modelo debe superar.
+
+\begin{table}[H]
+  \centering\small
+  \caption{Tres formas de anticipar el tiempo de un año, comprobadas con la serie 2007--2023 (país, capitales y
+  provincias). Error porcentual respecto del tiempo real del año. Notebook 19.}
+  \label{tab:formas}
+  \resizebox{\linewidth}{!}{\input{tablas/historia_formas.tex}}
+\end{table}
+
+\paragraph{Las materias.} Por materia el Anuario solo trae las \emph{resueltas} de 2019 a 2023 (cuadros 9.1.2 y 9.1.6).
+2019 no se usa porque no cuadra con los totales (notebook 15) y 2020 es el año de la pandemia. De 2020 a 2023 las
+resoluciones crecieron en todas las materias no penales (figura~\ref{fig:historia}, derecha). De ahí sale la
+\textbf{variable histórica} del modelo: cuánto cambiaron las resoluciones de la materia, en su ámbito, \emph{el año
+anterior} al caso. Para un caso de 2023 es $\text{resueltas}_{2022}/\text{resueltas}_{2021}-1$; para uno de 2024,
+$\text{resueltas}_{2023}/\text{resueltas}_{2022}-1$. Usa solo años pasados, así que no espía el año que se predice.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{nb19_1.png}
-  \caption{Izquierda: porcentaje de procesos que acumulan mora en cada materia (línea gris: promedio). Derecha: la
-  presión del stock (stock heredado entre ingresos, en escala logarítmica) para las dos clases. Notebook 19.}
+  \caption{Izquierda: tiempo estimado de la fila en el país, las capitales y las provincias, 2007--2023, y lo que la fila
+  del país de verdad tardó en vaciarse (línea roja). Derecha: causas resueltas por materia no penal, con 2020~$=$~100.
+  Notebook 19.}
+  \label{fig:historia}
+\end{figure}
+
+\subsection{Análisis exploratorio del objetivo}
+El tiempo mediano de los \nFilas{} procesos es de \medianaDias{} días; la mitad está entre \pveinticincoDias{} y
+\psetentaycincoDias. Las materias difieren mucho (mediana: coactivo fiscal 887 días, trabajo 375, civil 243, familia 195,
+niñez 146); capital y provincia, poco (209 contra 236). La variable que más acompaña al tiempo es la \textbf{presión del
+stock}, el stock heredado entre los ingresos ($\rho=\rhoPresion$ de Spearman): donde la fila heredada es grande en relación
+con lo que entra, se tarda más. Los ingresos van al revés ($\rho=\rhoIngresos$): los procesos con mucho movimiento
+resuelven rápido. La variable histórica tiene una relación débil ($\rho=\rhoHistorica$). El tiempo tiene una cola larga a
+la derecha; en logaritmo se vuelve manejable (figura~\ref{fig:eda}).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{nb19_2.png}
+  \caption{El tiempo estimado en días (cola larga), en $\log(1+\text{días})$ (lo que aprende el modelo) y su mediana por
+  materia. Notebook 19.}
   \label{fig:eda}
 \end{figure}
 
 \subsection{Limpieza}
 
+\paragraph{Qué filas entran.} De los \nProcesos{} procesos con movimiento se dejan fuera los \nChicos{} con menos de
+\minCausas{} causas atendidas: en la mitad de los procesos hubo \medianaCausas{} causas o menos en todo el año, y con una
+resuelta y dos pendientes el «tiempo» sería 730 días; con una resuelta más, 243. Eso no mide una fila, mide la suerte de
+una causa. El filtro usa las causas \emph{atendidas} (stock heredado más ingresos: un dato de entrada), no las resueltas ni
+el tiempo, así que no elige ejemplos mirando la respuesta. También quedan fuera los \nSinResueltas{} procesos con 10 o más
+causas y ninguna resuelta, porque su tiempo no existe (dividir por cero). La página pública muestra igual unos y otros,
+con una advertencia.
+
 \paragraph{Fuga de información.} Es el error más grave al preparar un modelo: usar como pista algo que contiene la
-respuesta. Aquí el stock crece cuando se \emph{resuelve} menos de lo que entra, así que toda columna calculada con las
-causas resueltas o con el stock al cierre le dice al modelo la respuesta. Se excluyeron \nFuga{} columnas
-(tabla~\ref{tab:fuga}); el notebook 19 comprueba con un \texttt{assert} que ninguna entra al modelo.
+respuesta. El tiempo se calcula con las resueltas y los pendientes al cierre; toda columna hecha con ellos le dice al
+modelo la respuesta. Se excluyeron \nFuga{} columnas (tabla~\ref{tab:fuga}); el notebook 19 comprueba con un
+\texttt{assert} que ninguna entra al modelo.
 
 \begin{table}[H]
   \centering\small
@@ -147,25 +221,21 @@ causas resueltas o con el stock al cierre le dice al modelo la respuesta. Se exc
   \input{tablas/fuga.tex}
 \end{table}
 
-\paragraph{Qué filas entran.} Se excluyen los 415 procesos sin movimiento (cero causas atendidas: no hay nada que
-predecir). No se filtra por la tasa de congestión, aunque sería lo más cómodo: esa tasa se divide por las resueltas y
-no existe cuando un proceso no resolvió nada. Quitar esos \nSinTasa{} procesos sería \emph{elegir los ejemplos mirando
-la respuesta}: \nSinTasaAcumulan{} de ellos acumulan mora, y el modelo aprendería con un conjunto más fácil que el real.
+\paragraph{Valores faltantes.} Casi todos los vacíos son \emph{estructurales}: la columna no existe para esa materia. Dos
+formas de ingreso (preliminares y cautelares formalizados) solo existen en civil; en las otras materias el vacío es un
+cero y se llenó con 0. Imputarlas con la mediana inventaría causas que no existen. El único faltante real es el número de
+tribunales del territorio (4 filas): se imputa con la mediana \emph{del entrenamiento}, dentro del modelo, para que la
+prueba no influya en el valor imputado.
 
-\paragraph{Valores faltantes.} El análisis de los notebooks 09 y 10 mostró que casi todos los vacíos son
-\emph{estructurales}: la columna no existe para esa materia. Dos formas de ingreso (preliminares y cautelares
-formalizados) solo existen en civil; en las otras materias el vacío es un cero, y se llenó con 0. Imputarlas con la
-mediana inventaría causas que no existen. El único faltante real es el número de tribunales del territorio (20 filas):
-se imputa con la mediana \emph{del entrenamiento}, dentro del modelo, para que la prueba no influya en el valor imputado.
-
-\paragraph{Valores atípicos.} No se eliminan. Un proceso con miles de causas es real (el notebook 11 lo comprobó contra
-el PDF) y es justamente donde importa acertar. Las cantidades tienen asimetría fuerte; en lugar de borrar, se agregan
-versiones en logaritmo y en cociente, que la reducen (figura~\ref{fig:asimetria}). Los modelos de árboles no se ven
-afectados por la escala; el SVM y la regresión logística, sí.
+\paragraph{Valores atípicos.} No se eliminan procesos: uno con miles de causas es real (el notebook 11 lo comprobó contra
+el PDF). Dos decisiones: el objetivo se \textbf{recorta en 10 años} (\nTopados{} procesos pasan de ese tope; más que eso
+es «no se mueve», y un número como 80 años no es un plazo), y se modela su \textbf{logaritmo}, que acerca los extremos sin
+borrarlos. Para los modelos sensibles a la escala se agregan versiones en logaritmo y cocientes de las cantidades
+(figura~\ref{fig:asimetria}).
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.85\linewidth]{nb19_2.png}
+  \includegraphics[width=0.85\linewidth]{nb19_3.png}
   \caption{El stock heredado tiene una cola larga; su logaritmo es casi simétrico. Notebook 19.}
   \label{fig:asimetria}
 \end{figure}
@@ -173,27 +243,32 @@ afectados por la escala; el SVM y la regresión logística, sí.
 \subsection{Conversión}
 
 \begin{itemize}
+  \item \textbf{Objetivo.} Días $\rightarrow \log(1+\text{días})$, con tope de 10 años. En logaritmo, equivocarse por el
+  doble pesa lo mismo en un proceso de 30 días que en uno de 900.
   \item \textbf{Tipos.} Los conteos con vacíos de pandas (\texttt{Int64} con \texttt{<NA>}) pasan a \texttt{float64};
   las categorías, a texto.
-  \item \textbf{Ingeniería de variables.} Se agregan \nIngenieria{} variables calculadas fila por fila, sin promedios de
-  grupo, para que el despliegue pueda recalcularlas con la misma fórmula: logaritmos, la presión del stock (stock
-  heredado entre ingresos), los ingresos y el stock por juzgado, la proporción de puestos vacantes y de causas recibidas
-  por excusa, y una marca de «sin stock heredado» (tabla~\ref{tab:variables}).
+  \item \textbf{Ingeniería de variables.} \nIngenieria{} variables calculadas fila por fila, sin promedios de grupo, para
+  que el despliegue pueda recalcularlas con la misma fórmula: logaritmos, la presión del stock, los ingresos y el stock
+  por juzgado, la proporción de puestos vacantes y de causas recibidas por excusa, y una marca de «sin stock heredado».
+  \item \textbf{Historia.} \nHistoricas{} variable de la serie por materia: la tendencia de las resoluciones el año
+  anterior (tabla~\ref{tab:variables}).
   \item \textbf{One-hot.} Materia, departamento y ámbito se convierten en columnas 0/1. Un código 1, 2, 3 inventaría un
-  orden que no existe. Las \nCompleta{} variables quedan en 40 columnas numéricas.
-  \item \textbf{Escala.} Para el SVM, la regresión logística y el Stacking, cada columna se lleva a media 0 y desvío 1: el
-  SVM mide distancias, y sin escala la remuneración (millones) taparía a todo lo demás.
-  \item \textbf{Partición.} \nEntrenamiento{} procesos (80~\%) para entrenar y ajustar, \nPrueba{} (20~\%) guardados
-  para la evaluación final, con la misma proporción de la clase en ambas partes (partición estratificada).
+  orden que no existe. Las \nCompleta{} variables quedan en 41 columnas numéricas.
+  \item \textbf{Escala.} Para el SVM, la regresión lineal y el Stacking, cada columna se lleva a media 0 y desvío 1: el SVM
+  mide distancias, y sin escala la remuneración (millones) taparía a todo lo demás.
+  \item \textbf{Partición.} \nEntrenamiento{} procesos (80~\%) para entrenar y ajustar, \nPrueba{} (20~\%) guardados para
+  la evaluación final, estratificada por quintiles del tiempo: las dos partes tienen la misma mezcla de procesos rápidos
+  y lentos.
 \end{itemize}
 
-Todos los pasos viven dentro de un \texttt{Pipeline} de scikit-learn: se ajustan solo con los datos de entrenamiento de
-cada pliegue y se aplican igual a los datos de validación y de prueba.
+Todos los pasos (menos el del objetivo) viven dentro de un \texttt{Pipeline} de scikit-learn \cite{sklearn}: se ajustan
+solo con los datos de entrenamiento de cada pliegue y se aplican igual a los datos de validación y de prueba.
 
 \begin{table}[H]
   \centering\footnotesize
-  \caption{Las \nCompleta{} variables del modelo: \nOriginales{} originales y \nIngenieria{} de ingeniería, con su
-  conversión y su correlación de Spearman con el objetivo (las categóricas no tienen). Notebook 19.}
+  \caption{Las \nCompleta{} variables del modelo: \nOriginales{} originales, \nIngenieria{} de ingeniería y
+  \nHistoricas{} histórica, con su conversión y su correlación de Spearman con el objetivo (las categóricas no tienen).
+  Notebook 19.}
   \label{tab:variables}
   \resizebox{\linewidth}{!}{\input{tablas/variables.tex}}
 \end{table}
@@ -202,54 +277,66 @@ cada pliegue y se aplican igual a los datos de validación y de prueba.
 \section{Modelo}
 
 \paragraph{Protocolo.} Todos los modelos se entrenan y se comparan solo con el 80~\% de entrenamiento, usando
-\textbf{validación cruzada estratificada de 5 pliegues}: el entrenamiento se parte en cinco, se entrena con cuatro y se
-mide con el quinto, cinco veces. La métrica principal es el \textbf{ROC-AUC}: la probabilidad de que el modelo ponga a un
-proceso que acumula mora por encima de uno que no acumula (0,5 es azar; 1, perfecto). No depende del umbral de decisión.
-Como referencias se usan una línea base que siempre predice la clase más frecuente y una regresión logística.
+\textbf{validación cruzada de 5 pliegues}: el entrenamiento se parte en cinco, se entrena con cuatro y se mide con el
+quinto, cinco veces. Como referencias se usan una \textbf{línea base} que siempre dice el tiempo promedio, la
+\textbf{fórmula ingenua} (stock heredado entre ingresos por 365, sin aprender nada) y una \textbf{regresión lineal} con
+freno a los pesos grandes (Ridge).
+
+\begin{idea}[title={Cómo se mide el error}]
+La métrica principal es el \textbf{error absoluto medio en $\log(1+\text{días})$} (MAE): es la que minimiza el ajuste de
+hiperparámetros. Para leerla en palabras se reportan tres medidas más:
+\begin{itemize}
+  \item \textbf{dentro del doble:} de cada 100 procesos, en cuántos el tiempo real quedó entre la mitad y el doble de lo
+  estimado;
+  \item \textbf{factor mediano:} la mitad de las estimaciones se equivoca por menos que este factor ($\times1{,}5$ = hasta
+  50~\% de más o de menos);
+  \item \textbf{$R^2$ en log:} qué parte de las diferencias de tiempo entre procesos explica el modelo (0 = nada, 1 = todo).
+\end{itemize}
+\end{idea}
 
 \subsection{SVM}
-La máquina de vectores de soporte busca la frontera que separa las dos clases con el \emph{mayor margen}, es decir, lo
-más lejos posible de los puntos de cada lado \cite{cortes1995}. Con el \emph{kernel} RBF la frontera puede curvarse. Tiene
-dos hiperparámetros: \texttt{C}, cuánto castiga los errores de entrenamiento, y \texttt{gamma}, qué tan lejos llega la
-influencia de cada punto. Necesita las variables escaladas.
+La máquina de vectores de soporte \cite{cortes1995}, en su versión de regresión (SVR), busca una curva que deje a la
+mayoría de los procesos dentro de un \emph{tubo} de ancho $\varepsilon$ alrededor de ella: los errores menores que
+$\varepsilon$ no se castigan, y los que quedan fuera, sí, en proporción a \texttt{C}. Con el \emph{kernel} RBF la curva
+puede doblarse, y \texttt{gamma} decide qué tan lejos llega la influencia de cada punto. Necesita las variables escaladas.
 
 \subsection{Bagging}
-\emph{Bootstrap aggregating} \cite{breiman1996}: se entrenan muchos árboles de decisión, cada uno con una muestra con
-reemplazo de las filas, y se promedian sus votos. Cada árbol solo es inestable; el promedio reduce esa varianza. Se
-probaron dos versiones: un \texttt{BaggingClassifier} de árboles y el \textbf{Random Forest} \cite{breiman2001}, que
-además hace que cada corte de cada árbol mire solo un subconjunto de variables al azar, para que los árboles se parezcan
-menos entre sí.
+\emph{Bootstrap aggregating} \cite{breiman1996}: se entrenan muchos árboles de regresión, cada uno con una muestra con
+reemplazo de las filas, y se \emph{promedian} sus estimaciones. Cada árbol solo es inestable; el promedio reduce esa
+varianza. Se probaron dos versiones: un \texttt{BaggingRegressor} de árboles y el \textbf{Random Forest}
+\cite{breiman2001}, que además hace que cada corte mire solo un subconjunto de variables al azar.
 
 \subsection{Boosting}
 Los árboles se entrenan \emph{en secuencia}, cada uno enfocado en lo que los anteriores hicieron mal. En
-\textbf{AdaBoost} \cite{freund1997} cada árbol pequeño da más peso a las filas mal clasificadas por el anterior. En
+\textbf{AdaBoost} \cite{freund1997} cada árbol da más peso a los procesos que el anterior estimó peor. En
 \textbf{Gradient Boosting} \cite{friedman2001} cada árbol se ajusta al error residual del conjunto anterior, y una tasa de
 aprendizaje controla cuánto corrige cada uno.
 
 \subsection{Stacking}
 Combina modelos distintos \cite{wolpert1992}: el SVM, el Random Forest y el Gradient Boosting (con sus hiperparámetros
-ajustados) producen una probabilidad cada uno, y una regresión logística aprende cuánto confiar en cada uno. Para que esa
-regresión no aprenda de predicciones hechas sobre los mismos datos con que se entrenó cada modelo, usa predicciones
-\emph{fuera de pliegue}, con una validación cruzada interna.
+ajustados) producen una estimación cada uno, y una regresión lineal aprende cuánto confiar en cada uno. Para que esa
+regresión no aprenda de estimaciones hechas sobre los mismos datos con que se entrenó cada modelo, usa predicciones
+\emph{fuera de pliegue}.
 
 \subsection{Hiperparámetros}
 Un hiperparámetro es una perilla que se fija antes de entrenar (cuántos árboles, qué tan profundos, cuánto castigar los
 errores) y que no se aprende de los datos: se elige probando combinaciones con la misma validación cruzada.
 
 \begin{itemize}
-  \item \textbf{SVM: búsqueda en grilla} (\texttt{GridSearchCV}) de las 30 combinaciones de 5 valores de \texttt{C} y 6
-  de \texttt{gamma}. El ROC-AUC va de \aucSvmMin{} a \aucCvSVM{}; el mejor par es \texttt{C}~$=$~\svmC{} con
-  \texttt{gamma}~$=$~\svmGamma: una frontera suave que castiga fuerte los errores. Con \texttt{gamma} alto la frontera se
-  curva demasiado y el modelo sobreajusta (figura~\ref{fig:grilla}).
-  \item \textbf{Resto: búsqueda aleatoria} (\texttt{RandomizedSearchCV}) de 30 combinaciones. Con cuatro o cinco
-  perillas la grilla completa tendría cientos de combinaciones, y la búsqueda aleatoria llega a valores casi igual de
-  buenos con mucho menos costo.
+  \item \textbf{SVM: búsqueda en grilla} (\texttt{GridSearchCV}) de 48 combinaciones (4 valores de \texttt{C}, 6 de
+  \texttt{gamma} y 2 de \texttt{epsilon}). El error va de \maeSvmMax{} a \maeSvmMin; el mejor punto es
+  \texttt{C}~$=$~\svmC, \texttt{gamma}~$=$~\svmGamma{} y \texttt{epsilon}~$=$~\svmEpsilon: una curva suave con un castigo
+  moderado. Con \texttt{gamma} alto la curva se ondula demasiado y el modelo sobreajusta (figura~\ref{fig:grilla}).
+  \item \textbf{Resto: búsqueda aleatoria} (\texttt{RandomizedSearchCV}) de 30 combinaciones. Con cuatro a seis perillas
+  la grilla completa tendría cientos de combinaciones, y la búsqueda aleatoria llega a valores casi igual de buenos con
+  mucho menos costo.
 \end{itemize}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.72\linewidth]{nb20_2.png}
-  \caption{ROC-AUC de validación cruzada del SVM para cada par (\texttt{C}, \texttt{gamma}). Notebook 20.}
+  \caption{Error de validación cruzada del SVM para cada par (\texttt{C}, \texttt{gamma}), con el mejor
+  \texttt{epsilon}; más bajo es mejor. Notebook 20.}
   \label{fig:grilla}
 \end{figure}
 
@@ -260,19 +347,24 @@ errores) y que no se aprende de los datos: se elige probando combinaciones con l
   \input{tablas/hiperparametros.tex}
 \end{table}
 
-\paragraph{Resultados.} Ajustar mejoró a todos los modelos (tabla~\ref{tab:cv} y figura~\ref{fig:ajuste}). Bagging pasó
-de \aucDefBagging{} a \aucCvBagging, el SVM de \aucDefSVM{} a \aucCvSVM{} y el Gradient Boosting de
-\aucDefGradientBoosting{} a \aucCvGradientBoosting. Lo que más ayudó a los árboles fue no dejarlos memorizar: hojas con al
-menos 3 o 4 procesos y cada árbol mirando solo una parte de las filas y de las variables. Arriba quedan empatados
-\textbf{Bagging, Random Forest y Stacking} (\aucCvBagging, \aucCvRandomForest{} y \aucCvStacking): la diferencia entre ellos
-es mucho menor que el desvío entre pliegues (alrededor de 0,03), así que con estos datos no se puede decir que uno sea
-mejor. La regresión logística queda cerca (\aucCvLogistica): la señal es moderada y casi aditiva. El Stacking no supera a
-su mejor componente, señal de que los tres modelos base aprenden lo mismo.
+\paragraph{Resultados.} Todos los modelos entrenados superan a las dos referencias (tabla~\ref{tab:cv} y
+figura~\ref{fig:ajuste}): la línea base tiene un error de \maeCvBase{} y la fórmula ingenua \maeCvIngenua; el mejor modelo,
+\textbf{\mejorModelo}, baja a \mejorMaeCv. Seis modelos quedan juntos arriba (Stacking \maeCvStacking, Gradient Boosting
+\maeCvGradientBoosting, SVM \maeCvSVM, Bagging \maeCvBagging, Random Forest \maeCvRandomForest, AdaBoost \maeCvAdaBoost): las
+diferencias son menores que el desvío entre pliegues (alrededor de 0,08), así que con estos datos no se puede decir que
+uno sea claramente mejor. La regresión lineal queda atrás (\maeCvRidge): parte de la relación entre carga y tiempo no es
+una suma de efectos. Ajustar hiperparámetros ayuda a todos, sobre todo a AdaBoost (de \maeDefAdaBoost{} a
+\maeCvAdaBoost) y a Bagging (de \maeDefBagging{} a \maeCvBagging). Gradient Boosting eligió la pérdida \emph{Huber}, que
+trata los errores grandes como lineales: así unos pocos procesos extremos no arrastran a los demás.
+
+\paragraph{La fórmula ingenua acierta seguido, pero falla por mucho.} Deja a casi 6 de cada 10 procesos dentro del doble,
+pero explica casi nada de las diferencias entre procesos ($R^2$ cercano a 0), porque en los procesos con mucha fila se queda
+muy corta. Los modelos explican alrededor del 40~\%.
 
 \begin{table}[H]
   \centering\small
-  \caption{Validación cruzada de 5 pliegues en el entrenamiento: ROC-AUC con los valores por defecto y ajustado, desvío
-  entre pliegues, exactitud y F1 del modelo ajustado. Notebook 20.}
+  \caption{Validación cruzada de 5 pliegues en el entrenamiento: error (MAE en log) con los valores por defecto y
+  ajustado, desvío entre pliegues, proporción dentro del doble y $R^2$ del modelo ajustado. Notebook 20.}
   \label{tab:cv}
   \resizebox{\linewidth}{!}{\input{tablas/metricas_cv.tex}}
 \end{table}
@@ -280,7 +372,7 @@ su mejor componente, señal de que los tres modelos base aprenden lo mismo.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.85\linewidth]{nb20_1.png}
-  \caption{Cada modelo antes y después de ajustar hiperparámetros. Notebook 20.}
+  \caption{Cada modelo antes y después de ajustar hiperparámetros (línea gris: la línea base). Notebook 20.}
   \label{fig:ajuste}
 \end{figure}
 
@@ -288,48 +380,58 @@ su mejor componente, señal de que los tres modelos base aprenden lo mismo.
 \section{Evaluación}
 
 \subsection{Métricas en la prueba}
-Los \nPrueba{} procesos de prueba se usan por primera vez aquí, con cada modelo entrenado en todo el entrenamiento
-(tabla~\ref{tab:test}). Todos superan a la línea base, con ROC-AUC entre \aucPruebaAdaBoost{} (AdaBoost) y
-\aucPruebaStacking{} (Stacking). El mejor modelo de la validación, \mejorModelo, obtiene \mejorAucPrueba, algo menos que
-en la validación (\mejorAucCv): es lo esperable cuando se elige el mejor de varios candidatos. Con \nPrueba{} filas,
-diferencias de 0,01 entre modelos están dentro del ruido (figura~\ref{fig:roc}).
+Los \nPrueba{} procesos de prueba se usan por primera vez aquí (tabla~\ref{tab:test}). El mejor modelo de la validación,
+\mejorModelo, obtiene un error de \mejorMaePrueba: deja al \textbf{\mejorDobPrueba~\%} de los procesos entre la mitad y el
+doble de su tiempo real, la mitad de sus estimaciones se equivoca por menos de $\times$\mejorFactorPrueba{} y su error
+mediano es de \mejorDiasPrueba{} días. Las referencias: línea base \maePruebaBase{} (\dobPruebaBase~\% dentro del doble) y
+fórmula ingenua \maePruebaIngenua{} (\dobPruebaIngenua~\%, pero $R^2$ de \rdosPruebaIngenua). Con \nPrueba{} procesos,
+diferencias de 0,02 entre modelos están dentro del ruido: en la prueba la regresión lineal (\maePruebaRidge) queda casi
+igual que los ensambles.
 
 \begin{table}[H]
   \centering\small
-  \caption{Métricas en la prueba (umbral 0,5). Notebook 21.}
+  \caption{Métricas en la prueba. Notebook 21.}
   \label{tab:test}
-  \input{tablas/metricas_test.tex}
+  \resizebox{\linewidth}{!}{\input{tablas/metricas_test.tex}}
 \end{table}
 
 \begin{figure}[H]
   \centering
-  \begin{minipage}{0.55\linewidth}\centering\includegraphics[width=\linewidth]{nb21_1.png}\end{minipage}\hfill
-  \begin{minipage}{0.42\linewidth}\centering\includegraphics[width=\linewidth]{nb21_2.png}\end{minipage}
-  \caption{Izquierda: curvas ROC en la prueba. Derecha: matriz de confusión de \mejorModelo. Notebook 21.}
-  \label{fig:roc}
+  \includegraphics[width=\linewidth]{nb21_1.png}
+  \caption{Izquierda: tiempo estimado por \mejorModelo{} contra el tiempo real de los procesos de prueba (escala
+  logarítmica; las líneas punteadas marcan la mitad y el doble). Derecha: proporción dentro del doble por materia.
+  Notebook 21.}
+  \label{fig:prueba}
 \end{figure}
 
-\begin{idea}[title={Cómo leer la matriz de confusión}]
-De los \nPrueba{} procesos de prueba, \mejorModelo{} acertó \cmVP{} que acumularon y \cmVN{} que no. Dio \cmFP{}
-alarmas falsas (marcó «acumula» y no acumuló) y perdió \cmFN{} casos (acumularon y no los marcó). Recall
-\mejorRecallPrueba: detecta 7 de cada 10 procesos que acumulan. Precisión \mejorPrecisionPrueba: de cada 10 que marca,
-acierta 6. Exactitud \mejorExactitudPrueba: dos de cada tres procesos bien clasificados.
-\end{idea}
-
-\subsection{Importancia de las variables}
-Se midió por \textbf{permutación}: se barajan los valores de una variable entre las filas y se mide cuánto cae el
-ROC-AUC. Si cae mucho, el modelo dependía de ella. Sirve para cualquier modelo, incluido el SVM, que no tiene
-importancias propias. Se calculó sobre \mejorModelo, en los pliegues de validación del entrenamiento (5 pliegues
-$\times$ 10 barajadas), nunca en la prueba, para que elegir las variables no «espíe» los datos con que se evalúa. Como
-comparación se incluye la importancia por impureza del Random Forest.
-
-Lo que más usa el modelo son \textbf{tres variables de ingeniería}: \topVarA, \topVarB{} y \topVarC; siguen la \topVarD{}
-y los \topVarE{} (tabla~\ref{tab:imp} y figura~\ref{fig:imp}). Las variables de personal, vacantes y remuneración, y el
-ámbito, casi no aportan. Las dos medidas de importancia coinciden en las dos primeras.
+\paragraph{Acierta mucho más en los procesos grandes.} Dentro del doble: \dobTamanoA~\% de los procesos con 10 a 30
+causas, \dobTamanoB~\% con 31 a 100, \dobTamanoC~\% con 101 a 500 y \textbf{\dobTamanoD~\%} con más de 500
+(tabla~\ref{tab:tamano}). En un proceso con miles de causas la fila es estable; en uno con 15, una sola causa cambia mucho
+el tiempo. Por materia acierta más en familia y civil que en niñez y trabajo (figura~\ref{fig:prueba}).
 
 \begin{table}[H]
   \centering\small
-  \caption{Las 12 variables más importantes: caída del ROC-AUC al barajarlas (media y desvío entre pliegues) e
+  \caption{Error de \mejorModelo{} en la prueba según el tamaño del proceso. Notebook 21.}
+  \label{tab:tamano}
+  \input{tablas/tamano.tex}
+\end{table}
+
+\subsection{Importancia de las variables}
+Se midió por \textbf{permutación}: se barajan los valores de una variable entre las filas y se mide cuánto \emph{sube} el
+error. Si sube mucho, el modelo dependía de ella. Sirve para cualquier modelo, incluido el SVM, que no tiene importancias
+propias. Se calculó sobre \mejorModelo, en los pliegues de validación del entrenamiento (5 pliegues $\times$ 10 barajadas),
+nunca en la prueba, para que elegir las variables no «espíe» los datos con que se evalúa. Como comparación se incluye la
+importancia por impureza del Random Forest.
+
+Lo que más usa el modelo es la \textbf{carga en relación con la capacidad}: \topVarA, \topVarB, \topVarC, \topVarD{} y
+\topVarE{} (tabla~\ref{tab:imp} y figura~\ref{fig:imp}). Las cinco salen de solo tres datos: la fila que espera (stock
+heredado), las causas que entran y los juzgados. El personal, las vacantes, la remuneración y el ámbito importan poco. La
+variable histórica queda en el puesto \rangoHistorica{} (\impHistorica): el ritmo de la materia en todo el país casi no dice
+nada del tiempo de un proceso concreto. La historia sirvió más para \emph{validar la medida} que como pista del modelo.
+
+\begin{table}[H]
+  \centering\small
+  \caption{Las 12 variables más importantes: cuánto sube el error al barajarlas (media y desvío entre pliegues) e
   importancia por impureza del Random Forest. Notebook 21.}
   \label{tab:imp}
   \input{tablas/importancia.tex}
@@ -338,30 +440,30 @@ y los \topVarE{} (tabla~\ref{tab:imp} y figura~\ref{fig:imp}). Las variables de 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.8\linewidth]{nb21_3.png}
-  \caption{Importancia por permutación; en rojo, las 5 elegidas; con asterisco, las de ingeniería. Notebook 21.}
+  \caption{Importancia por permutación; en rojo, las 5 elegidas; con asterisco, las de ingeniería; (h), la histórica.
+  Notebook 21.}
   \label{fig:imp}
 \end{figure}
 
 \subsection{Tres versiones: \nOriginales, \nCompleta{} y 5 variables}
 Cada modelo se volvió a entrenar con tres conjuntos de variables: las \nOriginales{} originales, las \nCompleta{} con
-ingeniería y las 5 más importantes (tabla~\ref{tab:versiones} y figura~\ref{fig:versiones}).
+ingeniería e historia y las 5 más importantes (tabla~\ref{tab:versiones} y figura~\ref{fig:versiones}).
 
 \begin{itemize}
-  \item \textbf{Con ingeniería (\nCompleta) es la mejor en todos los modelos.} \mejorModelo: \aucVVeintisieteCvBagging{}
-  en validación y \aucVVeintisietePruebaBagging{} en la prueba.
-  \item \textbf{Las \nOriginales{} originales} bajan poco a los árboles (Random Forest \aucVDiecinueveCvRandomForest) y
-  mucho a la regresión logística (\aucVDiecinueveCvLogistica) y al SVM (\aucVDiecinueveCvSVM). Los árboles aproximan los
-  cocientes cortando en dos variables a la vez; los modelos lineales y el SVM no los pueden construir solos. La ingeniería
-  de variables es lo que más aporta en este problema.
-  \item \textbf{Las 5 más importantes} pierden alrededor de 0,05 en validación y 0,07 en la prueba
-  (\mejorModelo: \aucVCincoCvBagging{} y \aucVCincoPruebaBagging). El modelo pequeño es más simple de usar y de explicar,
-  pero la señal que estaba repartida entre las otras 22 variables no es despreciable.
+  \item \textbf{Con ingeniería e historia (\nCompleta) es la mejor en todos los modelos.} \mejorModelo:
+  \maeVVeintiochoCvStacking{} en validación y \maeVVeintiochoPruebaStacking{} en la prueba.
+  \item \textbf{Las \nOriginales{} originales} pierden bastante (\mejorModelo{} \maeVDiecinueveCvStacking{} y
+  \maeVDiecinuevePruebaStacking; la regresión lineal \maeVDiecinueveCvRidge): los cocientes y logaritmos que arma la
+  ingeniería son buena parte de la señal, y los modelos lineales no los pueden construir solos.
+  \item \textbf{Las 5 más importantes quedan cerca de las \nCompleta} (\mejorModelo: \maeVCincoCvStacking{} y
+  \maeVCincoPruebaStacking; SVM: \maeVCincoCvSVM{} y \maeVCincoPruebaSVM). El modelo pequeño casi no pierde, porque esas
+  cinco ya concentran la carga y la capacidad.
 \end{itemize}
 
 \begin{table}[H]
   \centering\small
-  \caption{ROC-AUC de cada modelo con cada versión de las variables, en validación cruzada (CV) y en la prueba.
-  Notebook 21.}
+  \caption{Error (MAE en log) de cada modelo con cada versión de las variables, en validación cruzada (CV) y en la
+  prueba. Notebook 21.}
   \label{tab:versiones}
   \input{tablas/versiones.tex}
 \end{table}
@@ -369,20 +471,22 @@ ingeniería y las 5 más importantes (tabla~\ref{tab:versiones} y figura~\ref{fi
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\linewidth]{nb21_4.png}
-  \caption{Barras: validación cruzada; puntos: prueba. Notebook 21.}
+  \caption{Barras: validación cruzada; puntos: prueba; línea naranja: la fórmula ingenua en la prueba. Más bajo es mejor.
+  Notebook 21.}
   \label{fig:versiones}
 \end{figure}
 
 \subsection{Control de robustez}
 El mismo tipo de proceso (por ejemplo, «divorcio») aparece en varios departamentos. Si el modelo solo «recordara» cada
-tipo, le iría bien en la validación normal y mal con un tipo nuevo. Con validación por grupos (\texttt{GroupKFold}),
-todas las filas de un tipo de proceso quedan del mismo lado. \mejorModelo{} con \nCompleta{} variables baja de
-\aucVVeintisieteCvBagging{} a \aucGruposVeintisieteBagging{} (\difGruposVeintisieteBagging): el modelo generaliza a tipos
-de proceso que no vio. El SVM es el que más cae (tabla~\ref{tab:robustez}).
+tipo, le iría bien en la validación normal y mal con un tipo nuevo. Con validación por grupos (\texttt{GroupKFold}), todas
+las filas de un tipo de proceso quedan del mismo lado. \mejorModelo{} con \nCompleta{} variables sube de
+\maeVVeintiochoCvStacking{} a \maeGruposVeintiochoStacking{} (+\difGruposVeintiochoStacking) y con 5 variables apenas
++\difGruposCincoStacking: el modelo generaliza a tipos de proceso que no vio. El SVM con \nCompleta{} variables es el que
+más pierde (tabla~\ref{tab:robustez}).
 
 \begin{table}[H]
   \centering\small
-  \caption{Validación cruzada normal y por grupos de tipo de proceso. Notebook 21.}
+  \caption{Validación cruzada normal y por grupos de tipo de proceso (MAE en log). Notebook 21.}
   \label{tab:robustez}
   \input{tablas/robustez.tex}
 \end{table}
@@ -390,61 +494,82 @@ de proceso que no vio. El SVM es el que más cae (tabla~\ref{tab:robustez}).
 %=====================================================================
 \section{Despliegue}
 
-Un modelo solo sirve si alguien lo puede usar. El modelo de 5 variables se publicó como una \textbf{página web pública}:
-se escriben los datos de un proceso y el navegador calcula la probabilidad de que acumule mora. La página se empaqueta
-en un contenedor de Docker y se publica en un servidor privado virtual (VPS) con Docker Compose. La web de
-documentación del proyecto tiene además una versión más sencilla (\texttt{web/prediccion.html}).
+Un modelo solo sirve si alguien lo puede usar. El modelo de 5 variables se publicó como una \textbf{página web pública}
+en \url{https://proyanalisis.maxi42.space/}: la persona elige materia, tipo de proceso y lugar, y ve cuánto tardaría un
+caso como el suyo. La web de documentación del proyecto tiene además una versión de clase
+(\texttt{web/prediccion.html}) donde se escriben los tres datos a mano.
 
 \subsection{El modelo exportado}
 
-\paragraph{Qué modelo.} Entre los modelos de árboles, que se pueden exportar a un archivo de datos, el de mejor
-validación cruzada con 5 variables fue \textbf{\modeloDesplegado} (\aucVCincoCvGradientBoosting; Random Forest
-\aucVCincoCvRandomForest, Bagging \aucVCincoCvBagging). Tiene \nArboles{} árboles. Se entrena con el mismo 80~\% de
-entrenamiento, de modo que las métricas de la prueba son las del modelo publicado.
+\paragraph{Qué modelo.} Entre los modelos de árboles, que se pueden exportar a un archivo de datos, el de menor error de
+validación cruzada con 5 variables fue \textbf{\modeloDesplegado} (\maeVCincoCvGradientBoosting; Random Forest
+\maeVCincoCvRandomForest, Bagging \maeVCincoCvBagging). Stacking y SVM quedaron apenas mejor, pero no se pueden pasar a un
+archivo de árboles. Tiene \nArboles{} árboles y se entrena con el mismo 80~\% de entrenamiento, de modo que las métricas de
+la prueba son las del modelo publicado.
 
-\paragraph{Qué pide.} Solo \nEntradas{} datos: la materia, los ingresos del año, los juzgados de esa materia en el
-territorio y el stock heredado. Las tres variables de ingeniería se calculan en la página con las mismas fórmulas del
-notebook.
+\paragraph{Qué pide.} Solo \nEntradas{} datos: la fila que espera (stock heredado), las causas que entran por año y los
+juzgados. Las 5 variables se calculan en la página con las mismas fórmulas del notebook.
+
+\paragraph{Qué tan bien estima.} En la prueba: error \maeDesplegado, \textbf{\dobDesplegado~\%} de los procesos dentro del
+doble, factor mediano $\times$\factorDesplegado{} y error mediano de \diasDesplegado{} días. El mismo modelo con las
+\nCompleta{} variables daba \maeDesplegadoVeintiocho: simplificar a 5 cuesta muy poco.
 
 \paragraph{Cómo funciona.} Un árbol es una lista de preguntas «¿variable $\le$ umbral?» y un valor en cada hoja. El
-notebook 22 copia esas preguntas y las hojas, junto con el preprocesamiento (medianas para faltantes y categorías del
-one-hot), a un archivo JSON de \pesoJson~MB. La página lo lee y recorre los árboles en JavaScript.
+notebook 22 copia esas preguntas y las hojas, junto con el preprocesamiento, a un archivo JSON de \pesoJson~MB. La página
+lo lee, recorre los árboles en JavaScript, suma sus aportes ---el resultado es $\log(1+\text{días})$--- y lo pasa a días.
+Una reimplementación en Python que lee \emph{solo} el JSON da la misma estimación que scikit-learn en los \nPrueba{}
+procesos de prueba, con una diferencia máxima de $\difJson$.
 
-\paragraph{Control.} Una reimplementación en Python que lee \emph{solo} el JSON, sin scikit-learn, da la misma
-probabilidad que el modelo original en los \nPrueba{} procesos de prueba, con una diferencia máxima de $\difJson$. La
-página repite el control al cargarse con 20 procesos y muestra cuántos coinciden.
+\subsection{El rango probable}
+Una sola cifra engaña: el modelo se equivoca, y más en los procesos chicos. Por eso cada estimación va con un
+\textbf{rango}. Con validación cruzada se midió cuánto se equivocó el modelo en procesos que no había visto y se guardó
+entre qué errores cayó la mitad central (del 25~\% al 75~\%), por separado según el tamaño del proceso
+(tabla~\ref{tab:bandas}). En un proceso de 10 a 30 causas el rango va de $\times$\rangoChicoDesde{} a
+$\times$\rangoChicoHasta{} de la estimación; en uno de más de 500, de $\times$\rangoGrandeDesde{} a
+$\times$\rangoGrandeHasta. En la prueba, que no participó en el cálculo, cayó dentro de su rango el \coberturaRango~\% de
+los procesos, cerca del 50~\% buscado.
 
-\paragraph{Qué tan bien predice.} En la prueba: ROC-AUC \aucDesplegado, exactitud \exactitudDesplegado, recall
-\recallDesplegado{} y precisión \precisionDesplegado. El mismo modelo con las \nCompleta{} variables obtenía
-\aucDesplegadoVeintisiete: el costo de simplificar a 5 variables queda medido. La página lo dice: sirve para
-\emph{ordenar} qué procesos mirar primero, no para decidir sobre un juzgado concreto.
+\begin{table}[H]
+  \centering\small
+  \caption{El rango probable según el tamaño del proceso: la estimación se multiplica por estos factores. Notebook 22.}
+  \label{tab:bandas}
+  \input{tablas/bandas.tex}
+\end{table}
 
-\subsection{La página de predicción}
+\subsection{La página pública}
 
-La carpeta \path{despliegue/sitio/} contiene la página pública: \texttt{index.html}, \texttt{estilos.css} (colores
-del escudo de la UMSA, tema claro y oscuro), \texttt{prediccion.js} (el modelo en JavaScript) y el JSON del modelo, que
-el notebook 22 escribe en esa carpeta y verifica que sea idéntico al de la web del proyecto. La página ofrece:
+El notebook 23 arma el escenario de un \textbf{caso que entra al empezar 2024}: la fila que espera es lo que quedó
+pendiente al cierre de 2023, los juzgados son los mismos y, como los ingresos de 2024 no se conocen, se usan los de 2023.
+Con eso calcula la estimación de los 1.240 procesos con movimiento y escribe un JSON de 55~KB con nombres legibles
+(«Familia», «El Alto», «Provincias de La Paz»). En los procesos con tiempo medido en 2023, la estimación para 2024 se
+parece a lo medido: el 76~\% queda entre la mitad y el doble, y el 93~\% en los procesos con más de 500 causas, en línea con
+lo que mostró la historia (de un año al siguiente el tiempo cambia poco). Para cada consulta la página muestra:
 
 \begin{itemize}
-  \item \textbf{El formulario:} la materia como botones y los tres datos numéricos con un campo y un deslizador (en
-  escala logarítmica para los ingresos y el stock, que tienen cola larga), con la mediana y el máximo de los datos como
-  referencia. También se puede cargar uno de los 20 procesos reales de la prueba.
-  \item \textbf{El resultado:} un medidor con la probabilidad, el veredicto respecto del umbral de 0,5 y las 5
-  variables que usa el modelo con sus fórmulas.
-  \item \textbf{«¿Y si cambia algo?»:} cuánto se movería la probabilidad si los ingresos o el stock subieran o bajaran
-  un 25~\% o si hubiera un juzgado más o menos, en puntos porcentuales. Es una forma de leer el modelo: muestra, para
-  ese proceso, hacia dónde empuja cada dato.
-  \item \textbf{La ficha del modelo y la autoverificación:} las métricas de la prueba y la comparación de 20 procesos
-  con las probabilidades de scikit-learn. Además, una prueba con Node.js recorrió con el mismo código JavaScript los
-  \nPrueba{} procesos de prueba y coincidió con scikit-learn en todos (diferencia máxima del orden de $10^{-16}$).
+  \item \textbf{«Si tu caso entra ahora, tardaría…»}: la estimación en palabras (días, meses o años), el rango probable
+  y una regla que dibuja el rango, la estimación y lo que tardaba en 2023. Por ejemplo, para la asistencia familiar en
+  Santa Cruz, el trámite con más causas del país, unos 12 meses (entre 8 y 17); para un divorcio en Sucre, unos 67 días
+  (entre 44 y 97).
+  \item \textbf{Lo que tardaba en 2023}, medido sin modelo, y \textbf{el ritmo de su materia}: las resueltas de 2020 a
+  2023 en su ámbito.
+  \item \textbf{El mismo trámite en otros lugares}, ordenado de más rápido a más lento.
+  \item \textbf{La historia}: un gráfico del tiempo del país, las capitales y las provincias de 2007 a 2023 con lo que la
+  fila de verdad tardó en vaciarse, y las dos comprobaciones de la sección 1.2.
+  \item \textbf{Dónde un caso nuevo tardaría más}, una tabla para quien gestiona juzgados, filtrable por departamento y
+  materia.
+  \item Una advertencia en los procesos con menos de 10 causas, cuya estimación se apoya en procesos parecidos y es
+  menos firme.
 \end{itemize}
+
+\noindent Al abrirse, la página recalcula las 1.240 estimaciones con los árboles del JSON y las compara con las de
+Python: coinciden todas (sello «1.240 / 1.240 coinciden» en los detalles técnicos).
 
 \subsection{Publicación en un VPS con Docker Compose}
 
-Como el modelo corre en el navegador, el servidor no necesita Python ni scikit-learn: solo entrega archivos
-estáticos. Eso hace al despliegue simple, barato y seguro: el servidor no recibe ni guarda los datos que se escriben en
-el formulario. La carpeta \path{despliegue/} es independiente del resto del proyecto y tiene tres archivos de
-configuración (tabla~\ref{tab:despliegue}).
+Como el modelo corre en el navegador, el servidor no necesita Python ni scikit-learn: solo entrega archivos estáticos. Eso
+hace al despliegue simple, barato y seguro: el servidor no recibe ni guarda lo que se consulta. La carpeta
+\path{despliegue/} es independiente del resto del proyecto y tiene tres archivos de configuración
+(tabla~\ref{tab:despliegue}).
 
 \begin{table}[H]
   \centering\small
@@ -457,60 +582,61 @@ configuración (tabla~\ref{tab:despliegue}).
     \texttt{Dockerfile} & Parte de la imagen \texttt{nginxinc/nginx-unprivileged:1.27-alpine} (el servidor web nginx
       corriendo como usuario sin privilegios), copia la configuración y la carpeta \texttt{sitio/}, expone el puerto 8080
       y define un chequeo de salud. \\
-    \texttt{nginx.conf} & Sirve los archivos, comprime el JSON del modelo (gzip), envía cabeceras de seguridad (una
-      política de contenido que solo permite archivos propios y las fuentes tipográficas), oculta la versión de nginx y
-      responde \texttt{ok} en \texttt{/salud}. \\
-    \texttt{docker-compose.yml} & Define el servicio \texttt{prediccion-mora}: construye la imagen, publica el puerto
-      (8080 por defecto, configurable con la variable \texttt{PUERTO}), reinicia el contenedor si se cae, lo deja de solo
-      lectura, sin capacidades de Linux ni escalada de privilegios, y revisa \texttt{/salud} cada 30 segundos. \\
+    \texttt{nginx.conf} & Sirve los archivos, comprime los JSON (gzip), envía cabeceras de seguridad (una política de
+      contenido que solo permite archivos propios y las fuentes tipográficas), oculta la versión de nginx y responde
+      \texttt{ok} en \texttt{/salud}. \\
+    \texttt{docker-compose.yml} & Define el servicio: construye la imagen, publica el puerto 8080, reinicia el contenedor
+      si se cae, lo deja de solo lectura, sin capacidades de Linux ni escalada de privilegios, y revisa \texttt{/salud}
+      cada 30 segundos. \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\noindent En el VPS, con Docker instalado, el despliegue completo son tres comandos:
+\noindent El VPS usa \textbf{Dokploy}, un panel que despliega aplicaciones de Docker Compose desde un repositorio de
+GitHub: lee \path{despliegue/docker-compose.yml} de la rama \texttt{main}, construye la imagen y la levanta. Su proxy
+(Traefik) atiende el dominio \texttt{proyanalisis.maxi42.space}, obtiene el certificado HTTPS de Let's Encrypt y reenvía
+las visitas al puerto 8080 del contenedor. Para actualizar el modelo se vuelven a ejecutar los notebooks 22 y 23 y se hace
+\texttt{git push}: Dokploy vuelve a publicar. Sin Dokploy, en cualquier VPS con Docker basta:
 
 \begin{verbatim}
-scp -r despliegue usuario@IP-DEL-VPS:~/prediccion-mora    # llevar la carpeta
-ssh usuario@IP-DEL-VPS "cd ~/prediccion-mora && docker compose up -d --build"
-curl http://IP-DEL-VPS:8080/salud                          # responde: ok
+cd despliegue && docker compose up -d --build
+curl http://localhost:8080/salud          # responde: ok
 \end{verbatim}
-
-\noindent La página queda en \texttt{http://IP-DEL-VPS:8080}. Si el VPS tiene un dominio y un proxy inverso (por
-ejemplo, Caddy), el proxy apunta a ese puerto y agrega HTTPS. Para actualizar el modelo se vuelve a ejecutar el
-notebook 22 y se repite \texttt{docker compose up -d --build}: la configuración no cambia. Las instrucciones completas
-están en \path{despliegue/README.md}.
 
 %=====================================================================
 \section*{Conclusiones}
 \addcontentsline{toc}{section}{Conclusiones}
 
 \begin{enumerate}
-  \item \textbf{Sí se puede anticipar, con una señal moderada.} Con datos de entrada (stock heredado, demanda, materia,
-  territorio, juzgados y personal) los modelos ordenan bien a 3 de cada 4 pares de procesos (ROC-AUC \mejorAucCv{} en
-  validación y \mejorAucPrueba{} en la prueba), muy por encima del azar.
-  \item \textbf{El preprocesamiento importa más que el modelo.} Entre los siete modelos hay a lo sumo 0,03 de diferencia;
-  entre trabajar con o sin las variables de ingeniería, hasta 0,15 en los modelos lineales. Lo que predice la mora es la
-  \emph{carga por juzgado} y la \emph{proporción entre el stock heredado y lo que entra}, no las cantidades sueltas.
-  \item \textbf{Los ensambles ganan por poco.} Bagging, Random Forest y Stacking empatan arriba; Gradient Boosting los
-  sigue de cerca. El ajuste de hiperparámetros sube hasta 0,04 a cada modelo.
-  \item \textbf{Más carga, más mora; más stock heredado relativo, menos.} Los procesos con muchos ingresos por juzgado
-  tienden a acumular. Los que heredan mucho stock respecto de lo que les entra tienden a resolver más de lo que reciben.
-  El personal y las vacantes del departamento casi no aportan, en línea con lo que encontró el notebook 18.
-  \item \textbf{El modelo de 5 variables funciona en el navegador} y reproduce exactamente al de Python, a cambio de
-  perder alrededor de 0,07 de ROC-AUC en la prueba. Se publica en un VPS con Docker Compose, sin código Python en el
-  servidor.
+  \item \textbf{Sí se puede estimar cuánto va a tardar un caso, con un rango.} Para el grupo de su tipo de proceso y
+  lugar, el modelo deja a 2 de cada 3 procesos que no vio entre la mitad y el doble de su tiempo real, y a casi 9 de cada
+  10 en los procesos grandes. No es un plazo legal, pero es mucho más de lo que hoy tiene quien inicia un proceso.
+  \item \textbf{La historia respalda la medida.} En 17 años de datos, el tiempo estimado quedó a una mediana de
+  \histErrVaciado~\% de lo que la fila de verdad tardó en vaciarse, y de un año al siguiente cambia una mediana de
+  \histErrAnterior~\%. Por eso el último Anuario sirve para quien presenta su caso después, salvo en años excepcionales
+  como la pandemia.
+  \item \textbf{El tiempo depende de la carga relativa a la capacidad.} Lo que más explica cuánto se tarda es la fila
+  heredada en relación con lo que entra y con los juzgados que la atienden; no las cantidades sueltas, ni el personal,
+  ni ser capital o provincia. Tres datos bastan para el modelo publicado.
+  \item \textbf{El preprocesamiento importa más que el modelo.} Entre los seis mejores modelos hay a lo sumo 0,02 de
+  diferencia; entre trabajar con o sin las variables de ingeniería, entre 0,06 y 0,11 en los ensambles y 0,13 en la regresión
+  lineal. Los ensambles ganan por poco, y el Stacking no supera con claridad a sus componentes.
+  \item \textbf{La página lo pone al alcance de cualquiera.} Funciona en el navegador, reproduce exactamente al modelo de
+  Python y se publica con Docker Compose en un VPS, sin código Python en el servidor.
 \end{enumerate}
 
 \section*{Limitaciones}
 \addcontentsline{toc}{section}{Limitaciones}
 \begin{itemize}
-  \item \textbf{Un solo año.} Todo es 2023. El modelo no se probó en otro año, y el stock publicado no se conserva entre
-  años consecutivos (notebook 15), lo que impide armar una serie por proceso.
-  \item \textbf{Los ingresos se conocen al cerrar el año.} El modelo usa la demanda del año y no las resueltas. Para usarlo
-  al empezar un año habría que poner una estimación de los ingresos (por ejemplo, los del año anterior).
+  \item \textbf{Es el tiempo de la fila, no el de un expediente.} El Anuario no sigue causas: el tiempo es el promedio de
+  un grupo y supone que las causas salen en orden. Un caso concreto puede ir más rápido o más lento según el juzgado, las
+  partes y lo que se pida.
+  \item \textbf{El detalle por tipo de proceso es de un solo año.} La historia valida la medida para el país, las capitales
+  y las provincias, no para cada tipo de proceso. Para saber cuánto acierta la estimación de 2024 en cada proceso hace
+  falta un segundo Anuario con el mismo detalle. Los datos son de 2023: el Anuario más reciente con este detalle.
+  \item \textbf{Los procesos chicos son poco firmes.} Con menos de 30 causas, el rango es amplio (de casi la mitad a más del
+  doble).
   \item \textbf{Solo materias no penales,} porque las penales no publican resueltas.
-  \item \textbf{Muestra pequeña.} Con \nPrueba{} procesos de prueba, las diferencias entre modelos de 0,01 no son
-  significativas. El umbral de 0,5 no se ajustó: si importara más detectar que evitar alarmas falsas, convendría bajarlo.
   \item \textbf{Mide celeridad, no calidad} de las decisiones judiciales.
 \end{itemize}
 
@@ -534,31 +660,31 @@ están en \path{despliegue/README.md}.
 \appendix
 \section{Reproducción}
 
-Los notebooks 19 a 22 leen la tabla curada \path{data/curated/features/dataset_analitico_curado.parquet}, que ya
-está en el repositorio: no hace falta el PDF. Desde la raíz del proyecto (en Windows, \path{.venv\Scripts\pip}):
+Los notebooks 19 a 23 leen la tabla curada \path{data/curated/features/dataset_analitico_curado.parquet} y las tablas del
+capítulo 9 (\path{data/processed/}), que ya están en el repositorio: no hace falta el PDF. Desde la raíz del proyecto (en
+Windows, \path{.venv\Scripts\pip}):
 
 \begin{verbatim}
 python -m venv .venv
 .venv/bin/pip install -r requirements.txt
 
 cd notebooks
-jupyter nbconvert --to notebook --execute --inplace 19_preparacion_modelo.ipynb
-jupyter nbconvert --to notebook --execute --inplace 20_modelos.ipynb
-jupyter nbconvert --to notebook --execute --inplace 21_evaluacion.ipynb
-jupyter nbconvert --to notebook --execute --inplace 22_despliegue.ipynb
+for n in 19_preparacion_modelo 20_modelos 21_evaluacion \
+         22_despliegue 23_sitio_publico; do
+  jupyter nbconvert --to notebook --execute --inplace $n.ipynb
+done
 
 cd ../informe
-pdflatex informe.tex          # dos veces
+pdflatex --disable-installer informe.tex     # dos veces
 cd ../despliegue
-docker compose up -d --build  # abrir http://localhost:8080
+docker compose up -d --build                 # abrir http://localhost:8080
 # sin Docker: cd despliegue/sitio && python -m http.server 8000
 \end{verbatim}
 
 \noindent El notebook 22 escribe las tablas y las cifras de este informe en \path{informe/tablas/}, de modo que al
-volver a correr el pipeline el informe se actualiza al compilar.
-
-\noindent Todas las salidas intermedias quedan en \texttt{data/curated/modelo/}: el diccionario de variables
-(\texttt{variables.csv}), la partición, las métricas de validación y de prueba, los hiperparámetros, la importancia y la
-comparación de versiones. La semilla es fija (42), así que cada ejecución da los mismos números.
+volver a correr el pipeline el informe se actualiza al compilar. Todas las salidas intermedias quedan en
+\texttt{data/curated/modelo/}: la serie histórica y sus comprobaciones (\texttt{historia\_*.csv}), el diccionario de
+variables, la partición, las métricas, los hiperparámetros, la importancia, las versiones y las bandas del rango. La
+semilla es fija (42), así que cada ejecución da los mismos números.
 
 \end{document}

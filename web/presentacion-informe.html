@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Presentación: informe final — Congestión judicial en Bolivia</title>
-<meta name="description" content="Tercera presentación: el informe final en el orden de la pizarra — preprocesamiento, modelos (SVM, Bagging, Boosting, Stacking) con hiperparámetros, evaluación con importancia y versiones de variables, y despliegue del modelo de 5 variables.">
+<title>Presentación: ¿cuánto va a tardar mi caso? — Congestión judicial en Bolivia</title>
+<meta name="description" content="Tercera presentación: estimar cuánto tarda un caso judicial con el Anuario y su historia 2007-2023 — preprocesamiento, modelos de regresión (SVM, Bagging, Boosting, Stacking) con hiperparámetros, evaluación con importancia y versiones de variables, y despliegue en la página pública.">
 <script>try{var t=localStorage.getItem("tema");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,17 +109,17 @@
   <img class="escudo" src="img/umsa.png" alt="Escudo de la Universidad Mayor de San Andrés">
   <div>
     <p class="eyebrow">Universidad Mayor de San Andrés · Análisis de Datos · informe final</p>
-    <h1>¿Qué procesos judiciales acumulan mora?</h1>
-    <p class="lede">Preprocesamiento, modelos de clasificación (SVM, Bagging, Boosting y Stacking), evaluación y despliegue de un modelo de 5 variables.</p>
+    <h1>¿Cuánto va a tardar mi caso?</h1>
+    <p class="lede">Estimar el tiempo de los procesos judiciales con el Anuario Estadístico Judicial y su historia 2007-2023: preprocesamiento, modelos de regresión (SVM, Bagging, Boosting y Stacking), evaluación y despliegue.</p>
     <div class="portada-pie">
       <div>
         <p style="font-family:var(--sans)"><strong>Docente:</strong> M.Sc. Madelina Loza Soliz</p>
         <p class="muted" style="font-family:var(--sans)">Andrés Maximiliano Espinoza Romero · Andrés Gabriel Maydana García · Maximiliano Gómez Mallo</p>
-        <p class="muted" style="font-family:var(--sans);font-size:.85rem">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em> · notebooks 19 a 22 · informe en <code>informe/informe.pdf</code></p>
+        <p class="muted" style="font-family:var(--sans);font-size:.85rem">Fuente: Consejo de la Magistratura de Bolivia, <em>Anuario Estadístico Judicial 2023</em> · notebooks 19 a 23 · informe en <code>informe/informe.pdf</code></p>
       </div>
       <a class="qr" href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">
         <img src="img/qr-proyanalisis.svg" alt="Código QR de la página pública: proyanalisis.maxi42.space">
-        <span>Prueba el modelo · proyanalisis.maxi42.space</span>
+        <span>Consulta tu caso · proyanalisis.maxi42.space</span>
       </a>
     </div>
   </div>
@@ -127,49 +127,61 @@
 
 <!-- 2 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Agenda</p>
-  <h2>La exposición en tres partes</h2>
-  <div class="agenda">
-    <div class="term"><span class="n">1</span><h4>Preprocesamiento</h4><p>Análisis exploratorio, limpieza (fuga de información, faltantes, atípicos) y conversión (ingeniería de variables, one-hot, escala, partición).</p></div>
-    <div class="term"><span class="n">2</span><h4>Modelo</h4><p>SVM, Bagging, Boosting y Stacking, comparados con validación cruzada, y el ajuste de hiperparámetros de cada uno.</p></div>
-    <div class="term"><span class="n">3</span><h4>Evaluación y despliegue</h4><p>Métricas en datos nunca vistos, importancia de las variables, versiones con 19, 27 y 5 variables, y el modelo de 5 variables funcionando en la web.</p></div>
+  <p class="eyebrow">La pregunta</p>
+  <h2>Quien inicia un proceso judicial no tiene cómo saber cuánto va a esperar</h2>
+  <div class="grid2">
+    <div>
+      <p>Una persona presenta un divorcio en El Alto, una demanda laboral en Santa Cruz o un cobro en La Paz. La respuesta habitual a «¿cuánto tarda?» es <strong>«depende»</strong>.</p>
+      <p>Depende del juzgado, de las partes y de las pruebas. Pero también de algo que <strong>sí se puede medir</strong>: cuántas causas tiene delante y a qué ritmo las resuelven los juzgados de su materia en su ciudad.</p>
+      <div class="callout regla"><span class="t">Objetivo práctico</span><p>Estimar, para cada tipo de proceso y lugar, <strong>cuánto tardaría un caso nuevo</strong>, con un rango honesto, y ponerlo en una página web que cualquiera pueda usar.</p></div>
+    </div>
+    <div class="kpis" style="grid-template-columns:1fr 1fr">
+      <div class="kpi"><b>1.240</b><span>trámites no penales (tipo de proceso × lugar) con movimiento en 2023</span></div>
+      <div class="kpi"><b>19</b><span>lugares: 10 capitales con El Alto y las provincias de 9 departamentos</span></div>
+      <div class="kpi"><b>17 años</b><span>de historia del país en el mismo Anuario (2007-2023)</span></div>
+      <div class="kpi"><b>5</b><span>materias: civil, familia, niñez, trabajo y coactivo fiscal</span></div>
+    </div>
   </div>
-  <p class="muted">En cada diapositiva se indica <strong>qué se hizo</strong> y <strong>cómo se hizo</strong>, y el punto de la pizarra al que corresponde. Al final: qué dice esto sobre la mora judicial y para qué sirve el modelo.</p>
 </div></section>
 
 <!-- 3 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">La pregunta</p>
-  <h2>Con lo que entra a un juzgado, ¿se puede anticipar si su stock va a crecer?</h2>
+  <p class="eyebrow">La medida</p>
+  <h2>El tiempo de la fila: causas que esperan ÷ causas que se resuelven por año</h2>
   <div class="grid2">
     <div>
-      <p>Un proceso <strong>acumula mora</strong> cuando en el año resuelve menos causas de las que le ingresan: la diferencia se suma al stock pendiente.</p>
-      <p>Ejemplo: procesos ordinarios civiles de Sucre. Empezaron 2023 con 770 causas, ingresaron 1.627 y se resolvieron 1.286. El stock subió a 1.111: <strong>acumuló mora</strong>.</p>
-      <p>La variable objetivo es <code>flag_acumula_mora</code> (1 = sí, 0 = no): es una <strong>clasificación binaria</strong>.</p>
+      <p class="big" style="font-size:clamp(1.6rem,3vw,2.4rem)">pendientes al cierre ÷ resueltas × 365</p>
+      <p>Si hay 600 causas esperando y el juzgado resuelve 1.200 al año, la fila se termina en <strong>medio año</strong>. Un caso nuevo se pone al final de esa fila.</p>
+      <p>Es la «duración estimada» del CEJA (Centro de Estudios de Justicia de las Américas). Es un número de días: el problema es de <strong>regresión</strong>, no de clasificación.</p>
     </div>
-    <div class="kpis" style="grid-template-columns:1fr 1fr">
-      <div class="kpi"><b>1.240</b><span>procesos no penales con movimiento en 2023</span></div>
-      <div class="kpi"><b>49,0 %</b><span>acumulan mora (608): clases equilibradas</span></div>
-      <div class="kpi"><b>87</b><span>tipos de proceso distintos</span></div>
-      <div class="kpi"><b>5</b><span>materias: civil, familia, niñez, trabajo y coactivo</span></div>
+    <div class="term">
+      <span class="tag">Ejemplo real · divorcio en Sucre (2023)</span>
+      <div class="flowline" style="margin-top:.8rem">
+        <div class="step"><b>173</b><span>heredadas de 2022</span></div>
+        <div class="step"><b>+778</b><span>entraron</span></div>
+        <div class="step"><b>−784</b><span>se resolvieron</span></div>
+        <div class="step"><b>167</b><span>quedaron esperando</span></div>
+      </div>
+      <p style="margin-top:1rem">167 ÷ 784 × 365 = <strong>78 días</strong>. Para un caso que entra en 2024, el modelo estima <strong>unos 67 días (entre 44 y 97)</strong>.</p>
     </div>
   </div>
+  <p class="muted">El Anuario no sigue causas una por una: el tiempo es el del <strong>grupo</strong> (un tipo de proceso en un lugar), no el de un expediente.</p>
 </div></section>
 
 <!-- 4 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">El orden de trabajo</p>
-  <h2>Cuatro pasos, cada uno en su notebook</h2>
+  <p class="eyebrow">La exposición</p>
+  <h2>Cuatro pasos, cada uno en su notebook, y la historia como respaldo</h2>
   <div class="flowline">
-    <div class="step"><b>1</b>Preprocesamiento<br><span>notebook 19 (y 01 a 18)</span></div><div class="arrow">→</div>
-    <div class="step"><b>2</b>Modelo<br><span>notebook 20: siete modelos y sus hiperparámetros</span></div><div class="arrow">→</div>
-    <div class="step"><b>3</b>Evaluación<br><span>notebook 21: prueba, importancia, tres versiones</span></div><div class="arrow">→</div>
-    <div class="step"><b>4</b>Despliegue<br><span>notebook 22: modelo de 5 variables en la web</span></div>
+    <div class="step"><b>1</b>Preprocesamiento<br><span>notebook 19: la historia 2007-2023, EDA, limpieza y conversión</span></div><div class="arrow">→</div>
+    <div class="step"><b>2</b>Modelo<br><span>notebook 20: SVM, Bagging, Boosting, Stacking y sus hiperparámetros</span></div><div class="arrow">→</div>
+    <div class="step"><b>3</b>Evaluación<br><span>notebook 21: prueba, importancia y tres versiones</span></div><div class="arrow">→</div>
+    <div class="step"><b>4</b>Despliegue<br><span>notebooks 22 y 23: la página «¿cuánto tardará mi caso?»</span></div>
   </div>
   <ul style="margin-top:1.6rem">
     <li>Todo el código está en notebooks ejecutados; las funciones compartidas, en <code>notebooks/modulos/modelado.ipynb</code>.</li>
-    <li>Cada paso escribe sus resultados en <code>data/curated/modelo/</code>, y el informe LaTeX los lee de ahí: ninguna cifra se copia a mano.</li>
-    <li>Semilla fija (42): cada ejecución da los mismos números.</li>
+    <li>Cada paso escribe sus resultados en <code>data/curated/modelo/</code> y el informe LaTeX los lee de ahí: ninguna cifra se copia a mano.</li>
+    <li>Al final: qué dice esto a quien tiene un caso y a quien gestiona los juzgados.</li>
   </ul>
 </div></section>
 
@@ -177,398 +189,410 @@
 <section class="slide sec"><div class="in">
   <p class="eyebrow">Parte 1 de 3</p>
   <h1>Preprocesamiento</h1>
-  <p class="lede">Análisis exploratorio, limpieza y conversión de los 1.240 procesos (notebook 19, sobre la base construida en los notebooks 01 a 18).</p>
+  <p class="lede">Primero la historia, que dice si la medida sirve; después el análisis exploratorio, la limpieza y la conversión de los procesos de 2023 (notebook 19).</p>
 </div></section>
 
 <!-- 6 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
-  <h2>Los datos salen de un PDF de 774 páginas, verificado antes de modelar</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se convirtió el Anuario en tablas y se eligieron las filas que tienen sentido para la pregunta.</p></div><div><span class="tag">Cómo se hizo</span><p>Notebooks 01 a 18: extracción, normalización, validación contra las identidades del Anuario e integración.</p></div></div>
-  <div class="flowline">
-    <div class="step"><b>774</b><span>páginas del PDF</span></div><div class="arrow">→</div>
-    <div class="step"><b>85.953</b><span>filas en 12 tablas</span></div><div class="arrow">→</div>
-    <div class="step"><b>1.997</b><span>filas de la capa analítica</span></div><div class="arrow">→</div>
-    <div class="step"><b>1.655</b><span>procesos no penales</span></div><div class="arrow">→</div>
-    <div class="step"><b>1.240</b><span>con movimiento: el conjunto del modelo</span></div>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA · la historia</span></p>
+  <h2>17 años de filas: el país tardaba 340 días en 2023, lo más bajo desde 2015</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se calculó el tiempo de la fila de cada año para el país, las capitales y las provincias.</p></div><div><span class="tag">Cómo se hizo</span><p>Cuadros 9.1.4, 9.1.8 y 9.1.12 del capítulo 9 (todas las materias, 2007-2023; notebook 15).</p></div></div>
+  <div class="grid2 w60">
+    <figure><img src="img/nb19_1.png" alt="Tiempo de la fila 2007-2023 y resoluciones por materia 2020-2023."></figure>
+    <ul>
+      <li>359 días en 2007 → <strong>448</strong> en 2012 → 316 en 2015 → <strong>485</strong> en la pandemia (2020) → <strong>340</strong> en 2023.</li>
+      <li>En 2023 las capitales (331) ya son más rápidas que las provincias (365).</li>
+      <li>Derecha: de 2020 a 2023 las resoluciones no penales crecieron en <strong>todas</strong> las materias.</li>
+    </ul>
   </div>
-  <p style="margin-top:1.2rem">Se dejan fuera los 415 procesos sin ninguna causa atendida (no hay nada que predecir) y las materias penales, que no publican causas resueltas.</p>
 </div></section>
 
 <!-- 7 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
-  <h2>Las clases están equilibradas y civil acumula más que el resto</h2>
-  <div class="grid2 w60">
-    <figure><img src="img/nb19_1.png" alt="Porcentaje que acumula mora por materia e histograma de la presión del stock por clase."></figure>
-    <ul>
-      <li><strong>608 de 1.240</strong> acumulan (49,0 %): la exactitud no engaña tanto como con clases desbalanceadas.</li>
-      <li>Civil: <strong>58 %</strong>. Familia y niñez: 47 %. Trabajo y coactivo: 40 %.</li>
-      <li>Capital y provincia casi no difieren: 48 % y 50 %.</li>
-      <li>Derecha: los que heredan mucho stock respecto de lo que les entra (en verde) tienden a <strong>no</strong> acumular.</li>
-    </ul>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA · la historia</span></p>
+  <h2>Cuando se dijo que la fila tardaría tanto, tardó casi eso: 12 % de diferencia</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se comparó el tiempo estimado al cierre de cada año con lo que la fila <strong>de verdad</strong> tardó en vaciarse.</p></div><div><span class="tag">Cómo se hizo</span><p>Se sumaron las resueltas de los años siguientes hasta llegar a las pendientes de ese cierre (notebook 19).</p></div></div>
+  <div class="grid2">
+    <div class="table-wrap"><table><thead><tr><th>País</th><th class="num">Estimado</th><th class="num">Lo que tardó</th><th class="num">Diferencia</th></tr></thead><tbody>
+      <tr><td>2008</td><td class="num">355</td><td class="num">338</td><td class="num">+5 %</td></tr>
+      <tr><td>2012</td><td class="num">448</td><td class="num">388</td><td class="num">+15 %</td></tr>
+      <tr><td>2016</td><td class="num">393</td><td class="num">466</td><td class="num">−16 %</td></tr>
+      <tr><td>2018</td><td class="num">352</td><td class="num">363</td><td class="num">−3 %</td></tr>
+      <tr><td>2020</td><td class="num">485</td><td class="num">380</td><td class="num">+28 %</td></tr>
+      <tr><td>2022</td><td class="num">379</td><td class="num">348</td><td class="num">+9 %</td></tr>
+    </tbody></table></div>
+    <div>
+      <p class="big">11,7 %</p>
+      <p>diferencia mediana en <strong>47 comprobaciones</strong> (país, capitales y provincias, 2007-2022). Tiende a pasarse un poco (+5 %): es algo pesimista.</p>
+      <div class="callout ojo"><span class="t">Aproximado</span><p>Supone que las causas salen en orden de llegada; el Anuario dice cuántas se resolvieron, no cuáles.</p></div>
+    </div>
   </div>
 </div></section>
 
 <!-- 8 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
-  <h2>Ninguna variable sola decide: hace falta un modelo que combine varias</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió la relación de cada variable numérica con el objetivo.</p></div><div><span class="tag">Cómo se hizo</span><p>Correlación de Spearman (por rangos): las cantidades son muy asimétricas y un proceso enorme no debe dominar la medida.</p></div></div>
-  <div class="grid2">
-    <div class="table-wrap"><table><thead><tr><th>Variable</th><th class="num">Spearman</th></tr></thead><tbody>
-      <tr><td>ingresos del año</td><td class="num">+0,24</td></tr>
-      <tr><td>causas nuevas</td><td class="num">+0,24</td></tr>
-      <tr><td>presión del stock (stock heredado ÷ ingresos)</td><td class="num">−0,23</td></tr>
-      <tr><td>ingresos por juzgado</td><td class="num">+0,20</td></tr>
-      <tr><td>stock heredado, solo</td><td class="num">+0,04</td></tr>
-      <tr><td>proporción de vacantes</td><td class="num">−0,01</td></tr>
-    </tbody></table></div>
-    <ul>
-      <li>La más fuerte llega a <strong>0,24</strong>: una relación débil.</li>
-      <li>El stock heredado solo casi no dice nada (+0,04); <strong>dividido por los ingresos</strong>, sí (−0,23). Ahí aparece la idea de construir variables.</li>
-    </ul>
-  </div>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA · la historia</span></p>
+  <h2>De un año al siguiente el tiempo cambia poco: el último Anuario sirve para el caso de hoy</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se probaron tres formas de anticipar el tiempo de un año con lo que se sabía antes.</p></div><div><span class="tag">Cómo se hizo</span><p>Serie 2007-2023, 48 años-ámbito; error porcentual contra el tiempo real.</p></div></div>
+  <div class="table-wrap"><table><thead><tr><th>Forma de anticipar</th><th>Qué supone</th><th class="num">Error mediano</th><th class="num">Sesgo</th></tr></thead><tbody>
+    <tr><td><strong>el tiempo del año anterior</strong></td><td>la fila se mueve como el año pasado</td><td class="num"><strong>8,8 %</strong></td><td class="num">−0,4 %</td></tr>
+    <tr><td>stock ÷ ritmo del año anterior</td><td>se resuelve como el año pasado</td><td class="num">18,2 %</td><td class="num">−10,6 %</td></tr>
+    <tr><td>fórmula ingenua: stock ÷ ingresos</td><td>se resuelve todo lo que entra</td><td class="num">25,0 %</td><td class="num">−24,1 %</td></tr>
+  </tbody></table></div>
+  <ul>
+    <li>El peor año fue la pandemia (35 %): en años normales, el último dato es una buena guía.</li>
+    <li>La <strong>fórmula ingenua</strong> siempre se queda corta: será una de las referencias que el modelo tiene que superar.</li>
+  </ul>
 </div></section>
 
 <!-- 9 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
-  <h2>Se sacaron 18 columnas que contienen la respuesta (fuga de información)</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se excluyó toda columna calculada con las causas <em>resueltas</em> o con el stock al <em>cierre</em> del año.</p></div><div><span class="tag">Cómo se hizo</span><p>Una lista explícita en el módulo de modelado, con el motivo de cada una; un <code>assert</code> en el notebook 19 verifica que ninguna entra al modelo.</p></div></div>
-  <div class="grid2">
-    <div class="table-wrap"><table><thead><tr><th>Columna</th><th>Por qué contiene la respuesta</th></tr></thead><tbody>
-      <tr><td><code>resueltas</code></td><td>el stock crece justamente cuando se resuelve menos de lo que entra</td></tr>
-      <tr><td><code>pendientes_fin</code></td><td>es el resultado del año</td></tr>
-      <tr><td><code>tasa_resolucion</code></td><td>resueltas ÷ ingresos: es el objetivo con otro nombre</td></tr>
-      <tr><td><code>tasa_congestion</code>, duración, banderas…</td><td>todas usan las resueltas</td></tr>
-    </tbody></table></div>
-    <p>Si se dejaran, el modelo acertaría casi el 100 %… y no serviría de nada: al empezar el año nadie sabe cuántas causas se van a resolver.</p>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
+  <h2>En 2023 el tiempo mediano es de 221 días, pero va de días a años según el trámite</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb19_2.png" alt="Distribución del tiempo en días y en logaritmo, y mediana por materia."></figure>
+    <ul>
+      <li>Mediana por materia: <strong>coactivo fiscal 887 días</strong>, trabajo 375, civil 243, familia 195, niñez 146.</li>
+      <li>Capital y provincia casi no difieren: 209 contra 236.</li>
+      <li>Cola larga: unos pocos procesos tardan años. En logaritmo (centro) la forma se vuelve manejable.</li>
+    </ul>
   </div>
 </div></section>
 
 <!-- 10 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
-  <h2>Las filas se eligieron sin mirar la respuesta</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se tomaron los procesos con al menos una causa atendida, no los que tienen tasa de congestión.</p></div><div><span class="tag">Cómo se hizo</span><p>Filtro <code>atendidas &gt; 0</code>, que solo usa lo que entra al juzgado.</p></div></div>
-  <div class="vs">
-    <div class="term"><span class="tag">filtro cómodo</span><p class="big crit" style="margin:.4rem 0">1.122</p><p>procesos con tasa de congestión</p></div>
-    <div class="x">→</div>
-    <div class="term"><span class="tag">filtro correcto</span><p class="big" style="margin:.4rem 0">1.240</p><p>procesos con movimiento</p></div>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · EDA</span></p>
+  <h2>Lo que más acompaña al tiempo es la fila heredada en relación con lo que entra</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió la relación de cada variable numérica con el tiempo.</p></div><div><span class="tag">Cómo se hizo</span><p>Correlación de Spearman (por rangos): las cantidades son muy asimétricas y un proceso enorme no debe dominar la medida.</p></div></div>
+  <div class="grid2">
+    <div class="table-wrap"><table><thead><tr><th>Variable</th><th class="num">Spearman</th></tr></thead><tbody>
+      <tr><td>presión del stock (stock heredado ÷ ingresos)</td><td class="num">+0,64</td></tr>
+      <tr><td>ingresos por juzgado</td><td class="num">−0,26</td></tr>
+      <tr><td>stock heredado, solo</td><td class="num">+0,23</td></tr>
+      <tr><td>ingresos del año</td><td class="num">−0,21</td></tr>
+      <tr><td>tendencia histórica de la materia</td><td class="num">+0,16</td></tr>
+    </tbody></table></div>
+    <ul>
+      <li>Donde la fila heredada es grande frente a lo que entra, se tarda más (+0,64).</li>
+      <li>Los procesos con mucho movimiento resuelven rápido: más ingresos, menos tiempo.</li>
+      <li>La variable más fuerte <strong>no está en el Anuario</strong>: es un cociente que hay que construir.</li>
+    </ul>
   </div>
-  <p style="margin-top:1.2rem">La tasa de congestión se divide por las resueltas y no existe si no se resolvió nada. Quitar esos <strong>118 procesos</strong> era elegir los ejemplos mirando el resultado: <strong>67 de ellos acumulan mora</strong>, y el modelo habría aprendido con un conjunto más fácil que el real.</p>
 </div></section>
 
 <!-- 11 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
-  <h2>Los vacíos estructurales son ceros y los atípicos no se borran</h2>
-  <div class="grid2">
-    <div>
-      <h3>Valores faltantes</h3>
-      <ul>
-        <li>Preliminares y cautelares formalizados solo existen en civil: en las otras materias el vacío es <strong>cero</strong>. Imputarlos con la mediana inventaría causas.</li>
-        <li>Único faltante real: tribunales del territorio (20 filas). Se imputa con la <strong>mediana del entrenamiento</strong>, dentro del modelo.</li>
-      </ul>
-      <h3>Valores atípicos</h3>
-      <ul>
-        <li>Un proceso con miles de causas es real (verificado contra el PDF) y es donde más importa acertar.</li>
-        <li>En vez de borrar, se agregan versiones en <strong>logaritmo</strong> y <strong>cociente</strong>: la asimetría de los ingresos baja de 6,1 a 0,46.</li>
-      </ul>
-    </div>
-    <figure><img src="img/nb19_2.png" alt="Histograma del stock heredado y de su logaritmo."></figure>
+  <h2>Un «tiempo» calculado con dos causas es una anécdota: se exigen 10 o más</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Entran al modelo los procesos con al menos 10 causas atendidas y alguna resuelta.</p></div><div><span class="tag">Cómo se hizo</span><p>El filtro usa las <em>atendidas</em> (stock heredado + ingresos), un dato de entrada: no mira la respuesta.</p></div></div>
+  <div class="flowline">
+    <div class="step"><b>1.240</b><span>procesos con movimiento</span></div><div class="arrow">→</div>
+    <div class="step"><b>−422</b><span>con menos de 10 causas (la mitad tiene 28 o menos)</span></div><div class="arrow">→</div>
+    <div class="step"><b>−10</b><span>sin ninguna resuelta: su tiempo no existe</span></div><div class="arrow">→</div>
+    <div class="step"><b>808</b><span>el conjunto del modelo</span></div>
   </div>
+  <p style="margin-top:1.2rem">Con 1 resuelta y 2 pendientes, el tiempo sería 730 días; con 2 resueltas, 243. Eso mide la suerte de una causa, no una fila. Los procesos chicos <strong>sí aparecen en la página</strong>, con una advertencia: la estimación se apoya en procesos parecidos.</p>
 </div></section>
 
 <!-- 12 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Conversión</span></p>
-  <h2>Se construyeron 8 variables nuevas, calculadas fila por fila</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Relaciones entre variables que un modelo lineal o el SVM no construyen solos.</p></div><div><span class="tag">Cómo se hizo</span><p>Fórmulas simples, sin promedios de grupo, para que la página web pueda recalcularlas igual.</p></div></div>
-  <div class="table-wrap"><table><thead><tr><th>Variable nueva</th><th>Fórmula</th></tr></thead><tbody>
-    <tr><td><strong>presión del stock</strong></td><td>stock heredado ÷ (ingresos del año + 1)</td></tr>
-    <tr><td><strong>ingresos por juzgado</strong></td><td>ingresos del año ÷ juzgados de esa materia y territorio</td></tr>
-    <tr><td><strong>stock por juzgado</strong></td><td>stock heredado ÷ juzgados</td></tr>
-    <tr><td>log del stock, log de los ingresos</td><td>log(1 + x)</td></tr>
-    <tr><td>proporción de vacantes, proporción por excusa</td><td>vacantes ÷ puestos; recibidas por excusa ÷ (ingresos + 1)</td></tr>
-    <tr><td>sin stock heredado</td><td>1 si no había stock</td></tr>
-  </tbody></table></div>
-  <p class="muted">19 variables originales + 8 nuevas = <strong>27</strong>. Los números de la pizarra eran ejemplos; estos salen de nuestros datos.</p>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
+  <h2>Se sacaron 19 columnas que contienen la respuesta (fuga de información)</h2>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se excluyó toda columna calculada con las causas <em>resueltas</em> o con las pendientes al <em>cierre</em>.</p></div><div><span class="tag">Cómo se hizo</span><p>Una lista explícita en el módulo de modelado, con el motivo de cada una; un <code>assert</code> verifica que ninguna entra.</p></div></div>
+  <div class="grid2">
+    <div class="table-wrap"><table><thead><tr><th>Columna</th><th>Por qué contiene la respuesta</th></tr></thead><tbody>
+      <tr><td><code>resueltas</code></td><td>el tiempo se divide por las resueltas</td></tr>
+      <tr><td><code>pendientes_fin</code></td><td>el tiempo es pendientes al cierre ÷ resueltas</td></tr>
+      <tr><td><code>duracion_estimada_dias</code></td><td>es el objetivo</td></tr>
+      <tr><td><code>tasa_congestion</code>, banderas…</td><td>todas usan las resueltas</td></tr>
+    </tbody></table></div>
+    <p>Si se dejaran, el modelo «acertaría» casi siempre… y no serviría: quien presenta su caso no sabe cuántas causas se van a resolver este año. Solo entra lo que se sabe <strong>al presentar el caso</strong>.</p>
+  </div>
 </div></section>
 
 <!-- 13 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Conversión</span></p>
-  <h2>Todo se convierte a números dentro de un Pipeline, ajustado solo con el entrenamiento</h2>
-  <div class="table-wrap"><table><thead><tr><th>Paso</th><th>Qué hace</th><th>Por qué</th></tr></thead><tbody>
-    <tr><td>tipos</td><td>enteros con vacíos → decimales; texto → categoría</td><td>scikit-learn no acepta el entero con nulos de pandas</td></tr>
-    <tr><td>one-hot</td><td>materia, departamento y ámbito → columnas 0/1</td><td>un código 1, 2, 3 inventaría un orden; 27 variables → 40 columnas</td></tr>
-    <tr><td>escala</td><td>media 0 y desvío 1 (solo SVM, logística y Stacking)</td><td>el SVM mide distancias: sin escala, la remuneración (millones) taparía todo</td></tr>
-    <tr><td>imputación</td><td>mediana del entrenamiento</td><td>la prueba no debe influir en ningún valor</td></tr>
-  </tbody></table></div>
-  <p>El <code>Pipeline</code> aprende la mediana, las categorías y la escala <strong>solo con los datos de entrenamiento</strong> de cada pliegue, y las aplica igual a los datos de validación y de prueba.</p>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Limpieza</span></p>
+  <h2>Los vacíos estructurales son ceros, los atípicos no se borran y el tiempo se recorta en 10 años</h2>
+  <div class="grid3">
+    <div class="term"><h4>Faltantes</h4><p>Preliminares y cautelares solo existen en civil: en otras materias el vacío es un <strong>cero</strong>. El único faltante real (tribunales, 4 filas) se imputa con la mediana <strong>del entrenamiento</strong>.</p></div>
+    <div class="term"><h4>Atípicos</h4><p>Un proceso con miles de causas es real (verificado contra el PDF). No se borra: se agregan versiones en <strong>logaritmo</strong> y <strong>cociente</strong>.</p></div>
+    <div class="term"><h4>Tope de 10 años</h4><p>13 procesos pasan de 3.650 días (uno daba 80 años). Más que eso es «no se mueve», no un plazo: se recortan.</p></div>
+  </div>
+  <figure style="margin-top:1rem"><img src="img/nb19_3.png" alt="El stock heredado con cola larga y su logaritmo casi simétrico." style="max-height:30vh"></figure>
 </div></section>
 
 <!-- 14 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Conversión</span></p>
-  <h2>Se guardó el 20 % para el final y el resto se usa con validación cruzada</h2>
+  <h2>19 originales + 8 de ingeniería + 1 histórica = 28 variables</h2>
   <div class="grid2">
-    <div class="kpis" style="grid-template-columns:1fr 1fr">
-      <div class="kpi"><b>992</b><span>procesos para entrenar y ajustar (80 %)</span></div>
-      <div class="kpi"><b>248</b><span>procesos de prueba (20 %), no se tocan hasta la evaluación</span></div>
-      <div class="kpi"><b>49,0 %</b><span>acumulan en el entrenamiento</span></div>
-      <div class="kpi"><b>49,2 %</b><span>acumulan en la prueba (partición estratificada)</span></div>
-    </div>
-    <div>
-      <h3>Validación cruzada de 5 pliegues</h3>
-      <p>El entrenamiento se parte en 5 trozos. Se entrena con 4 y se mide con el quinto, y se repite cinco veces cambiando el trozo de medición. El resultado es el promedio de las 5 medidas, con su desvío.</p>
-      <p class="muted">Así se comparan modelos y se eligen hiperparámetros sin gastar la prueba.</p>
-    </div>
+    <div class="table-wrap"><table><thead><tr><th>Variable nueva</th><th>Fórmula</th></tr></thead><tbody>
+      <tr><td>presión del stock</td><td>stock heredado ÷ (ingresos + 1)</td></tr>
+      <tr><td>ingresos por juzgado</td><td>ingresos ÷ juzgados</td></tr>
+      <tr><td>stock por juzgado</td><td>stock heredado ÷ juzgados</td></tr>
+      <tr><td>log del stock, log de los ingresos</td><td>log(1 + cantidad)</td></tr>
+      <tr><td>vacantes, por excusa, sin stock</td><td>proporciones y una marca 0/1</td></tr>
+      <tr><td><strong>tendencia histórica de la materia</strong></td><td>resueltas del año anterior ÷ las de dos años antes − 1</td></tr>
+    </tbody></table></div>
+    <ul>
+      <li>Todas se calculan <strong>fila por fila</strong>: la página web las recalcula con la misma fórmula.</li>
+      <li>La histórica usa solo años pasados: para 2023, 2022 contra 2021; para un caso de 2024, 2023 contra 2022.</li>
+      <li>El <strong>objetivo</strong> se pasa a log(1 + días): equivocarse por el doble pesa igual en 30 días que en 900.</li>
+    </ul>
   </div>
 </div></section>
 
 <!-- 15 -->
-<section class="slide sec"><div class="in">
-  <p class="eyebrow">Parte 2 de 3</p>
-  <h1>Modelo</h1>
-  <p class="lede">SVM, Bagging, Boosting y Stacking, con sus hiperparámetros ajustados (notebook 20). Todo se mide en el entrenamiento, con validación cruzada.</p>
-</div></section>
-
-<!-- 16 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Modelo</span></p>
-  <h2>Se compararon siete modelos con una sola métrica: ROC-AUC</h2>
+  <p class="eyebrow">Parte 1<span class="tema">Pizarra: 1 · Conversión</span></p>
+  <h2>Todo se convierte a números dentro de un Pipeline, y el 20 % se guarda para el final</h2>
   <div class="grid2">
-    <div class="table-wrap"><table><thead><tr><th>Modelo</th><th>Familia</th></tr></thead><tbody>
-      <tr><td>Línea base (siempre la clase más frecuente)</td><td>referencia</td></tr>
-      <tr><td>Regresión logística</td><td>referencia</td></tr>
-      <tr><td><strong>SVM</strong> con kernel RBF</td><td>SVM</td></tr>
-      <tr><td><strong>Bagging</strong> de árboles y <strong>Random Forest</strong></td><td>Bagging</td></tr>
-      <tr><td><strong>AdaBoost</strong> y <strong>Gradient Boosting</strong></td><td>Boosting</td></tr>
-      <tr><td><strong>Stacking</strong> (SVM + RF + GB)</td><td>Stacking</td></tr>
-    </tbody></table></div>
+    <ul>
+      <li><strong>One-hot:</strong> materia, departamento y ámbito → columnas 0/1 (un código 1, 2, 3 inventaría un orden). 28 variables → 41 columnas.</li>
+      <li><strong>Escala:</strong> media 0 y desvío 1 para el SVM, la regresión lineal y el Stacking: miden distancias.</li>
+      <li>Todo dentro de un <code>Pipeline</code>: se ajusta solo con el entrenamiento de cada pliegue.</li>
+    </ul>
     <div>
-      <h3>Qué mide el ROC-AUC</h3>
-      <p>Se toma al azar un proceso que acumula y uno que no. El ROC-AUC es la probabilidad de que el modelo le dé más puntaje al que acumula.</p>
-      <p><strong>0,5</strong> = azar · <strong>1</strong> = perfecto · <strong>0,75</strong> = ordena bien 3 de cada 4 pares.</p>
-      <p class="muted">No depende del umbral de decisión. También se reportan exactitud y F1.</p>
+      <div class="flowline">
+        <div class="step"><b>646</b><span>entrenamiento (80 %), con validación cruzada de 5 pliegues</span></div>
+        <div class="step"><b>162</b><span>prueba (20 %), intocable hasta la evaluación</span></div>
+      </div>
+      <p style="margin-top:1rem">Estratificada por <strong>quintiles del tiempo</strong>: las dos partes tienen la misma mezcla de procesos rápidos y lentos (mediana 224 y 210 días).</p>
     </div>
   </div>
 </div></section>
 
+<!-- 16 -->
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Parte 2 de 3</p>
+  <h1>Modelo</h1>
+  <p class="lede">Seis modelos y tres referencias, todos midiendo lo mismo: cuántos días tarda la fila (notebook 20).</p>
+</div></section>
+
 <!-- 17 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · SVM</span></p>
-  <h2>SVM: la mejor frontera es suave y castiga fuerte los errores</h2>
-  <div class="quecomo"><div><span class="tag">Qué es</span><p>Busca la frontera entre las dos clases con el <strong>mayor margen</strong>; el kernel RBF la deja curvarse.</p></div><div><span class="tag">Cómo se ajustó</span><p>Búsqueda en grilla (<code>GridSearchCV</code>): 5 valores de <code>C</code> × 6 de <code>gamma</code> = 30 combinaciones.</p></div></div>
-  <div class="grid2 w60">
-    <figure><img src="img/nb20_2.png" alt="Mapa de calor del ROC-AUC del SVM para cada combinación de C y gamma."></figure>
-    <ul>
-      <li><code>C</code>: cuánto castiga los errores. <code>gamma</code>: hasta dónde llega la influencia de cada punto.</li>
-      <li>Mejor: <strong>C = 1.000, gamma = 0,003</strong>, ROC-AUC 0,729 (por defecto: 0,706).</li>
-      <li>Con <code>gamma</code> alto la frontera se curva de más y el modelo memoriza: el AUC baja hasta 0,62.</li>
-    </ul>
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Modelo</span></p>
+  <h2>Cómo se mide el error: «dentro del doble» y el error en logaritmo</h2>
+  <div class="grid2">
+    <div>
+      <p><strong>Métrica principal:</strong> error absoluto medio en log(1 + días) (MAE). Es la que minimiza el ajuste.</p>
+      <p>Para leerla en palabras:</p>
+      <ul>
+        <li><strong>Dentro del doble:</strong> de cada 100 procesos, en cuántos el tiempo real quedó entre la mitad y el doble de lo estimado.</li>
+        <li><strong>Factor mediano:</strong> la mitad de las estimaciones se equivoca por menos que este factor (×1,5 = hasta 50 % de más o de menos).</li>
+        <li><strong>R²:</strong> qué parte de las diferencias entre procesos explica (0 = nada, 1 = todo).</li>
+      </ul>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>Referencia</th><th>Qué hace</th></tr></thead><tbody>
+      <tr><td>Línea base</td><td>dice siempre el tiempo promedio</td></tr>
+      <tr><td>Fórmula ingenua</td><td>stock heredado ÷ ingresos × 365, sin aprender nada</td></tr>
+      <tr><td>Regresión lineal (Ridge)</td><td>suma ponderada de las variables, con freno a los pesos grandes</td></tr>
+    </tbody></table></div>
   </div>
 </div></section>
 
 <!-- 18 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Bagging</span></p>
-  <h2>Bagging: muchos árboles con muestras distintas que votan</h2>
-  <div class="quecomo"><div><span class="tag">Qué es</span><p>Cada árbol se entrena con una <strong>muestra con reemplazo</strong> de las filas; el promedio de sus votos es más estable que un árbol solo.</p></div><div><span class="tag">Random Forest</span><p>Bagging + cada corte del árbol mira solo <strong>algunas variables al azar</strong>, para que los árboles se parezcan menos.</p></div></div>
-  <div class="grid2">
-    <div class="vs">
-      <div class="term"><span class="tag">por defecto</span><p class="big crit" style="margin:.4rem 0">0,716</p><p>Bagging</p></div>
-      <div class="x">→</div>
-      <div class="term"><span class="tag">ajustado</span><p class="big" style="margin:.4rem 0">0,753</p><p>Bagging</p></div>
-    </div>
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · SVM</span></p>
+  <h2>SVM: una curva con un «tubo» de tolerancia; la mejor es suave</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb20_2.png" alt="Error de validación cruzada del SVM para cada C y gamma."></figure>
     <ul>
-      <li>Lo que más ayudó: <strong>no dejar que los árboles memoricen</strong>. Hojas con al menos 3 procesos y cada árbol con el 70 % de las filas y de las variables.</li>
-      <li>Random Forest: de 0,734 a <strong>0,753</strong> (hojas de al menos 4 procesos, 200 árboles).</li>
+      <li>En regresión (SVR) busca una curva que deje a casi todos los procesos dentro de un <strong>tubo</strong> de ancho ε: los errores menores no se castigan.</li>
+      <li><code>C</code>: cuánto castiga a los que quedan fuera. <code>gamma</code>: qué tan ondulada puede ser la curva.</li>
+      <li>Grilla de 48 combinaciones: el error va de 1,025 a <strong>0,751</strong>. Mejor: C = 10, gamma = 0,01, ε = 0,1.</li>
+      <li>Con gamma alto la curva se ondula y sobreajusta.</li>
     </ul>
   </div>
 </div></section>
 
 <!-- 19 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Boosting</span></p>
-  <h2>Boosting: árboles en secuencia, cada uno corrige al anterior</h2>
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Bagging y Boosting</span></p>
+  <h2>Bagging promedia muchos árboles; Boosting los encadena para corregir errores</h2>
   <div class="grid2">
-    <div class="term"><h4>AdaBoost</h4><p>Árboles pequeños (de un solo corte) en secuencia. Cada uno da <strong>más peso a las filas que el anterior clasificó mal</strong>.</p><p>Ajustado: 400 árboles, tasa de aprendizaje 0,5 → ROC-AUC <strong>0,728</strong> (por defecto 0,712).</p></div>
-    <div class="term"><h4>Gradient Boosting</h4><p>Cada árbol se ajusta al <strong>error que todavía queda</strong> (el residuo) del conjunto anterior; la tasa de aprendizaje controla cuánto corrige cada uno.</p><p>Ajustado: 200 árboles de profundidad 4, tasa 0,03 → ROC-AUC <strong>0,744</strong> (por defecto 0,724).</p></div>
+    <div class="term"><h4>Bagging y Random Forest</h4>
+      <p>Cada árbol aprende con una <strong>muestra con reemplazo</strong> de los procesos; la estimación es el <strong>promedio</strong>. El Random Forest además hace que cada corte mire solo algunas variables.</p>
+      <p>Lo que más ayudó: que cada árbol use <strong>la mitad de las filas</strong> (Bagging 0,804 → 0,752).</p></div>
+    <div class="term"><h4>AdaBoost y Gradient Boosting</h4>
+      <p>Árboles <strong>en secuencia</strong>: AdaBoost da más peso a los procesos peor estimados; Gradient Boosting ajusta cada árbol al <strong>error residual</strong>.</p>
+      <p>AdaBoost mejoró más que nadie con el ajuste (0,890 → 0,755). Gradient Boosting eligió la pérdida <strong>Huber</strong>: los procesos extremos no arrastran a los demás.</p></div>
   </div>
-  <p class="muted" style="margin-top:1rem">Bagging reduce la variación promediando árboles independientes; Boosting reduce el error encadenando árboles que se corrigen.</p>
 </div></section>
 
 <!-- 20 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Stacking</span></p>
-  <h2>Stacking combina tres modelos, pero no supera al mejor de ellos</h2>
-  <div class="quecomo"><div><span class="tag">Qué es</span><p>El SVM, el Random Forest y el Gradient Boosting dan cada uno una probabilidad; una regresión logística aprende <strong>cuánto confiar en cada uno</strong>.</p></div><div><span class="tag">Cómo se hizo</span><p>La logística aprende con predicciones <strong>fuera de pliegue</strong>: nunca ve la predicción de un dato con el que ese modelo se entrenó.</p></div></div>
-  <div class="flowline">
-    <div class="step"><b>SVM</b><span>0,729</span></div>
-    <div class="step"><b>Random Forest</b><span>0,753</span></div>
-    <div class="step"><b>Gradient Boosting</b><span>0,744</span></div><div class="arrow">→</div>
-    <div class="step"><b>Regresión logística</b><span>combina las tres</span></div><div class="arrow">→</div>
-    <div class="step"><b>0,753</b><span>Stacking</span></div>
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Stacking e hiperparámetros</span></p>
+  <h2>Stacking combina tres modelos; los hiperparámetros se eligen sin tocar la prueba</h2>
+  <div class="grid2">
+    <div class="term"><h4>Stacking</h4><p>SVM + Random Forest + Gradient Boosting (ya ajustados) dan una estimación cada uno, y una <strong>regresión lineal</strong> aprende cuánto confiar en cada uno, con predicciones <em>fuera de pliegue</em>.</p><p>Resultado: 0,738, apenas mejor que sus componentes (0,746-0,752): los tres aprenden casi lo mismo.</p></div>
+    <div class="term"><h4>Hiperparámetros</h4><p>Perillas que se fijan antes de entrenar (cuántos árboles, profundidad, castigo).</p><ul><li>SVM: <strong>búsqueda en grilla</strong>, 48 combinaciones.</li><li>Resto: <strong>búsqueda aleatoria</strong>, 30 combinaciones.</li><li>Siempre con validación cruzada de 5 pliegues en el entrenamiento.</li></ul></div>
   </div>
-  <p style="margin-top:1.2rem">Combinar no agrega información: lo más probable es que los tres aprendan la misma señal y fallen en procesos parecidos.</p>
 </div></section>
 
 <!-- 21 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Hiperparámetros</span></p>
-  <h2>Los hiperparámetros se eligieron con validación cruzada, nunca con la prueba</h2>
-  <div class="quecomo"><div><span class="tag">Qué es</span><p>Una perilla que se fija <strong>antes</strong> de entrenar (cuántos árboles, qué tan profundos, cuánto castigar errores). No se aprende de los datos.</p></div><div><span class="tag">Cómo se buscó</span><p>SVM: grilla completa (2 perillas). El resto: <code>RandomizedSearchCV</code>, 30 combinaciones al azar (con 4 o 5 perillas la grilla tendría cientos).</p></div></div>
-  <div class="table-wrap"><table><thead><tr><th>Modelo</th><th>Hiperparámetros elegidos</th><th class="num">Por defecto</th><th class="num">Ajustado</th></tr></thead><tbody>
-    <tr><td>SVM</td><td>C = 1.000 · gamma = 0,003</td><td class="num">0,706</td><td class="num">0,729</td></tr>
-    <tr><td>Bagging</td><td>400 árboles · 70 % de filas y variables · hoja ≥ 3</td><td class="num">0,716</td><td class="num">0,753</td></tr>
-    <tr><td>Random Forest</td><td>200 árboles · 50 % de variables por corte · hoja ≥ 4</td><td class="num">0,734</td><td class="num">0,753</td></tr>
-    <tr><td>AdaBoost</td><td>400 árboles de un corte · tasa 0,5</td><td class="num">0,712</td><td class="num">0,728</td></tr>
-    <tr><td>Gradient Boosting</td><td>200 árboles · profundidad 4 · tasa 0,03 · 85 % de filas</td><td class="num">0,724</td><td class="num">0,744</td></tr>
-  </tbody></table></div>
+  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Resultados</span></p>
+  <h2>Todos los modelos superan a las referencias; seis empatan arriba</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb20_1.png" alt="Error de cada modelo antes y después de ajustar hiperparámetros."></figure>
+    <div class="table-wrap"><table><thead><tr><th>Validación cruzada</th><th class="num">MAE log</th><th class="num">Dentro del doble</th></tr></thead><tbody>
+      <tr><td>Línea base</td><td class="num">1,085</td><td class="num">43 %</td></tr>
+      <tr><td>Fórmula ingenua</td><td class="num">0,888</td><td class="num">58 %</td></tr>
+      <tr><td>Regresión lineal</td><td class="num">0,787</td><td class="num">61 %</td></tr>
+      <tr><td><strong>Stacking</strong></td><td class="num"><strong>0,738</strong></td><td class="num">64 %</td></tr>
+      <tr><td>Gradient Boosting</td><td class="num">0,746</td><td class="num">65 %</td></tr>
+      <tr><td>SVM</td><td class="num">0,751</td><td class="num">64 %</td></tr>
+      <tr><td>Bagging / Random Forest</td><td class="num">0,752</td><td class="num">62-63 %</td></tr>
+      <tr><td>AdaBoost</td><td class="num">0,755</td><td class="num">63 %</td></tr>
+    </tbody></table></div>
+  </div>
+  <p class="muted">Las diferencias entre los seis (≤ 0,02) son menores que el desvío entre pliegues (≈ 0,08): ninguno gana con claridad.</p>
 </div></section>
 
 <!-- 22 -->
-<section class="slide"><div class="in">
-  <p class="eyebrow">Parte 2<span class="tema">Pizarra: 2 · Resultado</span></p>
-  <h2>Tres ensambles empatan arriba con 0,753 y todos superan al azar</h2>
-  <div class="grid2 w60">
-    <figure><img src="img/nb20_1.png" alt="ROC-AUC de cada modelo antes y después de ajustar hiperparámetros."></figure>
-    <ul>
-      <li><strong>Bagging, Random Forest y Stacking: 0,753.</strong> La diferencia entre ellos (0,0004) es cien veces menor que el desvío entre pliegues (≈ 0,03): no hay un ganador claro.</li>
-      <li>La regresión logística queda cerca (0,730): la señal es moderada y casi aditiva.</li>
-      <li>Ajustar sube hasta <strong>+0,04</strong> a cada modelo.</li>
-    </ul>
-  </div>
-</div></section>
-
-<!-- 23 -->
 <section class="slide sec"><div class="in">
   <p class="eyebrow">Parte 3 de 3</p>
   <h1>Evaluación y despliegue</h1>
-  <p class="lede">Los 248 procesos de prueba, la importancia de las variables, las versiones con 19, 27 y 5 variables (notebook 21) y el modelo de 5 variables en la web (notebook 22).</p>
+  <p class="lede">Los 162 procesos guardados, qué variables pesan, cuántas hacen falta, y la página que responde «¿cuánto tardará mi caso?» (notebooks 21 a 23).</p>
+</div></section>
+
+<!-- 23 -->
+<section class="slide"><div class="in">
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Evaluación</span></p>
+  <h2>Con procesos que nunca vio, 2 de cada 3 quedan entre la mitad y el doble</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb21_1.png" alt="Tiempo estimado contra tiempo real en la prueba y acierto por materia."></figure>
+    <div>
+      <div class="kpis" style="grid-template-columns:1fr 1fr;margin:0">
+        <div class="kpi"><b>67 %</b><span>dentro del doble (Stacking)</span></div>
+        <div class="kpi"><b>×1,52</b><span>factor mediano de error</span></div>
+        <div class="kpi"><b>87 días</b><span>error mediano</span></div>
+        <div class="kpi"><b>0,41</b><span>R² en log (fórmula ingenua: 0,11)</span></div>
+      </div>
+      <p>Familia (83 %) y civil (70 %) se estiman mejor que niñez (54 %) y trabajo (58 %).</p>
+    </div>
+  </div>
 </div></section>
 
 <!-- 24 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Evaluación</span></p>
-  <h2>Con datos que nunca vio, el modelo mantiene un ROC-AUC de 0,73</h2>
-  <div class="grid2">
-    <figure><img src="img/nb21_1.png" alt="Curvas ROC de los siete modelos en la prueba."></figure>
-    <div>
-      <div class="table-wrap"><table><thead><tr><th>Modelo</th><th class="num">ROC-AUC prueba</th><th class="num">Exactitud</th></tr></thead><tbody>
-        <tr><td>Stacking</td><td class="num">0,741</td><td class="num">0,661</td></tr>
-        <tr><td>Gradient Boosting</td><td class="num">0,736</td><td class="num">0,645</td></tr>
-        <tr><td>SVM</td><td class="num">0,735</td><td class="num">0,661</td></tr>
-        <tr><td>Random Forest</td><td class="num">0,731</td><td class="num">0,653</td></tr>
-        <tr><td><strong>Bagging</strong> (mejor en CV)</td><td class="num"><strong>0,729</strong></td><td class="num">0,661</td></tr>
-        <tr><td>Regresión logística</td><td class="num">0,716</td><td class="num">0,657</td></tr>
-        <tr><td>AdaBoost</td><td class="num">0,700</td><td class="num">0,629</td></tr>
-      </tbody></table></div>
-      <p class="muted">Con 248 filas, diferencias de 0,01 están dentro del ruido. Bagging baja de 0,753 a 0,729: lo normal al elegir el mejor de varios.</p>
-    </div>
+  <h2>Cuanto más grande el trámite, mejor la estimación: 88 % en los de más de 500 causas</h2>
+  <div class="bars" style="margin:1rem 0">
+    <div class="row"><span>10 a 30 causas</span><div class="bar b4" style="width:47%"></div><span class="val">47 %</span></div>
+    <div class="row"><span>31 a 100 causas</span><div class="bar b2" style="width:62%"></div><span class="val">62 %</span></div>
+    <div class="row"><span>101 a 500 causas</span><div class="bar" style="width:78%"></div><span class="val">78 %</span></div>
+    <div class="row"><span>más de 500 causas</span><div class="bar" style="width:88%"></div><span class="val">88 %</span></div>
   </div>
+  <p>Procesos de prueba con el tiempo real entre la mitad y el doble de lo estimado. En un trámite con miles de causas la fila es estable; en uno con 15, una sola causa cambia mucho el tiempo.</p>
+  <div class="callout regla"><span class="t">Consecuencia para la página</span><p>El rango que se muestra es más ancho en los trámites chicos y más angosto en los grandes.</p></div>
 </div></section>
 
 <!-- 25 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Evaluación</span></p>
-  <h2>Detecta 7 de cada 10 procesos que acumulan, con más alarmas falsas que casos perdidos</h2>
-  <div class="grid2 w40">
-    <figure><img src="img/nb21_2.png" alt="Matriz de confusión de Bagging en la prueba."></figure>
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Importancia</span></p>
+  <h2>Lo que más pesa es la carga frente a la capacidad, y sale de solo tres datos</h2>
+  <div class="grid2 w60">
+    <figure><img src="img/nb21_3.png" alt="Importancia por permutación de las variables."></figure>
     <div>
-      <ul>
-        <li><strong>85</strong> acumularon y los marcó · <strong>79</strong> no acumularon y no los marcó.</li>
-        <li><strong>47</strong> alarmas falsas · <strong>37</strong> casos perdidos.</li>
-      </ul>
-      <div class="kpis" style="grid-template-columns:1fr 1fr 1fr">
-        <div class="kpi"><b>0,70</b><span>recall: de los que acumularon, detectados</span></div>
-        <div class="kpi"><b>0,64</b><span>precisión: de los marcados, acertados</span></div>
-        <div class="kpi"><b>0,66</b><span>exactitud: bien clasificados</span></div>
-      </div>
+      <p><strong>Permutación:</strong> se baraja una variable y se mide cuánto sube el error. Se calcula en la validación, nunca en la prueba.</p>
+      <ol>
+        <li>log del stock heredado (+0,155)</li>
+        <li>presión del stock (+0,146)</li>
+        <li>log de los ingresos (+0,123)</li>
+        <li>ingresos por juzgado (+0,055)</li>
+        <li>stock por juzgado (+0,026)</li>
+      </ol>
+      <p>Las cinco salen de: <strong>la fila que espera, lo que entra y los juzgados</strong>. La variable histórica queda en el puesto 17: la historia sirvió para validar la medida, no como pista.</p>
     </div>
   </div>
 </div></section>
 
 <!-- 26 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Importancia</span></p>
-  <h2>Las tres variables más importantes son de ingeniería, no del Anuario</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>Se midió cuánto depende el modelo de cada variable.</p></div><div><span class="tag">Cómo se hizo</span><p><strong>Permutación</strong>: se barajan los valores de una variable y se mide cuánto cae el ROC-AUC. En los pliegues de validación, nunca en la prueba.</p></div></div>
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Versiones</span></p>
+  <h2>Con 5 variables casi no se pierde; sin ingeniería, sí</h2>
   <div class="grid2 w60">
-    <figure><img src="img/nb21_3.png" alt="Importancia por permutación de las 15 primeras variables."></figure>
-    <ol>
-      <li><strong>ingresos por juzgado</strong> (−0,039 al barajarla)</li>
-      <li><strong>presión del stock</strong> (−0,039)</li>
-      <li><strong>stock por juzgado</strong> (−0,011)</li>
-      <li>materia (−0,007)</li>
-      <li>ingresos del año (−0,007)</li>
-    </ol>
+    <figure><img src="img/nb21_4.png" alt="Error de cada modelo con 19, 28 y 5 variables."></figure>
+    <div class="table-wrap"><table><thead><tr><th>Stacking</th><th class="num">CV</th><th class="num">Prueba</th></tr></thead><tbody>
+      <tr><td>19 originales</td><td class="num">0,796</td><td class="num">0,770</td></tr>
+      <tr><td><strong>28 con ingeniería e historia</strong></td><td class="num"><strong>0,738</strong></td><td class="num"><strong>0,694</strong></td></tr>
+      <tr><td>5 más importantes</td><td class="num">0,770</td><td class="num">0,716</td></tr>
+    </tbody></table>
+    <ul>
+      <li>Sin ingeniería, la regresión lineal se hunde (0,921): no puede construir los cocientes sola.</li>
+      <li>Las 5 más importantes quedan cerca de las 28: concentran la señal.</li>
+    </ul></div>
   </div>
-  <p class="muted">Personal, vacantes, remuneración y ámbito casi no importan. La impureza del Random Forest coincide en las dos primeras.</p>
 </div></section>
 
 <!-- 27 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Versiones de variables</span></p>
-  <h2>Con ingeniería es la mejor versión; con 5 variables se pierde 0,05</h2>
-  <div class="grid2 w60">
-    <figure><img src="img/nb21_4.png" alt="ROC-AUC de cada modelo con 19, 27 y 5 variables."></figure>
-    <div class="table-wrap"><table><thead><tr><th>ROC-AUC (CV)</th><th class="num">19</th><th class="num">27</th><th class="num">5</th></tr></thead><tbody>
-      <tr><td>Bagging</td><td class="num">0,735</td><td class="num"><strong>0,753</strong></td><td class="num">0,704</td></tr>
-      <tr><td>Random Forest</td><td class="num">0,739</td><td class="num"><strong>0,753</strong></td><td class="num">0,705</td></tr>
-      <tr><td>Regresión logística</td><td class="num">0,584</td><td class="num"><strong>0,730</strong></td><td class="num">0,659</td></tr>
-      <tr><td>SVM</td><td class="num">0,595</td><td class="num"><strong>0,729</strong></td><td class="num">0,649</td></tr>
-    </tbody></table></div>
-  </div>
-  <ul>
-    <li>Sin ingeniería, los árboles casi no pierden (aproximan los cocientes cortando dos variables); la logística y el SVM caen 0,14: <strong>no pueden construir los cocientes solos</strong>.</li>
-    <li>Con 5 variables el modelo es más simple de usar, pero pierde la señal repartida en las otras 22.</li>
-  </ul>
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Robustez</span></p>
+  <h2>El modelo sirve para tipos de proceso que no vio al entrenar</h2>
+  <p>El mismo tipo («divorcio») está en varios lugares. Con <strong>validación por grupos</strong> (<code>GroupKFold</code>) todas sus filas quedan del mismo lado: se evalúa con tipos nuevos.</p>
+  <div class="table-wrap"><table><thead><tr><th>Modelo</th><th class="num">CV normal</th><th class="num">Por grupos</th><th class="num">Diferencia</th></tr></thead><tbody>
+    <tr><td>Stacking, 28 variables</td><td class="num">0,738</td><td class="num">0,764</td><td class="num">+0,026</td></tr>
+    <tr><td>Stacking, 5 variables</td><td class="num">0,770</td><td class="num">0,778</td><td class="num">+0,007</td></tr>
+    <tr><td>Random Forest, 28 variables</td><td class="num">0,752</td><td class="num">0,766</td><td class="num">+0,014</td></tr>
+    <tr><td>SVM, 28 variables</td><td class="num">0,751</td><td class="num">0,812</td><td class="num">+0,061</td></tr>
+  </tbody></table></div>
+  <p>El error sube poco en los ensambles: lo que aprenden vale para trámites nuevos. El SVM es el que más depende de haber visto el tipo.</p>
 </div></section>
 
 <!-- 28 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 3 · Evaluación</span></p>
-  <h2>El modelo generaliza a tipos de proceso que no vio al entrenar</h2>
-  <div class="quecomo"><div><span class="tag">El riesgo</span><p>«Divorcio» aparece en varios departamentos. El modelo podría solo «recordar» cada tipo de proceso.</p></div><div><span class="tag">El control</span><p><code>GroupKFold</code>: todas las filas de un mismo tipo de proceso quedan del mismo lado; se mide con tipos nuevos.</p></div></div>
-  <div class="table-wrap"><table><thead><tr><th>27 variables</th><th class="num">CV normal</th><th class="num">CV por grupos</th><th class="num">Diferencia</th></tr></thead><tbody>
-    <tr><td>Bagging</td><td class="num">0,753</td><td class="num">0,741</td><td class="num">−0,013</td></tr>
-    <tr><td>Random Forest</td><td class="num">0,753</td><td class="num">0,735</td><td class="num">−0,018</td></tr>
-    <tr><td>SVM</td><td class="num">0,729</td><td class="num">0,698</td><td class="num">−0,031</td></tr>
-  </tbody></table></div>
-  <p>La caída es pequeña en los ensambles: lo que aprenden sirve para procesos nuevos. El SVM es el que más depende de haber visto el tipo.</p>
+  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
+  <h2>El modelo de 5 variables se exportó con su rango y corre en el navegador</h2>
+  <div class="quecomo"><div><span class="tag">Qué modelo</span><p><strong>Gradient Boosting</strong>, 100 árboles: el mejor de 5 variables entre los que se pueden pasar a un archivo. En la prueba: <strong>68 %</strong> dentro del doble, error mediano de 81 días.</p></div><div><span class="tag">El rango</span><p>La mitad central de sus errores en procesos que no vio, por tamaño: de ×0,43 a ×2,35 en los chicos, de ×0,66 a ×1,44 en los de más de 500. En la prueba cayó dentro el 57 % (se buscaba la mitad).</p></div></div>
+  <div class="flowline">
+    <div class="step"><b>notebook 22</b><span>entrena con 646 procesos y mide el rango</span></div><div class="arrow">→</div>
+    <div class="step"><b>JSON</b><span>preguntas «¿variable ≤ umbral?» y hojas de los 100 árboles (0,1 MB)</span></div><div class="arrow">→</div>
+    <div class="step"><b>página web</b><span>recorre los árboles, suma, y pasa de log(1 + días) a días</span></div>
+  </div>
+  <p style="margin-top:1.2rem"><strong>Control:</strong> una versión que lee solo el JSON da lo mismo que scikit-learn en los 162 procesos de prueba (diferencia máxima 4·10<sup>−15</sup>), y la página recalcula sus 1.240 estimaciones al abrirse: <strong>1.240 / 1.240 coinciden</strong>.</p>
 </div></section>
 
 <!-- 29 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
-  <h2>El modelo de 5 variables se exportó a un archivo y corre en el navegador</h2>
-  <div class="quecomo"><div><span class="tag">Qué modelo</span><p><strong>Gradient Boosting</strong>, 200 árboles: el mejor de 5 variables entre los que se pueden exportar (0,712 en CV).</p></div><div><span class="tag">Qué pide</span><p>Solo <strong>4 datos</strong>: materia, ingresos del año, juzgados y stock heredado. Las otras tres variables se calculan con las mismas fórmulas.</p></div></div>
-  <div class="flowline">
-    <div class="step"><b>notebook 22</b><span>entrena con los 992 procesos</span></div><div class="arrow">→</div>
-    <div class="step"><b>JSON</b><span>preguntas «¿variable ≤ umbral?» y hojas de los 200 árboles (0,2 MB)</span></div><div class="arrow">→</div>
-    <div class="step"><b>página web</b><span>recorre los árboles en JavaScript, en el navegador de quien la usa</span></div>
+  <h2>La página pública: eliges tu trámite y tu lugar, y ves cuánto tardaría tu caso</h2>
+  <div class="quecomo"><div><span class="tag">El escenario</span><p>Un caso que entra al empezar 2024: la fila que espera es lo que quedó pendiente al cierre de 2023, con los mismos juzgados y los ingresos de 2023 (notebook 23).</p></div><div><span class="tag">¿Se parece a lo medido?</span><p>En los trámites con tiempo medido en 2023, el 76 % de las estimaciones queda entre la mitad y el doble, y el <strong>93 %</strong> en los de más de 500 causas: de un año al siguiente el tiempo cambia poco.</p></div></div>
+  <div class="grid2">
+    <div>
+      <p><a class="present-btn" href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener" style="display:inline-flex">Abrir la página pública</a></p>
+      <ol>
+        <li><strong>«Si tu caso entra ahora, tardaría…»</strong> con su rango y lo que tardaba en 2023.</li>
+        <li><strong>El ritmo de tu materia</strong>: resueltas 2020-2023.</li>
+        <li><strong>El mismo trámite en otros lugares.</strong></li>
+        <li><strong>La historia 2007-2023</strong> con la comprobación del vaciado.</li>
+        <li><strong>Dónde un caso nuevo tardaría más</strong>, para quien gestiona.</li>
+      </ol>
+    </div>
+    <div class="kpis" style="grid-template-columns:1fr 1fr">
+      <div class="kpi"><b>12 meses</b><span>asistencia familiar en Santa Cruz, el trámite con más causas (entre 8 y 17)</span></div>
+      <div class="kpi"><b>67 días</b><span>divorcio en Sucre (entre 44 y 97)</span></div>
+      <div class="kpi"><b>2 años</b><span>infracción a leyes sociales en Santa Cruz (entre 16 meses y 3 años)</span></div>
+      <div class="kpi"><b>1.240</b><span>trámites en 19 lugares; los chicos, con advertencia</span></div>
+    </div>
   </div>
-  <p style="margin-top:1.2rem"><strong>Control:</strong> una versión que lee solo el JSON da la misma probabilidad que scikit-learn en los 248 procesos de prueba (diferencia máxima 3·10<sup>−16</sup>); el JavaScript de la página pública, probado con Node.js, también coincide en los 248. La página repite el control con 20 al abrirse.</p>
 </div></section>
 
 <!-- 30 -->
 <section class="slide"><div class="in">
   <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
   <h2>Se publicó en un VPS con Docker Compose: proyanalisis.maxi42.space</h2>
-  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>La carpeta <code>despliegue/</code> empaqueta la página pública en un contenedor. En el VPS, Dokploy toma el repositorio de GitHub, levanta el <code>docker-compose.yml</code> y lo publica con dominio y HTTPS.</p></div><div><span class="tag">Por qué así</span><p>El modelo corre en el navegador: el servidor solo entrega archivos. Es simple, barato y no recibe ni guarda lo que se consulta.</p></div></div>
+  <div class="quecomo"><div><span class="tag">Qué se hizo</span><p>La carpeta <code>despliegue/</code> empaqueta la página en un contenedor. En el VPS, Dokploy toma el repositorio de GitHub, levanta el <code>docker-compose.yml</code> y lo publica con dominio y HTTPS.</p></div><div><span class="tag">Por qué así</span><p>El modelo corre en el navegador: el servidor solo entrega archivos. Es simple, barato y no recibe ni guarda lo que se consulta.</p></div></div>
   <div class="grid2">
     <div class="tree">despliegue/
   sitio/              la página: HTML, CSS, JS
     modelo/           el JSON del notebook 22
-    datos/            los 1.240 procesos (notebook 23)
+    datos/            1.240 trámites + historia (nb 23)
   nginx.conf          compresión, seguridad, /salud
   Dockerfile          nginx sin privilegios, puerto 8080
-  docker-compose.yml  el servicio prediccion-mora</div>
+  docker-compose.yml  el servicio (reinicio, salud)</div>
     <div>
       <div class="tree">git push origin main
   Dokploy (VPS): docker compose up --build
@@ -578,181 +602,147 @@
 curl https://proyanalisis.maxi42.space/salud
 ok</div>
       <ul>
-        <li>Se reinicia solo si se cae y revisa <code>/salud</code> cada 30 s.</li>
         <li>Contenedor de solo lectura, sin privilegios y con cabeceras de seguridad.</li>
-        <li>Reentrenar = correr los notebooks 22 y 23 y hacer <code>git push</code>: Dokploy vuelve a publicar.</li>
+        <li>Reentrenar = correr los notebooks 22 y 23 y hacer <code>git push</code>.</li>
       </ul>
     </div>
   </div>
 </div></section>
 
 <!-- 31 -->
-<section class="slide"><div class="in">
-  <p class="eyebrow">Parte 3<span class="tema">Pizarra: 4 · Despliegue</span></p>
-  <h2>La página pública responde la pregunta de quien tiene un caso: cuánto tarda la fila y si va a crecer</h2>
-  <div class="quecomo"><div><span class="tag">Qué cambia</span><p>Ya no se escriben números: la persona elige <strong>materia, tipo de proceso y lugar</strong>, y la página busca los datos del Anuario 2023 (notebook 23: 1.240 procesos en 19 lugares).</p></div><div><span class="tag">Cómo se proyecta</span><p>Para el año siguiente, el modelo de 5 variables usa lo que se sabe <strong>al empezar el año</strong>: stock heredado = pendientes al cierre de 2023, los mismos juzgados y los ingresos de 2023.</p></div></div>
-  <div class="grid2">
-    <div>
-      <p><a class="present-btn" href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener" style="display:inline-flex">Abrir la página pública</a></p>
-      <ol>
-        <li><strong>La fila hoy:</strong> pendientes ÷ resueltas × 365. Asistencia familiar en las provincias de Santa Cruz: unos 18 meses.</li>
-        <li><strong>¿Va a crecer?</strong> En tres niveles, no como cifra exacta: crece (60 % o más), incierto, no crece. Ahí: 61 %, probable que crezca.</li>
-        <li><strong>El mismo trámite en otros lugares</strong>, ordenado de la fila más corta a la más larga.</li>
-        <li><strong>Prioridades</strong> para quien gestiona: dónde la fila es grande y puede crecer.</li>
-      </ol>
-    </div>
-    <div class="kpis" style="grid-template-columns:1fr 1fr">
-      <div class="kpi"><b>19</b><span>lugares: 10 capitales con El Alto y las provincias de 9 departamentos</span></div>
-      <div class="kpi"><b>408</b><span>procesos donde es probable que la fila crezca el año siguiente (de 1.240)</span></div>
-      <div class="kpi"><b>6,3 %</b><span>cambio típico de las causas nuevas de un año a otro (serie nacional 2008-2023)</span></div>
-      <div class="kpi"><b>1.240 / 1.240</b><span>probabilidades del navegador iguales a las de Python</span></div>
-    </div>
-  </div>
-  <p class="muted">La proyección no se pudo validar: hace falta un segundo Anuario con el mismo detalle. La página lo dice, junto con que es el promedio del grupo y no el plazo de un caso.</p>
+<section class="slide sec"><div class="in">
+  <p class="eyebrow">Cierre</p>
+  <h1>Qué le dice esto a quien tiene un caso</h1>
+  <p class="lede">Cinco hallazgos sobre el tiempo de la justicia que salen del modelo, de la historia y del análisis exploratorio.</p>
 </div></section>
 
 <!-- 32 -->
-<section class="slide sec"><div class="in">
-  <p class="eyebrow">Cierre</p>
-  <h1>Qué nos dice esto sobre la justicia</h1>
-  <p class="lede">Cinco hallazgos sobre la mora judicial que salen del modelo y del análisis exploratorio, y para qué le sirve la predicción a quien gestiona los juzgados.</p>
+<section class="slide"><div class="in">
+  <p class="eyebrow">Hallazgo 1 de 5<span class="tema">Notebook 19 · la historia</span></p>
+  <h2>El tiempo de la fila es una guía confiable, y el país viene mejorando</h2>
+  <div class="kpis" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi"><b>12 %</b><span>diferencia típica entre lo estimado y lo que la fila de verdad tardó (2007-2022)</span></div>
+    <div class="kpi"><b>9 %</b><span>cambio típico del tiempo de un año al siguiente</span></div>
+    <div class="kpi"><b>340 días</b><span>en 2023 en todo el país: lo más bajo desde 2015 (485 en la pandemia)</span></div>
+  </div>
+  <ul>
+    <li>De 2020 a 2023 las resoluciones crecieron en todas las materias no penales: civil en capitales +77 %, trabajo en provincias +117 %.</li>
+    <li>Salvo en años excepcionales (como la pandemia), el último Anuario es una buena guía para quien presenta su caso.</li>
+  </ul>
 </div></section>
 
 <!-- 33 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Hallazgo 1 de 5<span class="tema">Notebook 21 · importancia</span></p>
-  <h2>La mora la anticipa la carga de cada juzgado, no el tamaño del distrito</h2>
-  <div class="vs">
-    <div class="term"><span class="tag">cantidad suelta</span><p class="big crit" style="margin:.4rem 0">0,007</p><p>ingresos del año («Santa Cruz recibe muchas causas»)</p></div>
-    <div class="x">vs</div>
-    <div class="term"><span class="tag">carga relativa</span><p class="big" style="margin:.4rem 0">0,039</p><p>ingresos por juzgado y presión del stock (stock heredado ÷ ingresos)</p></div>
+  <p class="eyebrow">Hallazgo 2 de 5<span class="tema">Notebooks 19 y 23</span></p>
+  <h2>Importa mucho qué trámite y dónde: el mismo proceso tarda días en un lugar y meses en otro</h2>
+  <div class="grid2">
+    <div class="table-wrap"><table><thead><tr><th>Proceso ejecutivo (civil), caso nuevo</th><th class="num">Estimado</th></tr></thead><tbody>
+      <tr><td>Sucre</td><td class="num">27 días</td></tr>
+      <tr><td>Cochabamba (ciudad)</td><td class="num">33 días</td></tr>
+      <tr><td>El Alto</td><td class="num">34 días</td></tr>
+      <tr><td>La Paz (ciudad)</td><td class="num">5 meses</td></tr>
+      <tr><td>Provincias de La Paz</td><td class="num">8 meses</td></tr>
+    </tbody></table></div>
+    <ul>
+      <li>Por materia, la mediana va de <strong>146 días</strong> (niñez) a <strong>887</strong> (coactivo fiscal).</li>
+      <li>Lo que más explica la demora es el tipo de proceso (hasta 57 % de la variación); ser capital o provincia, casi nada (notebook 16).</li>
+      <li>El rezago está concentrado: el <strong>6 %</strong> de los procesos tiene el <strong>73 %</strong> de lo pendiente.</li>
+    </ul>
   </div>
-  <p class="muted" style="font-size:.85rem;margin-top:.6rem">Cuánto cae el ROC-AUC al barajar la variable: cuanto más cae, más depende el modelo de ella. La carga relativa pesa más de cinco veces.</p>
-  <ul>
-    <li>Las tres variables más importantes son <strong>cocientes que construimos</strong>; el Anuario no las publica.</li>
-    <li>Un distrito grande con muchos juzgados puede estar mejor que uno chico con un solo juzgado saturado.</li>
-  </ul>
-  <div class="callout regla"><span class="t">Para gestionar</span><p>Mirar cuántas causas recibe <strong>cada juzgado de cada materia</strong>, no los totales del departamento.</p></div>
+  <div class="callout regla"><span class="t">Para gestionar</span><p>Atacar unos pocos trámites y lugares rinde mucho más que repartir el esfuerzo entre todos.</p></div>
 </div></section>
 
 <!-- 34 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Hallazgo 2 de 5<span class="tema">Notebooks 18 y 21</span></p>
-  <h2>Tener más personal en el departamento no explica la mora: el refuerzo tiene que ir a juzgados concretos</h2>
-  <div class="grid2">
-    <div class="kpis" style="grid-template-columns:1fr;margin:0">
-      <div class="kpi"><b>33 → 85</b><span>causas ingresadas por puesto ocupado, de Pando a Santa Cruz: 2,6 veces más</span></div>
-      <div class="kpi"><b>0 de 15</b><span>relaciones entre recursos y resultados que resultan significativas (notebook 18)</span></div>
-      <div class="kpi"><b>≤ 0,003</b><span>aporte al modelo de personal, vacantes y remuneración: casi nada</span></div>
-    </div>
-    <div>
-      <ul>
-        <li>El personal ya crece con la demanda (Spearman 0,90 entre departamentos). Lo que cambia la mora es <strong>a qué juzgados y materias llega</strong>, no cuánta gente tiene el departamento.</li>
-        <li>Pista para la gestión: contratar en general no basta. El refuerzo tiene que ir a los juzgados y materias con más carga.</li>
-      </ul>
-      <div class="callout ojo"><span class="t">Advertencia</span><p>El personal solo se publica por departamento (n = 9). Lo correcto es decir «con estos datos no se ve efecto», no «el personal no importa».</p></div>
-    </div>
+  <p class="eyebrow">Hallazgo 3 de 5<span class="tema">Notebook 21 · importancia</span></p>
+  <h2>Se tarda donde la fila heredada es grande frente a lo que el juzgado puede sacar</h2>
+  <div class="vs">
+    <div class="term"><span class="tag">fila heredada ÷ lo que entra</span><p class="big" style="margin:.4rem 0">+0,64</p><p>correlación con el tiempo (la más fuerte)</p></div>
+    <div class="x">vs</div>
+    <div class="term"><span class="tag">ser capital o provincia</span><p class="big crit" style="margin:.4rem 0">≈ 0</p><p>aporte al modelo</p></div>
   </div>
+  <ul style="margin-top:1rem">
+    <li>Las cinco variables del modelo publicado salen de la fila que espera, lo que entra y los juzgados: la <strong>carga frente a la capacidad</strong>.</li>
+    <li>Un distrito grande con muchos juzgados puede ser más rápido que uno chico con un solo juzgado saturado.</li>
+  </ul>
+  <div class="callout regla"><span class="t">Para gestionar</span><p>Vigilar la fila de <strong>cada juzgado de cada materia</strong> frente a lo que resuelve, no los totales del departamento.</p></div>
 </div></section>
 
 <!-- 35 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Hallazgo 3 de 5<span class="tema">Notebooks 10 y 16</span></p>
-  <h2>El rezago está concentrado: el 6 % de los procesos acumula el 73 %</h2>
+  <p class="eyebrow">Hallazgo 4 de 5<span class="tema">Notebooks 18 y 21</span></p>
+  <h2>Más personal en el departamento no explica el tiempo: el refuerzo tiene que ir a juzgados concretos</h2>
   <div class="grid2">
-    <figure><img src="img/nb16_1.png" alt="Curva de concentración del rezago y los 10 tipos de proceso con más pendientes."></figure>
+    <div class="kpis" style="grid-template-columns:1fr;margin:0">
+      <div class="kpi"><b>33 → 85</b><span>causas ingresadas por puesto ocupado, de Pando a Santa Cruz: 2,6 veces más</span></div>
+      <div class="kpi"><b>0 de 15</b><span>relaciones entre recursos y resultados que resultan significativas (notebook 18)</span></div>
+      <div class="kpi"><b>&lt; 0,011</b><span>aporte al modelo de personal, vacantes y remuneración</span></div>
+    </div>
     <div>
       <ul>
-        <li>Lo que más explica la demora es <strong>el tipo de proceso</strong> (hasta 57 % de la variación), no si es capital o provincia (menos de 1 %: 213 contra 238 días).</li>
-        <li>Coactivo fiscal tardaría unos <strong>1.417 días</strong> en vaciar su stock; civil, unos 162.</li>
-        <li>Civil es la materia donde más procesos acumulan (58 %); trabajo y coactivo, 40 %.</li>
-        <li>Asistencia familiar, ordinario e infracción a leyes sociales reúnen un tercio de los pendientes.</li>
+        <li>El personal ya crece con la demanda. Lo que cambia el tiempo es <strong>a qué juzgados y materias llega</strong>.</li>
       </ul>
-      <div class="callout regla"><span class="t">Para gestionar</span><p>Atacar unos pocos tipos de proceso rinde mucho más que repartir el esfuerzo entre todos.</p></div>
+      <div class="callout ojo"><span class="t">Advertencia</span><p>El personal solo se publica por departamento (n = 9). Lo correcto es «con estos datos no se ve efecto», no «el personal no importa».</p></div>
     </div>
   </div>
 </div></section>
 
 <!-- 36 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Hallazgo 4 de 5<span class="tema">Notebooks 19 y 22</span></p>
-  <h2>Quien hereda mucho stock y recibe poco tiende a descargarlo</h2>
-  <div class="grid2">
-    <figure><img src="img/nb19_1.png" alt="Porcentaje de procesos que acumulan mora por materia y presión del stock en las dos clases."></figure>
-    <div>
-      <ul>
-        <li>Presión del stock = stock heredado ÷ ingresos del año. Cuanto más alta, <strong>menos</strong> mora (Spearman −0,23).</li>
-        <li>En la página: con 100 ingresos, subir el stock heredado de 8 a 300 baja la probabilidad de 93 % a 33 %.</li>
-      </ul>
-      <div class="quecomo"><div><span class="tag">Explicación 1</span><p>Capacidad libre: quien recibe poco tiene tiempo para resolver lo atrasado.</p></div><div><span class="tag">Explicación 2</span><p>Depuración: archivar causas dormidas, si se registra como resolución, también baja el stock.</p></div></div>
-      <div class="callout ojo"><span class="t">Advertencia</span><p>Con estos datos no se puede saber cuál de las dos es. Es una asociación, no una causa.</p></div>
-    </div>
+  <p class="eyebrow">Hallazgo 5 de 5<span class="tema">Notebooks 01 a 07, 14 y 15</span></p>
+  <h2>Los datos judiciales todavía no alcanzan para responder bien a la gente</h2>
+  <div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(12rem,1fr))">
+    <div class="kpi"><b>PDF</b><span>sin datos abiertos: los cuadros se extrajeron página por página</span></div>
+    <div class="kpi"><b>1 año</b><span>de detalle por tipo de proceso: la historia solo existe para el país</span></div>
+    <div class="kpi"><b>penal</b><span>no publica causas resueltas: no se puede estimar su tiempo</span></div>
+    <div class="kpi"><b>≠</b><span>el stock al cerrar un año no coincide con el del inicio del siguiente</span></div>
   </div>
+  <div class="callout regla"><span class="t">Recomendación</span><p>Publicar el Anuario en formato abierto, con las resueltas en penal y la serie histórica por tipo de proceso: así la estimación se podría validar trámite por trámite y actualizar cada año.</p></div>
 </div></section>
 
 <!-- 37 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Hallazgo 5 de 5<span class="tema">Notebooks 01 a 07, 14 y 15</span></p>
-  <h2>Los datos judiciales todavía no alcanzan para gestionar con ellos</h2>
-  <div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(12rem,1fr))">
-    <div class="kpi"><b>PDF</b><span>sin datos abiertos: los cuadros se extrajeron página por página</span></div>
-    <div class="kpi"><b>117</b><span>discrepancias contables del propio Anuario (notebook 05)</span></div>
-    <div class="kpi"><b>+20.493</b><span>crece el stock penal en 2023, y penal no publica causas resueltas (no penal: −1.379)</span></div>
-    <div class="kpi"><b>≠</b><span>el stock al cerrar un año no coincide con el del inicio del siguiente (notebook 15)</span></div>
+  <p class="eyebrow">Aplicación</p>
+  <h2>Para qué sirve y para qué no</h2>
+  <div class="grid3">
+    <div class="term"><h4>Para la gente</h4><p>Saber, antes de empezar, si su trámite suele tardar semanas, meses o años en su ciudad, y preguntar con datos. Un orden de magnitud, no un plazo legal.</p></div>
+    <div class="term"><h4>Para quien gestiona</h4><p>La tabla «dónde un caso nuevo tardaría más» ordena a dónde mandar juzgados de refuerzo, redistribuir causas o empujar la conciliación.</p></div>
+    <div class="term"><h4>Indicadores simples</h4><p>La presión del stock y los ingresos por juzgado se calculan con una división: se pueden vigilar aun sin el modelo.</p></div>
   </div>
-  <p>Justo donde más crece el rezago, en penal, no se puede calcular la tasa de resolución. Y sin una serie por proceso, el modelo no se puede probar en otros años.</p>
-  <div class="callout regla"><span class="t">Recomendación</span><p>Publicar el Anuario en formato abierto (CSV), con las causas resueltas en penal y con el stock enlazado entre años.</p></div>
+  <div class="callout ojo" style="margin-top:1.4rem"><span class="t">No sirve para</span><p>Prometer un plazo a un expediente concreto ni evaluar a un juez: cada fila es un grupo de causas, y el modelo deja fuera del doble a uno de cada tres trámites.</p></div>
 </div></section>
 
 <!-- 38 -->
 <section class="slide"><div class="in">
-  <p class="eyebrow">Aplicación</p>
-  <h2>El modelo sirve para ordenar dónde mirar primero, no para decidir</h2>
-  <div class="grid3">
-    <div class="term"><h4>Para la gente</h4><p>Quien tiene un caso elige su trámite y su lugar y ve cuánto tarda hoy la fila y si es probable que crezca. Le sirve para hacerse una idea y para preguntar, no como plazo.</p></div>
-    <div class="term"><h4>Alerta temprana</h4><p>Al empezar el año, con los ingresos del año anterior, la tabla de prioridades ordena dónde la fila es grande y puede crecer: a dónde van juzgados de refuerzo, redistribución de causas o conciliación.</p></div>
-    <div class="term"><h4>Indicadores simples</h4><p>Ingresos por juzgado y presión del stock se calculan con una división: se pueden vigilar como umbrales aun sin el modelo.</p></div>
-  </div>
-  <div class="vs" style="margin-top:1.4rem">
-    <div class="term"><span class="tag">al azar</span><p class="big crit" style="margin:.4rem 0">49 %</p><p>de los procesos elegidos acumulan mora</p></div>
-    <div class="x">→</div>
-    <div class="term"><span class="tag">con el modelo</span><p class="big" style="margin:.4rem 0">64 %</p><p>de los marcados acumulan; detecta 85 de 122</p></div>
-  </div>
-  <div class="callout ojo" style="margin-top:1.2rem"><span class="t">No sirve para</span><p>Evaluar a un juez o a un juzgado: cada fila es un tipo de proceso en un territorio, y el modelo se equivoca en uno de cada tres.</p></div>
-</div></section>
-
-<!-- 39 -->
-<section class="slide"><div class="in">
   <p class="eyebrow">Límites</p>
-  <h2>Lo que este modelo no puede decir</h2>
+  <h2>Lo que este análisis no puede decir</h2>
   <ul>
-    <li><strong>Un solo año.</strong> Todo es 2023; no se probó en otro año, y el stock publicado no se conserva entre años (notebook 15).</li>
-    <li><strong>Los ingresos se conocen al cerrar el año.</strong> La página proyecta con los del año anterior: en la serie nacional cambian 6,3 % al año, pero hubo saltos de hasta 33 % (2020-2021). Sin un segundo Anuario, la proyección no se pudo validar.</li>
+    <li><strong>Es el tiempo de la fila, no el de un expediente.</strong> Supone que las causas salen en orden; un caso puede ir más rápido o más lento.</li>
+    <li><strong>El detalle por tipo de proceso es de un solo año.</strong> La historia valida la medida para el país, no para cada trámite; los datos son de 2023, el Anuario más reciente con este detalle.</li>
+    <li><strong>Los trámites chicos son poco firmes:</strong> con menos de 30 causas el rango va de casi la mitad a más del doble.</li>
     <li><strong>Solo materias no penales</strong>, porque las penales no publican causas resueltas.</li>
-    <li><strong>Muestra pequeña:</strong> con 248 procesos de prueba, diferencias de 0,01 entre modelos no son significativas.</li>
-    <li>El umbral de 0,5 no se ajustó; si importara más detectar que evitar alarmas, convendría bajarlo.</li>
+    <li><strong>Muestra pequeña:</strong> con 162 procesos de prueba, diferencias de 0,02 entre modelos no son significativas.</li>
     <li>Mide celeridad, no calidad de las decisiones.</li>
   </ul>
 </div></section>
 
-<!-- 40 -->
+<!-- 39 -->
 <section class="slide titulo"><div class="in">
   <p class="eyebrow">En resumen</p>
-  <h1>La mora se concentra donde la carga por juzgado es alta, y ahí hay que intervenir</h1>
+  <h1>Ya se puede estimar cuánto tardará un caso, con un rango honesto</h1>
   <ol class="cierre">
-    <li><strong>Carga por juzgado, no tamaño del distrito:</strong> lo que anticipa la mora son los ingresos por juzgado y la presión del stock.</li>
-    <li><strong>Más personal en general no basta:</strong> el refuerzo tiene que ir a juzgados y materias concretos.</li>
-    <li><strong>El rezago está concentrado:</strong> el 6 % de los procesos tiene el 73 %; atacar pocos tipos de proceso rinde más.</li>
-    <li><strong>Mucho stock heredado con poca demanda tiende a bajar:</strong> es una asociación, no una causa.</li>
-    <li><strong>Faltan datos abiertos y completos</strong> para gestionar con ellos y repetir el análisis cada año.</li>
+    <li><strong>La medida funciona:</strong> en 17 años, la fila tardó casi lo estimado (12 %) y cambia poco de un año al siguiente (9 %).</li>
+    <li><strong>El modelo acierta en 2 de cada 3 trámites</strong> dentro del doble, y en casi 9 de cada 10 de los grandes.</li>
+    <li><strong>Se tarda donde la fila heredada es grande frente a la capacidad</strong>; tres datos bastan para estimarlo.</li>
+    <li><strong>Importa qué trámite y dónde:</strong> el mismo proceso tarda días en una ciudad y meses en otra.</li>
+    <li><strong>Faltan datos abiertos</strong> por tipo de proceso y en penal para validarlo trámite por trámite.</li>
   </ol>
-  <p class="muted" style="font-family:var(--sans)">El modelo (ROC-AUC 0,73 en la prueba; 0,66 con 5 variables) ordena qué procesos mirar primero.</p>
-  <p style="font-family:var(--sans);margin-top:1.4rem">Informe: <code>informe/informe.pdf</code> · página pública: <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a> · <a href="prediccion.html">la página de predicción</a> · <a href="guia-informe.html">la guía de estudio</a> · ¿Preguntas?</p>
+  <p style="font-family:var(--sans);margin-top:1.4rem">Informe: <code>informe/informe.pdf</code> · página pública: <a href="https://proyanalisis.maxi42.space/" target="_blank" rel="noopener">proyanalisis.maxi42.space</a> · <a href="prediccion.html">el modelo en vivo</a> · <a href="guia-informe.html">la guía de estudio</a> · ¿Preguntas?</p>
 </div></section>
 
 </main>
 <div class="hud">
-  <span id="contador">1 / 40</span>
+  <span id="contador">1 / 39</span>
   <button class="icon-btn" id="ant" aria-label="Diapositiva anterior">←</button>
   <button class="icon-btn" id="sig" aria-label="Diapositiva siguiente">→</button>
   <button class="icon-btn" id="full" aria-label="Pantalla completa" title="Pantalla completa (f)">⛶</button>

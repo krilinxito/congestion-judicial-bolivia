@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=4e419cfa">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2315604a'/%3E%3Cpath d='M9 22h14M11 22V13m5 9V10m5 12v-6' stroke='white' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
-<script src="app.js?v=1ee6d900" defer></script>
+<script src="app.js?v=2b7c41d0" defer></script>
 </head>
 <body data-page="limites">
 <header class="topbar">
@@ -85,7 +85,7 @@
   <li>No se corrigió ninguna discrepancia contable para que cierre.</li>
   <li>No se sumaron los componentes de recursos ni se repartieron órganos mixtos o personal por materia.</li>
   <li><strong>No se normalizó por población.</strong> Falta la tabla oficial del Censo 2024 del INE para los 9 departamentos; las cifras de prensa están incompletas y son preliminares. Por eso las comparaciones entre departamentos son por puesto de trabajo, no por habitante.</li>
-  <li>Hasta el notebook 18 no se ajustó ningún modelo predictivo. Se probó un agrupamiento (K-Means) y <strong>se descartó</strong>: el mejor silhouette fue 0,425, sin grupos naturales (<a href="ampliacion.html#5-lo-que-se-probo-y-no-se-adopto">ver la ampliación</a>). Para el informe final, los notebooks 19 a 22 sí entrenan modelos de clasificación (¿el proceso acumula mora?) y publican uno de 5 variables en <a href="prediccion.html">la página de predicción</a>. Sus límites: un solo año (2023), solo materias no penales, 248 procesos de prueba y un ROC-AUC de 0,66 a 0,75 según la versión: sirve para ordenar qué mirar primero, no para decidir sobre un juzgado. No se hizo pronóstico de la serie 2007-2023, que sigue siendo descriptiva, ni se aplicó LOF, DBSCAN ni balanceo de clases (las clases ya están equilibradas: 49 % acumula).</li>
+  <li>Hasta el notebook 18 no se ajustó ningún modelo predictivo. Se probó un agrupamiento (K-Means) y <strong>se descartó</strong>: el mejor silhouette fue 0,425, sin grupos naturales (<a href="ampliacion.html#5-lo-que-se-probo-y-no-se-adopto">ver la ampliación</a>). Para el informe final, los notebooks 19 a 23 sí entrenan modelos de <strong>regresión</strong> (¿cuántos días tarda la fila de un proceso, es decir, cuánto tardaría un caso nuevo?) y publican uno de 5 variables en <a href="prediccion.html">la página del modelo</a> y en la página pública. Sus límites: el detalle por tipo de proceso es de un solo año (2023); la serie 2007-2023 valida la medida solo para el país, las capitales y las provincias; solo materias no penales; 162 procesos de prueba; y el modelo deja al 68 % de ellos entre la mitad y el doble del tiempo real, mejor en los procesos grandes (88 % con más de 500 causas) que en los chicos (47 % con 10 a 30). La serie 2007-2023 se usó para validar la medida (el tiempo estimado contra lo que la fila de verdad tardó en vaciarse), no para pronosticar años futuros; tampoco se aplicó LOF ni DBSCAN.</li>
   <li><strong>No se incorporó ninguna fuente externa.</strong></li>
 </ul>
 

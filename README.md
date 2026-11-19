@@ -25,17 +25,18 @@ notebooks/        todo el código, en notebooks ejecutados (se leen sin correr n
   09 … 12         nulos, indicadores, outliers, reporte
   13              verificación final
   14 … 18         ampliación: capítulo 9, serie 2007-2023, diagnóstico, técnicas de la clase y recursos
-  19 … 22         informe final: preparación, modelos, evaluación y despliegue del modelo de 5 variables
-  23              datos de la página pública: la consulta por tipo de proceso y lugar
+  19 … 22         informe final (¿cuánto va a tardar mi caso?): historia 2007-2023, preparación, modelos de
+                  regresión, evaluación y despliegue del modelo de 5 variables
+  23              datos de la página pública: la estimación por tipo de proceso y lugar
   modulos/        funciones y tablas compartidas, cargadas con %run -i
 data/processed/   las 12 tablas en CSV y Parquet (el Parquet es la referencia)
   auditoria/      evidencia de cada decisión y cada validación
   analitico/      capa analítica: 5 tablas relacionadas + diccionario
 data/curated/     tabla analítica con indicadores y tratamientos del EDA
-data/curated/modelo/  variables, partición, métricas, importancia y versiones del modelo (notebooks 19-22)
+data/curated/modelo/  historia, variables, partición, métricas, importancia, versiones y rangos (notebooks 19-23)
 models/          el modelo de 5 variables entrenado (joblib)
 informe/         el informe final en LaTeX (informe.tex → informe.pdf) y sus tablas generadas
-despliegue/      la página pública (¿cuánto tarda la fila de mi trámite?) y su Dockerfile + docker-compose.yml
+despliegue/      la página pública (¿cuánto va a tardar mi caso?) y su Dockerfile + docker-compose.yml
 reports/          tablas resumen y figuras
 web/              la documentación
 ```
@@ -59,6 +60,16 @@ El notebook 17 pone las técnicas de la clase de preprocesamiento (asimetría, d
 variables temporales, correlación, PCA, outliers multivariados) frente al proyecto. Ver `web/ampliacion.html` y la
 presentación `web/presentacion-ampliacion.html`.
 
+**Informe final (notebooks 19 a 23): ¿cuánto va a tardar mi caso?** Se estima el tiempo de la fila (pendientes al
+cierre ÷ resueltas × 365, en días) de cada tipo de proceso no penal en cada lugar, con modelos de regresión. La serie
+2007-2023 valida la medida: el tiempo estimado quedó a una mediana de 11,7 % de lo que la fila de verdad tardó en
+vaciarse (47 comprobaciones) y de un año al siguiente cambia una mediana de 8,8 %. Con 808 procesos (646 de
+entrenamiento, 162 de prueba), el mejor modelo (Stacking de SVM, Random Forest y Gradient Boosting) deja al 67 % de
+los procesos de prueba entre la mitad y el doble de su tiempo real (88 % en los de más de 500 causas). Las 5 variables
+más importantes salen de 3 datos (fila heredada, causas que entran y juzgados); el modelo publicado (Gradient Boosting,
+100 árboles) logra 68 % y da cada estimación con un rango. Informe: `informe/informe.pdf`; guía de estudio:
+`web/guia-informe.html`; página pública: https://proyanalisis.maxi42.space/.
+
 > Corrección: una primera versión decía 83,4 %. Contaba como ingreso las causas
 > `readecuadas_ley_439`, que en civil son el stock inicial (ocupan el lugar de
 > `pendientes_inicio` y suman lo mismo que el cuadro 9.1.x). Ver
@@ -67,10 +78,10 @@ presentación `web/presentacion-ampliacion.html`.
 ## Despliegue en un VPS
 
 La carpeta `despliegue/` publica el modelo de 5 variables como una página web: el modelo corre en el navegador y el
-servidor (nginx en Docker) solo entrega archivos.
+servidor (nginx en Docker) solo entrega archivos. Está publicada con Dokploy en https://proyanalisis.maxi42.space/.
 
 ```bash
-cd despliegue && docker compose up -d --build     # abrir http://IP-DEL-VPS:8080
+cd despliegue && docker compose up -d --build     # abrir http://localhost:8080
 ```
 
 Detalle, HTTPS y cómo actualizar el modelo: `despliegue/README.md`.
@@ -85,7 +96,8 @@ python -m venv .venv
 ```
 
 Orden de ejecución: `01 → 02 → 03 → 07 → 04 → 05 → 06 → 08 → 09 → 10 → 11 →
-12 → 14 → 15 → 16 → 17 → 18 → 13 → 19 → 20 → 21 → 22`. Desde el 08 no hace falta el PDF. Detalle en la página «Cómo
+12 → 14 → 15 → 16 → 17 → 18 → 13 → 19 → 20 → 21 → 22 → 23`. Desde el 08 no hace falta el PDF. El informe se compila
+con `pdflatex --disable-installer informe.tex` (dos veces) dentro de `informe/`. Detalle en la página «Cómo
 reproducir» de la web.
 
 ## Fuente

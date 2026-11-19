@@ -1,4 +1,4 @@
-# Página pública de predicción de mora (despliegue del modelo de 5 variables).
+# Página pública «¿Cuánto tardará mi caso?» (despliegue del modelo de 5 variables).
 # El modelo corre en el navegador (modelo/modelo_5var.json): el servidor solo entrega archivos estáticos.
 # nginx-unprivileged corre como usuario sin privilegios y escucha en el puerto 8080.
 FROM nginxinc/nginx-unprivileged:1.27-alpine

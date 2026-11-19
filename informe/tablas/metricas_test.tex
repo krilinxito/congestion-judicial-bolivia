@@ -1,14 +1,15 @@
 \begin{tabular}{lrrrrr}
 \toprule
-Modelo & Exactitud & Precisión & Recall & F1 & ROC-AUC \\
+Modelo & MAE (log) & Dentro del doble & Factor mediano & $R^2$ & Error mediano (días) \\
 \midrule
-Línea base (clase mayoritaria) & 0,508 & 0,000 & 0,000 & 0,000 & 0,500 \\
-Regresión logística & 0,657 & 0,643 & 0,680 & 0,661 & 0,716 \\
-SVM & 0,661 & 0,648 & 0,680 & 0,664 & 0,735 \\
-Bagging & 0,661 & 0,644 & 0,697 & 0,669 & 0,729 \\
-Random Forest & 0,653 & 0,632 & 0,705 & 0,667 & 0,731 \\
-AdaBoost & 0,629 & 0,603 & 0,721 & 0,657 & 0,700 \\
-Gradient Boosting & 0,645 & 0,633 & 0,664 & 0,648 & 0,736 \\
-Stacking & 0,661 & 0,646 & 0,689 & 0,667 & 0,741 \\
+Línea base (promedio) & 1,078 & 42\,\% & $\times$2,24 & -0,002 & 152 \\
+Fórmula ingenua & 0,858 & 65\,\% & $\times$1,71 & 0,106 & 95 \\
+Regresión lineal (Ridge) & 0,718 & 64\,\% & $\times$1,67 & 0,496 & 97 \\
+SVM & 0,697 & 65\,\% & $\times$1,54 & 0,411 & 93 \\
+Bagging & 0,731 & 68\,\% & $\times$1,54 & 0,386 & 77 \\
+Random Forest & 0,736 & 64\,\% & $\times$1,59 & 0,352 & 81 \\
+AdaBoost & 0,772 & 67\,\% & $\times$1,63 & 0,300 & 97 \\
+Gradient Boosting & 0,710 & 68\,\% & $\times$1,53 & 0,387 & 85 \\
+Stacking & 0,694 & 67\,\% & $\times$1,52 & 0,409 & 87 \\
 \bottomrule
 \end{tabular}

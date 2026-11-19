@@ -1,10 +1,10 @@
 {
-  "modelo_importancia": "Bagging",
+  "modelo_importancia": "Stacking",
   "variables": [
-    "ingresos_por_juzgado",
+    "log_stock_inicial",
     "presion_stock",
-    "stock_por_juzgado",
-    "materia_homologada",
-    "ingresos_totales"
+    "log_ingresos",
+    "ingresos_por_juzgado",
+    "stock_por_juzgado"
   ]
 }

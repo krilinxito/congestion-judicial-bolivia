@@ -1,9 +1,17 @@
 # Despliegue: la página pública
 
-La página responde la pregunta de quien tiene un caso: elige materia, tipo de proceso y lugar, y ve **cuánto tarda
-hoy la fila** de causas pendientes (pendientes ÷ resueltas × 365, datos del Anuario 2023) y **si es probable que crezca
-el año siguiente** (el modelo de 5 variables con stock heredado = pendientes al cierre de 2023 y los ingresos de 2023).
-Tiene además una tabla de prioridades para quien gestiona juzgados.
+La página responde la pregunta de quien tiene un caso: **¿cuánto va a tardar?** Se elige materia, tipo de proceso y
+lugar, y se ve:
+
+- **el tiempo estimado para un caso que entra ahora**, con un rango probable: el modelo de 5 variables (notebook 22)
+  con la fila que espera = pendientes al cierre de 2023, los ingresos y los juzgados de 2023;
+- **lo que tardaba la fila en 2023**, medido sin modelo (pendientes ÷ resueltas × 365);
+- **el ritmo de su materia** (resueltas 2020-2023) y **la historia del país 2007-2023**, con la comprobación de que el
+  tiempo estimado se parece a lo que la fila de verdad tardó en vaciarse;
+- el mismo trámite en otros lugares y una tabla de dónde un caso nuevo tardaría más, para quien gestiona juzgados.
+
+Publicada en https://proyanalisis.maxi42.space/ (Dokploy). El servicio de Docker conserva el nombre `prediccion-mora`
+de la primera versión para no romper esa publicación.
 
 Esta carpeta es todo lo que hace falta para publicarla en un VPS. Es independiente del
 resto del proyecto: se puede copiar sola al servidor.
@@ -13,9 +21,9 @@ despliegue/
   sitio/                   la página que ve el usuario
     index.html             estructura
     estilos.css            diseño (colores de la UMSA, tema claro y oscuro)
-    prediccion.js          la consulta y el modelo en JavaScript (variables, one-hot, 200 árboles, curva S)
+    prediccion.js          la consulta, el gráfico histórico y el modelo en JavaScript (variables, 100 árboles, log → días)
     modelo/modelo_5var.json  los árboles exportados por notebooks/22_despliegue.ipynb
-    datos/procesos.json    los 1.240 procesos con nombres legibles, de notebooks/23_sitio_publico.ipynb
+    datos/procesos.json    los 1.240 procesos con nombres legibles y la serie histórica, de notebooks/23_sitio_publico.ipynb
     img/umsa.png           escudo
   nginx.conf               servidor de archivos: compresión, cabeceras de seguridad y /salud
   Dockerfile               imagen nginx sin privilegios (puerto 8080)
@@ -23,7 +31,7 @@ despliegue/
 ```
 
 **No hay Python en el servidor.** El modelo corre en el navegador de quien visita la página: nginx solo entrega
-archivos y no recibe ni guarda lo que se consulta. Al abrirse, la página recalcula las 1.240 probabilidades y las
+archivos y no recibe ni guarda lo que se consulta. Al abrirse, la página recalcula las 1.240 estimaciones y las
 compara con las de Python (sello «1.240 / 1.240 coinciden» en «Detalles técnicos»).
 
 ## Publicar en el VPS
@@ -63,7 +71,7 @@ prediccion.midominio.com {
 
 1. Volver a ejecutar `notebooks/22_despliegue.ipynb`: escribe el JSON en `web/modelo/` y la misma copia en
    `despliegue/sitio/modelo/`, y verifica que sean idénticas.
-2. Volver a ejecutar `notebooks/23_sitio_publico.ipynb`: recalcula con ese modelo las probabilidades del año siguiente
+2. Volver a ejecutar `notebooks/23_sitio_publico.ipynb`: recalcula con ese modelo las estimaciones para un caso nuevo
    y escribe `despliegue/sitio/datos/procesos.json`.
 3. Hacer `git push` (Dokploy vuelve a publicar) o, a mano, en el VPS: traer los archivos y `docker compose up -d --build`.
 
@@ -74,7 +82,7 @@ cd despliegue/sitio
 python -m http.server 8000             # abrir http://localhost:8000
 ```
 
-Al cargar, la sección «Autoverificación contra Python» debe decir **20 / 20 coinciden**.
+Al cargar, el sello de «Detalles técnicos» debe decir **1.240 / 1.240 coinciden**.
 
 ## Seguridad
 

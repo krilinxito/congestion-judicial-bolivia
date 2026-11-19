@@ -67,3 +67,29 @@ Pausado el 2026-11-16. Plan aprobado completo en `C:\Users\barry\.claude\plans\h
 
 ## Pendiente
 - El informe LaTeX (sección 4.3 y anexo) todavía usa `IP-DEL-VPS` y no menciona la URL ni Dokploy.
+
+## Cambio de objetivo: «¿cuánto va a tardar mi caso?» (2026-11-19) — EN PAUSA
+Se reemplazó el objetivo `flag_acumula_mora` (clasificación) por el **tiempo de la fila** (pendientes al cierre ÷ resueltas
+× 365, días; regresión sobre log(1 + días), tope 10 años) usando la historia 2007-2023 del capítulo 9.
+Hecho (sin commit todavía):
+- Notebooks `modulos/modelado`, 19-23 reescritos y ejecutados, con sus «Lecturas». Conjunto: 808 procesos (≥ 10 causas
+  atendidas y alguna resuelta), 646/162. Historia: vaciado real vs estimado 11,7 % (47 comprobaciones), año anterior 8,8 %.
+  Mejor: Stacking (MAE log 0,738 CV; prueba 0,694, 67 % dentro del doble). Top 5: log stock, presión, log ingresos,
+  ingresos/juzgado, stock/juzgado (3 datos). Desplegado: Gradient Boosting 5 var (100 árboles, 68 % dentro del doble),
+  rango por tamaño (bandas.csv, cobertura 57 %). Variable histórica `tendencia_resueltas_materia` (puesto 17).
+- `despliegue/sitio/` (index.html, prediccion.js, estilos.css v=3) reescrito: estimación + rango + 2023 + ritmo de la
+  materia + historia (SVG) + «dónde tarda más». Verificado en Edge: 1.240/1.240. README y Dockerfile actualizados
+  (el servicio sigue llamándose `prediccion-mora` para no romper Dokploy).
+- `web/prediccion.html/.js` (versión de clase) en regresión: 20/20. `app.js` (menú, ?v=2b7c41d0), `limites.html`.
+- `informe/informe.tex` reescrito → `informe.pdf` 18 páginas, sin advertencias (tablas nuevas: historia_vaciado,
+  historia_formas, tamano, bandas). Ya incluye la URL y Dokploy.
+- `web/presentacion-informe.html`: 39 diapositivas nuevas.
+
+Terminado el 2026-11-19 (segunda parte):
+- **Guía `web/guia-informe.html` completa** (para qué sirve primero; luego portada, introducción, partes 1-4 con
+  tablas 1-13 y figuras 1-8, cada hiperparámetro, conclusiones, limitaciones, referencias, anexo, cifras, diccionario;
+  44 preguntas de autoevaluación). El divorcio en Sucre se sigue hasta el modelo publicado (5 variables → 4,218 → 67 días,
+  rango 44-97). Borradores borrados. Verificada con Edge sin interfaz.
+- README.md: objetivo nuevo, resultados, orden con el 23, URL pública.
+
+Pendiente: revisar y hacer commit (y push, que vuelve a publicar la página con Dokploy).
